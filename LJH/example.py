@@ -1,16 +1,17 @@
-from hangul_utils import split_syllables, join_jamos
+import fasttext
+import numpy as np
 
-def get_initials(word):
-    decomposed = split_syllables(word)
-    initials = [char for char in decomposed if 'ㄱ' <= char <= 'ㅎ']
-    return ''.join(initials)
+model = fasttext.load_model('model.bin')
 
-def match_initials(input_word, given_initials):
-    input_initials = get_initials(input_word)
-    return input_initials == given_initials
+def cosine_similarity(word1, word2):
+    return np.dot(model[word1], model[word2]) / (np.linalg.norm(model[word1]) * np.linalg.norm(model[word2]))
 
-input_word = '상'
-given_initials = 'ㅅ'
-result = match_initials(input_word, given_initials)
+def find_top_similar_words(word, k = 1000):
+    similar_words = model.get_nearest_neighbors(word, k = k)
+    return similar_words
 
-print(result)
+print(cosine_similarity('고급', '상급'))
+
+top_similar_words = find_top_similar_words('고급', 1000)
+for score, word in top_similar_words:
+    print(f"{word} : {score}")
