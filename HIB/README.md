@@ -21,3 +21,10 @@
 - DB 조율
     - Redis 학습
     - ERD 조정
+0418 Thu
+- Socket 통신 학습
+    - websocket, stomp 학습
+- CS 학습
+    - dbms 학습
+    - sql 학습
+    - 소프트웨어 공학 학습
