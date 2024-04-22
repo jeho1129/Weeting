@@ -1,7 +1,7 @@
 import logo from '@/assets/images/weeting_logo2.png';
 import '../../styles/loginPage.css'
 import Button from '../../components/button/MainBtn';
-
+import '../../styles/typography.css'
 
 const LoginPage = () => {
 
@@ -16,7 +16,7 @@ const LoginPage = () => {
   return (
     <div className="loginPageContainer">
       <img src={logo} alt="logo" className="loginImage" />
-      <div className='loginButtonContainer'>
+      <div className='loginButtonContainer FontM'>
         <Button text="로그인" onClick={handleLoginClick} />
         <Button text="회원가입" onClick={handleRegisterClick} />
       </div>
