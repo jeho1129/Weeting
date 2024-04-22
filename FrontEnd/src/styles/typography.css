@@ -1,0 +1,101 @@
+/*
+Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.
+https://github.com/orioncactus/pretendard
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+*/
+
+/* @font-face {
+    font-family: 'PoorStory';
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+    src: url('@/assets/fonts/woff2/PretendardVariable.woff2') format('woff2-variations');
+  } */
+  
+  @font-face {
+    font-family: 'PoorStory';
+    src:
+      /* url('@/assets/font/PoorStory-Regular.otf') format('opentype'), */
+      url('@/assets/font/PoorStory-Regular.woff') format('truetype');
+  }
+  
+  .FontXXL {
+    /* Head */
+    /* 32pt */
+    font-size: 2.667rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontXL {
+    /* Title */
+    /* 28pt */
+    font-size: 2.333rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontL {
+    /* Content */
+    /* 20pt */
+    font-size: 1.667rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontMTitle {
+    /* Text */
+    /* 16pt */
+    font-size: 1.333rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontMBold {
+    /* Text */
+    /* 16pt */
+    font-weight: bold;
+    font-size: 1.333rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontM {
+    /* Text */
+    /* 16pt */
+    font-size: 1.333rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontSTitle {
+    /* Text */
+    /* 16pt */
+    font-size: 1rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontSBold {
+    /* Annotation */
+    /* 12pt */
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  .FontS {
+    /* Annotation */
+    /* 12pt */
+    font-size: 1rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  
+  .FontXS {
+    /* Comment */
+    /* 8pt */
+    font-size: 0.667rem;
+    font-family: 'PoorStory', sans-serif;
+  }
+  .FontXSBold {
+    /* Comment */
+    /* 8pt */
+    font-weight: bold;
+    font-size: 0.667rem;
+    font-family: 'PoorStory', sans-serif;
+  }
