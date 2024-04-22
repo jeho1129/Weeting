@@ -1,7 +1,11 @@
+import Router from '@/pages/status/Router';
+import LoginFrame from './components/commons/LoginFrame';
+
 function App() {
   return (
     <>
-      <h1>Hello React</h1>
+      <Router />
+      <LoginFrame />
     </>
   );
 }
