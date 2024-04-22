@@ -1,4 +1,6 @@
-import Logo1 from '@/assets/images/weeting_logo1.png';
+import Logo1 from '@/assets/images/Weeting_logo1.png';
+import LoginButton from '@/components/login/LoginButton';
+import SignupButton from '@/components/login/SignupButton';
 import styles from '@/styles/login/MainGuestPage.module.css';
 
 const MainGuestPage = () => {
@@ -6,6 +8,10 @@ const MainGuestPage = () => {
     <>
       <div className={styles.align}>
         <img src={Logo1} alt="weetingLogo1" />
+      </div>
+      <div className={styles.btnAlign}>
+        <LoginButton />
+        <SignupButton />
       </div>
     </>
   );
