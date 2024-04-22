@@ -3,3 +3,9 @@
   justify-content: center;
   margin-top: 4rem;
 }
+
+.btnAlign {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
