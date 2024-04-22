@@ -1,0 +1,14 @@
+
+.loginPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'PoorStory';
+  }
+  
+  .loginImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
