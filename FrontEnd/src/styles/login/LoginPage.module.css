@@ -1,0 +1,21 @@
+.align {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  margin-bottom: -6rem;
+  position: relative;
+  z-index: 999;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  background-color: #fff;
+  width: 45rem;
+  height: 24rem;
+  border-radius: 15px;
+  opacity : 0.7;
+}

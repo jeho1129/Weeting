@@ -1,27 +1,20 @@
-import logo from '@/assets/images/weeting_logo2.png';
-import '../../styles/loginPage.css'
-import Button from '../../components/button/MainBtn';
-import '../../styles/typography.css'
+import Logo2 from '@/assets/images/Weeting_logo2.png';
+import styles from '@/styles/login/LoginPage.module.css';
 
 const LoginPage = () => {
 
-  const handleLoginClick = () => {
-    console.log('로그인');
-  };
-
-  const handleRegisterClick = () => {
-    console.log('회원가입');
-  };
-
   return (
-    <div className="loginPageContainer">
-      <img src={logo} alt="logo" className="loginImage" />
-      <div className='loginButtonContainer FontM'>
-        <Button text="로그인" onClick={handleLoginClick} />
-        <Button text="회원가입" onClick={handleRegisterClick} />
+    <>
+      <div className={styles.align}>
+        <img src={Logo2} alt="weetingLogo2" />
       </div>
-    </div>
-  )
-}
+      <div className={styles.container}>
+        <div className={styles.box}>
+
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default LoginPage;
