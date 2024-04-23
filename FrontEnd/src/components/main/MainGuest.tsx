@@ -1,7 +1,7 @@
 import logo from '@/assets/images/logo.png';
 import MainGuestLoginButton from '@/components/main/MainGuestLoginButton';
 import MainGuestSignupButton from '@/components/main/MainGuestSignupButton';
-import styles from '@/styles/login/MainGuest.module.css';
+import styles from '@/styles/main/MainGuest.module.css';
 
 const MainGuest = () => {
   return (

@@ -1,5 +1,5 @@
 import logo from '@/assets/images/logo.png';
-import styles from '@/styles/MainLogin.module.css';
+import styles from '@/styles/main/MainLogin.module.css';
 
 const MainLogin = () => {
   return (
