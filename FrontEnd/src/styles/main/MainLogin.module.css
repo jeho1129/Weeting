@@ -1,4 +1,4 @@
-.align {
+.Align {
   display: flex;
   justify-content: center;
   margin-top: 4rem;
@@ -7,12 +7,12 @@
   z-index: 999;
 }
 
-.container {
+.Container {
   display: flex;
   justify-content: center;
 }
 
-.box {
+.Box {
   background-color: #fff;
   width: 45rem;
   height: 24rem;
