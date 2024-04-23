@@ -1,0 +1,11 @@
+.Align {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.BtnAlign {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
