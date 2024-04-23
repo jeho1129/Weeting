@@ -1,4 +1,4 @@
-import Router from '@/pages/status/Router';
+import Router from '@/status/Router';
 import LoginFrame from './components/commons/LoginFrame';
 
 function App() {
