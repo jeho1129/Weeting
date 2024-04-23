@@ -1,11 +1,12 @@
-import Router from '@/pages/status/Router';
-import LoginFrame from './components/commons/LoginFrame';
+import Router from '@/status/Router';
+import MainGuestFrame from './components/main/MainGuestFrame';
+import '@/styles/typography.css';
 
 function App() {
   return (
     <>
       <Router />
-      <LoginFrame />
+      <MainGuestFrame />
     </>
   );
 }
