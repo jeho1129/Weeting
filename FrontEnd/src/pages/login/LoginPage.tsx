@@ -10,7 +10,7 @@ const LoginPage = () => {
       </div>
       <div className={styles.container}>
         <div className={styles.box}>
-          
+
         </div>
       </div>
     </>
