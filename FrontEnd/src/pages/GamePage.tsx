@@ -1,7 +1,7 @@
 import GameWaitingFrame from '@/components/game/GameWaitingFrame';
 import { Outlet } from 'react-router-dom';
 
-const MainPage = () => {
+const GamePage = () => {
   return (
     <>
       <Outlet />
@@ -10,4 +10,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default GamePage;
