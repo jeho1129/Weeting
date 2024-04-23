@@ -1,0 +1,14 @@
+.Align {
+  margin-top: 140px;
+  text-align: center;
+}
+
+.Label {
+  margin-right: 40px;
+}
+
+.InputBox {
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+}
