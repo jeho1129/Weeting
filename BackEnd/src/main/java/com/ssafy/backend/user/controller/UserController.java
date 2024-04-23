@@ -1,9 +1,10 @@
 package com.ssafy.backend.user.controller;
 
+import com.ssafy.backend.global.utils.MessageUtils;
+import com.ssafy.backend.user.model.dto.request.UserRegistRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.bridge.MessageUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,9 @@ public class UserController {
     }
 
     @PostMapping("/regist")
-    public ResponseEntity<MessageUtil> register(@Valid @RequestBody UserRegistRequest UserRegistRequest) {
-        log.debug("UserRegistRequest={}", UserRegistRequest.toString());
+    public ResponseEntity<MessageUtils> register(@Valid @RequestBody UserRegistRequest userRegistRequest) {
+        log.debug("UserRegistRequest={}", userRegistRequest.toString());
+
     }
 
 }

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05e57da8-f1fb-48b6-b88b-19f43f4e6a21" name="Changes" comment="Changes" />
+    <list default="true" id="05e57da8-f1fb-48b6-b88b-19f43f4e6a21" name="Changes" comment="feat: 유저 서비스 CRUD 개발 진행 중">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/dto/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/entity/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/repository/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/service/.keep" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +46,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -49,6 +58,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -79,7 +91,7 @@
     &quot;Spring Boot.BackEndApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;feature/BE/User-table&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSAFY/Desktop/Final3/S10P31C103&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSAFY/Desktop/Final3/S10P31C103/BackEnd/src/main/java/com/ssafy/backend/user/model/service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -92,6 +104,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\SSAFY\Desktop\Final3\S10P31C103\BackEnd\src\main\java\com\ssafy\backend\user\model\service" />
+      <recent name="C:\Users\SSAFY\Desktop\Final3\S10P31C103\BackEnd\src\main\java\com\ssafy\backend\user\model\repository" />
+      <recent name="C:\Users\SSAFY\Desktop\Final3\S10P31C103\BackEnd\src\main\java\com\ssafy\backend\user\model\entity" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="S10P31C103" />
@@ -137,8 +156,26 @@
       <workItem from="1713753698578" duration="96000" />
       <workItem from="1713753807947" duration="426000" />
       <workItem from="1713754246375" duration="1274000" />
-      <workItem from="1713755534942" duration="10151000" />
+      <workItem from="1713755534942" duration="11427000" />
+      <workItem from="1713832794554" duration="15923000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: 유저 서비스 CRUD 개발 진행 중">
+      <option name="closed" value="true" />
+      <created>1713774921605</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713774921606</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: 유저 서비스 CRUD 개발 진행 중">
+      <option name="closed" value="true" />
+      <created>1713775233226</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713775233226</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +191,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'feature/HIB' into 'develop'&#10;&#10;Docs: md파일 작성&#10;&#10;See merge request s10-final/S10P31C103!5" />
+    <MESSAGE value="feat: 유저 서비스 CRUD 개발 진행 중" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 유저 서비스 CRUD 개발 진행 중" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
