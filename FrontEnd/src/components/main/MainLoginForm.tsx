@@ -1,4 +1,4 @@
-const LoginForm = () => {
+const MainLoginForm = () => {
   return (
     <>
       <form>
@@ -9,4 +9,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm;
+export default MainLoginForm;

@@ -1,10 +1,10 @@
-.align {
+.Align {
   display: flex;
   justify-content: center;
   margin-top: 4rem;
 }
 
-.btnAlign {
+.BtnAlign {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
