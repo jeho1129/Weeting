@@ -16,6 +16,9 @@
   height: 40px;
   border-radius: 10px;
 }
+.InputBox::placeholder {
+  text-align: center;
+}
 
 .Mgb {
   margin-bottom: 10px;
