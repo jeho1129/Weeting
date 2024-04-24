@@ -10,8 +10,8 @@ const MainLogin = () => {
       </div>
       <div className={styles.Container}>
         <div className={styles.Box}>
-          <MainLoginForm />
         </div>
+          <MainLoginForm />
       </div>
     </>
   );

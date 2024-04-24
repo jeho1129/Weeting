@@ -7,8 +7,37 @@
   margin-right: 40px;
 }
 
+.Label2 {
+  margin-right: 33px;
+}
+
 .InputBox {
   width: 300px;
   height: 40px;
   border-radius: 10px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+}
+.InputBox::placeholder {
+  text-align: center;
+}
+
+.Mgb {
+  margin-bottom: 10px;
+}
+
+.Mgb2 {
+  margin-bottom: 30px;
+}
+
+.Btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: white;
+}
+
+.Btn:hover {
+  background-color: red;
 }
