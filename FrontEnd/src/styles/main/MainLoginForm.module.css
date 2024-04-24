@@ -37,3 +37,7 @@
   border: 1px solid white;
   background-color: white;
 }
+
+.Btn:hover {
+  background-color: red;
+}
