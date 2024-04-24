@@ -1,5 +1,5 @@
 import Router from '@/status/Router';
-import '@/styles/typography.css';
+import '@/styles/Typography.css';
 
 function App() {
   return (
