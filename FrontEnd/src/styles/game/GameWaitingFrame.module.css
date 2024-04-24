@@ -11,6 +11,7 @@
   position: absolute;
   height: 100vh;
   width: auto;
+  right: 100px;
 }
 
 .Container {
