@@ -31,6 +31,18 @@ const MainSignupForm = () => {
     console.log('passwordCheck :', passwordCheck);
   };
 
+  const idCheckHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    // id 중복확인 api call
+    console.log('hi');
+  };
+
+  const nicknameCheckHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    // nickname 중복확인 api call
+    console.log('bye');
+  };
+
   return (
     <div className={styles.Align}>
       <form onSubmit={submitHandler}>
@@ -45,11 +57,9 @@ const MainSignupForm = () => {
             placeholder="아이디를 입력하세요"
             onChange={onIdHandler}
           />
-          <button>중복 확인</button>
+          <button onClick={idCheckHandler}>중복 확인</button>
         </div>
-        <div>
-          이미 존재하는 아이디 입니다
-        </div>
+        <div>이미 존재하는 아이디 입니다</div>
         <div className={styles.Mgb}>
           <label className={styles.Label} htmlFor="nickname">
             nickname
@@ -61,11 +71,9 @@ const MainSignupForm = () => {
             placeholder="닉네임을 입력하세요"
             onChange={onNicknameHandler}
           />
-          <button>중복 확인</button>
+          <button onClick={nicknameCheckHandler}>중복 확인</button>
         </div>
-        <div>
-          이미 존재하는 닉네임 입니다
-        </div>
+        <div>이미 존재하는 닉네임 입니다</div>
         <div className={styles.Mgb}>
           <label className={styles.Label2} htmlFor="password">
             pw
@@ -90,9 +98,7 @@ const MainSignupForm = () => {
             onChange={onPasswordCheckHandler}
           />
         </div>
-        <div>
-          비밀번호가 일치하지 않습니다.
-        </div>
+        <div>비밀번호가 일치하지 않습니다.</div>
         <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
       </form>
     </div>
