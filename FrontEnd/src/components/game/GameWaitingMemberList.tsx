@@ -4,8 +4,29 @@ const GameWaitingMemberList = () => {
   return (
     <>
         <div className={styles.Box}>
-            <div>안녕하세용</div>
-            <div><strong>굵은 글씨를 해볼까용</strong></div>
+            <div className={styles.List}>
+              <div className={styles.RoomMemberCount}>
+                <div>
+                  참가자 목록
+                </div>
+                <div>
+                  {/* {memberlist.length} */} 현재 / 정원
+                </div>
+              </div>
+                <div className={styles.RoomMembers}>
+                  <div>
+                    방장
+                  </div>
+                  <div className={styles.RoomMember}>
+                    <div>
+                      참가자
+                    </div>
+                    <div>
+                      레디
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
     </>
   );
