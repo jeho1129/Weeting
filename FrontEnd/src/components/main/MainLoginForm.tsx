@@ -2,11 +2,11 @@ import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
 
 const MainLoginForm = () => {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  const onEmailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value);
   };
   const onPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -14,7 +14,7 @@ const MainLoginForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('email :', email);
+    console.log('id :', id);
     console.log('password :', password);
   };
 
@@ -30,7 +30,7 @@ const MainLoginForm = () => {
             id="id"
             type="text"
             placeholder="아이디를 입력하세요"
-            onChange={onEmailHandler}
+            onChange={onIdHandler}
           />
         </div>
         <div className={styles.Mgb2}>
