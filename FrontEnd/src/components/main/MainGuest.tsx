@@ -4,6 +4,9 @@ import MainGuestSignupButton from '@/components/main/MainGuestSignupButton';
 import styles from '@/styles/main/MainGuest.module.css';
 
 const MainGuest = () => {
+  // 나중에 지우기
+  sessionStorage.setItem('JWTToken', 'true');
+
   return (
     <>
       <div className={styles.Align}>
