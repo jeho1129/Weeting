@@ -13,12 +13,14 @@ spring:
         jdbc:
           batch_size: 100
         default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
+
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: root
-    password: ssafy
+    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+    password: sF9lNwfigU
 
 # jwt setting
 jwt:
