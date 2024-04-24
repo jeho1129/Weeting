@@ -1,3 +1,5 @@
+import styles from '@/styles/main/MainLoginForm.module.css'
+
 const MainLoginForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const MainLoginForm = () => {
         </div>
         <button className={styles.Btn}>확인</button>
       </form>
-    </>
+    </div>
   )
 }
 
