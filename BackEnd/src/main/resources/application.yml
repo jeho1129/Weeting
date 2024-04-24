@@ -16,9 +16,23 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    # 로컬
+    # url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    # username: root
+    # password: ssafy
+    # 배포
+    url: jdbc:mysql://k10c103.p.ssafy.io:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     username: root
-    password: ssafy
+    password: c103103
+
+  # NoSQL
+  data:
+    # Redis
+    redis:
+      host: k10C103.p.ssafy.io
+      port: 6379
+      password: c103103
+
 
 # jwt setting
 jwt:
