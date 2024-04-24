@@ -2,11 +2,11 @@
 FROM amazoncorretto:17.0.7-alpine AS builder
 USER root
 WORKDIR /back
-COPY ../../S10P31C103/BackEnd/gradlew .
-COPY ../../S10P31C103/BackEnd/gradle gradle
-COPY ../../S10P31C103/BackEnd/build.gradle .
-COPY ../../S10P31C103/BackEnd/settings.gradle .
-COPY ../../S10P31C103/BackEnd/src src
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
 # gradlew 실행 권한 부여
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
