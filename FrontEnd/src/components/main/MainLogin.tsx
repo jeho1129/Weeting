@@ -1,5 +1,6 @@
 import logo from '@/assets/images/logo.png';
 import styles from '@/styles/main/MainLogin.module.css';
+import MainLoginForm from './MainLoginForm';
 
 const MainLogin = () => {
   return (
@@ -8,7 +9,9 @@ const MainLogin = () => {
         <img src={logo} alt="weetingLogo" />
       </div>
       <div className={styles.Container}>
-        <div className={styles.Box}></div>
+        <div className={styles.Box}>
+          <MainLoginForm />
+        </div>
       </div>
     </>
   );
