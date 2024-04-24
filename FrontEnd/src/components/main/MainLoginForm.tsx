@@ -1,7 +1,7 @@
 import styles from '@/styles/main/MainLoginForm.module.css'
 
 const MainLoginForm = () => {
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('확인 버튼 클릭')
   }
