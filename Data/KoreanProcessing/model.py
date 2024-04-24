@@ -16,20 +16,22 @@ okt = Okt()
 def is_hangul(text) -> bool:
     return bool(hangul_pattern.match(text))
 
-def filter_hangul(neighbor):
+def filter_hangul(neighbor, input_word):
     score, word = neighbor
     if is_hangul(word):
-        morphs = okt.pos(word, norm=True, stem=True, join=False)
-        filtered_word = ''.join([morph for morph, tag in morphs if tag not in ['Josa', 'Suffix', 'Eomi', 'PreEomi']])
+        morphs = okt.pos(word, norm=True, join=False)
+        if any(tag in ['Josa', 'Suffix', 'Eomi', 'PreEomi'] for _, tag in morphs) or input_word in word:
+            return None
+        filtered_word = ''.join([morph for morph, tag in morphs])
         if filtered_word:
             return (score, filtered_word)
     return None
 
-def find_top_similar_words(word, k):
-    neighbors = model.get_nearest_neighbors(word, k)
+def find_top_similar_words(input_word, k):
+    neighbors = model.get_nearest_neighbors(input_word, k)
     similar_words = []
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(filter_hangul, neighbor) for neighbor in neighbors]
+        futures = [executor.submit(filter_hangul, neighbor, input_word) for neighbor in neighbors]
         for future in futures:
             result = future.result()
             if result and len(similar_words) < k:
@@ -43,7 +45,7 @@ class SimilarWordsResponse(BaseModel):
     score: float
 
 @router.get("/similar/{input_word}", response_model=List[SimilarWordsResponse])
-async def get_similar_words(input_word: str, k: int = 9999):
+async def get_similar_words(input_word: str, k: int = 15000):
     try:
         results = find_top_similar_words(input_word, k)
         results = sorted(results, key=lambda x: x[0], reverse=True)
@@ -52,8 +54,9 @@ async def get_similar_words(input_word: str, k: int = 9999):
         decrement = 0.01
         for idx, (score, word) in enumerate(results):
             recalculated_score = start_score - (decrement * idx)
+            if recalculated_score < 0.001:
+                break
             recalculated_results.append({"word": word, "score": round(recalculated_score, 2)})
-        filtered_results = [res for res in recalculated_results if input_word not in res['word']]
-        return filtered_results
+        return recalculated_results
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
