@@ -1,8 +1,9 @@
 .Align {
   display: flex;
   flex-direction: column;
-  justify-content: left;
-  margin-top: 4px;
+  align-items: center;
+  width: 450px;
+  margin: 10px;
   position: absolute;
 }
 
@@ -14,14 +15,18 @@
 .Box {
   background-color: rgba(255, 255, 255, 0.7);
   width: 350px;
-  height: 450px;
+  height: 400px;
   border-radius: 15px;
+}
+
+.GameWaitingLogo {
+  width: 300px;
 }
 
 .List {
   padding: 20px;
   width: 300px;
-  height: 400px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
