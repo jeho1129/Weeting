@@ -11,8 +11,8 @@ const GameWaiting = () => {
       <GameWaitingMemberList/>
       </div>
       <div className={styles.ButtonAlign}>
-      <GameWaitingReadyButton />
-      <GameWaitingQuitButton />
+        <GameWaitingReadyButton />
+        <GameWaitingQuitButton />
       </div>
     </div>
     </>

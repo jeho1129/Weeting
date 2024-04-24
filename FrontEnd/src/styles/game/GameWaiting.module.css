@@ -9,7 +9,6 @@
 .ButtonAlign{
   display: flex;
   flex-direction: column;
-  justify-content: left;
 }
 
 .Box {
@@ -17,4 +16,31 @@
   width: 350px;
   height: 450px;
   border-radius: 15px;
+}
+
+.List {
+  padding: 20px;
+  width: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.RoomMembers {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.RoomMember {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+}
+
+.RoomMemberCount {
+  display: flex; 
+  justify-content: space-between;
+  margin: 10px;
 }
