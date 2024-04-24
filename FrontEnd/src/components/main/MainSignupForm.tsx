@@ -45,6 +45,10 @@ const MainSignupForm = () => {
             placeholder="아이디를 입력하세요"
             onChange={onIdHandler}
           />
+          <button>중복 확인</button>
+        </div>
+        <div>
+          이미 존재하는 아이디 입니다
         </div>
         <div className={styles.Mgb}>
           <label className={styles.Label} htmlFor="nickname">
@@ -57,6 +61,10 @@ const MainSignupForm = () => {
             placeholder="닉네임을 입력하세요"
             onChange={onNicknameHandler}
           />
+          <button>중복 확인</button>
+        </div>
+        <div>
+          이미 존재하는 닉네임 입니다
         </div>
         <div className={styles.Mgb}>
           <label className={styles.Label2} htmlFor="password">
@@ -70,7 +78,7 @@ const MainSignupForm = () => {
             onChange={onPasswordHandler}
           />
         </div>
-        <div className={styles.Mgb2}>
+        <div className={styles.Mgb}>
           <label className={styles.Label2} htmlFor="passwordCheck">
             pw check
           </label>
@@ -82,7 +90,10 @@ const MainSignupForm = () => {
             onChange={onPasswordCheckHandler}
           />
         </div>
-        <button className={styles.Btn}>확인</button>
+        <div>
+          비밀번호가 일치하지 않습니다.
+        </div>
+        <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
       </form>
     </div>
   );
