@@ -7,8 +7,13 @@
   z-index: -999;
 }
 
+.ElectricPole {
+  position: absolute;
+  height: 100vh;
+  width: auto;
+}
+
 .Container {
   display: flex;
   justify-content: center;
 }
-

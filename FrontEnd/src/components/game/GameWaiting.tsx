@@ -1,14 +1,13 @@
-import logo from '@/assets/images/logo.png';
-// import MainGuestLoginButton from '@/components/main/MainGuestLoginButton';
-// import MainGuestSignupButton from '@/components/main/MainGuestSignupButton';
 import styles from '@/styles/game/GameWaiting.module.css';
+import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
+import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 
 const GameWaiting = () => {
   return (
     <>
       <div className={styles.BtnAlign}>
-        {/* <MainGuestLoginButton />
-        <MainGuestSignupButton /> */}
+      <GameWaitingReadyButton />
+      <GameWaitingQuitButton />
       </div>
     </>
   );
