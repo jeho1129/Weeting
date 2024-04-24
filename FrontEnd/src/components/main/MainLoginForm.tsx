@@ -16,7 +16,7 @@ const MainLoginForm = () => {
           <label className={styles.Label2}>pw</label>
           <input className={styles.InputBox} type="text" placeholder='비밀번호를 입력하세요' />
         </div>
-        <button>확인</button>
+        <button className={styles.Btn}>확인</button>
       </form>
     </div>
   )
