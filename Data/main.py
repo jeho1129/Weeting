@@ -10,7 +10,3 @@ app.include_router(fasttext_router)
 app.include_router(konlpy_router)
 
 # Base.metadata.create_all(bind=engine)
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
