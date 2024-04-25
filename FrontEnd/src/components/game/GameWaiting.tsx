@@ -4,12 +4,13 @@ import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
 import GameWaitingChatting from '@/components/game/GameWaitingChatting';
+import GameWaitingPole from '@/components/game/GameWaitingPole';
 
 const GameWaiting = () => {
   return (
     <>
-    <div className={styles.SpaceBetween}>
-      <div className={styles.Align}>
+    <div className={styles.SpaceEvenly}>
+      <div >
         <div>
         <img className={styles.GameWaitingLogo} src={logo} alt="Logo" />
         </div>
@@ -21,8 +22,11 @@ const GameWaiting = () => {
           <GameWaitingQuitButton />
         </div>
       </div>
-      <div className={styles.ChatAlign}>
+      <div>
+      <div className={styles.RightSide}>
+        <GameWaitingPole/>
         <GameWaitingChatting/>
+      </div>
       </div>
     </div>
     </>
