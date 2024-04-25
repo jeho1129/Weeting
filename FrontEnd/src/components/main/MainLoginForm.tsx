@@ -19,15 +19,22 @@ const MainLoginForm = () => {
     const accessToken = getCookie('accessToken');
     console.log('accessToken:', accessToken);
     console.log('id :', id);
-    console.log('password :', password);;
+    console.log('password :', password);
   };
-;
   return (
     <div className={styles.Align}>
       <form onSubmit={submitHandler}>
         <div className={styles.Mgb}>
-          <label className={styles.Label}>id</label>
-          <input className={styles.InputBox} type="text" placeholder='아이디를 입력하세요' />
+          <label className={styles.Label} htmlFor="id">
+            id
+          </label>
+          <input
+            className={styles.InputBox}
+            id="id"
+            type="text"
+            placeholder="아이디를 입력하세요"
+            onChange={onIdHandler}
+          />
         </div>
         <div className={styles.Mgb2}>
           <label className={styles.Label2} htmlFor="password">
