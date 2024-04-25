@@ -23,9 +23,7 @@ public class TokenService {
 
     public GeneratedToken generatedToken(Long id){
         String accessToken = jwtUtils.generateAccessToken(id);
-        String refreshToken = jwtUtils.generateRefreshToken(id);
-        refreshTokenRepository.save(new Token(id,accessToken, refreshToken));
-        return new GeneratedToken(accessToken, refreshToken);
+        return new GeneratedToken(accessToken);
     }
 
     public void RemoveToken(Long id){
@@ -33,21 +31,5 @@ public class TokenService {
         refreshTokenRepository.delete(token);
     }
 
-    public GeneratedToken republishToken(String refreshToken){
-        if(jwtUtils.validateRefreshToken(refreshToken)){
-            Long id = jwtUtils.getUserIdByRefreshToken(refreshToken);
-            Token token = refreshTokenRepository.findById(id).orElseThrow(() -> new JwtException(JwtErrorCode.NOT_EXISTS_TOKEN));
-            if(refreshToken.equals(token.getRefreshToken())){
-                RemoveToken(id);
-                GeneratedToken generatedToken = generatedToken(id);
-                return generatedToken;
-            }else {
-                RemoveToken(id);
-                unsafeTokenRepository.save(new UnsafeToken(token.getAccessToken(), token.getRefreshToken()));
-                throw new JwtException(JwtErrorCode.INVALID_TOKEN);
-            }
-        }
-        throw new JwtException(JwtErrorCode.INVALID_TOKEN);
-    }
 
 }
