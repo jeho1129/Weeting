@@ -1,13 +1,15 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainLogin from '../components/main/MainLogin';
-import MainGuest from '../components/main/MainGuest';
-import MainSignup from '../components/main/MainSignup';
-import MainPage from '@/pages/MainPage';
-import GameWaiting from '../components/game/GameWaiting';
-import GamePage from '@/pages/GamePage';
+import Room from '@/components/room/Room';
 import ErrorPage from '@/pages/ErrorPage';
-import PrivateRoute from '@/status/PrivateRoute';
+import GamePage from '@/pages/GamePage';
+import MainPage from '@/pages/MainPage';
+import RoomPage from '@/pages/RoomPage';
 import { getCookie } from '@/services/axios';
+import PrivateRoute from '@/status/PrivateRoute';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import GameWaiting from '../components/game/GameWaiting';
+import MainGuest from '../components/main/MainGuest';
+import MainLogin from '../components/main/MainLogin';
+import MainSignup from '../components/main/MainSignup';
 
 const Router = () => {
   const token: string | undefined = getCookie('accessToken');
@@ -24,7 +26,9 @@ const Router = () => {
           <Route path="/game" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
-          <Route path="/room" />
+          <Route path="/room" element={<RoomPage />}>
+            <Route index element={<Room />} />
+          </Route>
           <Route path="/custom" />
           <Route path="/ranking" />
           {/* <Route path="/home" element={<HomePage />} /> */}
