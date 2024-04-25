@@ -1,7 +1,7 @@
 .ChatBoxBorder {
     position: absolute;
     background-color: rgba(38, 38, 38, 0.8);
-    margin: 80px;
+    margin-bottom: 80px;
     width: 740px;
     height: 190px;
     border-radius: 15px 15px 0 0;
@@ -11,7 +11,7 @@
   .ChatBox {
     position: absolute;
     background-color: rgba(255, 255, 255);
-    margin: 100px;
+    margin-bottom: 100px;
     width: 690px;
     height: 150px;
     border-radius: 15px;
