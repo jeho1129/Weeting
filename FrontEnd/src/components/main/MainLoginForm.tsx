@@ -1,7 +1,7 @@
-import styles from '@/styles/main/MainLoginForm.module.css';
-import { useState } from 'react';
 import { getCookie, setCookie } from '@/services/axios';
 import { loginApi } from '@/services/userApi';
+import styles from '@/styles/main/MainLoginForm.module.css';
+import { useState } from 'react';
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
@@ -22,12 +22,14 @@ const MainLoginForm = () => {
     loginApi({
       account: id,
       password: password,
-    }).then((data) => {
-      console.log("data :", data);
     })
-    console.log('accessToken:', accessToken);
-    console.log('id :', id);
-    console.log('password :', password);
+      .then((data) => {
+        alert('로그인 되었습니다');
+        console.log('data :', data);
+      })
+      .catch(() => {
+        alert('정보가 잘못되었습니다');
+      });
   };
   return (
     <div className={styles.Mgt}>
