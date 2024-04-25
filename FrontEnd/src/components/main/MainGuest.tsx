@@ -1,11 +1,12 @@
 import logo from '@/assets/images/logo.png';
 import MainGuestLoginButton from '@/components/main/MainGuestLoginButton';
 import MainGuestSignupButton from '@/components/main/MainGuestSignupButton';
+import { setCookie } from '@/services/axios';
 import styles from '@/styles/main/MainGuest.module.css';
 
 const MainGuest = () => {
   // 나중에 지우기
-  sessionStorage.setItem('JWTToken', 'true');
+  setCookie('accessToken', 'true');
 
   return (
     <>
