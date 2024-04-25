@@ -1,7 +1,7 @@
 .Align {
   display: flex;
   justify-content: center;
-  margin-top: 4rem;
+  margin-top: 3rem;
   margin-bottom: -6rem;
   position: relative;
   z-index: 999;
@@ -25,7 +25,7 @@
 .SignupBox {
   background-color: #fff;
   width: 800px;
-  height: 500px;
+  height: 540px;
   border-radius: 15px;
   opacity : 0.7;
   position: absolute;

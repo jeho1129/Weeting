@@ -1,16 +1,15 @@
-.Align {
+.Mgt {
   margin-top: 140px;
-  /* text-align: center; */
 }
 
 .Label {
-  /* margin-right: 40px; */
   display: inline-block;
   width: 100px;
 }
 
-.Label2 {
-  margin-right: 33px;
+.LoginLabel {
+  display: inline-block;
+  width: 60px;
 }
 
 .InputBox {
@@ -19,6 +18,7 @@
   border-radius: 10px;
   border: 1px solid #D9D9D9;
   background-color: #D9D9D9;
+  margin-right: 30px;
 }
 .InputBox::placeholder {
   text-align: center;
@@ -29,7 +29,7 @@
 }
 
 .Mgb2 {
-  margin-bottom: 30px;
+  margin-bottom: 26px;
 }
 
 .Btn {
@@ -51,4 +51,34 @@
 .BtnAlign {
   display: flex;
   justify-content: center;
+}
+
+.checkBtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #D9D9D9;
+  background-color: #D9D9D9;
+}
+
+.Container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.Mgl {
+  margin-left: 50px;
+}
+
+.SignupBtn {
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: white;
+  margin-left: -50px;
+}
+
+.SignupBtn:hover {
+  background-color: red;
 }

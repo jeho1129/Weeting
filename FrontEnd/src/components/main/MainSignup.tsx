@@ -11,7 +11,7 @@ const MainSignup = () => {
       <div className={styles.Container}>
         <div className={styles.SignupBox}>
         </div>
-          <MainSignupForm />
+        <MainSignupForm />
       </div>
     </>
   );

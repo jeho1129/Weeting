@@ -22,11 +22,12 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler }: MainSignupFormN
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={nickNameCheckHandler}>중복 확인</button>
+        <button onClick={nickNameCheckHandler} className={styles.checkBtn}>중복 확인</button>
       </div>
-      <span className={styles.Label}>
-      </span>
-      <span>이미 존재하는 닉네임 입니다</span>
+      <div className={styles.Container}>
+        <div className={styles.Label}></div>
+        <div className={styles.Mgl}>이미 존재하는 닉네임 입니다</div>
+      </div>
     </>
   );
 };

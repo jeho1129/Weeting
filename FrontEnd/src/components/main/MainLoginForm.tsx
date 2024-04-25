@@ -22,10 +22,10 @@ const MainLoginForm = () => {
     console.log('password :', password);
   };
   return (
-    <div className={styles.Align}>
+    <div className={styles.Mgt}>
       <form onSubmit={submitHandler}>
         <div className={styles.Mgb}>
-          <label className={styles.Label} htmlFor="id">
+          <label className={`${styles.LoginLabel}`} htmlFor="id">
             id
           </label>
           <input
@@ -37,7 +37,7 @@ const MainLoginForm = () => {
           />
         </div>
         <div className={styles.Mgb2}>
-          <label className={styles.Label2} htmlFor="password">
+          <label className={styles.LoginLabel} htmlFor="password">
             pw
           </label>
           <input
@@ -48,7 +48,9 @@ const MainLoginForm = () => {
             onChange={onPasswordHandler}
           />
         </div>
-        <button className={styles.Btn}>확인</button>
+        <div className={styles.BtnAlign}>
+          <button className={`${styles.Btn} ${styles.BtnTop}`}>로그인</button>
+        </div>
       </form>
     </div>
   );

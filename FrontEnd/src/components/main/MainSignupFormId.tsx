@@ -22,10 +22,12 @@ const MainSignupFormId = ({ id, onIdHandler }: MainSignupFormIdProps) => {
           value={id}
           onChange={onIdHandler}
         />
-        <button onClick={idCheckHandler}>중복 확인</button>
+        <button onClick={idCheckHandler} className={styles.checkBtn}>중복 확인</button>
       </div>
-      <span className={styles.Label}></span>
-      <span>이미 존재하는 아이디 입니다</span>
+      <div className={styles.Container}>
+        <div className={styles.Label}></div>
+        <div className={styles.Mgl}>이미 존재하는 아이디 입니다</div>
+      </div>
     </>
   );
 };
