@@ -1,6 +1,7 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormPasswordProps } from '@/types/user';
 
-const MainSignupFormPw = ({ password, onPasswordHandler }) => {
+const MainSignupFormPw = ({ password, onPasswordHandler }: MainSignupFormPasswordProps) => {
   return (
     <>
       <div className={styles.Mgb}>

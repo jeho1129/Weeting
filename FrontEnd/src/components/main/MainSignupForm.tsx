@@ -1,3 +1,4 @@
+import { signupApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
 import MainSignupFormId from './MainSignupFormId';
@@ -29,6 +30,12 @@ const MainSignupForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    const response = signupApi({
+      account: id,
+      password: password,
+      nickname: nickname,
+    });
+    console.log('response :', response);
     console.log('id :', id);
     console.log('nickname :', nickname);
     console.log('password :', password);
@@ -42,7 +49,9 @@ const MainSignupForm = () => {
         <MainSignupFormNickname nickname={nickname} onNicknameHandler={onNicknameHandler} />
         <MainSignupFormPw password={password} onPasswordHandler={onPasswordHandler} />
         <MainSignupFormPwCheck passwordCheck={passwordCheck} onPasswordCheckHandler={onPasswordCheckHandler} />
-        <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
+        <div className={styles.BtnAlign}>
+          <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
+        </div>
       </form>
     </div>
   );

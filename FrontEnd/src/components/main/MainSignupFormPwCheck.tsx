@@ -1,6 +1,7 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormPasswordCheckProps } from '@/types/user';
 
-const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
+const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }: MainSignupFormPasswordCheckProps) => {
   const passwordCheckHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // 비밀번호 일치확인 api call
@@ -23,7 +24,9 @@ const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
         />
         <button onClick={passwordCheckHandler}>비밀번호 일치 체크</button>
       </div>
-      <div>비밀번호가 일치하지 않습니다.</div>
+      <span className={styles.Label}>
+      </span>
+      <span>비밀번호가 일치하지 않습니다.</span>
     </>
   );
 };
