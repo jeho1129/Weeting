@@ -27,6 +27,7 @@ const Router = () => {
           <Route path="/room" />
           <Route path="/custom" />
           <Route path="/ranking" />
+          {/* <Route path="/home" element={<HomePage />} /> */}
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>

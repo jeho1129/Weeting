@@ -1,8 +1,11 @@
-import framemain from '@/assets/images/framemain.gif';
 import styles from '@/styles/main/MainGuestFrame.module.css';
-
+import frametest from '@/assets/images/frametest.png';
 const MainGuestFrame = () => {
-  return <img className={styles.MainGuestFrame} src={framemain} alt="DayTemplate" />;
+  return (
+    <div className={styles.FrameContainer}>
+      <img className={styles.MainGuestFrame} src={frametest} alt="" />
+    </div>
+  );
 };
 
 export default MainGuestFrame;
