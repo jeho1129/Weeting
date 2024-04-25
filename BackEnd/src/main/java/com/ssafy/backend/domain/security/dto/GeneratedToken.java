@@ -13,6 +13,5 @@ import lombok.extern.slf4j.Slf4j;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GeneratedToken {
     private String accessToken;
-    private String refreshToken;
 }
 
