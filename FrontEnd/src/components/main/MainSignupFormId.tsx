@@ -1,10 +1,11 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormIdProps } from '@/types/user';
 
-const MainSignupFormId = ({ id, onIdHandler }) => {
+const MainSignupFormId = ({ id, onIdHandler }: MainSignupFormIdProps) => {
   const idCheckHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // id 중복확인 api call
-    console.log('hi');
+    console.log('id 중복확인 api call');
   };
 
   return (
@@ -23,8 +24,7 @@ const MainSignupFormId = ({ id, onIdHandler }) => {
         />
         <button onClick={idCheckHandler}>중복 확인</button>
       </div>
-      <span className={styles.Label}>
-      </span>
+      <span className={styles.Label}></span>
       <span>이미 존재하는 아이디 입니다</span>
     </>
   );
