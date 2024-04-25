@@ -11,8 +11,10 @@ const GameWaitingLeftSide = () => {
     <div className={styles.Align}>
         <GameWaitingLogo/>  
         <GameWaitingMemberList/>
-        <GameWaitingReadyButton />
-        <GameWaitingQuitButton />
+        <div className={styles.ButtonAlign}>
+          <GameWaitingReadyButton />
+          <GameWaitingQuitButton />
+        </div>
     </div>
     </>
   );

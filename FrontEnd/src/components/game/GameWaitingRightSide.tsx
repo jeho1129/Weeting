@@ -5,7 +5,7 @@ import GameWaitingPole from '@/components/game/GameWaitingPole';
 const GameWaitingLeftSide = () => {
   return (
     <>
-    <div className={styles.Align}>
+    <div className={styles.RightSide}>
       <GameWaitingPole/>
       <GameWaitingChatting/>
     </div>
