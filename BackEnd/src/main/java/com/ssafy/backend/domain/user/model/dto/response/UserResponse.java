@@ -1,4 +1,4 @@
-package com.ssafy.backend.user.model.dto.response;
+package com.ssafy.backend.domain.user.model.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

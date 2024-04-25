@@ -1,6 +1,6 @@
-package com.ssafy.backend.user.model.entity;
+package com.ssafy.backend.domain.user.model.entity;
 
-import com.ssafy.backend.user.model.dto.response.UserResponse;
+import com.ssafy.backend.domain.user.model.dto.response.UserResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 @Entity
-@Table(name="member")
+@Table(name="users")
 @Getter
 @Setter
 @ToString
@@ -22,7 +22,7 @@ import java.util.Map;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", precision = 10, scale = 2)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "account", unique = true, nullable = false)
@@ -46,7 +46,12 @@ public class User implements UserDetails {
     @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updateAt;
 
-
+    @PrePersist
+    public void setDefaultScore() {
+        if (this.score == null) {
+            this.score = 1000L;
+        }
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -95,14 +100,10 @@ public class User implements UserDetails {
         Long score = (Long) map.get("score");
         Long ranking = (Long) map.get("ranking");
 
-
         if (account != null) user.setAccount(account);
         if (nickName != null) user.setNickname(nickName);
         if (score != null) user.setScore(score);
         if (ranking != null) user.setRanking(ranking);
-
-
-
         return user;
     }
 
