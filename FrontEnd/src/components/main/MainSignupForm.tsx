@@ -18,11 +18,11 @@ const MainSignupForm = () => {
 
   const onNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 닉네임 4자 이하만 가능
-    if(e.target.value.length <= 4) {
+    if (e.target.value.length <= 4) {
       setNickname(e.target.value);
     }
   };
-  
+
   const onPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 20) {
       setPassword(e.target.value);
@@ -37,12 +37,14 @@ const MainSignupForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    const response = signupApi({
+    signupApi({
       account: id,
       password: password,
       nickname: nickname,
-    });
-    console.log('response :', response);
+    }).then((data) => {
+      console.log("data :", data);
+    })
+
     console.log('id :', id);
     console.log('nickname :', nickname);
     console.log('password :', password);

@@ -1,6 +1,7 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
 import { getCookie, setCookie } from '@/services/axios';
+import { loginApi } from '@/services/userApi';
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
@@ -17,6 +18,13 @@ const MainLoginForm = () => {
     e.preventDefault();
     setCookie('accessToken', 'true', { path: '/' });
     const accessToken = getCookie('accessToken');
+
+    loginApi({
+      account: id,
+      password: password,
+    }).then((data) => {
+      console.log("data :", data);
+    })
     console.log('accessToken:', accessToken);
     console.log('id :', id);
     console.log('password :', password);
