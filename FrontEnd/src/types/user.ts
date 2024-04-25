@@ -5,7 +5,7 @@ export interface Login {
 }
 
 export interface Signup {
-  id: string;
+  account: string;
   nickname: string;
   password: string;
 }
