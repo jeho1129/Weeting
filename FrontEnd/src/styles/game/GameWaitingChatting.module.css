@@ -1,0 +1,18 @@
+.ChatBox {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 50px;
+    width: 700px;
+    height: 250px;
+    border-radius: 15px;
+    bottom: 0;
+  }
+  
+.ChatBuilding {
+    position: absolute;
+    background-color: rgba(255, 255, 255);
+    width: 750px;
+    height: 50px;
+    /* border-radius: 15px; */
+    bottom: 0;
+  }
