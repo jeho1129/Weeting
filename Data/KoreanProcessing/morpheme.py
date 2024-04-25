@@ -11,7 +11,7 @@ model = fasttext.load_model('KoreanProcessing/model.bin')
 spacing = Spacing()
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
 okt = Okt()
-####################### 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
+###################### 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
 # redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
 
 
