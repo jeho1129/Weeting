@@ -1,6 +1,7 @@
 import { signupApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainSignupFormId from './MainSignupFormId';
 import MainSignupFormNickname from './MainSignupFormNickname';
 import MainSignupFormPw from './MainSignupFormPw';
@@ -11,6 +12,7 @@ const MainSignupForm = () => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const navigate = useNavigate();
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -41,9 +43,15 @@ const MainSignupForm = () => {
       account: id,
       password: password,
       nickname: nickname,
-    }).then((data) => {
-      console.log("data :", data);
     })
+      .then((data) => {
+        alert('회원가입 되었습니다');
+        navigate('/home');
+        console.log('data :', data);
+      })
+      .catch(() => {
+        alert('회원가입에 실패하였습니다');
+      });
 
     console.log('id :', id);
     console.log('nickname :', nickname);
