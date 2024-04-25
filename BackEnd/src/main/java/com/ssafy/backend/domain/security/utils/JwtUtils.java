@@ -2,12 +2,14 @@ package com.ssafy.backend.domain.security.utils;
 
 import com.ssafy.backend.domain.security.config.JwtProperties;
 import com.ssafy.backend.domain.security.exception.JwtErrorCode;
+import com.ssafy.backend.domain.security.repository.UnsafeTokenRepository;
+import com.ssafy.backend.domain.security.exception.JwtException;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,10 +21,22 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtUtils {
+
     private final JwtProperties jwtProperties;
     private static final ZoneId zoneId = ZoneId.of("Asia/Seoul");
     private String accessSecretKey;
     private String refreshSecretKey;
+
+    private final UnsafeTokenRepository unsafeTokenRepository;
+    @PostConstruct
+    protected void init(){
+        accessSecretKey = Base64.getEncoder().encodeToString(
+                jwtProperties.getAccess().getBytes()
+        );
+        refreshSecretKey = Base64.getEncoder().encodeToString(
+                jwtProperties.getAccess().getBytes()
+        );
+    }
 
     //토큰발행시간
     public Date getIssuedAt(){
@@ -35,21 +49,20 @@ public class JwtUtils {
     }
 
     //리프레시 토큰 생성
-    public String generateRefreshToken(Long id, String role){
+    public String generateRefreshToken(Long id){
         return Jwts.builder()
                 .setSubject(String.valueOf(id))
-                .claim("role", role).issuedAt(getIssuedAt())
+                .setIssuedAt(getIssuedAt())
                 .setExpiration(getExpiredTime(jwtProperties.getRefreshTime()))
                 .signWith(SignatureAlgorithm.HS256, refreshSecretKey)
                 .compact();
     }
 
     //엑세스 토큰 생성
-    public String generateAccessToken(Long id, String role){
+    public String generateAccessToken(Long id){
         log.info("토큰생성={}", id);
         return Jwts.builder()
                 .setSubject(String.valueOf(id))
-                .claim("role", role)
                 .setIssuedAt(getIssuedAt())
                 .setExpiration(getExpiredTime(jwtProperties.getAccessTime()))
                 .signWith(SignatureAlgorithm.HS256, accessSecretKey)
@@ -106,7 +119,7 @@ public class JwtUtils {
     }
 
     public Long getUserIdByRefreshToken(String refreshToken){
-        return Long.valueOf(
+        return Long.parseLong(
                 Jwts.parserBuilder()
                         .setSigningKey(refreshSecretKey)
                         .build()
@@ -116,24 +129,11 @@ public class JwtUtils {
         );
     }
 
-    public String getUserRoleByRefreshToken(String refreshToken){
-        return Jwts.parserBuilder()
-                .setSigningKey(refreshSecretKey)
-                .build()
-                .parseClaimsJws(refreshToken)
-                .getBody()
-                .get("role", String.class);
-    }
-
     public Long getUserIdByAccessToken(String accessToken){
         return Long.valueOf(
                 validateAccessToken(accessToken).getBody().getSubject()
         );
     }
 
-    public String getUserRoleByAccessToken(String accessToken){
-        return validateAccessToken(accessToken).getBody().get("role", String.class);
-    }
 
 }
-

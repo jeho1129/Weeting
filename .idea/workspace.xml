@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05e57da8-f1fb-48b6-b88b-19f43f4e6a21" name="Changes" comment="feat: 유저 서비스 CRUD 개발 중 테스트 필요">
-      <change afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="05e57da8-f1fb-48b6-b88b-19f43f4e6a21" name="Changes" comment="feat: 유저 회원가입, redis dependency 설정, mysql DB 연결 설정 완료 OAuth 진행 중">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/dto/request/FindRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/dto/request/FindRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/dto/request/UserRegistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/dto/request/UserRegistRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/dto/request/UserUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/dto/request/UserUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/dto/response/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/dto/response/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/user/model/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/user/model/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/entity/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/entity/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/handler/AuthFailureHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/handler/AuthFailureHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/service/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/utils/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/src/main/java/com/ssafy/backend/domain/security/utils/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JSH/README.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +47,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -85,36 +80,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.BackEnd 빌드.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.BackEndApplication.executor": "Run",
-    "git-widget-placeholder": "feature/BE/User-table",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/SSAFY/Desktop/Final3/S10P31C103/BackEnd/src/main/java/com/ssafy/backend/domain",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "모듈",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.BackEnd 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BackEndApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/BE/User-table&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSAFY/Desktop/Final3/S10P31C103/BackEnd/src/main/java/com/ssafy/backend/domain&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\SSAFY\Desktop\Final3\S10P31C103\BackEnd\src\main\java\com\ssafy\backend\user\model\service" />
@@ -172,7 +167,8 @@
       <workItem from="1713754246375" duration="1274000" />
       <workItem from="1713755534942" duration="11427000" />
       <workItem from="1713832794554" duration="16801000" />
-      <workItem from="1713919297803" duration="17432000" />
+      <workItem from="1713919297803" duration="17975000" />
+      <workItem from="1714007547979" duration="1846000" />
     </task>
     <task id="LOCAL-00001" summary="feat: 유저 서비스 CRUD 개발 진행 중">
       <option name="closed" value="true" />
@@ -198,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713862279666</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 유저 회원가입, redis dependency 설정, mysql DB 연결 설정 완료 OAuth 진행 중">
+      <option name="closed" value="true" />
+      <created>1713948700861</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1713948700861</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,7 +223,8 @@
     <MESSAGE value="Merge branch 'feature/HIB' into 'develop'&#10;&#10;Docs: md파일 작성&#10;&#10;See merge request s10-final/S10P31C103!5" />
     <MESSAGE value="feat: 유저 서비스 CRUD 개발 진행 중" />
     <MESSAGE value="feat: 유저 서비스 CRUD 개발 중 테스트 필요" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 유저 서비스 CRUD 개발 중 테스트 필요" />
+    <MESSAGE value="feat: 유저 회원가입, redis dependency 설정, mysql DB 연결 설정 완료 OAuth 진행 중" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 유저 회원가입, redis dependency 설정, mysql DB 연결 설정 완료 OAuth 진행 중" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
