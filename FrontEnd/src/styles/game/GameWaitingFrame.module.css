@@ -7,10 +7,28 @@
   z-index: -999;
 }
 
+.Building {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: -500;
+}
+
+.Building img:first-child {
+  margin-left: 0;
+}
+
+.Building img:last-child {
+  margin-right: 0;
+}
+
 .ElectricPole {
   position: absolute;
   height: 100vh;
   width: auto;
+  right: 100px;
 }
 
 .Container {
