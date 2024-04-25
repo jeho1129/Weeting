@@ -9,9 +9,8 @@ const MainLogin = () => {
         <img src={logo} alt="weetingLogo" />
       </div>
       <div className={styles.Container}>
-        <div className={styles.Box}>
-        </div>
-          <MainLoginForm />
+        <div className={styles.Box}></div>
+        <MainLoginForm />
       </div>
     </>
   );

@@ -1,9 +1,11 @@
 from fastapi import HTTPException, APIRouter, WebSocket, WebSocketDisconnect, Query
+from pykospacing import Spacing
 from konlpy.tag import Okt
 from typing import List
-import aioredis
+import aioredis, re
 
 router = APIRouter()
+spacing = Spacing()
 okt = Okt()
 
 ######################## 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
@@ -34,7 +36,9 @@ okt = Okt()
 @router.get("/analyze")
 async def analyze_text(text: str = Query(None, min_length=1)):
     try:
-        morphs = okt.pos(text, norm=True, stem=True, join=False)
+        text = spacing(text)
+        text = re.sub(r'(이와|이의|이가)\b', '', text)
+        morphs = okt.pos(text, norm=True, join=False)
         filtered_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
         return filtered_words
     except Exception as e:
