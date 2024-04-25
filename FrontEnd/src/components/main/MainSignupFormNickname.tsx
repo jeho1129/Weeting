@@ -22,7 +22,7 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler }: MainSignupFormN
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={nickNameCheckHandler}>중복 확인</button>
+        <button onClick={nickNameCheckHandler} className={styles.checkBtn}>중복 확인</button>
       </div>
       <span className={styles.Label}>
       </span>
