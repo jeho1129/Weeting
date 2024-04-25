@@ -1,9 +1,9 @@
-import HomeFrame from '@/components/home/HomeFrame';
+import Home from '@/components/home/Home';
 
 const HomePage = () => {
   return (
     <>
-      <HomeFrame />;
+      <Home />
     </>
   );
 };
