@@ -5,12 +5,12 @@ import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
 import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 
-const GameWaitingLeftSide = () => {
+const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
     <>
     <div className={styles.Align}>
         <GameWaitingLogo/>  
-        <GameWaitingMemberList/>
+        <GameWaitingMemberList roommembers={roomInfo.roommembers}/>
         <div className={styles.ButtonAlign}>
           <GameWaitingReadyButton />
           <GameWaitingQuitButton />
