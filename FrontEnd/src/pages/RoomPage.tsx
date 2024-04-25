@@ -5,7 +5,7 @@ const RoomPage = () => {
   return (
     <>
       <Outlet />
-      <MainGuestFrame />;
+      <MainGuestFrame />
     </>
   );
 };

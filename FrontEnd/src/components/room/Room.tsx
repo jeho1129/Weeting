@@ -1,6 +1,12 @@
+import RoomModalCreateBtn from "./RoomModalCreateBtn";
+import RoomEnterBtn from "./RoomEnterBtn";
+
 const Room = () => {
   return (
-    <h1>I am Room</h1>
+    <>
+      <RoomModalCreateBtn />
+      <RoomEnterBtn />
+    </>
   )
 }
 
