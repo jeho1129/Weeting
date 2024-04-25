@@ -12,6 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import java.io.IOException;
+
 @Configuration
 @RequiredArgsConstructor
 public class AuthFailureHandler implements AuthenticationFailureHandler, AuthenticationEntryPoint {
@@ -25,7 +27,7 @@ public class AuthFailureHandler implements AuthenticationFailureHandler, Authent
         // MessageUtils 객체를 사용하여 실패 응답 생성
         MessageUtils<?> failureResponse = MessageUtils.fail(HttpStatus.UNAUTHORIZED.toString(), "인증이 필요합니다.");
 
-        // ObjectMapper를 사용하여 MessageUtils 객체를 JSON 문자열로 변환
+        // ObjectMapper 사용하여 MessageUtils 객체를 JSON 문자열로 변환
         String jsonResponse = objectMapper.writeValueAsString(failureResponse);
 
         // JSON 응답을 클라이언트에 전송
@@ -40,7 +42,7 @@ public class AuthFailureHandler implements AuthenticationFailureHandler, Authent
         // MessageUtils 객체를 사용하여 실패 응답 생성
         MessageUtils<?> failureResponse = MessageUtils.fail(HttpStatus.UNAUTHORIZED.toString(), "로그인이 필요합니다.");
 
-        // ObjectMapper를 사용하여 MessageUtils 객체를 JSON 문자열로 변환
+        // ObjectMapper 사용하여 MessageUtils 객체를 JSON 문자열로 변환
         String jsonResponse = objectMapper.writeValueAsString(failureResponse);
 
         // JSON 응답을 클라이언트에 전송

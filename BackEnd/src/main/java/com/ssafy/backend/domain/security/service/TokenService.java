@@ -2,9 +2,11 @@ package com.ssafy.backend.domain.security.service;
 
 import com.ssafy.backend.domain.security.dto.GeneratedToken;
 import com.ssafy.backend.domain.security.entity.Token;
+import com.ssafy.backend.domain.security.entity.UnsafeToken;
 import com.ssafy.backend.domain.security.exception.JwtErrorCode;
 import com.ssafy.backend.domain.security.exception.JwtException;
 import com.ssafy.backend.domain.security.repository.RefreshTokenRepository;
+import com.ssafy.backend.domain.security.repository.UnsafeTokenRepository;
 import com.ssafy.backend.domain.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +21,9 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UnsafeTokenRepository unsafeTokenRepository;
 
-    public GeneratedToken generatedToken(Long id, String role){
-        String accessToken = jwtUtils.generateAccessToken(id, role);
-        String refreshToken = jwtUtils.generateRefreshToken(id, role);
+    public GeneratedToken generatedToken(Long id){
+        String accessToken = jwtUtils.generateAccessToken(id);
+        String refreshToken = jwtUtils.generateRefreshToken(id);
         refreshTokenRepository.save(new Token(id,accessToken, refreshToken));
         return new GeneratedToken(accessToken, refreshToken);
     }
@@ -34,11 +36,10 @@ public class TokenService {
     public GeneratedToken republishToken(String refreshToken){
         if(jwtUtils.validateRefreshToken(refreshToken)){
             Long id = jwtUtils.getUserIdByRefreshToken(refreshToken);
-            String role = jwtUtils.getUserRoleByRefreshToken(refreshToken);
             Token token = refreshTokenRepository.findById(id).orElseThrow(() -> new JwtException(JwtErrorCode.NOT_EXISTS_TOKEN));
             if(refreshToken.equals(token.getRefreshToken())){
                 RemoveToken(id);
-                GeneratedToken generatedToken = generatedToken(id, role);
+                GeneratedToken generatedToken = generatedToken(id);
                 return generatedToken;
             }else {
                 RemoveToken(id);
