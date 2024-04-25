@@ -32,9 +32,5 @@ public class AuthService {
         tokenService.RemoveToken(user.getId());
     }
 
-    public GeneratedToken refresh(String refreshToken){
-        return tokenService.republishToken(refreshToken);
-    }
-
 
 }
