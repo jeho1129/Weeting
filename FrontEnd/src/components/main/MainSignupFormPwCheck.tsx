@@ -1,6 +1,7 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormPasswordCheckProps } from '@/types/user';
 
-const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
+const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }: MainSignupFormPasswordCheckProps) => {
   const passwordCheckHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // 비밀번호 일치확인 api call

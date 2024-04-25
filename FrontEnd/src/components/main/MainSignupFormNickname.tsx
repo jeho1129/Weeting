@@ -1,10 +1,11 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormNicknameProps } from '@/types/user';
 
-const MainSignupFormNickname = ({ nickname, onNicknameHandler }) => {
+const MainSignupFormNickname = ({ nickname, onNicknameHandler }: MainSignupFormNicknameProps) => {
   const nickNameCheckHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // nickname 중복확인 api call
-    console.log('hi');
+    console.log('nickname 중복확인 api call');
   };
 
   return (
