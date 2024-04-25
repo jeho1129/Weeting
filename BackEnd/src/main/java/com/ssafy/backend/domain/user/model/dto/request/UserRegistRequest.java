@@ -1,8 +1,8 @@
-package com.ssafy.backend.user.model.dto.request;
+package com.ssafy.backend.domain.user.model.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.backend.user.model.entity.User;
+import com.ssafy.backend.domain.user.model.entity.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @JsonNaming(PropertyNamingStrategy.class)
 public class UserRegistRequest {
 
-    @Pattern(regexp = "^[A-Za-z0-9]", message = "유효한 아이디를 입력해주세요")
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "유효한 아이디를 입력해주세요")
     @NotNull
     private String account;
 
@@ -26,7 +26,7 @@ public class UserRegistRequest {
     @NotNull
     private String password;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{1,5}$", message = "닉네임은 한글 기준 5글자 이내로 입력해주세요")
+    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{1,10}$", message = "닉네임은 한글 기준 5글자 이내로 입력해주세요")
     @NotNull
     private String nickname;
 

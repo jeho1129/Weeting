@@ -1,4 +1,4 @@
-package com.ssafy.backend.user.model.dto.request;
+package com.ssafy.backend.domain.user.model.dto.request;
 
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
