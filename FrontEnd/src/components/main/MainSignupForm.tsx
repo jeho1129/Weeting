@@ -1,3 +1,4 @@
+import { signupApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
 import MainSignupFormId from './MainSignupFormId';
@@ -29,6 +30,12 @@ const MainSignupForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    const response = signupApi({
+      account: id,
+      password: password,
+      nickname: nickname,
+    });
+    console.log('response :', response);
     console.log('id :', id);
     console.log('nickname :', nickname);
     console.log('password :', password);
