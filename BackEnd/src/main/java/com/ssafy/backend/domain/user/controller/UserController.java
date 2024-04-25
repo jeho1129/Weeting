@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/dummy")
-    public String dummy() {
-        return "{hihi}";
-    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<MessageUtils> register(@Valid @RequestBody UserRegistRequest userRegistRequest) {
