@@ -24,7 +24,7 @@ def filter_hangul(neighbor, input_word):
     if any(tag in ['Josa', 'Suffix', 'Eomi', 'PreEomi'] for _, tag in morphs) or input_word in word:
         return None
     filtered_word = ''.join([morph for morph, tag in morphs])
-    if filtered_word:
+    if len(filtered_word) <= 12:
         return (score, filtered_word)
     return None
 
@@ -48,9 +48,7 @@ class SimilarWordsResponse(BaseModel):
     score: float
 
 @router.get("/similar/{input_word}", response_model=List[SimilarWordsResponse])
-async def get_similar_words(input_word: str = Query(None, min_length=1), k: int = 15000):
-    if len(input_word) < 2:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="2글자 이상의 단어를 입력해주세요.")
+async def get_similar_words(input_word, k: int = 15000):
     try:
         results = find_top_similar_words(input_word, k)
         results = sorted(results, key=lambda x: x[0], reverse=True)
