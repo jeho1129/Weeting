@@ -33,6 +33,7 @@ export interface MainSignupFormPasswordProps {
 }
 
 export interface MainSignupFormPasswordCheckProps {
+  password: string;
   passwordCheck: string;
   onPasswordCheckHandler: (event: ChangeEvent<HTMLInputElement>) => void;
 }
