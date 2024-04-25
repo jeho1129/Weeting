@@ -23,7 +23,9 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler }) => {
         />
         <button onClick={nickNameCheckHandler}>중복 확인</button>
       </div>
-      <div>이미 존재하는 닉네임 입니다</div>
+      <span className={styles.Label}>
+      </span>
+      <span>이미 존재하는 닉네임 입니다</span>
     </>
   );
 };

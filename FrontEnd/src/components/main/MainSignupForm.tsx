@@ -42,7 +42,9 @@ const MainSignupForm = () => {
         <MainSignupFormNickname nickname={nickname} onNicknameHandler={onNicknameHandler} />
         <MainSignupFormPw password={password} onPasswordHandler={onPasswordHandler} />
         <MainSignupFormPwCheck passwordCheck={passwordCheck} onPasswordCheckHandler={onPasswordCheckHandler} />
-        <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
+        <div className={styles.BtnAlign}>
+          <button className={`${styles.Btn} ${styles.BtnTop}`}>가입</button>
+        </div>
       </form>
     </div>
   );

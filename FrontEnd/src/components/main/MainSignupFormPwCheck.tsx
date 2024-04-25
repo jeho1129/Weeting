@@ -23,7 +23,9 @@ const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
         />
         <button onClick={passwordCheckHandler}>비밀번호 일치 체크</button>
       </div>
-      <div>비밀번호가 일치하지 않습니다.</div>
+      <span className={styles.Label}>
+      </span>
+      <span>비밀번호가 일치하지 않습니다.</span>
     </>
   );
 };
