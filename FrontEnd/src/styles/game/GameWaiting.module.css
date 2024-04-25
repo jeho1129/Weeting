@@ -76,3 +76,14 @@
   width: 10%;
   position: absolute;
 }
+
+.MemberContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.MemberInfo {
+  text-align: center;
+}
