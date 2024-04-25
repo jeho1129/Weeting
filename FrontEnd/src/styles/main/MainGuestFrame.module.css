@@ -1,14 +1,19 @@
-.MainGuestFrame {
+.FrameContainer {
   position: absolute;
-  top: 0rem;
-  left: 0rem;
+  top: 0px;
+  left: 0px;
   width: 100vw;
   height: 100vh;
   z-index: -999;
+  overflow: hidden;
 }
 
-.Container {
-  display: flex;
-  justify-content: center;
+.MainGuestFrame {
+  animation: moveRight 25s linear infinite;
 }
 
+@keyframes moveRight {
+  100% {
+    transform: translate(-2499px);
+  }
+}
