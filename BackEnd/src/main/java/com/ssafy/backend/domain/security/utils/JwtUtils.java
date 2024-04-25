@@ -5,7 +5,6 @@ import com.ssafy.backend.domain.security.exception.JwtErrorCode;
 import com.ssafy.backend.domain.security.repository.UnsafeTokenRepository;
 import com.ssafy.backend.domain.security.exception.JwtException;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +24,12 @@ public class JwtUtils {
     private final JwtProperties jwtProperties;
     private static final ZoneId zoneId = ZoneId.of("Asia/Seoul");
     private String accessSecretKey;
-    private String refreshSecretKey;
+
 
     private final UnsafeTokenRepository unsafeTokenRepository;
     @PostConstruct
     protected void init(){
         accessSecretKey = Base64.getEncoder().encodeToString(
-                jwtProperties.getAccess().getBytes()
-        );
-        refreshSecretKey = Base64.getEncoder().encodeToString(
                 jwtProperties.getAccess().getBytes()
         );
     }
@@ -48,26 +44,19 @@ public class JwtUtils {
         return Date.from(ZonedDateTime.now(zoneId).plus(Duration.ofMillis(period)).toInstant());
     }
 
-    //리프레시 토큰 생성
-    public String generateRefreshToken(Long id){
-        return Jwts.builder()
-                .setSubject(String.valueOf(id))
-                .setIssuedAt(getIssuedAt())
-                .setExpiration(getExpiredTime(jwtProperties.getRefreshTime()))
-                .signWith(SignatureAlgorithm.HS256, refreshSecretKey)
-                .compact();
-    }
 
     //엑세스 토큰 생성
     public String generateAccessToken(Long id){
+        Long accessTime = jwtProperties.getAccessTime();
         log.info("토큰생성={}", id);
         return Jwts.builder()
                 .setSubject(String.valueOf(id))
                 .setIssuedAt(getIssuedAt())
-                .setExpiration(getExpiredTime(jwtProperties.getAccessTime()))
+                .setExpiration(getExpiredTime(accessTime))
                 .signWith(SignatureAlgorithm.HS256, accessSecretKey)
                 .compact();
     }
+
 
     /**
      * 엑세스 토큰 검증
@@ -80,6 +69,7 @@ public class JwtUtils {
                 throw new JwtException(JwtErrorCode.TOKEN_SIGNATURE_ERROR);
             });
             return claimsJws;
+
         }catch ( MalformedJwtException e){
             log.info("exception : 잘못된 엑세스 토큰 시그니처");
             throw new JwtException(JwtErrorCode.TOKEN_SIGNATURE_ERROR, e.getMessage());
@@ -95,39 +85,6 @@ public class JwtUtils {
         }
     }
 
-    /**
-     * 리프레쉬 토큰 검증
-     */
-    public boolean validateRefreshToken(final String token) throws JwtException {
-        try{
-            Jwts.parserBuilder().setSigningKey(refreshSecretKey).build()
-                    .parseClaimsJws(token);
-            return true;
-        }catch (MalformedJwtException e){
-            log.info("exception : 잘못된 리프레쉬 토큰 시그니처");
-            throw new JwtException(JwtErrorCode.TOKEN_SIGNATURE_ERROR, e.getMessage());
-        }catch (ExpiredJwtException e){
-            log.info("exception : 리프레쉬 토큰 기간 만료");
-            throw new JwtException(JwtErrorCode.EXPIRED_TOKEN, e.getMessage());
-        }catch (UnsupportedJwtException e){
-            log.info("exception : 지원되지 않는 리프레쉬 토큰");
-            throw new JwtException(JwtErrorCode.NOT_SUPPORT_TOKEN, e.getMessage());
-        }catch (IllegalArgumentException e){
-            log.info("exception : 잘못된 리프레쉬 토큰");
-            throw new JwtException(JwtErrorCode.INVALID_TOKEN, e.getMessage());
-        }
-    }
-
-    public Long getUserIdByRefreshToken(String refreshToken){
-        return Long.parseLong(
-                Jwts.parserBuilder()
-                        .setSigningKey(refreshSecretKey)
-                        .build()
-                        .parseClaimsJws(refreshToken)
-                        .getBody()
-                        .getSubject()
-        );
-    }
 
     public Long getUserIdByAccessToken(String accessToken){
         return Long.valueOf(
