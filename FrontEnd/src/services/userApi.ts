@@ -2,10 +2,19 @@ import { Axios } from '@/services/axios';
 import { Login, Signup } from '@/types/user';
 
 export async function loginApi(param: Login) {
-  return Axios.post(`/user/login`, param);
+  try {
+    const response = await Axios.post(`/user/login`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function signupApi(param: Signup) {
-  return Axios.post(`/user/signup`, param);
+  try {
+    const response = await Axios.post(`/user/signup`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
-

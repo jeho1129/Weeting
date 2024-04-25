@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 export interface Login {
-  id: string;
+  account: string;
   password: string;
 }
 
@@ -33,6 +33,7 @@ export interface MainSignupFormPasswordProps {
 }
 
 export interface MainSignupFormPasswordCheckProps {
+  password: string;
   passwordCheck: string;
   onPasswordCheckHandler: (event: ChangeEvent<HTMLInputElement>) => void;
 }
