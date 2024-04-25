@@ -1,9 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import MainLogin from '../components/main/MainLogin';
-import MainGuest from '../components/main/MainGuest';
-import MainSignup from '../components/main/MainSignup';
+import MainLogin from '@/components/main/MainLogin';
+import MainGuest from '@/components/main/MainGuest';
+import MainSignup from '@/components/main/MainSignup';
+import Home from '@/components/home/Home';
+import GameWaiting from '@/components/game/GameWaiting';
 import MainPage from '@/pages/MainPage';
-import GameWaiting from '../components/game/GameWaiting';
 import GamePage from '@/pages/GamePage';
 import HomePage from '@/pages/HomePage';
 import ErrorPage from '@/pages/ErrorPage';
@@ -22,13 +23,15 @@ const Router = () => {
           <Route path="signup" element={<MainSignup />} />
         </Route>
         <Route element={<PrivateRoute token={token} />}>
+          <Route path="/home" element={<HomePage />}>
+            <Route index element={<Home />} />
+          </Route>
+          <Route path="/custom" />
+          <Route path="/ranking" />
+          <Route path="/room" />
           <Route path="/game" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
-          <Route path="/room" />
-          <Route path="/custom" />
-          <Route path="/ranking" />
-          <Route path="/home" element={<HomePage />} />
         </Route>
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Navigate replace to="/error" />} />
