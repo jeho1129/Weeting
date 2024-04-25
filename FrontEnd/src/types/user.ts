@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 export interface Login {
-  id: string;
+  account: string;
   password: string;
 }
 
