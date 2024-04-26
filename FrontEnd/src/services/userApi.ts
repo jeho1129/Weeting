@@ -1,5 +1,5 @@
 import { Axios } from '@/services/axios';
-import { Login, Signup } from '@/types/user';
+import { Login, Signup, SignupIdCheck, SignupNicknameCheck } from '@/types/user';
 
 export async function loginApi(param: Login) {
   try {
@@ -13,6 +13,24 @@ export async function loginApi(param: Login) {
 export async function signupApi(param: Signup) {
   try {
     const response = await Axios.post(`/user/signup`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function idCheckApi(param: SignupIdCheck) {
+  try {
+    const response = await Axios.post(`/user/idCheck`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function nicknameCheckApi(param: SignupNicknameCheck) {
+  try {
+    const response = await Axios.post(`/user/nicknameCheck`, param);
     return response.data;
   } catch (error) {
     return Promise.reject(error);

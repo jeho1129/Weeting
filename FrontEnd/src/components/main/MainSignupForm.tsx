@@ -12,6 +12,8 @@ const MainSignupForm = () => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const [idPossible, setIdPossible] = useState(1);
+  const [nicknamePossible, setNicknamePossible] = useState(1);
   const navigate = useNavigate();
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,11 +61,19 @@ const MainSignupForm = () => {
     console.log('passwordCheck :', passwordCheck);
   };
 
+  const idCheckHandler = (isPossible: number) => {
+    setIdPossible(isPossible); // MainSignupFormId로부터 받은 idPossible 설정
+  };
+
+  const nicknameCheckHandler = (isPossible: number) => {
+    setNicknamePossible(isPossible); // MainSignupFormId로부터 받은 nicknamePossible 설정
+  }
+
   return (
     <div className={styles.Mgt}>
       <form onSubmit={submitHandler}>
-        <MainSignupFormId id={id} onIdHandler={onIdHandler} />
-        <MainSignupFormNickname nickname={nickname} onNicknameHandler={onNicknameHandler} />
+        <MainSignupFormId id={id} onIdHandler={onIdHandler} idPossible={idPossible} idCheckHandler={idCheckHandler} />
+        <MainSignupFormNickname nickname={nickname} onNicknameHandler={onNicknameHandler} nicknamePossible={nicknamePossible} nicknameCheckHandler={nicknameCheckHandler} />
         <MainSignupFormPw password={password} onPasswordHandler={onPasswordHandler} />
         <MainSignupFormPwCheck
           password={password}
