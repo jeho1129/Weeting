@@ -1,10 +1,11 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormNicknameProps } from '@/types/user';
 
-const MainSignupFormNickname = ({ nickname, onNicknameHandler }) => {
+const MainSignupFormNickname = ({ nickname, onNicknameHandler }: MainSignupFormNicknameProps) => {
   const nickNameCheckHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // nickname 중복확인 api call
-    console.log('hi');
+    console.log('nickname 중복확인 api call');
   };
 
   return (
@@ -21,9 +22,12 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler }) => {
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={nickNameCheckHandler}>중복 확인</button>
+        <button onClick={nickNameCheckHandler} className={styles.checkBtn}>중복 확인</button>
       </div>
-      <div>이미 존재하는 닉네임 입니다</div>
+      <div className={styles.Container}>
+        <div className={styles.Label}></div>
+        <div className={styles.Mgl}>이미 존재하는 닉네임 입니다</div>
+      </div>
     </>
   );
 };
