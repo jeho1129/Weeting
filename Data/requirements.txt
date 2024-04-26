@@ -6,6 +6,7 @@ hangul-utils==0.2
 konlpy==0.6.0
 pydantic==2.7.1
 pydantic_core==2.16.3
+pykospacing==0.5
 PyMySQL==1.1.0
 PySocks==1.7.1
 requests==2.31.0

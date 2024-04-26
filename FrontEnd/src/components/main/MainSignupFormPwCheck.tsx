@@ -1,10 +1,13 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { MainSignupFormPasswordCheckProps } from '@/types/user';
 
-const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
-  const passwordCheckHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    // 비밀번호 일치확인 api call
-    console.log('hi');
+const MainSignupFormPwCheck = ({
+  password,
+  passwordCheck,
+  onPasswordCheckHandler,
+}: MainSignupFormPasswordCheckProps) => {
+  const isPasswordMatch = () => {
+    return passwordCheck === password; // 비밀번호와 비밀번호 재확인이 일치하는지 확인
   };
 
   return (
@@ -21,9 +24,11 @@ const MainSignupFormPwCheck = ({ passwordCheck, onPasswordCheckHandler }) => {
           value={passwordCheck}
           onChange={onPasswordCheckHandler}
         />
-        <button onClick={passwordCheckHandler}>비밀번호 일치 체크</button>
       </div>
-      <div>비밀번호가 일치하지 않습니다.</div>
+      <div className={styles.Container}>
+        <div className={styles.Label}></div>
+        {!isPasswordMatch() && <div className={styles.Mgl}>비밀번호가 일치하지 않습니다</div>}
+      </div>
     </>
   );
 };
