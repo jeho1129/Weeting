@@ -1,0 +1,46 @@
+.Avatar {
+  /* background-color: magenta; */
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.Nest {
+  position: absolute;
+  height: auto;
+  bottom: 0px;
+}
+
+.AvatarEyes {
+  position: absolute;
+  bottom: 43%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: EyeMove 1s linear infinite;
+}
+
+.AvatarBody {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes EyeMove {
+  0% {
+    transform: translateY(+5%);
+  }
+  /* 50% {
+    transform: translateY(+5%);
+  } */
+  80% {
+    transform: translateY(-25%);
+  }
+  100% {
+    transform: translateY(+10%);
+  }
+}

@@ -1,37 +1,79 @@
 from fastapi import HTTPException, APIRouter, WebSocket, WebSocketDisconnect, Query
 from pykospacing import Spacing
 from konlpy.tag import Okt
-from typing import List
+from model_manager import get_similar_words
 import aioredis, re
 
 router = APIRouter()
 spacing = Spacing()
 okt = Okt()
+###################### 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
+# redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
 
-######################## 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
-# redis = aioredis.from_url("redis://localhost")
+# async def store_similar_words_for_forbidden_words():
+#     user_ids = await redis.smembers("user_ids")
+#     for user_id in user_ids:
+#         forbidden_word = await redis.get(f"user:{user_id}:forbidden_word")
+#         if forbidden_word:
+#             similar_words = await get_similar_words(forbidden_word, 15000)
+#             for w in similar_words:
+#                 await redis.hset(f"similar:{user_id}:{forbidden_word}", w['word'], w['score'])
 
-# @router.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
+# async def check_text_against_forbidden_words(words, forbidden_word):
+#     most_similar_word = None
+#     highest_similarity = 0.0
+
+#     forbidden_similar_words = await redis.hgetall(f"similar:{forbidden_word}")
+
+#     for word in words:
+#         if word in forbidden_similar_words:
+#             score = float(forbidden_similar_words[word])
+#             if score > highest_similarity:
+#                 highest_similarity = score
+#                 most_similar_word = word
+
+#     return most_similar_word, highest_similarity
+
+# @router.websocket("/ws/{user_id}")
+# async def websocket_endpoint(websocket: WebSocket, user_id: str):
 #     await websocket.accept()
 #     try:
+#         user_exists = await redis.exists(f"user:{user_id}:forbidden_word")
+#         if not user_exists:
+#             await websocket.send_text("Invalid user ID or no forbidden word set for this user.")
+#             await websocket.close()
+#             return
+        
 #         while True:
 #             data = await websocket.receive_text()
-#             await process_and_respond(websocket, data)
+#             forbidden_word = await redis.get(f"user:{user_id}:forbidden_word")
+#             if not forbidden_word:
+#                 await websocket.send_text("No forbidden word set for this user.")
+#                 continue
+
+#             filtered_data = spacing(data)
+#             filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
+#             morphs = okt.pos(filtered_data, norm=True, join=False)
+#             processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
+#             await redis.rpush("chat_history", data)
+#             await redis.rpush("processed_words", *processed_words)
+
+#             most_similar_word, similarity = await check_text_against_forbidden_words(processed_words, forbidden_word)
+#             response = {
+#                 "words": processed_words,
+#                 "input": data,
+#                 "forbidden_similar": {
+#                     "word": most_similar_word,
+#                     "similarity": similarity
+#                 }
+#             }
+#             await websocket.send_json(response)
 #     except WebSocketDisconnect:
 #         print("Websocket disconnected")
-
-# async def process_and_respond(websocket: WebSocket, data: str):
-#     nouns = kkma.nouns(data)
-#     pos_data = kkma.pos(data)
-#     await redis.rpush("chat_history", data)
-#     await websocket.send_json({
-#         "nouns": nouns,
-#         "verbs": [word for word, tag in pos_data if tag.startswith('VV')],
-#         "adjectives": [word for word, tag in pos_data if tag.startswith('VA')],
-#         "adverbs": [word for word, tag in pos_data if tag.startswith('MA')],
-#         "input": data
-#     })
+#     except Exception as e:
+#         print(f"An error occurred: {str(e)}")
+#         await websocket.send_text("An error occurred, please try again.")
+#         await websocket.close()
 
 @router.get("/analyze")
 async def analyze_text(text: str = Query(None, min_length=1)):
