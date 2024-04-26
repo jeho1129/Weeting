@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerNormal from '@/assets/images/timerNormal.png';
 
-const GameWordTimer = () => {
+const GameTimer = () => {
   return (
     <div className={styles.timerContainer}>
       <p className={styles.timerText}>타이머</p>
@@ -14,4 +14,4 @@ const GameWordTimer = () => {
   );
 };
 
-export default GameWordTimer;
+export default GameTimer;

@@ -22,9 +22,9 @@ const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         {roomInfo.roomstatus === 'wordsetting' && (
           <GameWordTimer/>
         )}
-        {/* {roomInfo.roomstatus === 'start' && (
-          <GameTimer/> // 게임 시작 상태일 때 GameTimer 렌더링
-        )} */}
+        {roomInfo.roomstatus === 'start' && (
+          <GameTimer/>
+        )}
     </div>
     </>
   );
