@@ -12,8 +12,8 @@ const MainSignupForm = () => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [idPossible, setIdPossible] = useState(1);
-  const [nicknamePossible, setNicknamePossible] = useState(1);
+  const [idPossible, setIdPossible] = useState(0);
+  const [nicknamePossible, setNicknamePossible] = useState(0);
   const navigate = useNavigate();
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ const MainSignupForm = () => {
     }
   };
 
-  const submitHandler = (e: React.FormEvent) => {
+  const signupHandler = (e: React.FormEvent) => {
     e.preventDefault();
     signupApi({
       account: id,
@@ -51,13 +51,13 @@ const MainSignupForm = () => {
         navigate('/home');
       })
       .catch(() => {
-        alert('아이디 또는 닉네임 중복확인을 해주세요');
+        alert('비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)');
       });
+  };
 
-    console.log('id :', id);
-    console.log('nickname :', nickname);
-    console.log('password :', password);
-    console.log('passwordCheck :', passwordCheck);
+  const alertHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert('아이디 또는 닉네임 중복확인을 해주세요');
   };
 
   const idCheckHandler = (isPossible: number) => {
@@ -70,7 +70,7 @@ const MainSignupForm = () => {
 
   return (
     <div className={styles.Mgt}>
-      <form onSubmit={submitHandler}>
+      <form>
         <MainSignupFormId id={id} onIdHandler={onIdHandler} idPossible={idPossible} idCheckHandler={idCheckHandler} />
         <MainSignupFormNickname
           nickname={nickname}
@@ -84,9 +84,19 @@ const MainSignupForm = () => {
           passwordCheck={passwordCheck}
           onPasswordCheckHandler={onPasswordCheckHandler}
         />
-        <div className={styles.BtnAlign}>
-          <button className={`${styles.SignupBtn}`}>가입</button>
-        </div>
+        {idPossible === 1 && nicknamePossible == 1 ? (
+          <div className={styles.BtnAlign}>
+            <button onClick={signupHandler} className={`${styles.SignupBtn}`}>
+              가입
+            </button>
+          </div>
+        ) : (
+          <div className={styles.BtnAlign}>
+            <button onClick={alertHandler} className={`${styles.SignupBtn}`}>
+              가입
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );
