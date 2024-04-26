@@ -33,23 +33,23 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={styles.Label} htmlFor="nickname">
+        <label className={`${styles.Label} FontM20`} htmlFor="nickname">
           nickname
         </label>
         <input
-          className={styles.InputBox}
+          className={`${styles.InputBox} FontM20`}
           id="nickname"
           type="text"
           placeholder="닉네임을 입력하세요"
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={handleNickNameCheck} className={styles.checkBtn}>중복 확인</button>
+        <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
       </div>
       <div className={styles.Container}>
         <div className={styles.Label}></div>
         {nicknamePossible === 0 && nicknameChecked === 1 && (
-          <div className={styles.Mgl}>이미 존재하는 닉네임 입니다</div>
+          <div className={styles.SignupAlertText}>이미 존재하는 닉네임 입니다</div>
         )}
       </div>
     </>

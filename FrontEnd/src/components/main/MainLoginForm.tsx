@@ -1,6 +1,6 @@
-import { getCookie, setCookie } from '@/utils/axios';
 import { loginApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { getCookie, setCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,11 +37,11 @@ const MainLoginForm = () => {
     <div className={styles.Mgt}>
       <form onSubmit={submitHandler}>
         <div className={styles.Mgb}>
-          <label className={`${styles.LoginLabel}`} htmlFor="id">
+          <label className={`${styles.LoginLabel} FontM32`} htmlFor="id">
             id
           </label>
           <input
-            className={styles.InputBox}
+            className={`${styles.InputBox} FontM20`}
             id="id"
             type="text"
             placeholder="아이디를 입력하세요"
@@ -49,11 +49,11 @@ const MainLoginForm = () => {
           />
         </div>
         <div className={styles.Mgb2}>
-          <label className={styles.LoginLabel} htmlFor="password">
+          <label className={`${styles.LoginLabel} FontM32`} htmlFor="password">
             pw
           </label>
           <input
-            className={styles.InputBox}
+            className={`${styles.InputBox} FontM20`}
             id="password"
             type="password"
             placeholder="비밀번호를 입력하세요"
@@ -61,7 +61,7 @@ const MainLoginForm = () => {
           />
         </div>
         <div className={styles.BtnAlign}>
-          <button className={`${styles.Btn} ${styles.BtnTop}`}>로그인</button>
+          <button className={`${styles.Btn} ${styles.BtnTop} FontM20`}>로그인</button>
         </div>
       </form>
     </div>

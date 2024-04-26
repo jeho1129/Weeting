@@ -33,25 +33,25 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={styles.Label} htmlFor="id">
+        <label className={`${styles.Label} FontM20`} htmlFor="id">
           id
         </label>
         <input
-          className={styles.InputBox}
+          className={`${styles.InputBox} FontM20`}
           id="id"
           type="text"
           placeholder="아이디를 입력하세요"
           value={id}
           onChange={onIdHandler}
         />
-        <button onClick={handleIdCheck} className={styles.checkBtn}>
+        <button onClick={handleIdCheck} className={`${styles.checkBtn} FontM20`}>
           중복 확인
         </button>
       </div>
       <div className={styles.Container}>
         <div className={styles.Label}></div>
         {idPossible === 0 && idChecked === 1 && (
-          <div className={styles.Mgl}>이미 존재하는 아이디 입니다</div>
+          <div className={styles.SignupAlertText}>이미 존재하는 아이디 입니다</div>
         )}
       </div>
     </>
