@@ -1,15 +1,17 @@
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Room from '@/components/room/Room';
-import ErrorPage from '@/pages/ErrorPage';
-import GamePage from '@/pages/GamePage';
-import MainPage from '@/pages/MainPage';
+import MainLogin from '@/components/main/MainLogin';
+import MainGuest from '@/components/main/MainGuest';
+import MainSignup from '@/components/main/MainSignup';
+import Home from '@/components/home/Home';
+import GameWaiting from '@/components/game/GameWaiting';
 import RoomPage from '@/pages/RoomPage';
-import { getCookie } from '@/services/axios';
+import MainPage from '@/pages/MainPage';
+import GamePage from '@/pages/GamePage';
+import HomePage from '@/pages/HomePage';
+import ErrorPage from '@/pages/ErrorPage';
 import PrivateRoute from '@/status/PrivateRoute';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import GameWaiting from '../components/game/GameWaiting';
-import MainGuest from '../components/main/MainGuest';
-import MainLogin from '../components/main/MainLogin';
-import MainSignup from '../components/main/MainSignup';
+import { getCookie } from '@/services/axios';
 
 const Router = () => {
   const token: string | undefined = getCookie('accessToken');
@@ -23,6 +25,12 @@ const Router = () => {
           <Route path="signup" element={<MainSignup />} />
         </Route>
         <Route element={<PrivateRoute token={token} />}>
+          <Route path="/home" element={<HomePage />}>
+            <Route index element={<Home />} />
+          </Route>
+          <Route path="/custom" />
+          <Route path="/ranking" />
+          <Route path="/room" />
           <Route path="/game" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
@@ -33,7 +41,8 @@ const Router = () => {
           <Route path="/ranking" />
           {/* <Route path="/home" element={<HomePage />} /> */}
         </Route>
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="*" element={<Navigate replace to="/error" />} />
       </Routes>
     </BrowserRouter>
   );
