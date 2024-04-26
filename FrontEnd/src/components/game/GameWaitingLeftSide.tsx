@@ -4,7 +4,7 @@ import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
 import GameWaitingLogo from '@/components/game/GameWaitingLogo';
-import GameWordTimer from '@/assets/images/timerNormal.png'
+import GameWordTimer from '@/components/game/GameWordTimer'
 import GameTimer from '@/assets/images/timerNormal.png'
 
 const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
@@ -19,10 +19,10 @@ const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
             <GameWaitingQuitButton roomid={roomInfo.roomid}/>
           </div>
         )}
-        {/* {roomInfo.roomstatus === 'wordsetting' && (
-          <GameWordTimer/> // 단어 설정 상태일 때 GameWordTimer 렌더링
+        {roomInfo.roomstatus === 'wordsetting' && (
+          <GameWordTimer/>
         )}
-        {roomInfo.roomstatus === 'start' && (
+        {/* {roomInfo.roomstatus === 'start' && (
           <GameTimer/> // 게임 시작 상태일 때 GameTimer 렌더링
         )} */}
     </div>

@@ -10,7 +10,7 @@ const GameWaiting = () => {
   const roomInfo : RoomInfo = {
     roomid: "12345",
     roomname: "테스트 방",
-    roomstatus: "start",
+    roomstatus: "wordsetting",
     roomforbiddentime: null,
     roomendtime: null,
     roommaxcnt: 8,
