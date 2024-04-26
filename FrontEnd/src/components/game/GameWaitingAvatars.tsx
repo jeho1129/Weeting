@@ -15,7 +15,7 @@ const GameWaitingAvatars = ({
 }) => {
   const calculatePosition = (index, maxCount) => {
     let position;
-    let top = '15%';
+    let top = '14.5%';
     if (index % 2 !== 0) {
       top = '63%';
     }
@@ -30,7 +30,7 @@ const GameWaitingAvatars = ({
         if (index >= 2 && index <= 3) {
           top = `calc(${top} + 5%)`;
         } else {
-          top = `${index % 2 === 0 ? 18 : 67}%`;
+          top = `${index % 2 === 0 ? 17.5 : 67}%`;
         }
         break;
       case 8:
@@ -65,7 +65,11 @@ const GameWaitingAvatars = ({
 									src={forbiddenFlag}
 									alt="forbidden word"
 									className={styles.inGameAvatar}
-									style={{ top: `calc(${position.top} + 25%)`, left: position.left }}
+									style={{
+										top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
+										left: position.left,
+										position: 'absolute',
+									}}
 								/>
 							)}
 					</div>
