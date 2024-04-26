@@ -69,13 +69,6 @@
   margin: 10px;
 }
 
-.inGameAvatar {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 10%;
-  position: absolute;
-}
 
 .MemberContainer {
   display: flex;

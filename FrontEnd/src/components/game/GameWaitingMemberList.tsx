@@ -1,4 +1,5 @@
 import styles from '@/styles/game/GameWaiting.module.css';
+import { RoomInfo } from '@/types/game';
 
 const GameWaitingMemberList = ({roommembers}: { roommembers: RoomInfo["roommembers"] }) => {
   return (

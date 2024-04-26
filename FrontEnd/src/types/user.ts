@@ -17,6 +17,13 @@ export interface User {
   ranking: number | null;
 }
 
+export interface IngameUser {
+    memberid: string;
+    nickname: string;
+    outfit: string;
+    ready: boolean;
+}
+
 export interface MainSignupFormIdProps {
   id: string;
   onIdHandler: (event: ChangeEvent<HTMLInputElement>) => void;

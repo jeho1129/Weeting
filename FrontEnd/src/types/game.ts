@@ -1,13 +1,12 @@
-interface RoomInfo {
+import { IngameUser } from "./user";
+
+export interface RoomInfo {
     roomid: string;
     roomname: string;
     roomstatus: string;
-    roommembers: {
-      memberid: string;
-      nickname: string;
-      outfit: string;
-      score: number;
-      ready: boolean;
-    }[];
+    roomforbiddentime: null|string;
+    roomendtime: null|string;
+    roommaxcnt: number;
+    roommembers: IngameUser[];
   }
   
