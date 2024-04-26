@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from '@/services/axios';
+import { getCookie, setCookie } from '@/utils/axios';
 import { loginApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
