@@ -3,6 +3,9 @@ package com.ssafy.backend.domain.Outfit.repository;
 import com.ssafy.backend.domain.Outfit.entity.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-    // 추가적인 쿼리 메서드 작성 가능
+    List<Inventory> findByUser_Id(Long userID);
+
 }
