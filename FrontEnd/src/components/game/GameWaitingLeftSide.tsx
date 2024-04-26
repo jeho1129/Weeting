@@ -1,5 +1,5 @@
 import styles from '@/styles/game/GameWaiting.module.css';
-
+import { RoomInfo } from '@/types/game';
 import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
@@ -12,8 +12,8 @@ const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         <GameWaitingLogo/>  
         <GameWaitingMemberList roommembers={roomInfo.roommembers}/>
         <div className={styles.ButtonAlign}>
-          <GameWaitingReadyButton />
-          <GameWaitingQuitButton />
+          <GameWaitingReadyButton roommembers={roomInfo.roommembers}/>
+          <GameWaitingQuitButton roomid={roomInfo.roomid}/>
         </div>
     </div>
     </>

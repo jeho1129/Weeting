@@ -10,3 +10,8 @@
   bottom: 0;
   cursor: pointer;
 }
+
+.Ready {
+  border: 1px solid gray;
+  background-color: gray;
+}
