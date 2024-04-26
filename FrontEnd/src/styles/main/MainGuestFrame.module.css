@@ -14,6 +14,6 @@
 
 @keyframes moveRight {
   100% {
-    transform: translate(-2499 * (100vh / 833));
+    transform: translate(calc(-2499 * (100vh / 833)));
   }
 }
