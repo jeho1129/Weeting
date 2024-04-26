@@ -2,10 +2,12 @@ import { getCookie, setCookie } from '@/services/axios';
 import { loginApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -25,10 +27,10 @@ const MainLoginForm = () => {
     })
       .then((data) => {
         alert('로그인 되었습니다');
-        console.log('data :', data);
+        navigate('/home');
       })
       .catch(() => {
-        alert('정보가 잘못되었습니다');
+        alert('회원정보가 잘못되었습니다');
       });
   };
   return (
