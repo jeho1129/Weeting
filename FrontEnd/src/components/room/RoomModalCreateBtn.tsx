@@ -35,10 +35,16 @@ const RoomModalCreateBtn = () => {
 
   return (
     <div>
-      <button onClick={openModal}>모달 열기</button>
+      <button onClick={openModal}>만들기</button>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-        <h2>모달 제목</h2>
-        <p>모달 내용</p>
+        <div>
+          <span>방 이름</span>
+          <input type="text" />
+        </div>
+        <div>
+          <span>모드</span>
+          
+        </div>
         <button onClick={closeModal}>닫기</button>
       </Modal>
     </div>
