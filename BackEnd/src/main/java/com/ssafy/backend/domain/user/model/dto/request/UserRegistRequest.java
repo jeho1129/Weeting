@@ -26,7 +26,7 @@ public class UserRegistRequest {
     @NotNull
     private String password;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{1,10}$", message = "닉네임은 한글 기준 5글자 이내로 입력해주세요")
+    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣0-9])[a-zA-Z가-힣0-9]{1,10}$", message = "닉네임은 한글 기준 5글자 이내로 입력해주세요")
     @NotNull
     private String nickname;
 
