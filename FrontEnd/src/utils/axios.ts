@@ -17,17 +17,19 @@ const removeCookie = (key: string, option?: CookieSetOptions) => {
 // 인터셉터 설정
 const createAxiosInstance = () => {
   const instance = axios.create({
-    withCredentials: true,
+    withCredentials: false,
     baseURL: import.meta.env.VITE_API_URL || '',
     headers: {
+      Accept: '*',
       'Content-Type': 'application/json;charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
     },
   });
 
   instance.interceptors.request.use(
     (config) => {
       const accessToken = cookies.get('accessToken');
-      if (accessToken) {
+      if (accessToken && accessToken !== true) {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
       }
       return config;
@@ -42,4 +44,4 @@ const createAxiosInstance = () => {
 
 const Axios = createAxiosInstance();
 
-export { setCookie, getCookie, removeCookie, Axios };
+export { Axios, getCookie, removeCookie, setCookie };
