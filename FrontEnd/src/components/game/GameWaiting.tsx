@@ -1,11 +1,14 @@
-import React from 'react';
-
+import React, {useState, useEffect} from 'react';
+import GameForbiddenWord from '@/components/game/GameWordModal';
 import styles from '@/styles/game/GameWaiting.module.css';
 import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
 import { RoomInfo } from '@/types/game';
 
 const GameWaiting = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [choose, setChoose] = useState(false); // 금칙어가 설정되었는지 여부
+
   // 더미 데이터
   const roomInfo : RoomInfo = {
     roomid: "12345",
@@ -27,6 +30,12 @@ const GameWaiting = () => {
   };
 
   // setMembers해서 실시간으로 변경사항 업뎃
+  
+  useEffect(() => {
+    if (roomInfo.roomstatus === 'wordsetting' && !choose) {
+      setModalOpen(true);
+    }
+  }, [roomInfo, choose]);
 
   return (
     <>
@@ -34,6 +43,15 @@ const GameWaiting = () => {
         <GameWaitingLeftSide roomInfo={roomInfo}/>
         <GameWaitingRightSide roomInfo={roomInfo}/>
       </div>
+      <GameForbiddenWord 
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={(word: string) => {
+          console.log("설정된 금칙어:", word);
+          setChoose(true);
+          setModalOpen(false);
+        }}
+      />
     </>
   );
 };

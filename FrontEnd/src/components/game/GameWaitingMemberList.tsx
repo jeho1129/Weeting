@@ -18,8 +18,7 @@ const GameWaitingMemberList = ({roommembers}: { roommembers: RoomInfo["roommembe
             {roommembers.map((member, index) => (
               <div key={member.memberid} className={styles.RoomMember}>
                 <div>
-                  {/* 방장 표시 로직은 여기에 추가할 수 있습니다. 예: index === 0 ? '방장' : '참가자' */}
-                  {index === 0 ? '방장' : `${member.nickname}`} 
+                  {index === 0 ? `${member.nickname} 방장` : `${member.nickname}`} 
                 </div>
                 <div>
                   {member.ready ? '레디' : '대기중'}
