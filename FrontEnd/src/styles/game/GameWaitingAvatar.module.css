@@ -1,10 +1,9 @@
 .inGameAvatar {
     position: absolute;
-    width: 19%; 
+    width: 16%; 
 }
 
 .inGameAvatars {
-    /* background-color: white;   */
     position: relative;
     width: 750px;
     height: 450px;

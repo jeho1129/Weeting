@@ -25,6 +25,11 @@
   align-items: center;
 }
 
+.Avatars {
+  position: absolute;
+  top: 0;
+}
+
 .ElectricPole {
   height: 100vh;
   width: auto;
