@@ -40,4 +40,13 @@ public class UserServiceImpl implements UserService{
         if (userUpdateRequest.getNickname() != null) user.setNickname(userUpdateRequest.getNickname());
         userRepository.save(user);
     }
+
+    public boolean checkUserIdExists(String account) {
+        return userRepository.existsByAccount(account);
+    }
+
+    public boolean checkNicknameExists(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
 }
