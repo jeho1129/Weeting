@@ -53,10 +53,6 @@ const MainSignupForm = () => {
       .catch(() => {
         alert('비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)');
       });
-    console.log('id :', id);
-    console.log('nickname :', nickname);
-    console.log('password :', password);
-    console.log('passwordCheck :', passwordCheck);
   };
 
   const alertHandler = (e: React.FormEvent) => {
