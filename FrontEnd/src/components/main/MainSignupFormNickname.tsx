@@ -1,9 +1,11 @@
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { MainSignupFormNicknameProps } from '@/types/user';
 import { nicknameCheckApi } from '@/services/userApi';
+import { useState } from 'react';
 
 const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible, nicknameCheckHandler }: MainSignupFormNicknameProps) => {
-  
+  const [nicknameChecked, setNicknameChecked] = useState(0);
+
   const handleNickNameCheck = (e: React.FormEvent) => {
     e.preventDefault();
     // nickname 중복확인 api call
@@ -15,9 +17,11 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
         if (data.dataBody === true) {
           alert('이미 사용중인 닉네임입니다');
           nicknameCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
+          setNicknameChecked(1)
         } else {
           alert('사용할 수 있는 닉네임입니다');
           nicknameCheckHandler(1); // 사용 가능한 id에 대해 1을 전달
+          setNicknameChecked(0)
         }
       })
       .catch(() => {
@@ -29,23 +33,23 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={styles.Label} htmlFor="nickname">
+        <label className={`${styles.Label} FontM20`} htmlFor="nickname">
           nickname
         </label>
         <input
-          className={styles.InputBox}
+          className={`${styles.InputBox} FontM20`}
           id="nickname"
           type="text"
           placeholder="닉네임을 입력하세요"
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={handleNickNameCheck} className={styles.checkBtn}>중복 확인</button>
+        <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
       </div>
       <div className={styles.Container}>
         <div className={styles.Label}></div>
-        {nicknamePossible === 0 && (
-          <div className={styles.Mgl}>이미 존재하는 닉네임 입니다</div>
+        {nicknamePossible === 0 && nicknameChecked === 1 && (
+          <div className={styles.SignupAlertText}>이미 존재하는 닉네임 입니다</div>
         )}
       </div>
     </>
