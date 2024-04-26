@@ -2,22 +2,45 @@ import React from 'react';
 import avatar from '@/assets/images/inGameAvatar.png';
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
+import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 
-const GameWaitingAvatars = ({ roommembers, roommaxcnt }: { roommembers: RoomInfo["roommembers"], roommaxcnt: RoomInfo["roommaxcnt"] }) => {
+const GameWaitingAvatars = ({
+	roomstatus,
+  roommembers,
+  roommaxcnt,
+}: {
+	roomstatus: RoomInfo['roomstatus'];
+  roommembers: RoomInfo['roommembers'];
+  roommaxcnt: RoomInfo['roommaxcnt'];
+}) => {
   const calculatePosition = (index, maxCount) => {
     let position;
-    let top = "15%";
-    
+    let top = '15%';
     if (index % 2 !== 0) {
-      top = "65%";
+      top = '63%';
     }
-    let left = "0";
+    let left = '0';
     switch (maxCount) {
-      case 8:
-        // 8명일 때, index % 2로 행을 나누고, index / 2 또는 (index - 1) / 2로 열을 계산
-        left = `${(index % 2 === 0 ? index : index - 1) / 2 * 25}%`; // 각 열 사이의 간격을 25%로 설정
+      case 4:
+        left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 40}% + 20%)`;
+        top = `${index % 2 === 0 ? 19 : 68}%`;
         break;
-      // 다른 maxCount 값에 대한 계산 로직 추가 가능
+      case 6:
+        left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 30}% + 10%)`;
+        if (index >= 2 && index <= 3) {
+          top = `calc(${top} + 5%)`;
+        } else {
+          top = `${index % 2 === 0 ? 18 : 67}%`;
+        }
+        break;
+      case 8:
+        left = `${((index % 2 === 0 ? index : index - 1) / 2) * 26}%`;
+        if (index >= 2 && index <= 5) {
+          top = `calc(${top} + 5%)`;
+        } else {
+          top = `${index % 2 === 0 ? 16.5 : 66}%`;
+        }
+        break;
     }
 
     position = { top, left };
@@ -26,16 +49,26 @@ const GameWaitingAvatars = ({ roommembers, roommaxcnt }: { roommembers: RoomInfo
 
   return (
     <div className={styles.inGameAvatars}>
-      {roommembers.map((member, index) => { 
+      {roommembers.map((member, index) => {
         const position = calculatePosition(index, roommaxcnt);
         return (
-          <img
-            key={member.memberid}
-            src={avatar}
-            alt="avatar"
-            className={styles.inGameAvatar}
-            style={{ top: position.top, left: position.left }}
-          />
+					<div>
+						<img
+							key={member.memberid}
+							src={avatar}
+							alt="avatar"
+							className={styles.inGameAvatar}
+							style={{ top: position.top, left: position.left }}
+						/>
+						{roomstatus === 'start' && (
+								<img
+									src={forbiddenFlag}
+									alt="forbidden word"
+									className={styles.inGameAvatar}
+									style={{ top: `calc(${position.top} + 25%)`, left: position.left }}
+								/>
+							)}
+					</div>
         );
       })}
     </div>
