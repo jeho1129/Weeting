@@ -19,7 +19,7 @@
     width: 100%; /* 이미지의 크기를 조정, 필요에 따라 변경 가능 */
   }
   
-  .container {
+  .Container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -30,5 +30,19 @@
     background-color: white;
     padding: 20px;
     z-index: 1000;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    padding: 2%;
   }
   
+
+
+  .SettingMsg {
+
+  }
+  
+  .WarningMsg {
+    color: red;
+  }

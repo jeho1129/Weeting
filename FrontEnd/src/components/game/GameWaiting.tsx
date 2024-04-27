@@ -13,7 +13,7 @@ const GameWaiting = () => {
   const roomInfo : RoomInfo = {
     roomid: "12345",
     roomname: "테스트 방",
-    roomstatus: "wordsetting",
+    roomstatus: "allready",
     roomforbiddentime: null,
     roomendtime: null,
     roommaxcnt: 8,
@@ -39,11 +39,14 @@ const GameWaiting = () => {
 
   return (
     <>
+      {isModalOpen && <div className={styles.modalOpenBackground}></div>}
+
       <div className={styles.SpaceEvenly}>
         <GameWaitingLeftSide roomInfo={roomInfo}/>
         <GameWaitingRightSide roomInfo={roomInfo}/>
       </div>
       <GameForbiddenWord 
+        roomInfo={roomInfo}
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onConfirm={(word: string) => {

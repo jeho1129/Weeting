@@ -1,6 +1,6 @@
 import styles from '@/styles/game/GameWaitingChattingForm.module.css';
 import { useState } from 'react';
-import { getCookie, setCookie } from '@/services/axios';
+// import { getCookie, setCookie } from 'axios';
 
 const GameChattingForm = () => {
   const [id, setId] = useState('');
@@ -11,9 +11,9 @@ const GameChattingForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    setCookie('accessToken', 'true', { path: '/' });
-    const accessToken = getCookie('accessToken');
-    console.log('accessToken:', accessToken);
+    // setCookie('accessToken', 'true', { path: '/' });
+    // const accessToken = getCookie('accessToken');
+    // console.log('accessToken:', accessToken);
     console.log('id :', id);
   };
   return (
