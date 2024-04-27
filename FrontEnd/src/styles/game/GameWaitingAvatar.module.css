@@ -1,0 +1,10 @@
+.inGameAvatar {
+    position: absolute;
+    width: 16%; 
+}
+
+.inGameAvatars {
+    position: relative;
+    width: 750px;
+    height: 450px;
+}
