@@ -1,6 +1,7 @@
 import styles from '@/styles/game/GameWaiting.module.css';
+import { RoomInfo } from '@/types/game';
 
-const GameWaitingMemberList = () => {
+const GameWaitingMemberList = ({roommembers}: { roommembers: RoomInfo["roommembers"] }) => {
   return (
     <>
         <div className={styles.Box}>
@@ -10,24 +11,23 @@ const GameWaitingMemberList = () => {
                   참가자 목록
                 </div>
                 <div>
-                  {/* {memberlist.length} */} 현재 / 정원
+                  {roommembers.length} / 정원
                 </div>
               </div>
-                <div className={styles.RoomMembers}>
-                  <div>
-                    방장
-                  </div>
-                  <div className={styles.RoomMember}>
-                    <div>
-                      참가자
-                    </div>
-                    <div>
-                      레디
-                    </div>
-                  </div>
+              <div className={styles.RoomMembers}>
+            {roommembers.map((member, index) => (
+              <div key={member.memberid} className={styles.RoomMember}>
+                <div>
+                  {index === 0 ? `${member.nickname} 방장` : `${member.nickname}`} 
                 </div>
-            </div>
+                <div>
+                  {member.ready ? '레디' : '대기중'}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
     </>
   );
 };
