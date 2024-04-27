@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { getCookie, setCookie } from '@/services/axios';
 
 const GameChattingList = () => {
 
