@@ -5,11 +5,11 @@ const MainSignupFormPw = ({ password, onPasswordHandler }: MainSignupFormPasswor
   return (
     <>
       <div className={styles.Mgb2}>
-        <label className={styles.Label} htmlFor="password">
+        <label className={`${styles.Label} FontM20`} htmlFor="password">
           pw
         </label>
         <input
-          className={styles.InputBox}
+          className={`${styles.InputBox} FontM20`}
           id="password"
           type="password"
           placeholder="비밀번호를 입력하세요"

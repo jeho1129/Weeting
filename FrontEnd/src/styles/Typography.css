@@ -1,18 +1,34 @@
 @font-face {
   font-family: 'MapleStoryLight';
-  src:
-    url('@/assets/font/MaplestoryLight.ttf') format('truetype');
+  src: url('@/assets/font/MaplestoryLight.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'MapleStoryBold';
-  src:
-    url('@/assets/font/MaplestoryBold.ttf') format('truetype');
+  src: url('@/assets/font/MaplestoryBold.ttf') format('truetype');
 }
 
-.FontXXL {
-  /* Head */
-  /* 32pt */
-  font-size: 2.667rem;
+@font-face {
+  font-family: 'neodgm';
+  src: url('@/assets/font/NeoDunggeunmoPro-Regular.woff2') format('woff2');
+}
+
+.FontM32 {
+  font-size: 32px;
+  font-family: 'MapleStoryBold', sans-serif;
+}
+
+.FontM60 {
+  font-size: 60px;
+  font-family: 'MapleStoryBold', sans-serif;
+}
+
+.FontM20 {
+  font-size: 20px;
   font-family: 'MapleStoryLight', sans-serif;
+}
+
+.FontD16 {
+  font-size: 16px;
+  font-family: 'neodgm', sans-serif;
 }
