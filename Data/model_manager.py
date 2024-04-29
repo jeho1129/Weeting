@@ -22,44 +22,27 @@ def is_hangul(text) -> bool:
 
 def filter_hangul(neighbor, input_word):
     score, word = neighbor
-    if not is_hangul(word):
+    if not is_hangul(word) or input_word in word:
         return None
     morphs = okt.pos(word, norm=True, join=False)
-    if any(tag in ['Josa', 'Suffix', 'Eomi', 'PreEomi'] for _, tag in morphs) or input_word in word:
-        return None
-    filtered_word = ''.join([morph for morph, tag in morphs])
-    if len(filtered_word) <= 12:
-        return (score, filtered_word)
-    return None
+    filtered_word = ''.join(morph for morph, tag in morphs if tag not in ['Josa', 'Suffix', 'Eomi', 'PreEomi'])
+    return (score, filtered_word) if len(filtered_word) <= 12 else None
 
 def find_top_similar_words(input_word, k):
     if not is_hangul(input_word):
         raise ValueError("Input word must contain only Korean characters.")
     neighbors = model.get_nearest_neighbors(input_word, k)
-    similar_words = []
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(filter_hangul, neighbor, input_word) for neighbor in neighbors]
-        for future in futures:
-            result = future.result()
-            if result and len(similar_words) < k:
-                similar_words.append(result)
-            if len(similar_words) >= k:
-                break
-    return similar_words[:k]
+        results = [future.result() for future in futures if future.result()]
+    return results[:k]
 
 async def get_similar_words(input_word, k=15000):
     try:
-        results = find_top_similar_words(input_word, k)
-        results = sorted(results, key=lambda x: x[0], reverse=True)
-        recalculated_results = []
-        start_score = 99.99
-        decrement = 0.01
-        for idx, (score, word) in enumerate(results):
-            recalculated_score = start_score - (decrement * idx)
-            if recalculated_score < 0.001:
-                break
-            recalculated_results.append({"word": word, "score": round(recalculated_score, 2)})
-        return [result["word"] for result in recalculated_results]
+        similar_words = find_top_similar_words(input_word, k)
+        recalculated_results = [{'word': word, 'score': round(99.99 - idx * 0.01, 2)}
+                                for idx, (score, word) in enumerate(similar_words)]
+        return [result["word"] for result in recalculated_results if result['score'] > 0.001]
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
