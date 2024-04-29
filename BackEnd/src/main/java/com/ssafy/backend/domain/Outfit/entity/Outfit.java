@@ -27,7 +27,7 @@ public class Outfit {
     private String image;
 
     @Column(name = "get_condition")
-    private String getCondition;
+    private Integer getCondition;
 
     @Column(name = "description")
     private String description;

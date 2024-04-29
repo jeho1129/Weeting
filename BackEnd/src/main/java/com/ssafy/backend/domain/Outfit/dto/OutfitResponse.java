@@ -12,7 +12,7 @@ public class OutfitResponse {
     private String name;
     private String part;
     private String image;
-    private String getCondition;
+    private Integer getCondition;
     private String description;
     private boolean isOwned;
 }

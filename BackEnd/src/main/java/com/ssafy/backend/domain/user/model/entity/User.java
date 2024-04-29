@@ -35,15 +35,15 @@ public class User implements UserDetails {
     private String nickname;
 
     @Column(name = "score", nullable = false)
-    private int score;
+    private Integer score;
 
     @Column(name = "ranking")
-    private int ranking;
+    private Integer ranking;
 
     @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createAt;
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "updated_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updateAt;
 
     @PrePersist
@@ -95,8 +95,8 @@ public class User implements UserDetails {
         User user = new User();
         user.setAccount((String) map.get("account"));
         user.setNickname((String) map.get("nickName"));
-        user.setScore((int) map.get("score"));
-        user.setRanking((int) map.get("ranking"));
+        user.setScore((Integer) map.get("score"));
+        user.setRanking((Integer) map.get("ranking"));
         return user;
     }
 
