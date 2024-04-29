@@ -27,33 +27,41 @@ public class OutfitController {
         this.inventoryService = inventoryService;
     }
 
+    // 전체 외형 조회. 유저가 소유 여부 함께 판별
     @GetMapping("/{userId}")
     public ResponseEntity<List<OutfitResponse>> getAllOutfitsWithOwnership(@PathVariable Long userId) {
         List<OutfitResponse> outfits = outfitService.findAllWithOwnership(userId);
         return new ResponseEntity<>(outfits, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/inventory")
-    public ResponseEntity<List<Inventory>> getUserInventory(@PathVariable Long userId) {
-        List<Inventory> inventory = inventoryService.findByUserId(userId);
-        return new ResponseEntity<>(inventory, HttpStatus.OK);
-    }
-
-    @PostMapping("/{userId}/inventory")
-    public ResponseEntity<Void> addToInventory(@PathVariable Long userId, @RequestBody InventoryAddRequest request) {
-        inventoryService.addToInventory(userId, request.getOutfitId());
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
+    // 선택된 아이템 착용하기
     @PutMapping("/{userId}/wear/{outfitId}")
     public ResponseEntity<Void> wearOutfit(@PathVariable Long userId, @PathVariable Long outfitId) {
         inventoryService.wearOutfit(userId, outfitId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/wearing")
-    public ResponseEntity<WearingOutfit> getWearingOutfit(@PathVariable Long userId) {
-        WearingOutfit wearingOutfit = inventoryService.getWearingOutfit(userId);
-        return new ResponseEntity<>(wearingOutfit, HttpStatus.OK);
+    // 현재 착용중인 아이템 정보 확인
+    @GetMapping("/{userId}/worn")
+    public ResponseEntity<List<WearingOutfit>> getWearingOutfit(@PathVariable Long userId) {
+        List<WearingOutfit> wearingOutfits = inventoryService.getWearingOutfit(userId);
+        return new ResponseEntity<>(wearingOutfits, HttpStatus.OK);
+    }
+
+
+    // 미사용 기능
+
+    // 유저가 소유한 아이템만 조회. 미사용 예정
+    @GetMapping("/{userId}/inventory")
+    public ResponseEntity<List<Inventory>> getUserInventory(@PathVariable Long userId) {
+        List<Inventory> inventory = inventoryService.findByUserId(userId);
+        return new ResponseEntity<>(inventory, HttpStatus.OK);
+    }
+
+    // 인벤토리에 추가 기능. 미사용 예정
+    @PostMapping("/{userId}/inventory")
+    public ResponseEntity<Void> addToInventory(@PathVariable Long userId, @RequestBody InventoryAddRequest request) {
+        inventoryService.addToInventory(userId, request.getOutfitId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
