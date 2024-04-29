@@ -21,4 +21,7 @@ public class WearingOutfit {
 
     @Column(name = "outfitId")
     private Long outfitId;
+
+    @Column(name = "part")
+    private String part;
 }

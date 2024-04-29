@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface OutfitRepository extends JpaRepository<Outfit, Long> {
     Outfit findByName(String name);
+    List<Outfit> findByGetConditionIsNull();
 }

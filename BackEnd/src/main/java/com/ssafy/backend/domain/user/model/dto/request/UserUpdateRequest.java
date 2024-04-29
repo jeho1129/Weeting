@@ -17,6 +17,6 @@ public class UserUpdateRequest {
     private String account;
     private String password;
     private String nickname;
-    private long score;
-    private long ranking;
+    private int score;
+    private int ranking;
 }
