@@ -7,7 +7,7 @@ import aioredis, re
 router = APIRouter()
 spacing = Spacing()
 okt = Okt()
-###################### 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
+##################### 해당 코드는 redis 구현 후 주석 처리 해제할 것 #################################
 # redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
 
 # async def store_similar_words_for_forbidden_words():
@@ -20,10 +20,8 @@ okt = Okt()
 #                 await redis.hset(f"similar:{user_id}:{forbidden_word}", w['word'], w['score'])
 
 # async def check_text_against_forbidden_words(words, forbidden_word):
-#     most_similar_word = None
-#     highest_similarity = 0.0
-
 #     forbidden_similar_words = await redis.hgetall(f"similar:{forbidden_word}")
+#     most_similar_word, highest_similarity = None, 0.0
 
 #     for word in words:
 #         if word in forbidden_similar_words:
@@ -34,16 +32,33 @@ okt = Okt()
 
 #     return most_similar_word, highest_similarity
 
+# async def process_data(data, forbidden_word):
+#     filtered_data = spacing(data)
+#     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
+#     morphs = okt.pos(filtered_data, norm=True, join=False)
+#     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
+#     await redis.rpush("chat_history", data)
+#     await redis.rpush("processed_words", *processed_words)
+
+#     most_similar_word, similarity = await check_text_against_forbidden_words(processed_words, forbidden_word)
+#     return {
+#         "words": processed_words,
+#         "input": data,
+#         "forbidden_similar": {
+#             "word": most_similar_word,
+#             "similarity": similarity
+#         }
+#     }
+
 # @router.websocket("/ws/{user_id}")
 # async def websocket_endpoint(websocket: WebSocket, user_id: str):
 #     await websocket.accept()
-#     try:
-#         user_exists = await redis.exists(f"user:{user_id}:forbidden_word")
-#         if not user_exists:
-#             await websocket.send_text("Invalid user ID or no forbidden word set for this user.")
-#             await websocket.close()
-#             return
-        
+#     if not await redis.exists(f"user:{user_id}:forbidden_word"):
+#         await websocket.send_text("Invalid user ID or no forbidden word set for this user.")
+#         await websocket.close()
+#         return
+
+#     try:        
 #         while True:
 #             data = await websocket.receive_text()
 #             forbidden_word = await redis.get(f"user:{user_id}:forbidden_word")
@@ -51,22 +66,7 @@ okt = Okt()
 #                 await websocket.send_text("No forbidden word set for this user.")
 #                 continue
 
-#             filtered_data = spacing(data)
-#             filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
-#             morphs = okt.pos(filtered_data, norm=True, join=False)
-#             processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
-#             await redis.rpush("chat_history", data)
-#             await redis.rpush("processed_words", *processed_words)
-
-#             most_similar_word, similarity = await check_text_against_forbidden_words(processed_words, forbidden_word)
-#             response = {
-#                 "words": processed_words,
-#                 "input": data,
-#                 "forbidden_similar": {
-#                     "word": most_similar_word,
-#                     "similarity": similarity
-#                 }
-#             }
+#             response = await process_data(data, forbidden_word)
 #             await websocket.send_json(response)
 #     except WebSocketDisconnect:
 #         print("Websocket disconnected")
