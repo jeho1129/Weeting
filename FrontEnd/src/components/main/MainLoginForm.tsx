@@ -27,24 +27,25 @@ const MainLoginForm = () => {
       password: password,
     })
       .then((data) => {
-        const loggedInUser = data.dataBody;
-        console.log('data.dataBody :', data.dataBody);
+        const loggedInUserState = data.dataBody;
+        console.log('loggedInUserState :', loggedInUserState);
         setCookie('accessToken', 'true', { path: '/' });
 
         // recoil에 login 정보 저장
-        setUser(loggedInUser)
+        setUser(loggedInUserState);
         setIsLoggedIn(true);
 
         // getCookie 사용 예시
         // const accessToken = getCookie('accessToken');
         alert('로그인 되었습니다');
-
         navigate('/home');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         alert('회원정보가 잘못되었습니다');
       });
   };
+
   return (
     <div className={styles.Mgt}>
       <form onSubmit={submitHandler}>
