@@ -1,7 +1,6 @@
 import { recoilPersist } from 'recoil-persist';
 import { User } from '@/types/user';
 import { atom, selector } from 'recoil';
-import { getCookie } from '@/utils/axios';
 
 const { persistAtom } = recoilPersist({
   key: 'sessionStorage',
