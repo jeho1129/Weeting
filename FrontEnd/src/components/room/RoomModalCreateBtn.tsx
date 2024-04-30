@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
+import styles from '@/styles/room/RoomModalCreateBtn.module.css'
+import { XCircle } from "@phosphor-icons/react";
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -37,15 +39,27 @@ const RoomModalCreateBtn = () => {
     <div>
       <button onClick={openModal}>만들기</button>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-        <div>
-          <span>방 이름</span>
-          <input type="text" />
+        <div className={styles.Row}>
+          <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 이름</span>
+          <input type="text" className={styles.Input} />
         </div>
-        <div>
-          <span>모드</span>
-          
+        <div className={styles.Row}>
+          <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 모드</span>
+          <input type="text" className={styles.Input} />
         </div>
-        <button onClick={closeModal}>닫기</button>
+        <div className={styles.Row}>
+          <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 인원</span>
+          <input type="text" className={styles.Input} />
+        </div>
+        <div className={styles.Row}>
+          <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 비공개방</span>
+          <input type="text" className={styles.Input} />
+        </div>
+        <div className={styles.Row}>
+          <button>확인</button>
+          <button>취소</button>
+        </div>
+        <XCircle size={32} onClick={closeModal} />
       </Modal>
     </div>
   );
