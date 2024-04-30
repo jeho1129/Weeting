@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.Outfit.service;
 
+import com.ssafy.backend.domain.Outfit.dto.WearingOutfitResponse;
 import com.ssafy.backend.domain.Outfit.entity.Inventory;
 import com.ssafy.backend.domain.Outfit.entity.Outfit;
 import com.ssafy.backend.domain.Outfit.entity.WearingOutfit;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.util.List;
 
 @Service
@@ -54,25 +56,39 @@ public class InventoryService {
         if (inventory == null || !inventory.getIsOwned()) {
             throw new IllegalArgumentException("User does not own the outfit with ID: " + outfitId);
         }
-        // 착용할 외형의 분류 조회
+
+        // 사용자 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+
+        // 착용할 외형 조회
         Outfit outfit = outfitRepository.findById(outfitId)
                 .orElseThrow(() -> new IllegalArgumentException("Outfit not found with ID: " + outfitId));
         String part = outfit.getPart();
+        String image = outfit.getImage();
 
         // 기존에 같은 분류의 착용 중인 외형이 있다면 제거
-        wearingOutfitRepository.deleteByUserIDAndPart(userId, part);
+        wearingOutfitRepository.deleteByUser_IdAndPart(userId, part);
 
         // 새로운 외형 착용 정보 저장
         WearingOutfit wearingOutfit = WearingOutfit.builder()
-                .userID(userId)
-                .outfitId(outfitId)
+                .user(user)
+                .outfit(outfit)
                 .part(part)
+                .image(image)
                 .build();
 
         wearingOutfitRepository.save(wearingOutfit);
     }
 
-    public List<WearingOutfit> getWearingOutfit(Long userId) {
-        return wearingOutfitRepository.findByUserID(userId);
+    public List<WearingOutfitResponse> getWearingOutfit(Long userId) {
+        List<WearingOutfit> wearingOutfits = wearingOutfitRepository.findByUser_Id(userId);
+        return wearingOutfits.stream()
+                .map(wearingOutfit -> new WearingOutfitResponse(
+                        wearingOutfit.getUser().getId(),
+                        wearingOutfit.getOutfit().getOutfitId(),
+                        wearingOutfit.getPart(),
+                        wearingOutfit.getImage()))
+                .toList();
     }
 }

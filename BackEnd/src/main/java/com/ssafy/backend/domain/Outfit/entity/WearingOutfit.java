@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.Outfit.entity;
 
+import com.ssafy.backend.domain.user.model.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,12 +17,18 @@ public class WearingOutfit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userId")
-    private Long userID;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "outfitId")
-    private Long outfitId;
+    @ManyToOne
+    @JoinColumn(name = "outfit_id")
+    private Outfit outfit;
 
     @Column(name = "part")
     private String part;
+
+    @Column(name = "image")
+    private String image;
+
 }
