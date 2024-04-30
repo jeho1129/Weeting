@@ -1,15 +1,19 @@
 package com.ssafy.backend.domain.user.controller;
 
 import com.ssafy.backend.domain.user.model.dto.request.*;
+import com.ssafy.backend.domain.user.model.dto.response.UserRankingResponse;
 import com.ssafy.backend.domain.user.model.service.UserService;
 import com.ssafy.backend.global.utils.MessageUtils;
 import com.ssafy.backend.domain.user.model.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -51,4 +55,9 @@ public class UserController {
         return ResponseEntity.ok().body(MessageUtils.success(exists));
     }
 
+    @GetMapping("/ranking")
+    public ResponseEntity<List<UserRankingResponse>> getUserRankings() {
+        List<UserRankingResponse> rankings = userService.getUserRankings();
+        return new ResponseEntity<>(rankings, HttpStatus.OK);
+    }
 }

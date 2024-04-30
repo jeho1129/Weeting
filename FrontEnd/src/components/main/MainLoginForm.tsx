@@ -1,12 +1,15 @@
+import { isLoggedInState, userState } from '@/recoil/atom';
 import { loginApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
-import { getCookie, setCookie } from '@/utils/axios';
+import { setCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useSetRecoilState } from 'recoil';
 const MainLoginForm = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const setUser = useSetRecoilState(userState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const navigate = useNavigate();
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,21 +21,33 @@ const MainLoginForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    setCookie('accessToken', 'true', { path: '/' });
-    const accessToken = getCookie('accessToken');
 
     loginApi({
       account: id,
       password: password,
     })
       .then((data) => {
+        const loggedInUserState = data.dataBody;
+        console.log('loggedInUserState :', loggedInUserState);
+
+        // 쿠키에 accessToken 저장
+        setCookie('accessToken', 'true', { path: '/' });
+
+        // recoil에 login 정보 저장
+        setUser(loggedInUserState);
+        setIsLoggedIn(true);
+
+        // getCookie 사용 예시
+        // const accessToken = getCookie('accessToken');
         alert('로그인 되었습니다');
         navigate('/home');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         alert('회원정보가 잘못되었습니다');
       });
   };
+
   return (
     <div className={styles.Mgt}>
       <form onSubmit={submitHandler}>

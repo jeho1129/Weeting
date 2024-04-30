@@ -8,6 +8,7 @@ import com.ssafy.backend.domain.user.exception.UserException;
 import com.ssafy.backend.domain.user.model.dto.request.FindRequest;
 import com.ssafy.backend.domain.user.model.dto.request.UserRegistRequest;
 import com.ssafy.backend.domain.user.model.dto.request.UserUpdateRequest;
+import com.ssafy.backend.domain.user.model.dto.response.UserRankingResponse;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.domain.user.model.repository.UserRepository;
 import com.ssafy.backend.domain.user.exception.UserErrorCode;
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("userService")
 @RequiredArgsConstructor
@@ -73,4 +76,11 @@ public class UserServiceImpl implements UserService{
         return userRepository.existsByNickname(nickname);
     }
 
+    @Override
+    public List<UserRankingResponse> getUserRankings() {
+        List<User> users = userRepository.findAllByOrderByRankingAsc();
+        return users.stream()
+                .map(user -> new UserRankingResponse(user.getRanking(), user.getNickname(), user.getScore()))
+                .collect(Collectors.toList());
+    }
 }
