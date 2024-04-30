@@ -4,7 +4,7 @@ export interface RoomInfo {
   roommode:'rank' | 'normal'
     roomid: string;
     roomname: string;
-    roomstatus: 'waiting' | 'allready' | 'wordsetting' | 'start' | 'end';
+    roomstatus: 'waiting' | 'allready' | 'wordsetting' | 'wordokay' | 'start' | 'end';
     roomforbiddentime: null|string;
     roomendtime: null|string;
     roommaxcnt: number;

@@ -27,7 +27,7 @@ const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstat
             </div>
             <div className={styles.RoomMembers}>
               {sortedMembers.map((member, index) => (
-                <div key={member.memberid} className={styles.RoomMember}>
+                <div key={member.userId} className={styles.RoomMember}>
                   <div className={styles.Nickname}>
                     {index === 0 && roomstatus !== 'start' ? (
                       <>
@@ -41,7 +41,7 @@ const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstat
                   <div>
                     {roomstatus === 'wordsetting' ? 
                       <img 
-                        src={member.wordset ? ok : choosing}
+                        src={member.word ? ok : choosing}
                         alt={member.ready ? '레디' : '대기중'}
                         className={styles.StatusIcon}
                       />

@@ -33,7 +33,10 @@ const GameWaitingLeftSide = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInf
             </div>
         )}
         {(roomInfo.roomstatus === 'wordsetting' || roomInfo.roomstatus === 'start') && (
-          <GameWordTimer/>
+          <GameWordTimer 
+          roomInfo={roomInfo} 
+          changeRoomStatus={changeRoomStatus}
+        />
         )}
         {roomInfo.roommode === 'rank' && (
           <GameTimer/>
