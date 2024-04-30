@@ -1,7 +1,6 @@
 import { recoilPersist } from 'recoil-persist';
 import { User } from '@/types/user';
 import { atom, selector } from 'recoil';
-import { getCookie } from '@/utils/axios';
 
 const { persistAtom } = recoilPersist({
   key: 'sessionStorage',
@@ -17,9 +16,4 @@ export const userState = atom<User>({
     ranking: null,
   },
   effects_UNSTABLE: [persistAtom],
-});
-
-export const isLoggedInState = atom<boolean>({
-  key: "isLoggedIn",
-  default: getCookie("access_token") ? true : false,
 });
