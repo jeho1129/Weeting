@@ -30,6 +30,7 @@
   position: absolute;
   width: 100vw;
   height: 100vh;
+  z-index: 999;
 }
 
 .AvatarContainer {
@@ -56,13 +57,13 @@
 .ButtonArrowUp {
   width: 180px;
   flex-direction: column;
-  left: calc(50% - 100px);
+  left: calc(50% - 110px);
   top: 3vh;
 }
 .ButtonArrowDown {
   width: 180px;
   flex-direction: column-reverse;
-  left: calc(50% - 100px);
+  left: calc(50% - 110px);
   bottom: 3vh;
 }
 .ButtonArrowLeft {
