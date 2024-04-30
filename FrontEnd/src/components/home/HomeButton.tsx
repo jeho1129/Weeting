@@ -7,7 +7,7 @@ const HomeButton = ({
   location,
 }: {
   message: string;
-  direction: 'up' | 'down' | 'right' | 'left';
+  direction: 'up' | 'down' | 'right' | 'left' | 'back';
   location: string;
 }) => {
   const navigate = useNavigate();
@@ -24,10 +24,11 @@ const HomeButton = ({
           <CaretDoubleDown size={80} weight="bold" color="#ffffff" />
         ) : direction === 'left' ? (
           <CaretDoubleLeft size={80} weight="bold" color="#ffffff" />
-        ) : (
+        ) : direction === 'right' ? (
           <CaretDoubleRight size={80} weight="bold" color="#ffffff" />
-        )}
-        <div className="FontM60" style={{ color: '#ffffff' }}>
+        ) : <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
+        }
+        <div className={`${direction === 'back' ? 'FontM32' : 'FontM60'}`} style={{ color: '#ffffff' }}>
           {message}
         </div>
       </div>

@@ -78,3 +78,9 @@
   right: 3vw;
   top: calc(50% - 50px);
 }
+.ButtonArrowBack {
+  height: 50px;
+  flex-direction: row;
+  left: 3vw;
+  top: 3vh;
+}

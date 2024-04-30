@@ -17,14 +17,27 @@ export interface User {
   ranking: number | null;
 }
 
+export interface IngameUser {
+  memberid: string;
+  nickname: string;
+  outfit: string;
+  ready: boolean;
+  wordset: boolean;
+  score: number;
+}
+
 export interface MainSignupFormIdProps {
   id: string;
   onIdHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+  idPossible: number;
+  idCheckHandler: (isPossible: number) => void;
 }
 
 export interface MainSignupFormNicknameProps {
   nickname: string;
   onNicknameHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+  nicknamePossible: number;
+  nicknameCheckHandler: (isPossible: number) => void;
 }
 
 export interface MainSignupFormPasswordProps {
@@ -36,4 +49,12 @@ export interface MainSignupFormPasswordCheckProps {
   password: string;
   passwordCheck: string;
   onPasswordCheckHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface SignupIdCheck {
+  account: string;
+}
+
+export interface SignupNicknameCheck {
+  nickname: string;
 }

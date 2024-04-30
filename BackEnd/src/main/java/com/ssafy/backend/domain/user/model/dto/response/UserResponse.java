@@ -18,8 +18,8 @@ public class UserResponse {
     private String account;
     private String password;
     private String nickname;
-    private Long score;
-    private Long ranking;
+    private int score;
+    private int ranking;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 }

@@ -1,30 +1,118 @@
+import React, {useState, useEffect} from 'react';
+import { Client, IMessage } from "@stomp/stompjs";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+
+import GameForbiddenWord from '@/components/game/GameWordModal';
 import styles from '@/styles/game/GameWaiting.module.css';
-import logo from '@/assets/images/logo.png';
-import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
-import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
-import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
-import GameWaitingChatting from '@/components/game/GameWaitingChatting';
+import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
+import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
+import { RoomInfo } from '@/types/game';
+import { ChatMessage, ScoreUpdate } from '@/types/chat';
+
+interface ChatMessageReqeust {
+  from: string;
+  text: string;
+  roomId: number;
+}
+interface ChatMessageResponse{
+  id: number;
+  content: string;
+  writer: string;
+}
 
 const GameWaiting = () => {
+  const { roomId } = useParams();
+  const [stompClient, setStompClient] = useState<Client | null>(null);
+  const [messages, setMessages] = useState<ChatMessageResponse[]>([]);
+  const [writer, setWriter] = useState<string>("");
+  const [newMessage, setNewMessage] = useState<string>("");
+  
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [choose, setChoose] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [scoreUpdates, setScoreUpdates] = useState<ScoreUpdate[]>([]);
+
+  // 더미 데이터
+  const roomInfo : RoomInfo = {
+    roommode: 'normal',
+    roomid: "12345",
+    roomname: "테스트 방",
+    roomstatus: "start",
+    roomforbiddentime: null,
+    roomendtime: null,
+    roommaxcnt: 8,
+    roommembers: [
+      { memberid: "1", nickname: "나야나방장", outfit: "casual",  ready: false, wordset: false, score:1},
+      { memberid: "2", nickname: "줴훈줴훈", outfit: "sporty", ready: true, wordset: false, score:2 },
+      { memberid: "3", nickname: "헤엥", outfit: "formal", ready: false, wordset: false, score:3 },
+      { memberid: "4", nickname: "웅냥냥", outfit: "formal", ready: false, wordset: false, score:1 },
+      { memberid: "5", nickname: "홀롤로", outfit: "formal", ready: false, wordset: false, score:4 },
+      { memberid: "6", nickname: "웅냐", outfit: "formal", ready: false, wordset: true, score:67 },
+      { memberid: "7", nickname: "헤위이잉", outfit: "formal", ready: false, wordset: false, score:1 },
+      { memberid: "8", nickname: "인범머스크", outfit: "formal", ready: false, wordset: false, score:5 },
+    ]
+  };
+  const [roomStatus, setRoomStatus] = useState(roomInfo.roomstatus);
+
+  const changeRoomStatus = () => {
+    // roomStatus 상태를 'wordsetting'으로 변경
+    setRoomStatus('wordsetting');
+  };
+
+  useEffect(() => {
+    // WebSocket 연결 생성
+    const ws = new WebSocket('ws://k10c103.p.ssafy.io:9002/ws/chat');
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      switch(message.type) {
+        case 'chat':
+          setChatMessages(prevMessages => [...prevMessages, message.payload]);
+          break;
+        case 'score':
+          setScoreUpdates(prevScores => [...prevScores, message.payload]);
+          break;
+        default:
+          console.log('Unknown message type');
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+  const addMessage = (newMessage) => {
+    setChatMessages(prevMessages => [...prevMessages, newMessage]);
+  };
+
+  // setMembers해서 실시간으로 members변경사항 업뎃
+  
+  useEffect(() => {
+    if (roomInfo.roomstatus === 'wordsetting' && !choose) {
+      setModalOpen(true);
+    }
+  }, [roomInfo, choose]);
+
   return (
     <>
-    <div className={styles.SpaceBetween}>
-      <div className={styles.Align}>
-        <div>
-        <img className={styles.GameWaitingLogo} src={logo} alt="Logo" />
-        </div>
-        <div>
-        <GameWaitingMemberList/>
-        </div>
-        <div className={styles.ButtonAlign}>
-          <GameWaitingReadyButton />
-          <GameWaitingQuitButton />
-        </div>
+      {isModalOpen && <div className={styles.modalOpenBackground}></div>}
+
+      <div className={styles.SpaceEvenly}>
+        <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={changeRoomStatus}/>
+        <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} onSendMessage={addMessage}/>      
       </div>
-      <div className={styles.ChatAlign}>
-        <GameWaitingChatting/>
-      </div>
-    </div>
+      <GameForbiddenWord 
+        roomInfo={roomInfo}
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={(word: string) => {
+          console.log("설정된 금칙어:", word);
+          setChoose(true);
+          setModalOpen(false);
+        }}
+      />
     </>
   );
 };

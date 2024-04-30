@@ -1,8 +1,12 @@
 package com.ssafy.backend.domain.Outfit.repository;
 
 import com.ssafy.backend.domain.Outfit.entity.Outfit;
+import com.ssafy.backend.domain.Outfit.entity.enums.OutfitType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface OutfitRepository extends JpaRepository<Outfit, Long> {
-    // 추가적인 쿼리 메서드 작성 가능
+    Outfit findByName(String name);
+    List<Outfit> findByGetConditionIsNull();
 }
