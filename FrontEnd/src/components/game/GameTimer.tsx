@@ -11,7 +11,7 @@ const GameTimer = () => {
       </div>
       <img className={styles.GameWordTimer} src={timerNormal} alt="GameTemplate" />
     </div>
-  );
+  ); 
 };
 
 export default GameTimer;

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
+import GameRankModal from '@/components/game/GameRankModal';
 import styles from '@/styles/game/GameWaiting.module.css';
 import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
@@ -29,6 +30,7 @@ const GameWaiting = () => {
   const [newMessage, setNewMessage] = useState<string>("");
   
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isRankOpen, setRankOpen] = useState(false);
   const [choose, setChoose] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [scoreUpdates, setScoreUpdates] = useState<ScoreUpdate[]>([]);
@@ -36,21 +38,21 @@ const GameWaiting = () => {
   // 더미 데이터
   const roomInfo : RoomInfo = {
     roommode: 'normal',
-    roomid: "12345",
+    roomid: "1",
     roomname: "테스트 방",
-    roomstatus: "start",
+    roomstatus: "end",
     roomforbiddentime: null,
     roomendtime: null,
     roommaxcnt: 8,
     roommembers: [
-      { memberid: "1", nickname: "나야나방장", outfit: "casual",  ready: false, wordset: false, score:1},
-      { memberid: "2", nickname: "줴훈줴훈", outfit: "sporty", ready: true, wordset: false, score:2 },
-      { memberid: "3", nickname: "헤엥", outfit: "formal", ready: false, wordset: false, score:3 },
-      { memberid: "4", nickname: "웅냥냥", outfit: "formal", ready: false, wordset: false, score:1 },
-      { memberid: "5", nickname: "홀롤로", outfit: "formal", ready: false, wordset: false, score:4 },
-      { memberid: "6", nickname: "웅냐", outfit: "formal", ready: false, wordset: true, score:67 },
-      { memberid: "7", nickname: "헤위이잉", outfit: "formal", ready: false, wordset: false, score:1 },
-      { memberid: "8", nickname: "인범머스크", outfit: "formal", ready: false, wordset: false, score:5 },
+      { memberid: "1", nickname: "나야나방장", outfit: "casual",  ready: false, word: null, score:1},
+      { memberid: "2", nickname: "줴훈줴훈", outfit: "sporty", ready: true, word: null, score:2 },
+      { memberid: "3", nickname: "헤엥", outfit: "formal", ready: false, word: null, score:3 },
+      { memberid: "4", nickname: "웅냥냥", outfit: "formal", ready: false, word: null, score:1 },
+      { memberid: "5", nickname: "홀롤로", outfit: "formal", ready: false, word: '바보', score:4 },
+      { memberid: "6", nickname: "웅냐", outfit: "formal", ready: false, word: '메롱', score:67 },
+      { memberid: "7", nickname: "헤위이잉", outfit: "formal", ready: false, word: null, score:1 },
+      { memberid: "8", nickname: "인범머스크", outfit: "formal", ready: false, word: null, score:5 },
     ]
   };
   const [roomStatus, setRoomStatus] = useState(roomInfo.roomstatus);
@@ -92,12 +94,15 @@ const GameWaiting = () => {
   useEffect(() => {
     if (roomInfo.roomstatus === 'wordsetting' && !choose) {
       setModalOpen(true);
+    } else if (roomInfo.roomstatus === 'end') {
+      setRankOpen(true);
     }
   }, [roomInfo, choose]);
 
   return (
     <>
       {isModalOpen && <div className={styles.modalOpenBackground}></div>}
+      {isRankOpen && <div className={styles.modalOpenBackground}></div>}
 
       <div className={styles.SpaceEvenly}>
         <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={changeRoomStatus}/>
@@ -113,6 +118,14 @@ const GameWaiting = () => {
           setModalOpen(false);
         }}
       />
+        {isRankOpen && 
+        <GameRankModal 
+          roomInfo={roomInfo}
+          isOpen={isRankOpen}
+          onClose={() => setRankOpen(false)}
+        />
+      }
+      
     </>
   );
 };
