@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.Outfit.controller;
 
 import com.ssafy.backend.domain.Outfit.dto.InventoryAddRequest;
 import com.ssafy.backend.domain.Outfit.dto.OutfitResponse;
+import com.ssafy.backend.domain.Outfit.dto.WearingOutfitResponse;
 import com.ssafy.backend.domain.Outfit.entity.Inventory;
 import com.ssafy.backend.domain.Outfit.entity.Outfit;
 import com.ssafy.backend.domain.Outfit.entity.WearingOutfit;
@@ -43,11 +44,10 @@ public class OutfitController {
 
     // 현재 착용중인 아이템 정보 확인
     @GetMapping("/{userId}/worn")
-    public ResponseEntity<List<WearingOutfit>> getWearingOutfit(@PathVariable Long userId) {
-        List<WearingOutfit> wearingOutfits = inventoryService.getWearingOutfit(userId);
-        return new ResponseEntity<>(wearingOutfits, HttpStatus.OK);
+    public ResponseEntity<List<WearingOutfitResponse>> getWearingOutfit(@PathVariable Long userId) {
+        List<WearingOutfitResponse> wearingOutfitResponses = inventoryService.getWearingOutfit(userId);
+        return new ResponseEntity<>(wearingOutfitResponses, HttpStatus.OK);
     }
-
 
     // 미사용 기능
 

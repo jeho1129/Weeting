@@ -26,14 +26,19 @@ public class RankScheduler {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 * * * * ?")
     @Transactional
     public void updateRankings() {
         List<User> users = userRepository.findAllByOrderByScoreDesc();
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            int ranking = i + 1;
-            user.setRanking(ranking);
+        int rank = 1;
+        int prevScore = -1;
+
+        for (User user : users) {
+            if (user.getScore() != prevScore) {
+                rank = users.indexOf(user) + 1;
+                prevScore = user.getScore();
+            }
+            user.setRanking(rank);
 
             // 사용자의 현재 인벤토리 아이템 조회
             List<Long> userOutfitIds = inventoryRepository.findByUser_Id(user.getId())
@@ -42,8 +47,9 @@ public class RankScheduler {
                     .toList();
 
             // 랭킹에 따라 획득 가능한 아이템 조회
+            int finalRank = rank;
             List<Outfit> availableOutfits = outfitRepository.findAll().stream()
-                    .filter(outfit -> outfit.getGetCondition() != null && ranking <= outfit.getGetCondition())
+                    .filter(outfit -> outfit.getGetCondition() != null && finalRank <= outfit.getGetCondition())
                     .toList();
 
             // 사용자가 소유하지 않은 아이템만 필터링

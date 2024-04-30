@@ -11,7 +11,7 @@ export interface Signup {
 }
 
 export interface User {
-  memberId: number;
+  userId: number;
   nickname: string;
   score: number;
   ranking: number | null;
@@ -24,7 +24,7 @@ export interface RankingUser {
 }
 
 export interface IngameUser {
-  memberid: string;
+  userId: string;
   nickname: string;
   outfit: string;
   ready: boolean;

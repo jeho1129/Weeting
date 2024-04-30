@@ -1,6 +1,7 @@
 import { recoilPersist } from 'recoil-persist';
 import { User } from '@/types/user';
 import { atom, selector } from 'recoil';
+import { getCookie } from '@/utils/axios';
 
 const { persistAtom } = recoilPersist({
   key: 'sessionStorage',
@@ -10,18 +11,10 @@ const { persistAtom } = recoilPersist({
 export const userState = atom<User>({
   key: 'userState',
   default: {
-    memberId: 0,
+    userId: 0,
     nickname: '',
     score: 1000,
     ranking: null,
   },
   effects_UNSTABLE: [persistAtom],
-});
-
-export const locationState = atom<{ pathname: string; key: string }>({
-  key: 'locationState',
-  default: {
-    pathname: '',
-    key: '',
-  },
 });
