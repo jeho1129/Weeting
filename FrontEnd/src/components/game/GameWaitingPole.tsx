@@ -7,9 +7,11 @@ import electricpole from '@/assets/images/electricpole.png';
 const GameWaitingPole = ({roomname, roomstatus, roommembers, roommaxcnt}: { roomname:RoomInfo["roomname"],roomstatus:RoomInfo["roomstatus"], roommembers: RoomInfo["roommembers"], roommaxcnt: RoomInfo["roommaxcnt"]}) => {
   return (
     <>
-    <div className={styles.RoomName}>
-      {roomname}
-    </div>
+    {roomstatus !== 'start' && (
+      <div className={styles.RoomName}>
+        {roomname}
+      </div>
+    )}
     <div className={styles.Avatars}>
       <GameAvatars roomstatus={roomstatus} roommembers={roommembers} roommaxcnt={roommaxcnt}/>
     </div>

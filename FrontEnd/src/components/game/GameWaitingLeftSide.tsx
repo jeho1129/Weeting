@@ -1,6 +1,8 @@
 import styles from '@/styles/game/GameWaiting.module.css';
 import React, { useState, useEffect } from 'react';
 import { RoomInfo } from '@/types/game';
+import { ScoreUpdate } from '@/types/chat';
+
 import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
@@ -8,7 +10,7 @@ import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameWordTimer'
 import GameTimer from '@/assets/images/timerNormal.png'
 
-const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+const GameWaitingLeftSide = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo, changeRoomStatus: () => void}) => {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
@@ -23,17 +25,17 @@ const GameWaitingLeftSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
     <>
     <div className={styles.Align}>
         <GameWaitingLogo/>
-        <GameWaitingMemberList roommembers={roomInfo.roommembers}/>
+        <GameWaitingMemberList roomstatus={roomInfo.roomstatus} roommaxcnt={roomInfo.roommaxcnt} roommembers={roomInfo.roommembers}/>
         {(roomInfo.roomstatus === 'waiting' || roomInfo.roomstatus === 'allready') && (
             <div className={styles.ButtonAlign}>
-              <GameWaitingReadyButton roommembers={roomInfo.roommembers} blink={blink}/>
+              <GameWaitingReadyButton roommembers={roomInfo.roommembers} blink={blink} onStartGame={changeRoomStatus}/>
               <GameWaitingQuitButton roomid={roomInfo.roomid}/>
             </div>
         )}
-        {roomInfo.roomstatus === 'wordsetting' && (
+        {(roomInfo.roomstatus === 'wordsetting' || roomInfo.roomstatus === 'start') && (
           <GameWordTimer/>
         )}
-        {roomInfo.roomstatus === 'start' && (
+        {roomInfo.roommode === 'rank' && (
           <GameTimer/>
         )}
     </div>
