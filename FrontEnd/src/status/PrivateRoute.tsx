@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import Layout from './TransitionGroup';
+import Frame from '@/components/home/HomeFrame';
 
 export default function PrivateRoute(token: { token: string | undefined }) {
   if (token.token) {
@@ -8,7 +8,7 @@ export default function PrivateRoute(token: { token: string | undefined }) {
         <div style={{ width: '100vw', height: '100vh' }}>
           <Outlet />
         </div>
-        <Layout />
+        <Frame />
       </>
     );
   } else {

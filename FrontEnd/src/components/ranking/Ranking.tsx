@@ -3,35 +3,72 @@ import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
 import RankingList from './RankingList';
 import { useEffect, useState } from 'react';
-import { User } from '@/types/user';
+import { RankingUser } from '@/types/user';
 import { rankingListApi } from '@/services/rankApi';
 const Ranking = () => {
-  const dummy: User[] = [
+  const dummy: RankingUser[] = [
     {
-      memberId: 1,
-      nickname: '나나나',
+      ranking: 1,
+      nickname: '하준2',
       score: 1000,
-      ranking: null,
     },
     {
-      memberId: 2,
-      nickname: '가가가가',
-      score: 10000,
+      ranking: 2,
+      nickname: 'asdf',
+      score: 1000,
+    },
+    {
+      ranking: 3,
+      nickname: '하준22',
+      score: 900,
+    },
+    {
+      ranking: 4,
+      nickname: 'dfs',
+      score: 900,
+    },
+    {
+      ranking: 5,
+      nickname: 'asd',
+      score: 900,
+    },
+    {
+      ranking: 6,
+      nickname: 'ffs',
+      score: 900,
+    },
+    {
+      ranking: 6,
+      nickname: 'ffs',
+      score: 900,
+    },
+    {
+      ranking: 8,
+      nickname: 'ffs',
+      score: 900,
+    },
+    {
+      ranking: 9,
+      nickname: 'ffs',
+      score: 900,
+    },
+    {
       ranking: 10,
+      nickname: 'ffs',
+      score: 900,
     },
     {
-      memberId: 3,
-      nickname: '다나나',
-      score: 1500,
-      ranking: 100,
+      ranking: 11,
+      nickname: 'ffs',
+      score: 900,
     },
   ];
 
-  const [rankingList, setRankingList] = useState<User[]>(dummy);
+  const [rankingList, setRankingList] = useState<RankingUser[]>(dummy);
 
   useEffect(() => {
     rankingListApi()
-      .then((data: User[]) => {
+      .then((data: RankingUser[]) => {
         setRankingList(data);
       })
       .catch((err) => {
@@ -42,16 +79,19 @@ const Ranking = () => {
   return (
     <>
       <div className={styles.ButtonContainer}>
-        <HomeButton {...{ message: '홈', direction: 'up', location: 'home' }} />
+        <HomeButton {...{ message: '', direction: 'up', location: 'home' }} />
       </div>
       <div className={styles.RankingContainer}>
         <div className={styles.AvatarContainer}>
           <Avatar {...{ move: true, size: 400, isNest: true }} />
+          <div>내 순위는 {}</div>
         </div>
         <div className={styles.ListContainer}>
-          <RankingList rankingList={rankingList!} />
+          <div className="FontM60">✨🎈랭킹🎉✨</div>
+          <div className={styles.ListWH}>
+            <RankingList rankingList={rankingList!} />
+          </div>
         </div>
-        <div></div>
       </div>
     </>
   );

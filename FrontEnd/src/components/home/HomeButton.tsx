@@ -26,8 +26,9 @@ const HomeButton = ({
           <CaretDoubleLeft size={80} weight="bold" color="#ffffff" />
         ) : direction === 'right' ? (
           <CaretDoubleRight size={80} weight="bold" color="#ffffff" />
-        ) : <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
-        }
+        ) : (
+          <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
+        )}
         <div className={`${direction === 'back' ? 'FontM32' : 'FontM60'}`} style={{ color: '#ffffff' }}>
           {message}
         </div>
