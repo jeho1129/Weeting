@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerNormal from '@/assets/images/timerNormal.png';
 
-const GameWordTimer = () => {
-  const [timeLeft, setTimeLeft] = useState(30); // 30초부터 시작
+const GameWordTimer = ({ roomInfo, changeRoomStatus }) => {
+  // roomstatus가 start일 때 타이머를 240초로 설정
+  const initialTime = roomInfo.roomstatus === 'start' ? 240 : 30;
+  const [timeLeft, setTimeLeft] = useState(initialTime);
 
   useEffect(() => {
-    // 타이머가 0이 될 때까지 매 초마다 감소
     if (timeLeft > 0) {
       const timerId = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
       }, 1000);
       return () => clearTimeout(timerId);
+    } else {
+      if (roomInfo.roomstatus !== 'start') {
+        changeRoomStatus('start');
+      }
     }
-  }, [timeLeft]);
+  }, [timeLeft, roomInfo, changeRoomStatus]);
 
   return (
     <div className={styles.timerContainer}>

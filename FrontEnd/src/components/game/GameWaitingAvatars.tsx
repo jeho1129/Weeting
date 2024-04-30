@@ -54,7 +54,7 @@ const GameWaitingAvatars = ({
         return (
 					<div>
 						<img
-							key={member.memberid}
+							key={member.userId}
 							src={avatar}
 							alt="avatar"
 							className={styles.inGameAvatar}

@@ -37,7 +37,7 @@ const GameRankModal: React.FC<GameRankModalProps> = ({ roomInfo, isOpen, onClose
         <ul>
           {sortedMembers.map((member) => (
             // 내 금칙어 보여주게
-            <li key={member.memberid}>
+            <li key={member.userId}>
               <div>{member.nickname}</div>
               <div>점수: {member.score}</div>
             </li>

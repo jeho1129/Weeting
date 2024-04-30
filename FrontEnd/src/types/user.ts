@@ -18,7 +18,7 @@ export interface User {
 }
 
 export interface IngameUser {
-  memberid: string;
+  userId: string;
   nickname: string;
   outfit: string;
   ready: boolean;
