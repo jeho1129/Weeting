@@ -1,0 +1,15 @@
+.Row {
+  height: 70px;
+}
+
+.RoomNameLabel {
+  width: 100px;
+  margin-right: 100px;
+}
+
+.Input {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 200px;
+  height: 25px;
+}
