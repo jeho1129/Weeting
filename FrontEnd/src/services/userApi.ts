@@ -1,5 +1,5 @@
-import { Axios } from '@/utils/axios';
 import { Login, Signup } from '@/types/user';
+import { Axios } from '@/utils/axios';
 
 export async function loginApi(param: Login) {
   try {
