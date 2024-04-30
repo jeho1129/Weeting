@@ -1,6 +1,7 @@
 package com.ssafy.backend.domain.security.controller;
 
 import com.ssafy.backend.domain.security.dto.LoginRequest;
+import com.ssafy.backend.domain.security.dto.LoginResponse;
 import com.ssafy.backend.domain.security.dto.RefreshRequest;
 import com.ssafy.backend.domain.security.service.AuthService;
 import com.ssafy.backend.domain.user.model.entity.User;
@@ -23,8 +24,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<MessageUtils> login(@Valid @RequestBody LoginRequest loginRequest){
-        return ResponseEntity.ok().body(MessageUtils.success(authService.login(loginRequest.getAccount(), loginRequest.getPassword())));
+    public ResponseEntity<MessageUtils> login(@Valid @RequestBody LoginRequest loginRequest) {
+        LoginResponse loginResponse = authService.login(loginRequest.getAccount(), loginRequest.getPassword());
+        return ResponseEntity.ok().body(MessageUtils.success(loginResponse));
     }
 
     @PostMapping("/logout")
