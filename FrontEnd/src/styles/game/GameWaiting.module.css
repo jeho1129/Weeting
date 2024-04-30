@@ -48,6 +48,11 @@
   margin: 10px;
 }
 
+.StatusIcon {
+  width: auto;
+  height: 20px;
+}
+
 .List {
   padding: 20px;
   width: 300px;
@@ -55,11 +60,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: flex-start;
 }
 
 .RoomMembers {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   padding: 10px;
 }
 
@@ -67,6 +74,7 @@
   display: flex; 
   justify-content: space-between;
   align-items: center;
+  padding: 5px;
 }
 
 .RoomMemberCount {
@@ -75,7 +83,21 @@
   margin: 10px;
 }
 
+.Nickname {
+  display: flex;
+  align-items: center;
+}
 
+.CrownIcon {
+  width: auto; /* 이미지 너비 */
+  height: 20px; /* 이미지 높이 */
+  margin-left: 5px; /* 닉네임과의 여백 */
+}
+
+.OkIcon{
+  width: auto;
+  height: 20px;
+}
 .MemberContainer {
   display: flex;
   flex-direction: column;
@@ -88,6 +110,9 @@
 }
 
 .RoomName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(255, 255, 255, 0.9);
   position: absolute;
   width: 500px;

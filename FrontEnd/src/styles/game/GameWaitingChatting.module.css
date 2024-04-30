@@ -26,3 +26,24 @@
     border-radius: 10px 10px 0 0;
     bottom: 0;
   }
+
+  .ChatList {
+    max-height: 130px;
+    overflow-y: auto;
+    padding: 10px;
+  
+    /* Chrome, Safari 등 웹킷 기반 브라우저를 위한 스타일 */
+    &::-webkit-scrollbar {
+      width: 8px; /* 스크롤바의 너비 */
+      padding: 5px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: grey; /* 스크롤바 색상 */
+      border-radius: 30px; /* 스크롤바 모서리 둥글기 */
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent; /* 스크롤바 배경 색상 (필요에 따라 변경 가능) */
+    }
+  }
