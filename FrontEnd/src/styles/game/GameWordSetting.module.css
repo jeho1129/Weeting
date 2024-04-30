@@ -1,0 +1,48 @@
+.timerContainer {
+    position: relative;
+    display: inline-block;
+    bottom: 0;
+  }
+  
+  .timerText {
+    position: absolute;
+    top: 30%;
+    left: 50%; 
+    transform: translateX(-50%);
+    color: red;
+    font-size: x-large;
+    font-weight: bold;
+  }
+  
+  .GameWordTimer {
+    display: block;
+    width: 100%; /* 이미지의 크기를 조정, 필요에 따라 변경 가능 */
+  }
+  
+  .Container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 30%;
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    padding: 2%;
+  }
+  
+
+
+  .SettingMsg {
+
+  }
+  
+  .WarningMsg {
+    color: red;
+  }

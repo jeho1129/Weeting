@@ -18,3 +18,21 @@ export async function signupApi(param: Signup) {
     return Promise.reject(error);
   }
 }
+
+export async function idCheckApi(param: SignupIdCheck) {
+  try {
+    const response = await Axios.post(`/user/idCheck`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function nicknameCheckApi(param: SignupNicknameCheck) {
+  try {
+    const response = await Axios.post(`/user/nicknameCheck`, param);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

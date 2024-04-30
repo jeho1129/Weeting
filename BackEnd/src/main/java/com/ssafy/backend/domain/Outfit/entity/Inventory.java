@@ -1,10 +1,12 @@
 package com.ssafy.backend.domain.Outfit.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ssafy.backend.domain.user.model.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
@@ -12,16 +14,21 @@ import lombok.*;
 @ToString
 @Table(name = "inventory")
 public class Inventory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userID;
+    private Long inventoryId;
 
-    @Column(name = "outfit_id")
-    private Long outfitId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
-    @Column(name = "is_weared")
-    private Boolean isWeared = false;
+    @ManyToOne
+    @JoinColumn(name = "outfit_id")
+    @JsonBackReference
+    private Outfit outfit;
 
-
+    @Column(name = "is_owned")
+    private Boolean isOwned;
 }

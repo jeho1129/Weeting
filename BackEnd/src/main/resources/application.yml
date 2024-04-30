@@ -13,23 +13,61 @@ spring:
         jdbc:
           batch_size: 100
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQLDialect
-
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      id:
+        new_generator_mappings: false
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-    username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-    password: sF9lNwfigU
+    # 로컬
+#    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+#    username: root
+#    password: ssafy
+    # 배포
+    url: jdbc:mysql://k10c103.p.ssafy.io:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: root
+    password: c103103
+#    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+#    username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+#    password: sF9lNwfigU
 
-# jwt setting
+
+
+  # NoSQL
+  data:
+    # Redis
+    redis:
+      host: k10C103.p.ssafy.io
+      port: 6379
+      password: c103103
+
+
+  #rabbitmq
+  rabbitmq:
+    host: k10C103.p.ssafy.io
+    port: 5672
+    username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
+    password: guest  # RabbitMQ 비밀번호, 기본값은 guest
+
+
+# jwt
 jwt:
   access: WEETINGACCESSKEYLONGENOUGHATLEAST256BITSSCRETKEYJOONSUNANDHAJUNSDANGEROUSCHATTING
   accessTime: 86400000  # 60?
 
-# log ??
+# log
 logging:
   level:
     org.hibernate:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
+      org.springframework.web.socket: DEBUG
+
+
+
+
+#    mariadb:
+#      driver-class-name: com.mariadb.cj.jdbc.Driver
+#      url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+#      username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+#      password: sF9lNwfigU

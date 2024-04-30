@@ -35,6 +35,13 @@ dependencies {
 
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis'
+	implementation 'org.springframework.data:spring-data-redis'
+
+	// websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:sockjs-client:1.1.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
 
 	// openapi (swagger 3.0)
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'

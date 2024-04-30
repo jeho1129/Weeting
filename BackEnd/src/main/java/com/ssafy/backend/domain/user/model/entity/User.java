@@ -35,22 +35,20 @@ public class User implements UserDetails {
     private String nickname;
 
     @Column(name = "score", nullable = false)
-    private Long score;
+    private Integer score;
 
     @Column(name = "ranking")
-    private Long ranking;
+    private Integer ranking;
 
     @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createAt;
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "updated_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updateAt;
 
     @PrePersist
     public void setDefaultScore() {
-        if (this.score == null) {
-            this.score = 1000L;
-        }
+        this.score = 1000;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,15 +93,10 @@ public class User implements UserDetails {
     public static User of(OAuth2User oAuth2User) {
         Map<String, Object> map = oAuth2User.getAttributes();
         User user = new User();
-        String account = (String) map.get("account");
-        String nickName = (String) map.get("nickName");
-        Long score = (Long) map.get("score");
-        Long ranking = (Long) map.get("ranking");
-
-        if (account != null) user.setAccount(account);
-        if (nickName != null) user.setNickname(nickName);
-        if (score != null) user.setScore(score);
-        if (ranking != null) user.setRanking(ranking);
+        user.setAccount((String) map.get("account"));
+        user.setNickname((String) map.get("nickName"));
+        user.setScore((Integer) map.get("score"));
+        user.setRanking((Integer) map.get("ranking"));
         return user;
     }
 

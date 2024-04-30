@@ -1,47 +1,10 @@
-from concurrent.futures import ThreadPoolExecutor
-from fastapi import HTTPException, APIRouter, Query, status
+
+from fastapi import HTTPException, APIRouter, status
 from typing import List
 from pydantic import BaseModel
-from konlpy.tag import Okt
-
-import fasttext
-import re
+from model_manager import find_top_similar_words
 
 router = APIRouter()
-
-model = fasttext.load_model('KoreanProcessing/model.bin')
-hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
-okt = Okt()
-
-def is_hangul(text) -> bool:
-    return bool(hangul_pattern.fullmatch(text))
-
-def filter_hangul(neighbor, input_word):
-    score, word = neighbor
-    if not is_hangul(word):
-        return None
-    morphs = okt.pos(word, norm=True, join=False)
-    if any(tag in ['Josa', 'Suffix', 'Eomi', 'PreEomi'] for _, tag in morphs) or input_word in word:
-        return None
-    filtered_word = ''.join([morph for morph, tag in morphs])
-    if len(filtered_word) <= 12:
-        return (score, filtered_word)
-    return None
-
-def find_top_similar_words(input_word, k):
-    if not is_hangul(input_word):
-        raise ValueError("Input word must contain only Korean characters.")
-    neighbors = model.get_nearest_neighbors(input_word, k)
-    similar_words = []
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(filter_hangul, neighbor, input_word) for neighbor in neighbors]
-        for future in futures:
-            result = future.result()
-            if result and len(similar_words) < k:
-                similar_words.append(result)
-            if len(similar_words) >= k:
-                break
-    return similar_words[:k]
 
 class SimilarWordsResponse(BaseModel):
     word: str
