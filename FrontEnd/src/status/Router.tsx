@@ -33,7 +33,7 @@ const Router = () => {
         <Route element={<PrivateRoute token={token} />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/custom" element={<CustomPage />} />
-          <Route path="/game" element={<GamePage />}>
+          <Route path="/room/:id" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
           <Route path="/room" element={<RoomPage />}>

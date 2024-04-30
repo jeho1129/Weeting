@@ -1,0 +1,19 @@
+
+.Container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 30%;
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    padding: 2%;
+  }
+  

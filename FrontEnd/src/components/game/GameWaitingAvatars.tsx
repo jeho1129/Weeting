@@ -61,16 +61,24 @@ const GameWaitingAvatars = ({
 							style={{ top: position.top, left: position.left }}
 						/>
 						{roomstatus === 'start' && (
-								<img
-									src={forbiddenFlag}
-									alt="forbidden word"
-									className={styles.inGameAvatar}
-									style={{
-										top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
-										left: position.left,
-										position: 'absolute',
-									}}
-								/>
+              <>
+              <div>
+                <div className={styles.inGameAvatar}
+                    style={{
+                      top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
+                      left: position.left,
+                      position: 'absolute',
+                    }} >
+                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', position: 'relative'}}>
+                      <div className={styles.wordCenter}>{member.word}</div>
+                      <img
+                        src={forbiddenFlag}
+                        alt="forbidden word"
+                      />
+                    </div>
+                </div>
+              </div>
+              </>
 							)}
 					</div>
         );
