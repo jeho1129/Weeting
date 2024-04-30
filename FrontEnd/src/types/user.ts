@@ -17,6 +17,12 @@ export interface User {
   ranking: number | null;
 }
 
+export interface RankingUser {
+  ranking: number;
+  nickname: string;
+  score: number;
+}
+
 export interface IngameUser {
   memberid: string;
   nickname: string;

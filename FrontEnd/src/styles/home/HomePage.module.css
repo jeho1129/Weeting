@@ -1,36 +1,9 @@
-.Container {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  z-index: -99;
-}
-.FrameHome {
-  position: absolute;
-  left: -567.5px;
-  width: calc(100vw + 2671px - 1536px);
-  height: calc(100vh + 1112px - 833px);
-}
 
-.FrameHomeSky {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100vh;
-  animation: moveRight 25s linear infinite;
-}
-
-@keyframes moveRight {
-  100% {
-    transform: translate(calc(-4801.73 * (100vh / 833)));
-  }
-}
 
 .ButtonContainer {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  z-index: 999;
 }
 
 .AvatarContainer {
