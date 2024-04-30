@@ -18,10 +18,12 @@ export interface User {
 }
 
 export interface IngameUser {
-    memberid: string;
-    nickname: string;
-    outfit: string;
-    ready: boolean;
+  memberid: string;
+  nickname: string;
+  outfit: string;
+  ready: boolean;
+  wordset: boolean;
+  score: number;
 }
 
 export interface MainSignupFormIdProps {

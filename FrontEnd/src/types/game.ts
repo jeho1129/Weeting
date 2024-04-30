@@ -1,6 +1,7 @@
 import { IngameUser } from "./user";
 
 export interface RoomInfo {
+  roommode:'rank' | 'normal'
     roomid: string;
     roomname: string;
     roomstatus: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end';
