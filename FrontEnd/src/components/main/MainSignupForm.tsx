@@ -1,7 +1,10 @@
-import { signupApi } from '@/services/userApi';
+import { userState } from '@/recoil/atom';
+import { loginApi, signupApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
+import { setCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import MainSignupFormId from './MainSignupFormId';
 import MainSignupFormNickname from './MainSignupFormNickname';
 import MainSignupFormPw from './MainSignupFormPw';
@@ -15,6 +18,7 @@ const MainSignupForm = () => {
   const [idPossible, setIdPossible] = useState(0);
   const [nicknamePossible, setNicknamePossible] = useState(0);
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -47,6 +51,32 @@ const MainSignupForm = () => {
       nickname: nickname,
     })
       .then(() => {
+        // 쿠키에 accessToken 저장
+        setCookie('accessToken', 'true', { path: '/' });
+
+        // recoil에 login 정보 저장
+        // setUser(loggedInUserState);
+
+        // 로그인
+        loginApi({
+          account: id,
+          password: password,
+        })
+          .then((data) => {
+            const loggedInUserState = data.dataBody;
+            console.log('loggedInUserState :', loggedInUserState);
+
+            // 쿠키에 accessToken 저장
+            setCookie('accessToken', 'true', { path: '/' });
+
+            // recoil에 login 정보 저장
+            setUser(loggedInUserState);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert('회원정보가 잘못되었습니다');
+          });
+
         alert('회원가입 되었습니다');
         navigate('/home');
       })
