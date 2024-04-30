@@ -1,4 +1,4 @@
-import { Login, Signup } from '@/types/user';
+import { Login, Signup, SignupIdCheck, SignupNicknameCheck } from '@/types/user';
 import { Axios } from '@/utils/axios';
 
 export async function loginApi(param: Login) {

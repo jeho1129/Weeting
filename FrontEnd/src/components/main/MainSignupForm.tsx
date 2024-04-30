@@ -1,5 +1,5 @@
 import { userState } from '@/recoil/atom';
-import { signupApi } from '@/services/userApi';
+import { loginApi, signupApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { setCookie } from '@/utils/axios';
 import { useState } from 'react';
@@ -54,8 +54,28 @@ const MainSignupForm = () => {
         // 쿠키에 accessToken 저장
         setCookie('accessToken', 'true', { path: '/' });
 
-        // // recoil에 login 정보 저장
+        // recoil에 login 정보 저장
         // setUser(loggedInUserState);
+
+        // 로그인
+        loginApi({
+          account: id,
+          password: password,
+        })
+          .then((data) => {
+            const loggedInUserState = data.dataBody;
+            console.log('loggedInUserState :', loggedInUserState);
+
+            // 쿠키에 accessToken 저장
+            setCookie('accessToken', 'true', { path: '/' });
+
+            // recoil에 login 정보 저장
+            setUser(loggedInUserState);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert('회원정보가 잘못되었습니다');
+          });
 
         alert('회원가입 되었습니다');
         navigate('/home');
