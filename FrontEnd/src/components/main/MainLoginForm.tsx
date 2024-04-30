@@ -29,6 +29,8 @@ const MainLoginForm = () => {
       .then((data) => {
         const loggedInUserState = data.dataBody;
         console.log('loggedInUserState :', loggedInUserState);
+
+        // 쿠키에 accessToken 저장
         setCookie('accessToken', 'true', { path: '/' });
 
         // recoil에 login 정보 저장
