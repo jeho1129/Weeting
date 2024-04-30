@@ -104,7 +104,7 @@ const GameWaiting = () => {
       {isModalOpen && <div className={styles.modalOpenBackground}></div>}
       {isRankOpen && <div className={styles.modalOpenBackground}></div>}
 
-      <div className={styles.SpaceEvenly}>
+      <div className={`FontM20 ${styles.SpaceEvenly}`}>
         <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={changeRoomStatus}/>
         <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} onSendMessage={addMessage}/>      
       </div>

@@ -17,7 +17,7 @@ const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstat
       <>
         <div className={styles.Box}>
           <div className={styles.List}>
-            <div className={styles.RoomMemberCount}>
+            <div className={`FontM32 ${styles.RoomMemberCount}`}>
               <div>
                 참가자 목록
               </div>

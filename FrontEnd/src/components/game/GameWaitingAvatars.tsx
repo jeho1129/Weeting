@@ -70,7 +70,7 @@ const GameWaitingAvatars = ({
                       position: 'absolute',
                     }} >
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center', position: 'relative'}}>
-                      <div className={styles.wordCenter}>{member.word}</div>
+                      <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
                       <img
                         src={forbiddenFlag}
                         alt="forbidden word"

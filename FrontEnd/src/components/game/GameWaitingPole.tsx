@@ -8,7 +8,7 @@ const GameWaitingPole = ({roomname, roomstatus, roommembers, roommaxcnt}: { room
   return (
     <>
     {roomstatus !== 'start' && (
-      <div className={styles.RoomName}>
+      <div className={`FontM32 ${styles.RoomName}`}>
         {roomname}
       </div>
     )}
