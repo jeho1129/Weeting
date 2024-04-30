@@ -1,5 +1,5 @@
 import HomeFrame from '@/components/home/HomeFrame';
-import styles from '@/styles/ranking/RankingPage.module.css';
+import styles from '@/styles/custom/Custom.module.css';
 import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
 const Home = () => {

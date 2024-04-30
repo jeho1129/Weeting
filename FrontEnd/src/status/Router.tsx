@@ -18,7 +18,6 @@ import GamePage from '@/pages/GamePage';
 import HomePage from '@/pages/HomePage';
 import ErrorPage from '@/pages/ErrorPage';
 
-
 const Router = () => {
   const token: string | undefined = getCookie('accessToken');
 
@@ -33,13 +32,13 @@ const Router = () => {
         <Route element={<PrivateRoute token={token} />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/custom" element={<CustomPage />} />
+          <Route path="/ranking" element={<RankingPage />} />
           <Route path="/game" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
           <Route path="/room" element={<RoomPage />}>
             <Route index element={<Room />} />
           </Route>
-          <Route path="/ranking" element={<RankingPage />} />
         </Route>
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Navigate replace to="/error" />} />

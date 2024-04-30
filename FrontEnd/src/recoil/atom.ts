@@ -17,3 +17,11 @@ export const userState = atom<User>({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+export const locationState = atom<{ pathname: string; key: string }>({
+  key: 'locationState',
+  default: {
+    pathname: '',
+    key: '',
+  },
+});

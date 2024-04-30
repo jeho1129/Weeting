@@ -1,0 +1,27 @@
+.ButtonContainer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+}
+
+.RankingContainer {
+  position: absolute;
+  top: 10vh;
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: space-around;
+}
+
+.AvatarContainer {
+  background-color: magenta;
+}
+
+.ListContainer {
+  background-color: aqua;
+}
+
+.FrameContainer {
+  z-index: -999;
+}

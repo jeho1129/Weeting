@@ -13,9 +13,9 @@ const Home = () => {
       <div className={styles.AvatarContainer}>
         <Avatar {...{ move: true, size: 400, isNest: true }} />
       </div>
-      <div className={styles.FrameContainer}>
+      {/* <div className={styles.FrameContainer}>
         <HomeFrame />
-      </div>
+      </div> */}
     </>
   );
 };
