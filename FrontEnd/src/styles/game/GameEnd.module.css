@@ -1,10 +1,9 @@
-
 .Container {
     position: fixed;
     top: 50%;
     left: 50%;
     width: 40%;
-    height: 30%;
+    height: 40%;
     border-radius: 15px;
     transform: translate(-50%, -50%);
     background-color: white;
@@ -15,5 +14,31 @@
     align-items: center;
     flex-direction: column;
     padding: 2%;
-  }
-  
+}
+
+.Container::before {
+    content: "게임종료";
+    font-size: xxx-large;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; 
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.modal ul {
+    width: 300px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.modal ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0; /* 위아래로 10px 간격 */
+}

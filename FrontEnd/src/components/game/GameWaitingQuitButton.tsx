@@ -9,7 +9,7 @@ const GameWaitingQuitButton = (roomid: { roomid: RoomInfo["roomid"] }) => {
   };
   return (
     <>
-      <button className={styles.Btn} onClick={QuitHandler}>
+      <button className={`FontM32 ${styles.Btn}`} onClick={QuitHandler}>
         Quit
       </button>
     </>

@@ -19,10 +19,10 @@ const GameWaitingReadyButton = ({roommembers, blink, onStartGame}: { roommembers
   const isFirstMember = roommembers.findIndex(member => member.memberid === '1') === 0;
   const buttonContent = isFirstMember ? '게임시작' : (isReady ? '준비 취소' : '준비');
 
-  let buttonStyle = `${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`;
+  let buttonStyle = `FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`;
 
   if (isReady) {
-    buttonStyle = `${buttonStyle} ${styles.Ready}`;
+    buttonStyle = `FontM32 ${buttonStyle} ${styles.Ready}`;
   }
 
   return (

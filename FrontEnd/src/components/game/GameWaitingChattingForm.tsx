@@ -21,18 +21,19 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
   };
 
   return (
-    <div className={styles.Align}>
+    <div className={`FontM20 ${styles.Align}`}>
       <form onSubmit={submitHandler}>
         <div className={styles.Mgb}>
           <input
-            className={styles.InputBox}
+          
+            className={`FontM20 ${styles.InputBox}`}
             id="text"
             type="text"
             placeholder="메세지를 입력해주세요"
             value={message} // input에 message 상태를 value로 설정
             onChange={onChatHandler}
           />
-          <button className={styles.Btn}>확인</button>
+          <button className={`FontM20 ${styles.Btn}`}>확인</button>
         </div>
       </form>
     </div>
