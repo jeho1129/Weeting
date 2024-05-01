@@ -1,8 +1,8 @@
 import HomeFrame from '@/components/home/HomeFrame';
-import styles from '@/styles/ranking/RankingPage.module.css';
+import styles from '@/styles/custom/Custom.module.css';
 import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
-const Home = () => {
+const Custom = () => {
   return (
     <>
       <div className={styles.ButtonContainer}>
@@ -11,11 +11,8 @@ const Home = () => {
       <div className={styles.AvatarContainer}>
         <Avatar {...{ move: true, size: 400, isNest: true }} />
       </div>
-      <div className={styles.FrameContainer}>
-        <HomeFrame />
-      </div>
     </>
   );
 };
 
-export default Home;
+export default Custom;
