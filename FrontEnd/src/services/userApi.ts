@@ -36,3 +36,12 @@ export async function nicknameCheckApi(param: SignupNicknameCheck) {
     return Promise.reject(error);
   }
 }
+
+export async function userInfoLoadApi() {
+  try {
+    const response = await Axios.get(`/user/info`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
