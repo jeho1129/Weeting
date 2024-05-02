@@ -38,9 +38,9 @@ const GameWaitingLeftSide = ({ roomInfo, scoreUpdates,  changeRoomStatus }: { ro
           changeRoomStatus={changeRoomStatus}
         />
         )}
-        {roomInfo.roomMode === 'rank' && (
+        {/* {roomInfo.roomMode === 'rank' && (
           <GameTimer/>
-        )}
+        )} */}
     </div>
     </>
   );

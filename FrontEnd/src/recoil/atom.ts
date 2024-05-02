@@ -1,5 +1,6 @@
 import { recoilPersist } from 'recoil-persist';
 import { User } from '@/types/user';
+import { RoomInfo } from '@/types/game';
 import { atom, selector } from 'recoil';
 
 const { persistAtom } = recoilPersist({
@@ -13,7 +14,22 @@ export const userState = atom<User>({
     userId: 0,
     nickname: '',
     score: 1000,
-    ranking: null,
+    ranking: 0,
   },
   effects_UNSTABLE: [persistAtom],
+});
+
+export const gameState = atom<RoomInfo>({
+  key: 'gameState',
+  default: {
+    roomMode: 'rank',
+    roomId: 0,
+    roomName: '',
+    roomStatus: 'waiting',
+    roomForbiddentime: null,
+    roomEndtime: null,
+    roomSubject: null,
+    roomMaxCnt: 0,
+    roomUsers: []
+  },
 });

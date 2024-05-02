@@ -54,7 +54,7 @@ const GameWaitingAvatars = ({
       {roomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
         return (
-					<div>
+					<div key={member.userId}>
 						<img
 							key={member.userId}
 							src={avatar}
