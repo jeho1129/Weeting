@@ -33,11 +33,8 @@ pipeline {
                 script {
                     sh "ls -al"
                     sh "docker build -t ${DOCKERHUB_REGISTRY} FrontEnd"
-                    sh
-                    '''
-                    touch .env
-                    echo 'VITE_API_URL = "k10c103.p.ssafy.io:9002/api/v1"' >> .env
-                    '''
+                    sh "touch .env"
+                    sh "echo 'VITE_API_URL = \"k10c103.p.ssafy.io:9002/api/v1\"' >> .env"
                 }
             }
         }
