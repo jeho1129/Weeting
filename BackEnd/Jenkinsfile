@@ -40,9 +40,7 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    // sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
-                    sh "docker build -t ${DOCKERHUB_REGISTRY}:builder -f Dockerfile.builder BackEnd"
-                    sh "docker build -t ${DOCKERHUB_REGISTRY} --build-arg JAR_FILE=build/libs/*.jar -f Dockerfile BackEnd"
+                    sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
                 }
             }
         }
