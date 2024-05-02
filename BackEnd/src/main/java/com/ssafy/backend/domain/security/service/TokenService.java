@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     private final JwtUtils jwtUtils;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final UnsafeTokenRepository unsafeTokenRepository;
 
     public GeneratedToken generatedToken(Long id){
@@ -26,9 +25,11 @@ public class TokenService {
         return new GeneratedToken(accessToken);
     }
 
-    public void RemoveToken(Long id){
-        Token token = refreshTokenRepository.findById(id).orElseThrow(() -> new JwtException(JwtErrorCode.NOT_EXISTS_TOKEN));
-        refreshTokenRepository.delete(token);
+    public void removeToken(String accessToken) {
+
+        // AccessToken 블랙리스트에 추가
+        UnsafeToken unsafeToken = new UnsafeToken(accessToken);
+        unsafeTokenRepository.save(unsafeToken);
     }
 
 
