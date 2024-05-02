@@ -13,13 +13,12 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategy.class)
 @Builder
 public class UserResponse {
-
     private Long id;
     private String account;
     private String password;
     private String nickname;
-    private int score;
-    private int ranking;
+    private Integer score;
+    private Integer ranking;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 }

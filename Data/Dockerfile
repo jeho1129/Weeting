@@ -1,23 +1,24 @@
-FROM python:3.10-slim
+FROM ubuntu:22.04
 
 WORKDIR /app
 
-COPY . /app
-
+# 필요한 패키지 설치
 RUN apt-get update && \
-    apt-get install -y git && \
-    apt-get install -y --no-install-recommends default-jre default-jdk && \
+    apt-get install -y git openjdk-11-jdk python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME /usr/lib/jvm/default-java
+# JAVA_HOME 환경 변수 설정
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install git+https://github.com/allinux/PyKoSpacing.git
+# Python 패키지 및 PyKoSpacing 설치
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt && \
+    pip3 install git+https://github.com/allinux/PyKoSpacing.git
 
 EXPOSE 8000
 
 ENV FASTAPI_ENV production
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

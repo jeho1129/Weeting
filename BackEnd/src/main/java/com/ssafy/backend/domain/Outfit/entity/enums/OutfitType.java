@@ -68,8 +68,4 @@ public enum OutfitType {
     public String getDescription() {
         return description;
     }
-
-    public Long getOutfitId() {
-        return null;
-    }
 }

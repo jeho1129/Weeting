@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chatroom.controller;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
+import com.ssafy.backend.domain.chatroom.entity.Theme;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
 import com.ssafy.backend.global.common.dto.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/v1/chatroom")
@@ -21,6 +23,7 @@ public class ChatRoomController {
     @Autowired
     private ChatRoomService chatRoomService;
 
+    private final Random random = new Random();
     // 채팅방 생성
     @PostMapping("/create")
     public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto) {
@@ -54,4 +57,9 @@ public class ChatRoomController {
 //
 //    }
 
+    @GetMapping("/randomTheme")
+    public Theme getRandomTheme() {
+        Theme[] themes = Theme.values();
+        return themes[random.nextInt(themes.length)];
+    }
 }
