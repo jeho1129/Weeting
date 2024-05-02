@@ -3,13 +3,19 @@ from database import engine, Base
 from contextlib import asynccontextmanager
 from KoreanProcessing.model import router as fasttext_router
 from KoreanProcessing.morpheme import router as konlpy_router
-import model_manager
+import asyncio, model_manager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await model_manager.load_model()
+    load_task = asyncio.create_task(model_manager.load_model())
     try:
+        await asyncio.wait_for(load_task, timeout=30)
         yield
+    except asyncio.TimeoutError:
+        print("Model loading timed out.")
+    except Exception as e:
+        print(f"Error during model loading: {e}")
+        raise
     finally:
         pass
 
