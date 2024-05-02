@@ -51,6 +51,7 @@ const MainSignupForm = () => {
       nickname: nickname,
     })
       .then(() => {
+        alert('회원가입 되었습니다');
         // 로그인
         loginApi({
           account: id,
@@ -61,9 +62,12 @@ const MainSignupForm = () => {
             console.log('loggedInUserState :', loggedInUserState);
             // recoil에 login 정보 저장
             setUser(loggedInUserState);
+            console.log(data.dataBody.accessToken);
+
+            // 쿠키에 accessToken 저장
+            setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
           })
           .then(() => {
-            alert('회원가입 되었습니다');
             navigate('/home');
           })
           .catch((err) => {

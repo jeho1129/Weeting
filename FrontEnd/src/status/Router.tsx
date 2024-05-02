@@ -19,8 +19,6 @@ import HomePage from '@/pages/HomePage';
 import ErrorPage from '@/pages/ErrorPage';
 
 const Router = () => {
-  const token: string | undefined = getCookie('accessToken');
-
   return (
     <BrowserRouter>
       <Routes>
@@ -29,7 +27,7 @@ const Router = () => {
           <Route path="login" element={<MainLogin />} />
           <Route path="signup" element={<MainSignup />} />
         </Route>
-        <Route element={<PrivateRoute token={token} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/custom" element={<CustomPage />} />
           <Route path="/ranking" element={<RankingPage />} />
