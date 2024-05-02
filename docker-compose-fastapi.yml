@@ -3,6 +3,8 @@ version: '2.12.2'
 services:
   fastapi:
     image: weeting_fastapi_img
+    volumes:
+      - /home/ubuntu/develop/model:/app/model
     container_name: fastapi
     build:
       context: ./Data
