@@ -1,0 +1,15 @@
+.Input {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 200px;
+  height: 25px;
+}
+
+.Dir {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  /* cursor: pointer; */
+}
+

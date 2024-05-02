@@ -1,0 +1,48 @@
+.ButtonContainer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+.RankingContainer {
+  position: absolute;
+  top: 20vh;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: space-around;
+}
+
+.AvatarContainer {
+  position: relative;
+  background-color: blue;
+}
+
+.ListContainer {
+  width: 60vw;
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.ListWH {
+  background-color: brown;
+  height: 55vh;
+  width: 40vw;
+  overflow: auto;
+}
+
+.RankingItems {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.RankingItem {
+}
