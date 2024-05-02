@@ -16,7 +16,7 @@
   
   .GameWordTimer {
     display: block;
-    width: 100%; /* 이미지의 크기를 조정, 필요에 따라 변경 가능 */
+    width: 100%;
   }
   
   .Container {
@@ -24,7 +24,7 @@
     top: 50%;
     left: 50%;
     width: 40%;
-    height: 30%;
+    height: 40%;
     border-radius: 15px;
     transform: translate(-50%, -50%);
     background-color: white;
@@ -38,11 +38,6 @@
   }
   
 
-
-  .SettingMsg {
-
-  }
-  
   .WarningMsg {
     color: red;
   }
