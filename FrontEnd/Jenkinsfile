@@ -64,8 +64,6 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker stop front || true"
-                        sh "docker rm front || true"
                         sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"
                         sh "docker pull ${DOCKERHUB_REGISTRY}"
                     }

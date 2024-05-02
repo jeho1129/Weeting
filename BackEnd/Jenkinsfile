@@ -72,8 +72,6 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker stop back || true"
-                        sh "docker rm back || true"
                         sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
                         sh "docker pull ${DOCKERHUB_REGISTRY}"
                     }
