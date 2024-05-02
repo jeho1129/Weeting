@@ -32,8 +32,8 @@ public class AuthService {
         throw new AuthException(AuthErrorCode.NOT_EXISTS);
     }
 
-    public void logout(User user){
-        tokenService.RemoveToken(user.getId());
+    public void logout(String accessToken){
+        tokenService.removeToken(accessToken);
     }
 
 
