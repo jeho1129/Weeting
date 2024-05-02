@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     width: 40%;
-    height: 40%;
+    height: 45%;
     border-radius: 15px;
     transform: translate(-50%, -50%);
     background-color: white;
@@ -31,9 +31,11 @@
 }
 
 .modal ul {
-    width: 300px;
+    width: 350px;
     list-style-type: none;
     padding: 0;
+    margin-top: 35px;
+    margin-bottom: 20px;
 }
 
 .modal ul li {
@@ -41,4 +43,16 @@
     justify-content: space-between;
     align-items: center;
     margin: 10px 0; /* 위아래로 10px 간격 */
+}
+
+.Btn {
+    background-color: white;
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+}
+
+.Center {
+    
+    align-items: center;
 }
