@@ -75,7 +75,7 @@ const RoomModalCreateBtn = () => {
 
   return (
     <div>
-      <button onClick={openModal}>만들기</button>
+      <button onClick={openModal} className={`${styles.MakeBtn} FontM32`} >만들기</button>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
         <XCircle className={styles.XCircle} size={32} onClick={closeModal} />
         <div className={styles.Container}>

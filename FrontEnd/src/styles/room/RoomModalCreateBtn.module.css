@@ -52,3 +52,14 @@
   display: flex;
   height: 60px;
 }
+
+.MakeBtn {
+  width: 150px;
+  height: 70px;
+  background-color: #FFD80F;
+  border: none;
+  border-radius: 15px;
+}
+.MakeBtn:hover {
+  cursor: pointer;
+}
