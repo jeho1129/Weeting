@@ -118,7 +118,7 @@ pipeline {
                 script {
                     // 태그가 지정된 기존 이미지와 태그가 없는 이미지 모두 삭제
                     sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
+                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -f 'dangling=true' -q) || true"
                 }
             }
         }
