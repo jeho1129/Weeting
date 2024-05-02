@@ -25,6 +25,7 @@ const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
             style={{
               border: idx === selectedMode ? '1px solid pink' : '1px solid lightgray',
               backgroundColor: idx === selectedMode ? 'pink' : 'lightgray',
+              cursor: 'pointer',
             }}
           >
             {mode.text}

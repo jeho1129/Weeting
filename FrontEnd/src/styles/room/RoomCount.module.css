@@ -5,11 +5,30 @@
   height: 25px;
 }
 
-.Dir {
+.DirContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  /* cursor: pointer; */
+  scale: 1.5;
+  height: 30px;
 }
 
+.RoomCountContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 450px;
+}
+
+.RoomCountLabel {
+  margin-right: 50px;
+  width: 200px;
+}
+
+.MaxCount {
+  margin: 30px;
+}
+
+.Dir {
+  cursor: pointer;
+}
