@@ -13,7 +13,7 @@ export async function loginApi(param: Login) {
 
 export async function logoutApi() {
   try {
-    const response = await Axios.post(`/user/logout`);
+    const response = await Axios.post(`/user/logout`, {});
     return response.data;
   } catch (error) {
     return Promise.reject(error);
