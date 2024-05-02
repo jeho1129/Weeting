@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonNaming(PropertyNamingStrategy.class)
 public class FindRequest {
-    private boolean id;
-    private boolean account;
-    private boolean nickname;
-    private boolean score;
-    private boolean ranking;
-    private boolean create_at;
-    private boolean update_at;
+    private boolean id = true;
+    private boolean account = true;
+    private boolean nickname = true;
+    private boolean score = true;
+    private boolean ranking = true;
+    private boolean create_at = true;
+    private boolean update_at = true;
 
     public UserResponse toResponse(User user){
         UserResponse response = new UserResponse();
