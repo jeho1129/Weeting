@@ -1,20 +1,24 @@
-FROM python:3.10-slim
+FROM ubuntu:20.04
 
 WORKDIR /app
 
-COPY . /app
-
+# 필요한 패키지 설치
 RUN apt-get update && \
-    apt-get install -y git && \
-    apt-get install -y --no-install-recommends openjdk-8-jdk && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:openjdk-r/ppa && \
+    apt-get update && \
+    apt-get install -y openjdk-8-jdk python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME /usr/lib/jvm/openjdk-8-jdk
+# JAVA_HOME 환경 변수 설정
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install git+https://github.com/allinux/PyKoSpacing.git
+# Python 패키지 및 PyKoSpacing 설치
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt && \
+    pip3 install git+https://github.com/allinux/PyKoSpacing.git
 
 EXPOSE 8000
 
