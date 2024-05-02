@@ -10,7 +10,7 @@ import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameWordTimer'
 import GameTimer from '@/assets/images/timerNormal.png'
 
-const GameWaitingLeftSide = ({ roomInfo,scoreUpdates,  changeRoomStatus }: { roomInfo: RoomInfo,scoreUpdates:number; changeRoomStatus: () => void}) => {
+const GameWaitingLeftSide = ({ roomInfo, scoreUpdates,  changeRoomStatus }: { roomInfo: RoomInfo, scoreUpdates:number; changeRoomStatus: () => void}) => {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {

@@ -46,7 +46,7 @@ const GameWaiting = () => {
     roomSubject: null,
     roomMaxCnt: 8,
     roomUsers: [
-      { userId: "1", nickname: "나야나방장", outfit: "casual",  ready: false, word: null, score:1, isAlive:true},
+      { userId: "1", nickname: "나야나방장", outfit: "casual",  ready: false, word: '하윙', score:1, isAlive:true},
       { userId: "2", nickname: "줴훈줴훈", outfit: "sporty", ready: true, word: null, score:2 , isAlive:true},
       { userId: "3", nickname: "헤엥", outfit: "formal", ready: false, word: null, score:3 , isAlive:true},
       { userId: "4", nickname: "웅냥냥", outfit: "formal", ready: false, word: null, score:1 , isAlive:true},
@@ -101,6 +101,14 @@ const GameWaiting = () => {
       setRankOpen(true);
     }
   }, [roomInfo, choose]);
+
+  useEffect(() => {
+    const allWordsSet = roomInfo.roomUsers.every(user => user.word !== null);
+  
+    if (allWordsSet) {
+      changeRoomStatus('start');
+    }
+  }, [roomInfo.roomUsers]);
 
   return (
     <>
