@@ -1,95 +1,3 @@
-// pipeline {
-//     agent any
-//     environment {
-//         REPO = "s10-final/S10P31C103"
-//         DOCKERHUB_REGISTRY = "superjaehun/back"
-//         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
-//     }
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 checkout scm
-//             }
-//         }
-//         stage('Setup Environment') {
-//             steps {
-//                 dir("${env.WORKSPACE}/BackEnd") {
-//                     script {
-//                         sh "ls -al"
-//                         sh "chmod +x ./gradlew"
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Remove Old Images') {
-//             steps {
-//                 script {
-//                     // 기존 이미지 삭제
-//                     sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-//                 }
-//             }
-//         }
-//         stage("Build") {
-//             steps {
-//                 script {
-//                     sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
-//                 }
-//             }
-//         }
-//         stage("Login") {
-//             steps {
-//                 script {
-//                     sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-//                 }
-//             }
-//         }
-//         stage("Tag and Push") {
-//             steps {
-//                 script {
-//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-//                         sh "docker push ${DOCKERHUB_REGISTRY}"
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Prune old images') {
-//             steps {
-//                 script {
-//                     sh "docker ps"
-//                     // 사용하지 않는 모든 도커 리소스 정리!
-//                     sh "docker image prune -a"
-//                 }
-//             }
-//         }
-//         stage('Pull') {
-//             steps {
-//                 script {
-//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-//                         sh "docker stop back || true"  // Ignore error if container doesn't exist
-//                         sh "docker rm back || true"    // Ignore error if container doesn't exist
-//                         sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"  // Remove images
-//                         sh "docker pull ${DOCKERHUB_REGISTRY}"
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Up') {
-//             steps {
-//                 script {
-//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-//                         try {
-//                             sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
-//                         } catch(Exception e) {
-//                             sh "docker restart back || true"  // Ignore error if container doesn't exist
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
-
 pipeline {
     agent any
     environment {
@@ -113,12 +21,19 @@ pipeline {
                 }
             }
         }
+        stage('Stop and Remove Container') {
+            steps {
+                script {
+                    sh "docker stop back || true"
+                    sh "docker rm back || true"
+                }
+            }
+        }
         stage('Remove Old Images') {
             steps {
                 script {
-                    // 태그가 지정된 기존 이미지와 태그가 없는 이미지 모두 삭제
                     sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -f 'dangling=true' -q) || true"
+                    sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
                 }
             }
         }
