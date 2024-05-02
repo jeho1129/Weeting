@@ -23,7 +23,7 @@ import java.util.Collections;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig{
-    private static final String[] ALLOWED_URIS = {"api/v1/user/**", "chat"};
+    private static final String[] ALLOWED_URIS = {"api/v1/**", "chat"};
     private final JwtFilter jwtFilter;
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthFailureHandler authFailureHandler;

@@ -3,14 +3,14 @@ version: '2.12.2'
 services:
   fastapi:
     image: weeting_fastapi_img
+    volumes:
+      - /home/ubuntu/develop/model:/app/model
     container_name: fastapi
     build:
       context: ./Data
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     restart: always
 
 volumes:
