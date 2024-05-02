@@ -1,10 +1,14 @@
+.Container {
+  margin-top: 20px;
+}
+
 .Row {
-  height: 70px;
+  height: 60px;
 }
 
 .RoomNameLabel {
-  width: 100px;
-  margin-right: 100px;
+  display: inline-block;
+  width: 200px;
 }
 
 .Input {
@@ -12,4 +16,10 @@
   border-radius: 5px;
   width: 200px;
   height: 25px;
+}
+
+.XCircle {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
 }
