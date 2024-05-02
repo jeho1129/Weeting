@@ -57,7 +57,7 @@ pipeline {
                 script {
                     sh "docker ps"
                     // 사용하지 않는 모든 도커 리소스 정리
-                    sh "docker system prune -f"
+                    sh "docker image prune -a"
                 }
             }
         }
