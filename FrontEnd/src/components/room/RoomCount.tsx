@@ -5,9 +5,11 @@ const RoomCount = () => {
   const selectedMaxCount = 4;
   return (
     <>
-      <CaretLeft size={20} className={styles.Dir} />
-      <div className={styles.MaxCount}>{selectedMaxCount}</div>
-      <CaretRight size={20} className={styles.Dir} />
+      <div className={styles.Dir}>
+        <CaretLeft size={20} />
+        <div className={styles.MaxCount}>{selectedMaxCount}</div>
+        <CaretRight size={20}/>
+      </div>
     </>
   );
 }

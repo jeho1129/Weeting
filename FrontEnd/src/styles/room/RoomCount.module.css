@@ -6,12 +6,10 @@
 }
 
 .Dir {
-  /* margin-top: 10px; */
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  /* cursor: pointer; */
 }
 
-.MaxCount {
-  display: inline-block;
-  flex-direction: row;
-  margin-top: ;
-}

@@ -3,6 +3,7 @@
 }
 
 .Row {
+  display: flex;
   height: 60px;
 }
 
