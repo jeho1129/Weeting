@@ -1,27 +1,26 @@
 from concurrent.futures import ThreadPoolExecutor
 from fastapi import HTTPException, status
 from konlpy.tag import Okt
-import asyncio, fasttext, re
-
-fasttext.FastText.eprint = lambda x: None
+import asyncio, fasttext, re, os
 
 model = None
 MODEL_PATH = '/app/model/model.bin'
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
 okt = Okt()
 
-model_loaded = asyncio.Event()
-
 async def load_model():
     global model
     loop = asyncio.get_event_loop()
-    print("Loading model...")
-    model = await loop.run_in_executor(None, fasttext.load_model, MODEL_PATH)
-    print("Model loaded successfully.")
-    model_loaded.set()
+    if os.path.exists(MODEL_PATH):
+        print(f"Model file found at {MODEL_PATH}. Loading...")
+        
+        model = await loop.run_in_executor(None, fasttext.load_model, MODEL_PATH)
+        print("Model loaded successfully.")
+    else:
+        print(f"Model file not found at {MODEL_PATH}.")
 
 async def get_model():
-    await model_loaded.wait()
+    global model
     return model
 
 def is_hangul(text) -> bool:
