@@ -1,6 +1,8 @@
+import styles from '@/styles/room/RoomEnterBtn.module.css'
+
 const RoomEnterBtn = () => {
   return (
-    <button>빠른입장</button>
+    <button className={`${styles.QuickEnterBtn} FontM32`}>빠른입장</button>
   )
 }
 
