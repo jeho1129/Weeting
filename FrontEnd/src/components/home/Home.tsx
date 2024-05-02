@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 import { userState } from '@/recoil/atom';
 import { logoutApi, userInfoLoadApi } from '@/services/userApi';
 import { removeCookie } from '@/utils/axios';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
   // 회원정보 조회 계속 해서 리코일에 반영하기
   const setUserInfo = useSetRecoilState(userState);
+  const navigate = useNavigate();
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
@@ -26,10 +28,14 @@ const Home = () => {
   }, []);
 
   const logOut = () => {
-    logoutApi().then(() => {
-      alert('로그아웃')
-      removeCookie('accessToken');
-    });
+    logoutApi()
+      .then(() => {
+        alert('로그아웃');
+        removeCookie('accessToken');
+      })
+      .then(() => {
+        navigate('/');
+      });
   };
 
   return (

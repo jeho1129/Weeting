@@ -35,10 +35,6 @@ const MainLoginForm = () => {
 
         // recoil에 login 정보 저장
         setUser(loggedInUserState);
-
-        // getCookie 사용 예시
-        const accessToken = getCookie('accessToken');
-        console.log(accessToken);
       })
       .then(() => {
         alert('로그인 되었습니다');

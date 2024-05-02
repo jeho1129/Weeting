@@ -14,7 +14,7 @@ export interface User {
   userId: number;
   nickname: string;
   score: number;
-  ranking: number | null;
+  ranking: number;
 }
 
 export interface RankingUser {

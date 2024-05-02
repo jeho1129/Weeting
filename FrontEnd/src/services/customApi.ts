@@ -1,6 +1,6 @@
 import { Axios } from '@/utils/axios';
 
-export async function outfitAllApi({ userId }: { userId: number }) {
+export async function outfitAllApi(userId: number) {
   try {
     const response = await Axios.get(`/outfit/${userId}`);
     return response.data;
@@ -9,7 +9,7 @@ export async function outfitAllApi({ userId }: { userId: number }) {
   }
 }
 
-export async function outfitNowApi({ userId }: { userId: number }) {
+export async function outfitNowApi(userId: number) {
   try {
     const response = await Axios.get(`/outfit/${userId}/worn`);
     return response.data;
