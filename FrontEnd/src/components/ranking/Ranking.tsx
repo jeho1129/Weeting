@@ -1,21 +1,52 @@
-import HomeFrame from '@/components/home/HomeFrame';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styles from '@/styles/ranking/RankingPage.module.css';
+
 import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
-const Home = () => {
+import RankingList from './RankingList';
+
+import { userState } from '@/recoil/atom';
+import { RankingUser } from '@/types/user';
+import { rankingListApi } from '@/services/rankApi';
+
+const Ranking = () => {
+  const [rankingList, setRankingList] = useState<RankingUser[]>([]);
+  const userInfo = useRecoilValue(userState);
+
+  useEffect(() => {
+    rankingListApi()
+      .then((data: RankingUser[]) => {
+        setRankingList(data);
+        console.log(userInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <div className={styles.ButtonContainer}>
-        <HomeButton {...{ message: '홈', direction: 'up', location: 'home' }} />
+        <HomeButton {...{ message: '', direction: 'up', location: 'home' }} />
       </div>
-      <div className={styles.AvatarContainer}>
-        <Avatar {...{ move: true, size: 400, isNest: true }} />
-      </div>
-      <div className={styles.FrameContainer}>
-        <HomeFrame />
+      <div className={styles.RankingContainer}>
+        <div className={styles.AvatarContainer}>
+          <div>
+            <Avatar {...{ move: true, size: 400, isNest: true }} />
+          </div>
+          <div>
+            <div className={`FontM32`}>내 순위는 {userInfo.ranking}</div>
+          </div>
+        </div>
+        <div className={styles.ListContainer}>
+          <div className="FontM60">✨🎈랭킹🎉✨</div>
+          <div className={styles.ListWH}>
+            <RankingList rankingList={rankingList!} />
+          </div>
+        </div>
       </div>
     </>
   );
 };
-
-export default Home;
+export default Ranking;

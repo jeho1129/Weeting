@@ -1,0 +1,56 @@
+.FrameContainer {
+  z-index: -99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.FrameRelative {
+  position: relative;
+}
+
+.FrameWH {
+  width: calc(100vw + 2671px - 1536px);
+  height: calc(100vh + 1112px - 833px);
+}
+
+.FrameHome {
+  position: absolute;
+  left: -567.5px;
+  top: 0px;
+  transition: all 3000ms;
+}
+.FrameRanking {
+  position: absolute;
+  left: -567.5px;
+  top: -279px;
+  transition: all 3000ms;
+}
+.FrameCustom {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transition: all 3000ms;
+}
+.FrameRoom {
+  position: absolute;
+  top: 0px;
+  left: -1135px;
+  transition: all 3000ms;
+}
+
+.FrameHomeSky {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  animation: moveRight 25s linear infinite;
+}
+
+@keyframes moveRight {
+  100% {
+    transform: translate(calc(-4801.73 * (100vh / 833)));
+  }
+}
