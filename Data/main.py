@@ -7,7 +7,7 @@ import model_manager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await model_manager.load_model()
+    # await model_manager.load_model()
     try:
         yield
     finally:
