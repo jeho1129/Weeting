@@ -11,8 +11,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     restart: always
 
 volumes:
