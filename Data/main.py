@@ -7,12 +7,9 @@ import asyncio, model_manager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    load_task = asyncio.create_task(model_manager.load_model())
     try:
-        await asyncio.wait_for(load_task, timeout=30)
+        model_manager.load_model()
         yield
-    except asyncio.TimeoutError:
-        print("Model loading timed out.")
     except Exception as e:
         print(f"Error during model loading: {e}")
         raise
