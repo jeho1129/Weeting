@@ -31,7 +31,6 @@ const MainLoginForm = () => {
         console.log('loggedInUserState :', loggedInUserState);
 
         // 쿠키에 accessToken 저장
-        // setCookie('accessToken', 'true', { path: '/' });
         setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
 
         // recoil에 login 정보 저장
@@ -40,6 +39,8 @@ const MainLoginForm = () => {
         // getCookie 사용 예시
         const accessToken = getCookie('accessToken');
         console.log(accessToken);
+      })
+      .then(() => {
         alert('로그인 되었습니다');
         navigate('/home');
       })

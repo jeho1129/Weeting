@@ -51,12 +51,6 @@ const MainSignupForm = () => {
       nickname: nickname,
     })
       .then(() => {
-        // 쿠키에 accessToken 저장
-        // setCookie('accessToken', 'true', { path: '/' });
-
-        // recoil에 login 정보 저장
-        // setUser(loggedInUserState);
-
         // 로그인
         loginApi({
           account: id,
@@ -65,10 +59,6 @@ const MainSignupForm = () => {
           .then((data) => {
             const loggedInUserState = data.dataBody;
             console.log('loggedInUserState :', loggedInUserState);
-
-            // 쿠키에 accessToken 저장
-            // setCookie('accessToken', 'true', { path: '/' });
-
             // recoil에 login 정보 저장
             setUser(loggedInUserState);
           })
