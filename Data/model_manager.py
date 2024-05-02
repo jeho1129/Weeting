@@ -15,6 +15,7 @@ model_loaded = asyncio.Event()
 async def load_model():
     global model
     loop = asyncio.get_event_loop()
+    print("Loading model...")
     model = await loop.run_in_executor(None, fasttext.load_model, MODEL_PATH)
     print("Model loaded successfully.")
     model_loaded.set()
