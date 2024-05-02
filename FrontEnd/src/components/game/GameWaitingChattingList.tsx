@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ChatMessage } from '@/types/chat';
 import styles from '@/styles/game/GameWaitingChatting.module.css';
 
@@ -18,7 +18,7 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
   }, [chatMessages]); // chatMessages가 변경될 때마다 스크롤을 최하단으로 이동
 
   return (
-    <div className={styles.ChatList}>
+    <div className={`FontD16 ${styles.ChatList}`}>
       {chatMessages.map((message, index) => (
         <div key={index}>{message.content}</div>
       ))}
