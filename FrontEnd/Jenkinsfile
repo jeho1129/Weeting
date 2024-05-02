@@ -15,8 +15,8 @@ pipeline {
         stage('Stop and Remove Container') {
             steps {
                 script {
-                    sh "docker stop back || true"
-                    sh "docker rm back || true"
+                    sh "docker stop front || true"
+                    sh "docker rm front || true"
                 }
             }
         }
