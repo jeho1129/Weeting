@@ -1,6 +1,6 @@
 import styles from '@/styles/room/RoomRadio.module.css';
 
-const CustomRadio = ({ selectedMode, onChangeMode }) => {
+const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
   const roomModeList = [
     { text: '노말', value: 0 },
     { text: '랭킹', value: 1 },
@@ -35,4 +35,4 @@ const CustomRadio = ({ selectedMode, onChangeMode }) => {
   );
 };
 
-export default CustomRadio;
+export default RoomRadioBtn;

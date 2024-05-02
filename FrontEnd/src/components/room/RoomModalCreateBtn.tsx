@@ -3,7 +3,8 @@ import styles from '@/styles/room/RoomModalCreateBtn.module.css';
 import { XCircle } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import CustomRadio from './RoomRadioBtn';
+import RoomRadioBtn from './RoomRadioBtn';
+import RoomCount from './RoomCount';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -64,11 +65,11 @@ const RoomModalCreateBtn = () => {
           </div>
           <div className={styles.RoomMode}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 모드</span>
-            <CustomRadio selectedMode={selectedMode} onChangeMode={onChangeMode} />
+            <RoomRadioBtn selectedMode={selectedMode} onChangeMode={onChangeMode} />
           </div>
           <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 인원</span>
-            <input type="text" className={styles.Input} />
+            <RoomCount />
           </div>
           <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 비공개방</span>
