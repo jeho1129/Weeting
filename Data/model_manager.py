@@ -8,14 +8,17 @@ MODEL_PATH = '/app/model/model.bin'
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
 okt = Okt()
 
+model_loaded = asyncio.Event()
+
 async def load_model():
     global model
     loop = asyncio.get_event_loop()
     model = await loop.run_in_executor(None, fasttext.load_model, MODEL_PATH)
     print("Model loaded successfully.")
+    model_loaded.set()
 
 async def get_model():
-    global model
+    await model_loaded.wait()
     return model
 
 def is_hangul(text) -> bool:
