@@ -26,7 +26,7 @@ public class RankScheduler {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
     @Transactional
     public void updateRankings() {
         List<User> users = userRepository.findAllByOrderByScoreDesc();

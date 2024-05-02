@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt-get install software-properties-common && \
-    apt-get update && \
-    apt-get install openjdk-8-jdk && \
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    apt-get install -y openjdk-8-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
