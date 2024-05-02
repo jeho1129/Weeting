@@ -52,7 +52,7 @@ const MainSignupForm = () => {
     })
       .then(() => {
         // 쿠키에 accessToken 저장
-        setCookie('accessToken', 'true', { path: '/' });
+        // setCookie('accessToken', 'true', { path: '/' });
 
         // recoil에 login 정보 저장
         // setUser(loggedInUserState);
@@ -67,18 +67,19 @@ const MainSignupForm = () => {
             console.log('loggedInUserState :', loggedInUserState);
 
             // 쿠키에 accessToken 저장
-            setCookie('accessToken', 'true', { path: '/' });
+            // setCookie('accessToken', 'true', { path: '/' });
 
             // recoil에 login 정보 저장
             setUser(loggedInUserState);
+          })
+          .then(() => {
+            alert('회원가입 되었습니다');
+            navigate('/home');
           })
           .catch((err) => {
             console.log(err);
             alert('회원정보가 잘못되었습니다');
           });
-
-        alert('회원가입 되었습니다');
-        navigate('/home');
       })
       .catch(() => {
         alert('비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)');
