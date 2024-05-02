@@ -1,10 +1,15 @@
+.Container {
+  margin-top: 20px;
+}
+
 .Row {
-  height: 70px;
+  display: flex;
+  height: 60px;
 }
 
 .RoomNameLabel {
-  width: 100px;
-  margin-right: 100px;
+  display: inline-block;
+  width: 200px;
 }
 
 .Input {
@@ -12,4 +17,38 @@
   border-radius: 5px;
   width: 200px;
   height: 25px;
+}
+
+.XCircle {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+}
+.XCircle:hover {
+  color: red;
+}
+
+.BtnContainer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.Btn {
+  width: 100px;
+  height: 40px;
+  border: none;
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.Btn:hover {
+  background-color: red;
+}
+
+.RoomMode {
+  display: flex;
+  height: 60px;
 }

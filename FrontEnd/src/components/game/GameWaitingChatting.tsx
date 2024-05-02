@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '@/styles/game/GameWaitingChatting.module.css';
 import GameChattingForm from './GameWaitingChattingForm';
 import GameChattingList from './GameWaitingChattingList';

@@ -15,7 +15,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player1',
         outfit: 'outfit1',
         ready: false,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -23,7 +23,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player2',
         outfit: 'outfit2',
         ready: false,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -31,7 +31,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player2',
         outfit: 'outfit2',
         ready: false,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -39,7 +39,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player2',
         outfit: 'outfit2',
         ready: false,
-        wordset: false,
+        word: null,
         score: 0,
       },
     ],
@@ -58,7 +58,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player3',
         outfit: 'outfit3',
         ready: true,
-        wordset: true,
+        word: null,
         score: 50,
       },
       {
@@ -66,7 +66,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player4',
         outfit: 'outfit4',
         ready: true,
-        wordset: true,
+        word: null,
         score: 30,
       },
       {
@@ -74,7 +74,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player4',
         outfit: 'outfit4',
         ready: true,
-        wordset: true,
+        word: null,
         score: 30,
       },
       {
@@ -82,7 +82,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player4',
         outfit: 'outfit4',
         ready: true,
-        wordset: true,
+        word: null,
         score: 30,
       },
       {
@@ -90,7 +90,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player4',
         outfit: 'outfit4',
         ready: true,
-        wordset: true,
+        word: null,
         score: 30,
       },
     ],
@@ -109,7 +109,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -117,7 +117,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -125,7 +125,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -133,7 +133,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -141,7 +141,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -149,7 +149,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
       {
@@ -157,7 +157,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player5',
         outfit: 'outfit5',
         ready: true,
-        wordset: false,
+        word: null,
         score: 0,
       },
     ],
@@ -176,7 +176,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player6',
         outfit: 'outfit6',
         ready: false,
-        wordset: true,
+        word: null,
         score: 70,
       },
       {
@@ -184,7 +184,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player7',
         outfit: 'outfit7',
         ready: false,
-        wordset: true,
+        word: null,
         score: 95,
       },
       {
@@ -192,7 +192,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player8',
         outfit: 'outfit8',
         ready: false,
-        wordset: true,
+        word: null,
         score: 80,
       },
       {
@@ -200,7 +200,7 @@ export const RoomListData: RoomInfo[] = [
         nickname: 'Player8',
         outfit: 'outfit8',
         ready: false,
-        wordset: true,
+        word: null,
         score: 80,
       },
     ],

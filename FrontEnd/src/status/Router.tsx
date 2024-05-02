@@ -30,8 +30,7 @@ const Router = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/custom" element={<CustomPage />} />
-          <Route path="/ranking" element={<RankingPage />} />
-          <Route path="/game" element={<GamePage />}>
+          <Route path="/room/:id" element={<GamePage />}>
             <Route index element={<GameWaiting />} />
           </Route>
           <Route path="/room" element={<RoomPage />}>
