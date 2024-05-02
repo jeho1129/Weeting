@@ -22,8 +22,9 @@ export interface IngameUser {
   nickname: string;
   outfit: string;
   ready: boolean;
-  wordset: boolean;
+  word: string | null;
   score: number;
+  isAlive: boolean;
 }
 
 export interface MainSignupFormIdProps {
