@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '@/styles/game/GameEnd.module.css';
 import { RoomInfo } from '@/types/game';
 import finish from '@/assets/images/finish.png';
-
-interface Member {
-  memberid: string;
-  nickname: string;
-  outfit: string;
-  ready: boolean;
-  word: string | null;
-  score: number;
-}
 
 interface GameRankModalProps {
   roomInfo: RoomInfo;
@@ -19,7 +10,7 @@ interface GameRankModalProps {
   onStatusChange: (newStatus: string) => void;
 }
 
-const GameRankModal: React.FC<GameRankModalProps> = ({ roomInfo, isOpen, onClose, onStatusChange }) => {
+const GameRankModal: React.FC<GameRankModalProps> = ({ roomInfo, isOpen, onClose, onStatusChange }:GameRankModalProps) => {
   if (!isOpen) {
     return null;
   }
@@ -29,7 +20,7 @@ const GameRankModal: React.FC<GameRankModalProps> = ({ roomInfo, isOpen, onClose
     onClose();
   };
 
-  const sortedMembers = [...roomInfo.roommembers].sort((a, b) => b.score - a.score);
+  const sortedMembers = [...roomInfo.roomUsers].sort((a, b) => b.score - a.score);
 
   return (
     <div className={`FontM20 ${styles.Container}`}>

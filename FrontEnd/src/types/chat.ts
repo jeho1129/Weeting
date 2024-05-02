@@ -4,6 +4,6 @@ export interface ChatMessage {
   }
   
 export  interface ScoreUpdate {
-    memberId: string;
+    userId: string;
     score: number;
   }

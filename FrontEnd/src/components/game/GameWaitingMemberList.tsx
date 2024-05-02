@@ -8,10 +8,10 @@ import choosing from '@/assets/images/choosing.png';
 import firstIcon from '@/assets/images/firstscore.png';
 import scoreIcon from '@/assets/images/otherscore.png';
 
-const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstatus:RoomInfo["roomstatus"],roommaxcnt:RoomInfo["roommaxcnt"], roommembers: RoomInfo["roommembers"] }) => {
-  const sortedMembers = roomstatus === 'start' ?
-    [...roommembers].sort((a, b) => b.score - a.score) :
-    roommembers;
+const GameWaitingMemberList = ({roomStatus, roomMaxCnt, roomUsers }: {roomStatus:RoomInfo["roomStatus"],roomMaxCnt:RoomInfo["roomMaxCnt"], roomUsers: RoomInfo["roomUsers"] }) => {
+  const sortedMembers = roomStatus === 'start' ?
+    [...roomUsers].sort((a, b) => b.score - a.score) :
+    roomUsers;
 
     return (
       <>
@@ -22,14 +22,14 @@ const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstat
                 참가자 목록
               </div>
               <div>
-                {sortedMembers.length} / {roommaxcnt} 명
+                {sortedMembers.length} / {roomMaxCnt} 명
               </div>
             </div>
-            <div className={styles.RoomMembers}>
+            <div className={styles.RoomUsers}>
               {sortedMembers.map((member, index) => (
                 <div key={member.userId} className={styles.RoomMember}>
                   <div className={styles.Nickname}>
-                    {index === 0 && roomstatus !== 'start' ? (
+                    {index === 0 && roomStatus !== 'start' ? (
                       <>
                         {member.nickname}
                         <img src={crown} alt="방장" className={styles.CrownIcon} />
@@ -39,13 +39,13 @@ const GameWaitingMemberList = ({roomstatus, roommaxcnt, roommembers }: {roomstat
                     )}
                   </div>
                   <div>
-                    {roomstatus === 'wordsetting' ? 
+                    {roomStatus === 'wordsetting' ? 
                       <img 
                         src={member.word ? ok : choosing}
                         alt={member.ready ? '레디' : '대기중'}
                         className={styles.StatusIcon}
                       />
-                      : roomstatus === 'start' ? (
+                      : roomStatus === 'start' ? (
                         <>
                           <span className={styles.Score}>{member.score}</span>
                           <img 

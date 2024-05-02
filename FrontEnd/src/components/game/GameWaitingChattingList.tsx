@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ChatMessage } from '@/types/chat';
 import styles from '@/styles/game/GameWaitingChatting.module.css';
 

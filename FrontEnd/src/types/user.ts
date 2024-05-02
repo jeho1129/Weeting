@@ -24,6 +24,7 @@ export interface IngameUser {
   ready: boolean;
   word: string | null;
   score: number;
+  isAlive: boolean;
 }
 
 export interface MainSignupFormIdProps {

@@ -1,17 +1,19 @@
-import React from 'react';
 import avatar from '@/assets/images/inGameAvatar.png';
+import avatardead from '@/assets/images/inGameDead.png';
+import avatarshock from '@/assets/images/inGameElectricShock.png';
+
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 
 const GameWaitingAvatars = ({
-	roomstatus,
-  roommembers,
-  roommaxcnt,
+	roomStatus,
+  roomUsers,
+  roomMaxCnt,
 }: {
-	roomstatus: RoomInfo['roomstatus'];
-  roommembers: RoomInfo['roommembers'];
-  roommaxcnt: RoomInfo['roommaxcnt'];
+	roomStatus: RoomInfo['roomStatus'];
+  roomUsers: RoomInfo['roomUsers'];
+  roomMaxCnt: RoomInfo['roomMaxCnt'];
 }) => {
   const calculatePosition = (index, maxCount) => {
     let position;
@@ -49,8 +51,8 @@ const GameWaitingAvatars = ({
 
   return (
     <div className={styles.inGameAvatars}>
-      {roommembers.map((member, index) => {
-        const position = calculatePosition(index, roommaxcnt);
+      {roomUsers.map((member, index) => {
+        const position = calculatePosition(index, roomMaxCnt);
         return (
 					<div>
 						<img
@@ -60,7 +62,7 @@ const GameWaitingAvatars = ({
 							className={styles.inGameAvatar}
 							style={{ top: position.top, left: position.left }}
 						/>
-						{roomstatus === 'start' && (
+						{roomStatus === 'start' && (
               <>
               <div>
                 <div className={styles.inGameAvatar}

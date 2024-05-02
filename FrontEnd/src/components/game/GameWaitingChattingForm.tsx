@@ -14,9 +14,9 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    if (message.trim()) { // 메시지가 비어있지 않은 경우에만 전송
+    if (message.trim()) {
       onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
-      setMessage(''); // 메시지 전송 후 입력 필드 초기화
+      setMessage('');
     }
   };
 
