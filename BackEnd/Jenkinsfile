@@ -21,6 +21,14 @@ pipeline {
                 }
             }
         }
+        stage('Remove Old Images') {
+            steps {
+                script {
+                    // 기존 이미지 삭제
+                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
+                }
+            }
+        }
         stage("Build") {
             steps {
                 script {
@@ -48,6 +56,8 @@ pipeline {
             steps {
                 script {
                     sh "docker ps"
+                    // 사용하지 않는 모든 도커 리소스 정리
+                    sh "docker system prune -f"
                 }
             }
         }
@@ -68,10 +78,7 @@ pipeline {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         try {
-                            sh "docker run -d --name back -p 9002:8080 \
-                            ${DOCKERHUB_REGISTRY}"
-
-                            // sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml up -d"
+                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
                         } catch(Exception e) {
                             sh "docker restart back || true"  // Ignore error if container doesn't exist
                         }
