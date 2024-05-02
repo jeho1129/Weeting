@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chatroom.service;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
+import com.ssafy.backend.domain.chatroom.entity.ForbiddenWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
