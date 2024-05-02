@@ -3,6 +3,8 @@ from fastapi import HTTPException, status
 from konlpy.tag import Okt
 import asyncio, fasttext, re
 
+fasttext.FastText.eprint = lambda x: None
+
 model = None
 MODEL_PATH = '/app/model/model.bin'
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')

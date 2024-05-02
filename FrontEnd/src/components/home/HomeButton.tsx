@@ -1,6 +1,6 @@
 import { CaretDoubleLeft, CaretDoubleRight, CaretDoubleDown, CaretDoubleUp } from '@phosphor-icons/react';
 import styles from '@/styles/home/HomePage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const HomeButton = ({
   message,
   direction,
@@ -11,11 +11,12 @@ const HomeButton = ({
   location: string;
 }) => {
   const navigate = useNavigate();
+  const presentLocation = useLocation();
   return (
     <>
       <div
-        className={`${styles.ButtonArrow} ${direction === 'up' ? styles.ButtonArrowUp : direction === 'down' ? styles.ButtonArrowDown : direction === 'left' ? styles.ButtonArrowLeft :  direction === 'right' ? styles.ButtonArrowRight:styles.ButtonArrowBack}`}
-        onClick={() => navigate(`/${location}`)}
+        className={`${styles.ButtonArrow} ${direction === 'up' ? styles.ButtonArrowUp : direction === 'down' ? styles.ButtonArrowDown : direction === 'left' ? styles.ButtonArrowLeft : styles.ButtonArrowRight}`}
+        onClick={() => navigate(`/${location}`, { state: { previousLocationPathname: presentLocation.pathname } })}
       >
         {direction === 'up' ? (
           <CaretDoubleUp size={80} weight="bold" color="#ffffff" />
@@ -25,8 +26,9 @@ const HomeButton = ({
           <CaretDoubleLeft size={80} weight="bold" color="#ffffff" />
         ) : direction === 'right' ? (
           <CaretDoubleRight size={80} weight="bold" color="#ffffff" />
-        ) : <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
-        }
+        ) : (
+          <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
+        )}
         <div className={`${direction === 'back' ? 'FontM32' : 'FontM60'}`} style={{ color: '#ffffff' }}>
           {message}
         </div>

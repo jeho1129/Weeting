@@ -14,7 +14,13 @@ export interface User {
   userId: number;
   nickname: string;
   score: number;
-  ranking: number | null;
+  ranking: number;
+}
+
+export interface RankingUser {
+  ranking: number;
+  nickname: string;
+  score: number;
 }
 
 export interface IngameUser {
@@ -22,8 +28,9 @@ export interface IngameUser {
   nickname: string;
   outfit: string;
   ready: boolean;
-  wordset: boolean;
+  word: string | null;
   score: number;
+  isAlive: boolean;
 }
 
 export interface MainSignupFormIdProps {

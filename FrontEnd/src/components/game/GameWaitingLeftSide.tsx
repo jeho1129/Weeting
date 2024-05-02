@@ -1,5 +1,5 @@
 import styles from '@/styles/game/GameWaiting.module.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RoomInfo } from '@/types/game';
 import { ScoreUpdate } from '@/types/chat';
 
@@ -10,32 +10,35 @@ import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameWordTimer'
 import GameTimer from '@/assets/images/timerNormal.png'
 
-const GameWaitingLeftSide = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo, changeRoomStatus: () => void}) => {
+const GameWaitingLeftSide = ({ roomInfo, scoreUpdates,  changeRoomStatus }: { roomInfo: RoomInfo, scoreUpdates:number; changeRoomStatus: () => void}) => {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
-    if (roomInfo.roomstatus === 'allready') {
+    if (roomInfo.roomStatus === 'allready') {
       setBlink(true);
       setTimeout(() => {
         setBlink(false);
       }, 5000); // 5초 후에 반짝이는 효과를 종료
     }
-  }, [roomInfo.roomstatus]);
+  }, [roomInfo.roomStatus]);
     return (
     <>
     <div className={styles.Align}>
         <GameWaitingLogo/>
-        <GameWaitingMemberList roomstatus={roomInfo.roomstatus} roommaxcnt={roomInfo.roommaxcnt} roommembers={roomInfo.roommembers}/>
-        {(roomInfo.roomstatus === 'waiting' || roomInfo.roomstatus === 'allready') && (
+        <GameWaitingMemberList roomStatus={roomInfo.roomStatus} roomMaxCnt={roomInfo.roomMaxCnt} roomUsers={roomInfo.roomUsers}/>
+        {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready') && (
             <div className={styles.ButtonAlign}>
-              <GameWaitingReadyButton roommembers={roomInfo.roommembers} blink={blink} onStartGame={changeRoomStatus}/>
-              <GameWaitingQuitButton roomid={roomInfo.roomid}/>
+              <GameWaitingReadyButton roomUsers={roomInfo.roomUsers} blink={blink} onStartGame={changeRoomStatus}/>
+              <GameWaitingQuitButton roomId={roomInfo.roomId}/>
             </div>
         )}
-        {(roomInfo.roomstatus === 'wordsetting' || roomInfo.roomstatus === 'start') && (
-          <GameWordTimer/>
+        {(roomInfo.roomStatus === 'wordsetting' || roomInfo.roomStatus === 'start') && (
+          <GameWordTimer 
+          roomInfo={roomInfo} 
+          changeRoomStatus={changeRoomStatus}
+        />
         )}
-        {roomInfo.roommode === 'rank' && (
+        {roomInfo.roomMode === 'rank' && (
           <GameTimer/>
         )}
     </div>

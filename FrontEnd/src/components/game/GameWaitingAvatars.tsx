@@ -1,17 +1,19 @@
-import React from 'react';
 import avatar from '@/assets/images/inGameAvatar.png';
+import avatardead from '@/assets/images/inGameDead.png';
+import avatarshock from '@/assets/images/inGameElectricShock.png';
+
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 
 const GameWaitingAvatars = ({
-	roomstatus,
-  roommembers,
-  roommaxcnt,
+	roomStatus,
+  roomUsers,
+  roomMaxCnt,
 }: {
-	roomstatus: RoomInfo['roomstatus'];
-  roommembers: RoomInfo['roommembers'];
-  roommaxcnt: RoomInfo['roommaxcnt'];
+	roomStatus: RoomInfo['roomStatus'];
+  roomUsers: RoomInfo['roomUsers'];
+  roomMaxCnt: RoomInfo['roomMaxCnt'];
 }) => {
   const calculatePosition = (index, maxCount) => {
     let position;
@@ -49,28 +51,36 @@ const GameWaitingAvatars = ({
 
   return (
     <div className={styles.inGameAvatars}>
-      {roommembers.map((member, index) => {
-        const position = calculatePosition(index, roommaxcnt);
+      {roomUsers.map((member, index) => {
+        const position = calculatePosition(index, roomMaxCnt);
         return (
 					<div>
 						<img
-							key={member.memberid}
+							key={member.userId}
 							src={avatar}
 							alt="avatar"
 							className={styles.inGameAvatar}
 							style={{ top: position.top, left: position.left }}
 						/>
-						{roomstatus === 'start' && (
-								<img
-									src={forbiddenFlag}
-									alt="forbidden word"
-									className={styles.inGameAvatar}
-									style={{
-										top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
-										left: position.left,
-										position: 'absolute',
-									}}
-								/>
+						{roomStatus === 'start' && (
+              <>
+              <div>
+                <div className={styles.inGameAvatar}
+                    style={{
+                      top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
+                      left: position.left,
+                      position: 'absolute',
+                    }} >
+                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', position: 'relative'}}>
+                      <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
+                      <img
+                        src={forbiddenFlag}
+                        alt="forbidden word"
+                      />
+                    </div>
+                </div>
+              </div>
+              </>
 							)}
 					</div>
         );
