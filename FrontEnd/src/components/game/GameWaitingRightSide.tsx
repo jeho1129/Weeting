@@ -12,7 +12,7 @@ const GameWaitingRightSide = ({ roomInfo, chatMessages }: { roomInfo: RoomInfo, 
     <>
     <div className={styles.RightSide}>
       <GameWaitingPole roomName={roomInfo.roomName} roomStatus={roomInfo.roomStatus} roomUsers={roomInfo.roomUsers} roomMaxCnt={roomInfo.roomMaxCnt} />
-      <GameWaitingChatting chatMessages={chatMessages}/>
+      <GameWaitingChatting roomInfo={roomInfo} chatMessages={chatMessages}/>
     </div>
     </>
   );
