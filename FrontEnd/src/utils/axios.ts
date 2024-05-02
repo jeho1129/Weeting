@@ -18,7 +18,7 @@ const removeCookie = (key: string, option?: CookieSetOptions) => {
 const createAxiosInstance = () => {
   const instance = axios.create({
     withCredentials: false,
-    baseURL: import.meta.env.VITE_API_URL || '',
+    baseURL: import.meta.env.VITE_API_URL || '', 
     headers: {
       Accept: '*',
       'Content-Type': 'application/json;charset=utf-8',
