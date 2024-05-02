@@ -11,5 +11,6 @@ PySocks==1.7.1
 requests==2.31.0
 SQLAlchemy==2.0.28
 SQLAlchemy-Utils==0.41.1
+tensorflow==2.15.0
 uvicorn==0.28.0
 webdriver-manager==4.0.1
