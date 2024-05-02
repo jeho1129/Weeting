@@ -1,13 +1,14 @@
 import { IngameUser } from "./user";
 
 export interface RoomInfo {
-  roommode:'rank' | 'normal'
-    roomid: string;
-    roomname: string;
-    roomstatus: 'waiting' | 'allready' | 'wordsetting' | 'wordokay' | 'start' | 'end';
-    roomforbiddentime: null|string;
-    roomendtime: null|string;
-    roommaxcnt: number;
-    roommembers: IngameUser[];
+  roomMode:'rank' | 'normal'
+    roomId: string;
+    roomName: string;
+    roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordokay' | 'start' | 'end';
+    roomForbiddentime: null|string;
+    roomEndtime: null|string;
+    roomSubject: null|string;
+    roomMaxCnt: number;
+    roomUsers: IngameUser[];
   }
   

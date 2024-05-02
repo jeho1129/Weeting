@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerNormal from '@/assets/images/timerNormal.png';
 

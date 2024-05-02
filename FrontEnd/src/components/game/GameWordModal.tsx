@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css'
 import { RoomInfo } from '@/types/game';
 
