@@ -1,7 +1,7 @@
 import { userState } from '@/recoil/atom';
 import { loginApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
-import { setCookie } from '@/utils/axios';
+import { setCookie, getCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -31,13 +31,15 @@ const MainLoginForm = () => {
         console.log('loggedInUserState :', loggedInUserState);
 
         // 쿠키에 accessToken 저장
-        setCookie('accessToken', 'true', { path: '/' });
+        // setCookie('accessToken', 'true', { path: '/' });
+        setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
 
         // recoil에 login 정보 저장
         setUser(loggedInUserState);
 
         // getCookie 사용 예시
-        // const accessToken = getCookie('accessToken');
+        const accessToken = getCookie('accessToken');
+        console.log(accessToken);
         alert('로그인 되었습니다');
         navigate('/home');
       })

@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 const MainGuest = () => {
   // 나중에 지우기
-  setCookie('accessToken', 'true');
+  // setCookie('accessToken', 'true');
   const navigate = useNavigate();
-  const accessToken = getCookie('accessToken');
-  console.log('accessToken :', accessToken);
+  // const accessToken = getCookie('accessToken');
+  // console.log('accessToken :', accessToken);
   // if (accessToken === true) {
   //   navigate('home');
   // }
