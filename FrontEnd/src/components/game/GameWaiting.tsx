@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
-import { Client, IMessage } from "@stomp/stompjs";
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Client, IMessage } from '@stomp/stompjs';
+import { Link, useParams } from 'react-router-dom';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
 import GameRankModal from '@/components/game/GameRankModal';
@@ -9,6 +9,8 @@ import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
 import { RoomInfo } from '@/types/game';
 import { ChatMessage, ScoreUpdate } from '@/types/chat';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { gameState } from '@/recoil/atom';
 
 interface ChatMessageReqeust {
   from: string;
@@ -16,7 +18,7 @@ interface ChatMessageReqeust {
   roomId: number;
 }
 
-interface ChatMessageResponse{
+interface ChatMessageResponse {
   id: number;
   content: string;
   writer: string;
@@ -26,47 +28,56 @@ const GameWaiting = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [messages, setMessages] = useState<ChatMessageResponse[]>([]);
-  const [writer, setWriter] = useState<string>("");
-  const [newMessage, setNewMessage] = useState<string>("");
-  
+  const [writer, setWriter] = useState<string>('');
+  const [newMessage, setNewMessage] = useState<string>('');
+
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isRankOpen, setRankOpen] = useState<boolean>(false);
   const [choose, setChoose] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [scoreUpdates, setScoreUpdates] = useState<ScoreUpdate[]>([]);
-  
+
   // 더미 데이터로 useState 초기화
-  const [roomInfo, setRoomInfo] = useState<RoomInfo>({
-    roomMode: 'normal',
-    roomId: "1",
-    roomName: "테스트 방",
-    roomStatus: "start",
-    roomForbiddentime: null,
-    roomEndtime: null,
-    roomSubject: null,
-    roomMaxCnt: 8,
-    roomUsers: [
-      { userId: "1", nickname: "나야나방장", outfit: "casual",  ready: false, word: '하윙', score:1, isAlive:true},
-      { userId: "2", nickname: "줴훈줴훈", outfit: "sporty", ready: true, word: null, score:2 , isAlive:true},
-      { userId: "3", nickname: "헤엥", outfit: "formal", ready: false, word: null, score:3 , isAlive:true},
-      { userId: "4", nickname: "웅냥냥", outfit: "formal", ready: false, word: null, score:1 , isAlive:true},
-      { userId: "5", nickname: "홀롤로", outfit: "formal", ready: false, word: '바보', score:4 , isAlive:true},
-      { userId: "6", nickname: "웅냐", outfit: "formal", ready: false, word: '메롱', score:67 , isAlive:true},
-      { userId: "7", nickname: "헤위이잉", outfit: "formal", ready: false, word: null, score:1 , isAlive:true},
-      { userId: "8", nickname: "인범머스크", outfit: "formal", ready: false, word: null, score:5 , isAlive:true},
-    ]
-  });
+  const dummy = useRecoilValue(gameState);
+  const [roomInfo, setRoomInfo] = useState<RoomInfo>(dummy);
+  const setGameState = useSetRecoilState(gameState);
+  useEffect(() => {
+    const dummy2: RoomInfo = {
+      roomMode: 'normal',
+      roomId: 1,
+      roomName: '테스트 방',
+      roomStatus: 'allready',
+      roomForbiddentime: null,
+      roomEndtime: null,
+      roomSubject: null,
+      roomMaxCnt: 8,
+      roomUsers: [
+        { userId: 9, nickname: '하하호호', outfit: 'casual', ready: false, word: '안녕', score: 1, isAlive: true },
+        { userId: 2, nickname: '줴훈줴훈', outfit: 'sporty', ready: true, word: '안녕', score: 2, isAlive: true },
+        { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕', score: 3, isAlive: false },
+        { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
+        { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보', score: 4, isAlive: false },
+        { userId: 6, nickname: '웅냐', outfit: 'formal', ready: true, word: '메롱', score: 67, isAlive: true },
+        { userId: 7, nickname: '헤위이잉', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
+        { userId: 8, nickname: '인범머스크', outfit: 'formal', ready: true, word: '안녕', score: 5, isAlive: true },
+      ],
+    };
+    setRoomInfo(dummy2);
+
+    //api호출 후 .then 안에서
+    setGameState(dummy2);
+  }, []);
 
   const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'start' | 'end') => {
-    setRoomInfo(prev => ({ ...prev, roomStatus: status }));
+    setRoomInfo((prev) => ({ ...prev, roomStatus: status }));
   };
 
   const wordSettingOrStart = () => {
-    if (roomInfo.roomStatus === 'waiting'){
+    if (roomInfo.roomStatus === 'waiting') {
       changeRoomStatus('wordsetting');
     } else if (roomInfo.roomStatus === 'allready') {
       changeRoomStatus('start');
-    } else if (roomInfo.roomStatus === 'start'){
+    } else if (roomInfo.roomStatus === 'start') {
       changeRoomStatus('end');
     }
   };
@@ -77,12 +88,12 @@ const GameWaiting = () => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
-      switch(message.type) {
+      switch (message.type) {
         case 'chat':
-          setChatMessages(prevMessages => [...prevMessages, message.payload]);
+          setChatMessages((prevMessages) => [...prevMessages, message.payload]);
           break;
         case 'score':
-          setScoreUpdates(prevScores => [...prevScores, message.payload]);
+          setScoreUpdates((prevScores) => [...prevScores, message.payload]);
           break;
         default:
           console.log('Unknown message type');
@@ -103,8 +114,8 @@ const GameWaiting = () => {
   }, [roomInfo, choose]);
 
   useEffect(() => {
-    const allWordsSet = roomInfo.roomUsers.every(user => user.word !== null);
-  
+    const allWordsSet = roomInfo.roomUsers.every((user) => user.word !== null);
+
     if (allWordsSet) {
       changeRoomStatus('start');
     }
@@ -116,31 +127,33 @@ const GameWaiting = () => {
       {isRankOpen && <div className={styles.modalOpenBackground}></div>}
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
-      <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart}/>
-      <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} onSendMessage={(msg) => { console.log(msg); }}/>
+        <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart} />
+        <GameWaitingRightSide
+          roomInfo={roomInfo}
+          chatMessages={chatMessages}
+          
+        />
       </div>
-      <GameForbiddenWord 
+      <GameForbiddenWord
         roomInfo={roomInfo}
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onConfirm={(word: string) => {
-          console.log("설정된 금칙어:", word);
+          console.log('설정된 금칙어:', word);
           setChoose(true);
           setModalOpen(false);
         }}
       />
-      {isRankOpen && 
-        <GameRankModal 
+      {isRankOpen && (
+        <GameRankModal
           roomInfo={roomInfo}
           isOpen={isRankOpen}
           onClose={() => setRankOpen(false)}
           onStatusChange={() => {
-            setRoomInfo(prev => ({ ...prev, roomStatus: 'waiting', roomSubject: null }));
+            setRoomInfo((prev) => ({ ...prev, roomStatus: 'waiting', roomSubject: null }));
           }}
         />
-      }
-
-      
+      )}
     </>
   );
 };
