@@ -15,8 +15,8 @@ pipeline {
         stage('Stop and Remove Container') {
             steps {
                 script {
-                    sh "docker stop back || true"
-                    sh "docker rm back || true"
+                    sh "docker stop front || true"
+                    sh "docker rm front || true"
                 }
             }
         }
@@ -33,6 +33,8 @@ pipeline {
                 script {
                     sh "ls -al"
                     sh "docker build -t ${DOCKERHUB_REGISTRY} FrontEnd"
+                    sh "touch ./.env"
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > ./.env"
                 }
             }
         }
@@ -50,20 +52,18 @@ pipeline {
                 }
             }
         }
-        stage('Prune old images') {
-            steps {
-                script {
-                    // 사용하지 않는 모든 도커 리소스 정리
-                    sh "docker image prune -af"
-                }
-            }
-        }
+        // stage('Prune old images') {
+        //     steps {
+        //         script {
+        //             // 사용하지 않는 모든 도커 리소스 정리
+        //             sh "docker image prune -af"
+        //         }
+        //     }
+        // }
         stage('Pull') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker stop front || true"
-                        sh "docker rm front || true"
                         sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"
                         sh "docker pull ${DOCKERHUB_REGISTRY}"
                     }
@@ -85,3 +85,5 @@ pipeline {
         }
     }
 }
+
+// CICD test2

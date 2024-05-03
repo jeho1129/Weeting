@@ -1,7 +1,7 @@
 aiomysql==0.2.0
 aioredis==2.0.1
-fastapi==0.110.2
-fasttext_wheel==0.9.2
+fastapi==0.110.0
+fasttext-wheel==0.9.2
 hangul-utils==0.2
 konlpy==0.6.0
 pydantic==2.7.1
