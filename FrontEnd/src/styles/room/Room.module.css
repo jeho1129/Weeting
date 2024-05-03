@@ -1,6 +1,6 @@
 .Container {
   margin-left: 300px;
-  padding-top: 100px;
+  padding-top: 40px;
 }
 
 .ButtonContainer {
@@ -9,4 +9,27 @@
 
 .OneButton {
   margin-right: 30px;
+}
+
+.Background {
+  position: absolute;
+  z-index: -9;
+  width: 1100px;
+  height: 670px;
+  background-color: #D9D9D9;
+  opacity: 50%;
+  margin-top: 10px;
+}
+
+.BackContainer {
+  padding: 20px 40px;
+}
+
+.FirstRow {
+  display: flex;
+  height: 50px;
+}
+
+.RightSpace {
+  width: 500px;
 }
