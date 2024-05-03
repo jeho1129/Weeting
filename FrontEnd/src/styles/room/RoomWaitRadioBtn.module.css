@@ -13,10 +13,9 @@
   height: 30px;
   line-height: 30px;
   border-radius: 5px;
-  font-weight: bold;
-  margin: 4px;
+  margin-right: 20px;
   text-align: center;
-  padding: 4px 16px;
+  padding: 6px 20px;
   cursor: pointer;
 }
 
@@ -28,5 +27,5 @@
 
 .LightGray {
   border: none;
-  background-color: lightgray;
+  background-color: #CCCCCC;
 }
