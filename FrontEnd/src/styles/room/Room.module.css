@@ -28,3 +28,7 @@
 .FirstRow {
   display: flex;
 }
+
+.RightSpace {
+  width: 500px;
+}
