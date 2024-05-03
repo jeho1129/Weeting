@@ -22,14 +22,14 @@ class TextData(BaseModel):
 async def store_similar_words_for_forbidden_words():
     user_ids = await redis.smembers("user_ids")
     for user_id in user_ids:
-        forbidden_word = await redis.get(f"user:{user_id}:forbidden_word")
+        forbidden_word = await redis.get(f"forbidden:{user_id}")
         if forbidden_word:
             similar_words = await get_similar_words(forbidden_word, 15000)
             for w in similar_words:
-                await redis.hset(f"similar:{user_id}:{forbidden_word}", w['word'], w['score'])
+                await redis.hset(f"similar:{user_id}", w['word'], w['score'])
 
-async def check_text_against_forbidden_words(words, forbidden_word):
-    forbidden_similar_words = await redis.hgetall(f"similar:{forbidden_word}")
+async def check_text_against_forbidden_words(words, user_id):
+    forbidden_similar_words = await redis.hgetall(f"similar:{user_id}")
     most_similar_word, highest_similarity = None, 0.0
 
     for word in words:
@@ -82,10 +82,10 @@ async def store_forbidden_word(data: ForbiddenWordData):
     forbidden_word = data.forbidden_word
 
     try:
-        await redis.set(f"user:{user_id}:forbidden_word", forbidden_word)
+        await redis.set(f"forbidden:{user_id}", forbidden_word)
         similar_words = await get_similar_words(forbidden_word, 15000)
         for w in similar_words:
-            await redis.hset(f"similar:{user_id}:{forbidden_word}", w['word'], w['score'])
+            await redis.hset(f"similar:{user_id}", w['word'], w['score'])
 
         return {"message": "Forbidden word and similar words stored successfully"}
 
