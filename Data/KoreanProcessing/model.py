@@ -10,18 +10,11 @@ class SimilarWordsResponse(BaseModel):
     score: float
 
 @router.get("/similar/{input_word}", response_model=List[SimilarWordsResponse])
-async def get_similar_words(input_word, k: int = 15000):
+async def get_similar_words(input_word, k: int = 10000):
     try:
         results = find_top_similar_words(input_word, k)
-        results = sorted(results, key=lambda x: x[0], reverse=True)
-        recalculated_results = []
-        start_score = 99.99
-        decrement = 0.01
-        for idx, (score, word) in enumerate(results):
-            recalculated_score = start_score - (decrement * idx)
-            if recalculated_score < 0.001:
-                break
-            recalculated_results.append({"word": word, "score": round(recalculated_score, 2)})
+        recalculated_results = [{"word": word, "score": round(99.98 - idx * 0.02, 2)}
+                                for idx, (score, word) in enumerate(results) if (99.98 - idx * 0.02) > 0.001]
         return recalculated_results
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
