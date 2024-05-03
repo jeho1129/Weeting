@@ -56,9 +56,10 @@ const Custom = () => {
           <div>
             <button
               onClick={() => {
-                nowOutfit.forEach((it) => {
-                  outfitChangeApi(userInfo.userId, it.outfitId);
-                });
+                outfitChangeApi(
+                  userInfo.userId,
+                  nowOutfit.map((it) => it.outfitId),
+                );
               }}
             >
               커스텀 확정

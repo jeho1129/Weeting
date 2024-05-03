@@ -6,15 +6,14 @@ import HomeButton from '../home/HomeButton';
 const MainSignup = () => {
   return (
     <>
-      <div className={styles.ButtonContainer}>
+      {/* <div className={styles.ButtonContainer}>
         <HomeButton {...{ message: '대기', direction: 'back', location: '' }} />
-      </div>
+      </div> */}
       <div className={styles.Align}>
         <img src={logo2} alt="weetingLogo2" />
       </div>
       <div className={styles.Container}>
-        <div className={styles.SignupBox}>
-        </div>
+        <div className={styles.SignupBox}></div>
         <MainSignupForm />
       </div>
     </>

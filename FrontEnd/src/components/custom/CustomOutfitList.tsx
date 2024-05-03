@@ -30,7 +30,7 @@ const CustomOutfitList = ({
                 <div
                   onClick={() => {
                     const CheckList: OutfitItem[] = nowOutfit.filter((it) => it.part !== item.part);
-                    if (nowOutfit.every((it) => it.outfitId !== item.outfitId)) {
+                    if (nowOutfit.every((it) => it.outfitId !== item.outfitId || it.part === 'nametag')) {
                       CheckList.push({
                         userId: userInfo.userId,
                         outfitId: item.outfitId,
