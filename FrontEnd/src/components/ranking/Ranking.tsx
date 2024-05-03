@@ -6,13 +6,14 @@ import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
 import RankingList from './RankingList';
 
-import { userState } from '@/recoil/atom';
+import { outfitState, userState } from '@/recoil/atom';
 import { RankingUser } from '@/types/user';
 import { rankingListApi } from '@/services/rankApi';
 
 const Ranking = () => {
   const [rankingList, setRankingList] = useState<RankingUser[]>([]);
   const userInfo = useRecoilValue(userState);
+  const outfitInfo = useRecoilValue(outfitState);
 
   useEffect(() => {
     rankingListApi()
@@ -33,7 +34,7 @@ const Ranking = () => {
       <div className={styles.RankingContainer}>
         <div className={styles.AvatarContainer}>
           <div>
-            <Avatar {...{ move: true, size: 400, isNest: true }} />
+            <Avatar {...{ move: true, size: 400, isNest: true, outfit: outfitInfo }} />
           </div>
           <div>
             <div className={`FontM32`}>내 순위는 {userInfo.ranking}</div>

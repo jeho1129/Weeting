@@ -16,7 +16,6 @@ const CustomOutfitListPartButton = ({
     <>
       <ul className={styles.OutfitFilter}>
         {outfitPartList.map((item) => {
-          console.log(item.code, outfitPart);
           return (
             <li
               className={`FontM32 ${styles.FilterButton} ${item.code === outfitPart ? styles.FilterButtonAcitve : ''}`}
