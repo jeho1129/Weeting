@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { RoomWaitData } from '@/types/roomWaitData';
 import styles from '@/styles/room/RoomList.module.css'
+import watingAvatar from '@/assets/images/inGameAvatar.png'
+import { Lock } from '@phosphor-icons/react';
 
 const RoomList = () => {
   const [roomName, setRoomName] = useState('');
@@ -32,6 +34,19 @@ const RoomList = () => {
       <ul className={styles.ListGroup}>
         {RoomWaitData.map((room, index) => (
           <li key={index} className={styles.OneRoom}>
+            <div className={`${styles.FirstRow}`}>
+              <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+              <div className={`${styles.RoomUsers} FontM20`}>{room.roomUsers.length}/{room.roomMaxCnt}</div>
+              {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
+              
+            </div>
+            <div className={styles.SecondRow}>
+              <div>RoomMode</div>
+            </div>
+            <div className={styles.Avatar}>
+              <img src={watingAvatar} alt="waitingAvatar" />
+            </div>
+            <div>Dummy Image Position Absolute</div>
             <Link to={`/rooms/${room.roomId}`}>
               <h6>{room.roomName} <span className="badge badge-info badge-pill">{room.roomUsers.length}</span></h6>
             </Link>

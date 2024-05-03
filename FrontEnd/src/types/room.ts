@@ -14,6 +14,7 @@ export interface RoomWaitInfo {
   roomName: string;
   roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordokay' | 'start' | 'end';
   roomMaxCnt: number;
+  roomPassword: number | null;
   roomUsers: IngameUser[];
 }
   
