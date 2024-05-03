@@ -4,21 +4,50 @@ import avatarshock from '@/assets/images/inGameElectricShock.png';
 
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
+import { ChatMessage } from '@/types/chat';
+
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 import { useRecoilValue } from 'recoil';
 import { gameState } from '@/recoil/atom';
+import { useEffect, useState } from 'react';
+
+interface Position {
+  top: string;
+  left: string;
+}
+const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; latestMessage: string }) => {
+  const [isOut, setIsOut] = useState(false);
+  useEffect(() => {
+    setIsOut(false);
+    setTimeout(() => {
+      setIsOut(true);
+    }, 100);
+  }, [latestMessage]);
+  return (
+    <>
+      <div
+        style={{ top: `calc(${top} + 32%)`, left: `calc(${left} + 1%)`, position: 'absolute' }}
+        className={isOut ? styles.messageFadeOut : styles.messageIn}
+      >
+        {latestMessage}
+      </div>
+    </>
+  );
+};
 
 const GameWaitingAvatars = ({
   roomStatus,
   roomUsers,
   roomMaxCnt,
+  chatMessage,
 }: {
   roomStatus: RoomInfo['roomStatus'];
   roomUsers: RoomInfo['roomUsers'];
   roomMaxCnt: RoomInfo['roomMaxCnt'];
+  chatMessage: ChatMessage[];
 }) => {
   const gameInfo = useRecoilValue(gameState);
-  const calculatePosition = (index, maxCount) => {
+  const calculatePosition = (index: number, maxCount: number) => {
     let position;
     let top = '14.5%';
     if (index % 2 !== 0) {
@@ -56,6 +85,8 @@ const GameWaitingAvatars = ({
     <div className={styles.inGameAvatars}>
       {roomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
+        const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+        const latestMessage = userMessages[userMessages.length - 1]?.content;
         return (
           <div key={member.userId}>
             <img
@@ -65,9 +96,14 @@ const GameWaitingAvatars = ({
               className={styles.inGameAvatar}
               style={{ top: position.top, left: position.left }}
             />
-            <div>
-              {/* 채팅메세지 나오도록 */}
-            </div>
+            <GameMessage top={position.top} left={position.left} latestMessage={latestMessage} />
+
+            {/* <div
+              style={{ top: `calc(${position.top} + 32%)`, left: `calc(${position.left} + 1%)`, position: 'absolute' }}
+              className={styles.messageFadeOut}
+            >
+              {latestMessage}
+            </div> */}
 
             {roomStatus === 'start' && (
               <>

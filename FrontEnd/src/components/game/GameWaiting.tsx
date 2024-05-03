@@ -131,9 +131,7 @@ const GameWaiting = () => {
         <GameWaitingRightSide
           roomInfo={roomInfo}
           chatMessages={chatMessages}
-          onSendMessage={(msg) => {
-            console.log(msg);
-          }}
+          
         />
       </div>
       <GameForbiddenWord
