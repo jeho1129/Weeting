@@ -5,16 +5,19 @@ import avatarshock from '@/assets/images/inGameElectricShock.png';
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
+import { useRecoilValue } from 'recoil';
+import { gameState } from '@/recoil/atom';
 
 const GameWaitingAvatars = ({
-	roomStatus,
+  roomStatus,
   roomUsers,
   roomMaxCnt,
 }: {
-	roomStatus: RoomInfo['roomStatus'];
+  roomStatus: RoomInfo['roomStatus'];
   roomUsers: RoomInfo['roomUsers'];
   roomMaxCnt: RoomInfo['roomMaxCnt'];
 }) => {
+  const gameInfo = useRecoilValue(gameState);
   const calculatePosition = (index, maxCount) => {
     let position;
     let top = '14.5%';
@@ -54,35 +57,37 @@ const GameWaitingAvatars = ({
       {roomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
         return (
-					<div key={member.userId}>
-						<img
-							key={member.userId}
-							src={avatar}
-							alt="avatar"
-							className={styles.inGameAvatar}
-							style={{ top: position.top, left: position.left }}
-						/>
-						{roomStatus === 'start' && (
+          <div key={member.userId}>
+            <img
+              key={member.userId}
+              src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
+              alt="avatar"
+              className={styles.inGameAvatar}
+              style={{ top: position.top, left: position.left }}
+            />
+
+            {roomStatus === 'start' && (
               <>
-              <div>
-                <div className={styles.inGameAvatar}
+                <div>
+                  <div
+                    className={styles.inGameAvatar}
                     style={{
                       top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
                       left: position.left,
                       position: 'absolute',
-                    }} >
-                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', position: 'relative'}}>
+                    }}
+                  >
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
+                    >
                       <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
-                      <img
-                        src={forbiddenFlag}
-                        alt="forbidden word"
-                      />
+                      <img src={forbiddenFlag} alt="forbidden word" />
                     </div>
+                  </div>
                 </div>
-              </div>
               </>
-							)}
-					</div>
+            )}
+          </div>
         );
       })}
     </div>

@@ -1,6 +1,7 @@
 export interface ChatMessage {
-    sender: string;
+    nickname: string;
     content: string;
+    time: string;
   }
   
 export  interface ScoreUpdate {

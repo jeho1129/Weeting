@@ -1,15 +1,16 @@
 .inGameAvatar {
     position: absolute;
-    width: 16%; 
+    width: 15.9%; 
 }
 
 .inGameAvatars {
     position: relative;
-    width: 750px;
-    height: 450px;
+    width: 50vw;
+    height: 60vh;
 }
 
 .wordCenter {
     color: red;
     position: absolute;
 }
+

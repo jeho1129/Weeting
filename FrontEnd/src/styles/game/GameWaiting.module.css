@@ -35,6 +35,21 @@
 .ElectricPole {
   height: 100vh;
   width: auto;
+  
+}
+
+.ElectricLine1 {
+  position: absolute;
+  height: 6.95vh;
+  top: 21%;
+  z-index: -50;
+}
+
+.ElectricLine2 {
+  position: absolute;
+  height: 6.95vh;
+  top: 50%;
+  z-index: -50;
 }
 
 .Box {
