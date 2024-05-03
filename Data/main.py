@@ -8,7 +8,7 @@ import asyncio, model_manager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        model_manager.load_model()
+        await model_manager.load_model()
         yield
     except Exception as e:
         print(f"Error during model loading: {e}")
