@@ -32,8 +32,10 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
-                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"                
+                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
+                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
+                    sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
+                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
             }
         }
