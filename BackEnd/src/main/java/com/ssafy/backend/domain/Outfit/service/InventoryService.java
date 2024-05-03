@@ -50,37 +50,34 @@ public class InventoryService {
         inventoryRepository.save(inventory);
     }
     @Transactional
-    public void wearOutfit(Long userId, Long outfitId) {
-        // 사용자의 인벤토리에서 해당 아이템이 소유 중인지 확인
-        Inventory inventory = inventoryRepository.findByUser_IdAndOutfit_OutfitId(userId, outfitId);
-        if (inventory == null || !inventory.getIsOwned()) {
-            throw new IllegalArgumentException("User does not own the outfit with ID: " + outfitId);
+    public void wearOutfits(Long userId, List<Long> outfitIds) {
+        // 기존에 착용 중인 외형들 제거
+        wearingOutfitRepository.deleteByUser_Id(userId);
+
+        for (Long outfitId : outfitIds) {
+            // 사용자의 인벤토리에서 해당 아이템이 소유 중인지 확인
+            Inventory inventory = inventoryRepository.findByUser_IdAndOutfit_OutfitId(userId, outfitId);
+            if (inventory == null || !inventory.getIsOwned()) {
+                throw new IllegalArgumentException("User does not own the outfit with ID: " + outfitId);
+            }
+
+            // 착용할 외형 조회
+            Outfit outfit = outfitRepository.findById(outfitId)
+                    .orElseThrow(() -> new IllegalArgumentException("Outfit not found with ID: " + outfitId));
+            String part = outfit.getPart();
+            String image = outfit.getImage();
+
+            // 새로운 외형 착용 정보 저장
+            WearingOutfit wearingOutfit = WearingOutfit.builder()
+                    .user(userRepository.findById(userId).orElseThrow())
+                    .outfit(outfit)
+                    .part(part)
+                    .image(image)
+                    .build();
+
+            wearingOutfitRepository.save(wearingOutfit);
         }
-
-        // 사용자 조회
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
-
-        // 착용할 외형 조회
-        Outfit outfit = outfitRepository.findById(outfitId)
-                .orElseThrow(() -> new IllegalArgumentException("Outfit not found with ID: " + outfitId));
-        String part = outfit.getPart();
-        String image = outfit.getImage();
-
-        // 기존에 같은 분류의 착용 중인 외형이 있다면 제거
-        wearingOutfitRepository.deleteByUser_IdAndPart(userId, part);
-
-        // 새로운 외형 착용 정보 저장
-        WearingOutfit wearingOutfit = WearingOutfit.builder()
-                .user(user)
-                .outfit(outfit)
-                .part(part)
-                .image(image)
-                .build();
-
-        wearingOutfitRepository.save(wearingOutfit);
     }
-
     public List<WearingOutfitResponse> getWearingOutfit(Long userId) {
         List<WearingOutfit> wearingOutfits = wearingOutfitRepository.findByUser_Id(userId);
         return wearingOutfits.stream()
