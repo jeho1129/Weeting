@@ -10,15 +10,11 @@ MODEL_PATH = '/app/model/model.bin'
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
 okt = Okt()
 
-async def load_model():
+def load_model():
     global model
     if os.path.exists(MODEL_PATH):
-        print(f"Model file found at {MODEL_PATH}. Loading asynchronously...")
-        
-        loop = asyncio.get_event_loop()
-        with ThreadPoolExecutor() as executor:
-            model = await loop.run_in_executor(executor, fasttext.load_model, MODEL_PATH)
-        
+        print(f"Model file found at {MODEL_PATH}. Loading synchronously...")
+        model = fasttext.load_model(MODEL_PATH)
         print("Model loaded successfully.")
     else:
         print(f"Model file not found at {MODEL_PATH}.")
@@ -61,7 +57,7 @@ def find_top_similar_words(input_word, k):
 async def get_similar_words(input_word, k=10000):
     try:
         similar_words = find_top_similar_words(input_word, k)
-        recalculated_results = [{'word': word, 'score': round(99.99 - idx * 0.02, 2)}
+        recalculated_results = [{'word': word, 'score': round(99.98 - idx * 0.02, 2)}
                                 for idx, (score, word) in enumerate(similar_words)]
         return [result["word"] for result in recalculated_results if result['score'] > 0.001]
     except ValueError as e:
