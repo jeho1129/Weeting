@@ -46,7 +46,7 @@ const GameWaiting = () => {
       roomMode: 'normal',
       roomId: 1,
       roomName: '테스트 방',
-      roomStatus: 'start',
+      roomStatus: 'allready',
       roomForbiddentime: null,
       roomEndtime: null,
       roomSubject: null,
