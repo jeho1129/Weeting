@@ -1,6 +1,6 @@
 import styles from '@/styles/room/Room.module.css';
 import RoomEnterBtn from './RoomEnterBtn';
-import ChatRoomPage from './RoomList';
+import RoomList from './RoomList';
 import RoomModalCreateBtn from './RoomModalCreateBtn';
 import RoomModes from './RoomModes';
 import RoomSearch from './RoomSearch';
@@ -27,8 +27,9 @@ const Room = () => {
               <RoomSearch />
             </div>
           </div>
-          <div>RoomPages</div>
-          <ChatRoomPage />
+          <div>
+            <RoomList />
+          </div>
         </div>
       </div>
     </>

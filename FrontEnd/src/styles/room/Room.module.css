@@ -15,7 +15,7 @@
   position: absolute;
   z-index: -9;
   width: 1100px;
-  height: 530px;
+  height: 670px;
   background-color: #D9D9D9;
   opacity: 50%;
   margin-top: 10px;
@@ -27,6 +27,7 @@
 
 .FirstRow {
   display: flex;
+  height: 50px;
 }
 
 .RightSpace {

@@ -1,14 +1,11 @@
-import { RoomInfo } from '../types/game';
+import { RoomWaitInfo } from './room';
 
-export const RoomListData: RoomInfo[] = [
+export const RoomWaitData: RoomWaitInfo[] = [
   {
     roomMode: 'rank',
     roomId: '1',
     roomName: '첫 번째 방',
     roomStatus: 'waiting',
-    roomForbiddentime: null,
-    roomEndtime: null,
-    roomSubject: 'aaaa',
     roomMaxCnt: 6,
     roomUsers: [
       {
@@ -54,9 +51,6 @@ export const RoomListData: RoomInfo[] = [
     roomId: '2',
     roomName: '두 번째 방',
     roomStatus: 'start',
-    roomForbiddentime: null,
-    roomEndtime: null,
-    roomSubject: 'aaaa',
     roomMaxCnt: 6,
     roomUsers: [
       {
@@ -111,9 +105,6 @@ export const RoomListData: RoomInfo[] = [
     roomId: '3',
     roomName: '세 번째 방',
     roomStatus: 'allready',
-    roomForbiddentime: null,
-    roomEndtime: null,
-    roomSubject: 'aaaa',
     roomMaxCnt: 8,
     roomUsers: [
       {
@@ -186,9 +177,6 @@ export const RoomListData: RoomInfo[] = [
     roomId: '4',
     roomName: '네 번째 방',
     roomStatus: 'end',
-    roomForbiddentime: '2024-05-01T12:00:00',
-    roomEndtime: '2024-05-01T12:30:00',
-    roomSubject: 'aaaa',
     roomMaxCnt: 8,
     roomUsers: [
       {
@@ -220,6 +208,141 @@ export const RoomListData: RoomInfo[] = [
       },
       {
         userId: 'm8',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+    ],
+  },
+  {
+    roomMode: 'normal',
+    roomId: '5',
+    roomName: '다섯 번째 방',
+    roomStatus: 'end',
+    roomMaxCnt: 8,
+    roomUsers: [
+      {
+        userId: 'm9',
+        nickname: 'Player6',
+        outfit: 'outfit6',
+        ready: false,
+        word: null,
+        score: 70,
+        isAlive: true,
+      },
+      {
+        userId: 'm10',
+        nickname: 'Player7',
+        outfit: 'outfit7',
+        ready: false,
+        word: null,
+        score: 95,
+        isAlive: true,
+      },
+      {
+        userId: 'm11',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+      {
+        userId: 'm12',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+    ],
+  },
+  {
+    roomMode: 'normal',
+    roomId: '6',
+    roomName: '여섯 번째 방',
+    roomStatus: 'end',
+    roomMaxCnt: 8,
+    roomUsers: [
+      {
+        userId: 'm13',
+        nickname: 'Player6',
+        outfit: 'outfit6',
+        ready: false,
+        word: null,
+        score: 70,
+        isAlive: true,
+      },
+      {
+        userId: 'm14',
+        nickname: 'Player7',
+        outfit: 'outfit7',
+        ready: false,
+        word: null,
+        score: 95,
+        isAlive: true,
+      },
+      {
+        userId: 'm15',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+      {
+        userId: 'm16',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+    ],
+  },
+  {
+    roomMode: 'normal',
+    roomId: '6',
+    roomName: '일곱 번째 방',
+    roomStatus: 'end',
+    roomMaxCnt: 8,
+    roomUsers: [
+      {
+        userId: 'm19',
+        nickname: 'Player6',
+        outfit: 'outfit6',
+        ready: false,
+        word: null,
+        score: 70,
+        isAlive: true,
+      },
+      {
+        userId: 'm20',
+        nickname: 'Player7',
+        outfit: 'outfit7',
+        ready: false,
+        word: null,
+        score: 95,
+        isAlive: true,
+      },
+      {
+        userId: 'm21',
+        nickname: 'Player8',
+        outfit: 'outfit8',
+        ready: false,
+        word: null,
+        score: 80,
+        isAlive: true,
+      },
+      {
+        userId: 'm22',
         nickname: 'Player8',
         outfit: 'outfit8',
         ready: false,
