@@ -1,15 +1,31 @@
 .inGameAvatar {
-    position: absolute;
-    width: 16%; 
+  position: absolute;
+  width: 15.9%;
 }
 
 .inGameAvatars {
-    position: relative;
-    width: 750px;
-    height: 450px;
+  position: relative;
+  width: 50vw;
+  height: 60vh;
 }
 
 .wordCenter {
-    color: red;
-    position: absolute;
+  color: red;
+  position: absolute;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.messageFadeOut {
+  animation: fadeOut 1s ease-out 1s forwards;
+}
+.messageIn {
+  display: block;
 }
