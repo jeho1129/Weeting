@@ -15,14 +15,19 @@
   margin-right: 30px;
   margin-bottom: 20px;
   cursor: pointer;
+  position: relative;
 }
 
 .FirstRow {
+  /* position: absolute;
+  z-index: 10; */
   display: flex;
 }
 
 .SecondRow {
-  margin-top: 15px;
+  /* position: absolute;
+  z-index: 10; */
+  margin-top: 40px;
 }
 
 .RoomName {
@@ -35,10 +40,23 @@
 }
 
 .Avatar {
-  /* position: absolute;
-  z-index: 10; */
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  margin-left: 300px;
+  top: 30px;
 }
 
 .Lock {
   margin-top: 2px;
+}
+
+.Mode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 15px;
 }
