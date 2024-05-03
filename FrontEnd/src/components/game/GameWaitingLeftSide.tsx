@@ -26,7 +26,7 @@ const GameWaitingLeftSide = ({ roomInfo, scoreUpdates,  changeRoomStatus }: { ro
     <div className={styles.Align}>
         <GameWaitingLogo/>
         <GameWaitingMemberList roomStatus={roomInfo.roomStatus} roomMaxCnt={roomInfo.roomMaxCnt} roomUsers={roomInfo.roomUsers}/>
-        {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready') && (
+        {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
             <div className={styles.ButtonAlign}>
               <GameWaitingReadyButton roomUsers={roomInfo.roomUsers} blink={blink} onStartGame={changeRoomStatus}/>
               <GameWaitingQuitButton roomId={roomInfo.roomId}/>

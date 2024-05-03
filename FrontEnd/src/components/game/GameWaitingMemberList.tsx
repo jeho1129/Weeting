@@ -1,12 +1,12 @@
 import styles from '@/styles/game/GameWaiting.module.css';
 import { RoomInfo } from '@/types/game';
-import waiting from '@/assets/images/waiting.png';
-import ready from '@/assets/images/ready.png';
+import waiting from '@/assets/images/ingamewaiting.png';
+import ready from '@/assets/images/ingameready.png';
 import crown from '@/assets/images/crown.png';
-import ok from '@/assets/images/ok.png';
-import choosing from '@/assets/images/choosing.png';
-import firstIcon from '@/assets/images/firstscore.png';
-import scoreIcon from '@/assets/images/otherscore.png';
+import ok from '@/assets/images/ingamewordfinish.png';
+import choosing from '@/assets/images/ingamewordchoosing.png';
+import firstIcon from '@/assets/images/ingamefirstscore.png';
+import scoreIcon from '@/assets/images/ingamescore.png';
 
 const GameWaitingMemberList = ({
   roomStatus,
@@ -42,7 +42,7 @@ const GameWaitingMemberList = ({
                     `${member.nickname}`
                   )}
                 </div>
-                <div>
+                <div className={styles.Nickname}>
                   {roomStatus === 'wordsetting' ? (
                     <img
                       src={member.word ? ok : choosing}

@@ -65,6 +65,9 @@ const GameWaitingAvatars = ({
               className={styles.inGameAvatar}
               style={{ top: position.top, left: position.left }}
             />
+            <div>
+              {/* 채팅메세지 나오도록 */}
+            </div>
 
             {roomStatus === 'start' && (
               <>
