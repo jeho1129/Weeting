@@ -1,0 +1,12 @@
+.Container {
+  margin-left: 300px;
+  padding-top: 100px;
+}
+
+.ButtonContainer {
+  display: flex;
+}
+
+.OneButton {
+  margin-right: 30px;
+}

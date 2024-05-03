@@ -2,6 +2,7 @@ import { recoilPersist } from 'recoil-persist';
 import { User } from '@/types/user';
 import { RoomInfo } from '@/types/game';
 import { atom, selector } from 'recoil';
+import { OutfitItem } from '@/types/custom';
 
 const { persistAtom } = recoilPersist({
   key: 'sessionStorage',
@@ -32,4 +33,9 @@ export const gameState = atom<RoomInfo>({
     roomMaxCnt: 0,
     roomUsers: []
   },
+});
+
+export const outfitState = atom<OutfitItem[]>({
+  key: 'outfitState',
+  default: [],
 });

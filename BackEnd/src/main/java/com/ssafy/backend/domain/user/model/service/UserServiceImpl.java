@@ -2,8 +2,10 @@ package com.ssafy.backend.domain.user.model.service;
 
 import com.ssafy.backend.domain.Outfit.entity.Inventory;
 import com.ssafy.backend.domain.Outfit.entity.Outfit;
+import com.ssafy.backend.domain.Outfit.entity.WearingOutfit;
 import com.ssafy.backend.domain.Outfit.repository.InventoryRepository;
 import com.ssafy.backend.domain.Outfit.repository.OutfitRepository;
+import com.ssafy.backend.domain.Outfit.repository.WearingOutfitRepository;
 import com.ssafy.backend.domain.user.exception.UserException;
 import com.ssafy.backend.domain.user.model.dto.request.FindRequest;
 import com.ssafy.backend.domain.user.model.dto.request.UserRegistRequest;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final OutfitRepository outfitRepository;
     private final InventoryRepository inventoryRepository;
+    private final WearingOutfitRepository wearingOutfitRepository;
 
 
     @Override
@@ -53,6 +56,20 @@ public class UserServiceImpl implements UserService{
                     .build();
             inventoryRepository.save(inventory);
         }
+        // outfitId가 32인 아이템 착용
+        Outfit defaultOutfit = outfitRepository.findById(32L)
+                .orElseThrow(() -> new IllegalArgumentException("Default outfit not found with ID: 32"));
+        String part = defaultOutfit.getPart();
+        String image = defaultOutfit.getImage();
+
+        WearingOutfit wearingOutfit = WearingOutfit.builder()
+                .user(createdUser)
+                .outfit(defaultOutfit)
+                .part(part)
+                .image(image)
+                .build();
+
+        wearingOutfitRepository.save(wearingOutfit);
     }
 
 
