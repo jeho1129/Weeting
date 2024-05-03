@@ -1,5 +1,5 @@
 import { Axios } from '@/utils/axios';
-import { RoomCreateProps } from '@/types/roomCreate';
+import { RoomCreateProps } from '@/types/room';
 
 
 export async function roomCreateApi(param: RoomCreateProps) {
