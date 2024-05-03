@@ -62,14 +62,14 @@ pipeline {
                 }
             }
         }
-        stage('Prune old images') {
-            steps {
-                script {
-                    // 사용하지 않는 모든 도커 리소스 정리
-                    sh "docker image prune -af"
-                }
-            }
-        }
+        // stage('Prune old images') {
+        //     steps {
+        //         script {
+        //             // 사용하지 않는 모든 도커 리소스 정리
+        //             sh "docker image prune -af"
+        //         }
+        //     }
+        // }
         stage('Pull') {
             steps {
                 script {
