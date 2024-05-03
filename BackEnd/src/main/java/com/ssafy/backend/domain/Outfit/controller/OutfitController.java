@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/outfit")
@@ -36,9 +37,10 @@ public class OutfitController {
     }
 
     // 선택된 아이템 착용하기
-    @PutMapping("/{userId}/wear/{outfitId}")
-    public ResponseEntity<Void> wearOutfit(@PathVariable Long userId, @PathVariable Long outfitId) {
-        inventoryService.wearOutfit(userId, outfitId);
+    @PutMapping("/{userId}/wear")
+    public ResponseEntity<Void> wearOutfits(@PathVariable Long userId, @RequestBody Map<String, List<Long>> requestBody) {
+        List<Long> outfitIds = requestBody.get("outfitId");
+        inventoryService.wearOutfits(userId, outfitIds);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
