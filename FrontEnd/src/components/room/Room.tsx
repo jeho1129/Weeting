@@ -20,7 +20,7 @@ const Room = () => {
         <div className={styles.Background}></div>
         <div className={styles.BackContainer}>
           <div className={styles.FirstRow}>
-            <div>
+            <div className={styles.RightSpace}>
               <RoomModes />
             </div>
             <div>

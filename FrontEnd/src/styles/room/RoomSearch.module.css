@@ -1,0 +1,14 @@
+.SearchInput {
+  width: 430px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  padding-left: 20px;
+}
+
+.Glass {
+  position: absolute;
+  z-index: 999;
+  margin-left: -40px;
+  cursor: pointer;
+}
