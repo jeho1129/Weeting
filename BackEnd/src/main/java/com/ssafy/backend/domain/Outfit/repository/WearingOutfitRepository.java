@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface WearingOutfitRepository extends JpaRepository<WearingOutfit, Long> {
     List<WearingOutfit> findByUser_Id(Long userID);
-    void deleteByUser_IdAndPart(Long userId, String part);
+    void deleteByUser_Id(Long userId);
 
 }
