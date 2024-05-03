@@ -7,12 +7,38 @@
 }
 
 .OneRoom {
-  width: 450px;
-  height: 160px;
+  width: 410px;
+  height: 120px;
   background-color: white;
   border-radius: 15px;
-  padding: 10px;
+  padding: 30px;
   margin-right: 30px;
   margin-bottom: 20px;
   cursor: pointer;
+}
+
+.FirstRow {
+  display: flex;
+}
+
+.SecondRow {
+  margin-top: 15px;
+}
+
+.RoomName {
+  margin-right: 15px;
+}
+
+.RoomUsers {
+  margin-top: 6px;
+  margin-right: 15px;
+}
+
+.Avatar {
+  /* position: absolute;
+  z-index: 10; */
+}
+
+.Lock {
+  margin-top: 2px;
 }

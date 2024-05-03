@@ -7,6 +7,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '첫 번째 방',
     roomStatus: 'waiting',
     roomMaxCnt: 6,
+    roomPassword: 1541,
     roomUsers: [
       {
         userId: 'm1',
@@ -52,6 +53,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '두 번째 방',
     roomStatus: 'start',
     roomMaxCnt: 6,
+    roomPassword: 1541,
     roomUsers: [
       {
         userId: 'm3',
@@ -106,6 +108,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '세 번째 방',
     roomStatus: 'allready',
     roomMaxCnt: 8,
+    roomPassword: null,
     roomUsers: [
       {
         userId: 'm5',
@@ -178,6 +181,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '네 번째 방',
     roomStatus: 'end',
     roomMaxCnt: 8,
+    roomPassword: null,
     roomUsers: [
       {
         userId: 'm6',
@@ -223,6 +227,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '다섯 번째 방',
     roomStatus: 'end',
     roomMaxCnt: 8,
+    roomPassword: null,
     roomUsers: [
       {
         userId: 'm9',
@@ -268,6 +273,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '여섯 번째 방',
     roomStatus: 'end',
     roomMaxCnt: 8,
+    roomPassword: null,
     roomUsers: [
       {
         userId: 'm13',
@@ -313,6 +319,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
     roomName: '일곱 번째 방',
     roomStatus: 'end',
     roomMaxCnt: 8,
+    roomPassword: null,
     roomUsers: [
       {
         userId: 'm19',
