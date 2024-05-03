@@ -29,6 +29,7 @@ const Router = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/ranking" element={<RankingPage />} />
           <Route path="/custom" element={<CustomPage />} />
           <Route path="/room/:id" element={<GamePage />}>
             <Route index element={<GameWaiting />} />

@@ -12,10 +12,10 @@ const MainGuest = () => {
     <>
       <div className={styles.Align}>
         <img src={logo} alt="weeting Logo" />
-      </div>
-      <div className={styles.BtnAlign}>
-        <MainGuestLoginButton />
-        <MainGuestSignupButton />
+        <div className={styles.BtnAlign}>
+          <MainGuestLoginButton />
+          <MainGuestSignupButton />
+        </div>
       </div>
     </>
   );

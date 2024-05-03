@@ -18,9 +18,9 @@ export async function outfitNowApi(userId: number) {
   }
 }
 
-export async function outfitChangeApi() {
+export async function outfitChangeApi(userId: number, outfitId: number) {
   try {
-    const response = await Axios.put(`/outfit/change`);
+    const response = await Axios.patch(`/outfit/change`, { userId: userId, outfitId: outfitId });
     return response.data;
   } catch (error) {
     return Promise.reject(error);

@@ -33,8 +33,8 @@ pipeline {
                 script {
                     sh "ls -al"
                     sh "docker build -t ${DOCKERHUB_REGISTRY} FrontEnd"
-                    sh "touch .env"
-                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1' >> .env"
+                    sh "touch ./.env"
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > ./.env"
                 }
             }
         }
@@ -52,14 +52,14 @@ pipeline {
                 }
             }
         }
-        stage('Prune old images') {
-            steps {
-                script {
-                    // 사용하지 않는 모든 도커 리소스 정리
-                    sh "docker image prune -af"
-                }
-            }
-        }
+        // stage('Prune old images') {
+        //     steps {
+        //         script {
+        //             // 사용하지 않는 모든 도커 리소스 정리
+        //             sh "docker image prune -af"
+        //         }
+        //     }
+        // }
         stage('Pull') {
             steps {
                 script {
@@ -85,3 +85,5 @@ pipeline {
         }
     }
 }
+
+// CICD test2

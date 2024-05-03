@@ -32,8 +32,10 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
-                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"                
+                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
+                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
+                    sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
+                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
             }
         }
@@ -60,14 +62,14 @@ pipeline {
                 }
             }
         }
-        stage('Prune old images') {
-            steps {
-                script {
-                    // 사용하지 않는 모든 도커 리소스 정리
-                    sh "docker image prune -af"
-                }
-            }
-        }
+        // stage('Prune old images') {
+        //     steps {
+        //         script {
+        //             // 사용하지 않는 모든 도커 리소스 정리
+        //             sh "docker image prune -af"
+        //         }
+        //     }
+        // }
         stage('Pull') {
             steps {
                 script {
@@ -92,4 +94,32 @@ pipeline {
             }
         }
     }
+    
+    post {
+        success {
+        	script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (color: 'good', 
+                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                channel: 'C103-Jenkins'
+                )
+            }
+        }
+        failure {
+        	script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (color: 'danger', 
+                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                channel: 'C103-Jenkins'
+                )
+            }
+        }
+    }
+
 }
+
+// CICD test2

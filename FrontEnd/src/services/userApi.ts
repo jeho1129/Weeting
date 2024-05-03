@@ -57,10 +57,10 @@ export async function userInfoLoadApi() {
   }
 }
 
-export async function userUpdate() {
+export async function userUpdateApi(nickname: string) {
   try {
     console.log('accessToken', getCookie('accessToken'));
-    const response = await Axios.patch(`/user/update`);
+    const response = await Axios.patch(`/user/update`, { nickname: nickname });
     return response.data;
   } catch (error) {
     return Promise.reject(error);

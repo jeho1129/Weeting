@@ -11,20 +11,38 @@
   height: auto;
   bottom: 0px;
 }
+.OutfitContainer {
+  position: relative;
+}
+.AvatarOutfit {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.NameTag {
+  position: absolute;
+  z-index: 99;
+  top: 66%;
+  font-family: 'MapleStoryLight', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .AvatarEyes {
   position: absolute;
-  bottom: 43%;
+  bottom: 47%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: EyeMove 1s linear infinite;
+  /* animation: EyeMove 1s linear infinite; */
 }
 
 .AvatarBody {
   position: absolute;
-  bottom: 20px;
+  bottom: 6.5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
