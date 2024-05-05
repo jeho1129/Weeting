@@ -15,24 +15,18 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-
-    private final ChatRoomService chatRoomService;
-
-    public WebSocketConfig(ChatRoomService chatRoomService) {
-        this.chatRoomService = chatRoomService;
+    @Autowired
+    private final WebSocketChatRoomHandler webSocketChatRoomHandler;
+    public WebSocketConfig(WebSocketChatRoomHandler webSocketChatRoomHandler) {
+        this.webSocketChatRoomHandler = webSocketChatRoomHandler;
     }
+
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketChatRoomHandler(), "/chat")
+        registry.addHandler(webSocketChatRoomHandler, "/chatroom")
                 .setAllowedOrigins("*");
     }
-
-    @Bean
-    public WebSocketChatRoomHandler webSocketChatRoomHandler() {
-        return new WebSocketChatRoomHandler(chatRoomService);
-    }
-
 
 
 }

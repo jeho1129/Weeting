@@ -1,7 +1,8 @@
 package com.ssafy.backend.global.component;
 
-import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.backend.domain.chatroom.dto.ChatMessageDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -14,41 +15,61 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Slf4j
 public class WebSocketChatRoomHandler extends TextWebSocketHandler {
+    private final Map<String, ConcurrentHashMap<String, WebSocketSession>> roomSessions = new ConcurrentHashMap<>();
 
-    private final ChatRoomService chatRoomService;
-    private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    public WebSocketChatRoomHandler(ChatRoomService chatRoomService) {
-        this.chatRoomService = chatRoomService;
-    }
-
-    @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
-        // 새로운 클라이언트가 연결되었을 때 실행되는 메서드
-        sessions.put(session.getId(), session);
-    }
-
+    // 메시지 수신 및 처리
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // 클라이언트로부터 메시지 수신
-        String payload = message.getPayload();
-        // 채팅 메시지 처리
-        // (여기서는 간단히 받은 메시지를 모든 클라이언트에게 브로드캐스트)
-        broadcastMessage(payload);
+        ChatMessageDto chatMessage = objectMapper.readValue(message.getPayload(), ChatMessageDto.class);
+        broadcastMessage(chatMessage);
     }
 
-    @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        // 클라이언트 연결이 종료되었을 때 실행되는 메서드
-        sessions.remove(session.getId());
-    }
+    // 메시지 브로드캐스트
+    private void broadcastMessage(ChatMessageDto chatMessage) throws IOException {
+        String formattedMessage = chatMessage.getNickname() + " : " + chatMessage.getMessage();
+        TextMessage broadcastMessage = new TextMessage(formattedMessage);
 
-    private void broadcastMessage(String message) throws IOException {
-        // 채팅 메시지를 현재 연결된 모든 세션에 브로드캐스트
-        for (WebSocketSession session : sessions.values()) {
-            session.sendMessage(new TextMessage(message));
+        // 해당 채팅방의 모든 세션에 메시지 전송
+        ConcurrentHashMap<String, WebSocketSession> sessions = roomSessions.get(chatMessage.getRoomId());
+        if (sessions != null) {
+            for (WebSocketSession session : sessions.values()) {
+                if (session.isOpen()) {
+                    session.sendMessage(broadcastMessage);
+                }
+            }
         }
     }
+
+    // 새로운 세션 연결
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        String roomId = getRoomIdFromSession(session);
+        roomSessions.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(session.getId(), session);
+    }
+
+    // 세션 종료
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        String roomId = getRoomIdFromSession(session);
+        Map<String, WebSocketSession> sessions = roomSessions.get(roomId);
+        if (sessions != null) {
+            sessions.remove(session.getId());
+            if (sessions.isEmpty()) {
+                roomSessions.remove(roomId);
+            }
+        }
+    }
+
+    // 세션에서 채팅방 ID 추출
+    private String getRoomIdFromSession(WebSocketSession session) {
+        // URI에서 채팅방 ID 추출하는 로직 구현, 예시: /chatroom/{roomId}
+        String path = session.getUri().getPath();
+        return path.substring(path.lastIndexOf('/') + 1);
+    }
+
+
 }
