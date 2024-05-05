@@ -1,5 +1,6 @@
 .AvatarContainer {
   position: relative;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .ButtonContainer {
@@ -20,7 +21,7 @@
   height: 85vh;
   top: 10vh;
   left: 5vw;
-  background-color: blue;
+  /* background-color: blue; */
   z-index: 1;
 }
 
