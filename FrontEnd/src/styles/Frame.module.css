@@ -9,6 +9,8 @@
 }
 .FrameRelative {
   position: relative;
+  width: 100vw;
+  height: 100vh;
 }
 
 .MainGuestFrame {
@@ -28,26 +30,29 @@
 
 .FrameHome {
   position: absolute;
-  left: -567.5px;
+  left: calc(50% - 567.5px - 768px);
   top: 0px;
   transition: all 3000ms;
 }
 .FrameRanking {
   position: absolute;
-  left: -567.5px;
+  left: calc(50% - 567.5px - 768px);
+  /* left: -567.5px; */
   top: -279px;
   transition: all 3000ms;
 }
 .FrameCustom {
   position: absolute;
   top: 0px;
-  left: 0px;
+  /* left: 0px; */
+  left: calc(0px);
   transition: all 3000ms;
 }
 .FrameRoom {
   position: absolute;
   top: 0px;
-  left: -1135px;
+  /* left: -1135px; */
+  left: calc(50% - 567.5px - 567.5px - 768px);
   transition: all 3000ms;
 }
 
@@ -56,11 +61,24 @@
   top: 0px;
   left: 0px;
   height: 100vh;
-  animation: moveRight 25s linear infinite;
+  animation: moveRight 60s linear infinite;
 }
 
 @keyframes moveRight {
   100% {
     transform: translate(calc(-4801.73 * (100vh / 833)));
   }
+}
+
+.Building {
+  position: absolute;
+  bottom: 0px;
+}
+
+.Building1 {
+  left: 0;
+}
+
+.Building2 {
+  right: 0;
 }

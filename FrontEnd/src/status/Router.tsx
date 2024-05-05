@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '@/status/PrivateRoute';
+import PublicRoute from '@/status/PublicRoute';
 import Layout from '@/status/Layout';
 
 // components
@@ -23,10 +24,12 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<MainPage />}>
-            <Route index element={<MainGuest />} />
-            <Route path="login" element={<MainLogin />} />
-            <Route path="signup" element={<MainSignup />} />
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<MainPage />}>
+              <Route index element={<MainGuest />} />
+              <Route path="login" element={<MainLogin />} />
+              <Route path="signup" element={<MainSignup />} />
+            </Route>
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<HomePage />} />

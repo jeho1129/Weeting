@@ -3,56 +3,47 @@ import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
 import CustomOutfitList from './CustomOutfitList';
 import { useEffect, useState } from 'react';
-import { Outfit, OutfitItem } from '@/types/custom';
+import { Outfit, OutfitItem, dummyOutfit } from '@/types/custom';
 import { outfitAllApi, outfitChangeApi, outfitNowApi } from '@/services/customApi';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/atom';
-import { userUpdateApi } from '@/services/userApi';
+
 const Custom = () => {
   const userInfo = useRecoilValue(userState);
-  const setUserInfo = useSetRecoilState(userState);
-  const [nickname, setNickname] = useState(userInfo.nickname);
-  const [outfitList, setOutfitList] = useState<Outfit[]>([]);
+  const [outfitList, setOutfitList] = useState<Outfit[]>(dummyOutfit);
   const [nowOutfit, setNowOutfit] = useState<OutfitItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    outfitNowApi(userInfo.userId).then((data: OutfitItem[]) => {
-      setNowOutfit(data);
-      console.log(data);
-    });
+    outfitNowApi(userInfo.userId)
+      .then((data: OutfitItem[]) => {
+        setNowOutfit(data);
+      })
+      .then(() => {
+        setIsLoading(false);
+      });
     outfitAllApi(userInfo.userId).then((data) => {
-      console.log(data);
       setOutfitList(data);
     });
   }, []);
+
   return (
     <>
       <div className={styles.CustomContainer}>
         <div>
-          <Avatar {...{ move: true, size: 350, isNest: true, outfit: nowOutfit, ingame: true, nickname: nickname }} />
-          <div>
-            <input
-              type="text"
-              value={nickname}
-              maxLength={4}
-              onChange={(e) => {
-                setNickname(e.target.value);
+          {!isLoading ? (
+            <Avatar
+              {...{
+                size: 350,
+                outfit: nowOutfit,
+                location: 'Custom',
+                options: { nickname: userInfo.nickname, isNest: true },
               }}
             />
-            <button
-              onClick={() => {
-                userUpdateApi(nickname).then(() => {
-                  setUserInfo({
-                    userId: userInfo.userId,
-                    nickname: nickname,
-                    score: userInfo.userId,
-                    ranking: userInfo.userId,
-                  });
-                });
-              }}
-            >
-              수정
-            </button>
-          </div>
+          ) : (
+            <div style={{ width: '350px', height: '350px', backgroundColor: 'transparent' }}></div>
+          )}
+
           <div>
             <button
               onClick={() => {

@@ -5,7 +5,6 @@ const GamePage = () => {
   return (
     <>
       <Outlet />
-      <GameWaitingFrame />
     </>
   );
 };

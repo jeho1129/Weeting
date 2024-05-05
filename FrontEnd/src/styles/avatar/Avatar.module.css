@@ -29,6 +29,30 @@
   align-items: center;
 }
 
+.NameTagEditStart {
+  text-decoration: underline;
+  color: rgb(f2, f2, f2);
+}
+
+.NameTagEditEnd {
+  visibility: hidden;
+}
+
+.NameTagEdit {
+  position: absolute;
+  z-index: 100;
+  top: 65%;
+  font-family: 'MapleStoryLight', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+  background-color: rgb(234, 234, 234);
+  border-radius: 15%;
+  outline: none;
+}
+
 .AvatarEyes {
   position: absolute;
   bottom: 47%;
