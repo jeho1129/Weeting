@@ -26,7 +26,6 @@ const CustomOutfitList = ({
             .filter((items) => outfitPart === 'all' || items.part === outfitPart)
             .map((item) => (
               <div key={item.outfitId}>
-                <div>{item.description}</div>
                 <div
                   onClick={() => {
                     const CheckList: OutfitItem[] = nowOutfit.filter((it) => it.part !== item.part);

@@ -1,11 +1,25 @@
 import eyes from '@/assets/images/avatarEyes.svg';
+import eyesOver from '@/assets/images/avatarEyesOver.svg';
 import styles from '@/styles/avatar/Avatar.module.css';
 
-const AvatarEyes = ({ move, size }: { move: boolean; size: number }) => {
+const AvatarEyes = ({
+  size,
+  location,
+  isAlive,
+}: {
+  size: number;
+  location: 'Home' | 'Ingame' | 'Custom' | 'Ranking' | 'Room';
+  isAlive: boolean;
+}) => {
   return (
     <>
       <div className={styles.AvatarEyes} style={{ width: `${size}px` }}>
-        <img className={styles.AvatarEyesImage} src={eyes} style={{ width: `${(82.16 * size) / 300}px` }} alt="" />
+        <img
+          className={styles.AvatarEyesImage}
+          src={isAlive ? eyes : eyesOver}
+          style={{ width: `${(82.16 * size) / 300}px` }}
+          alt=""
+        />
       </div>
     </>
   );
