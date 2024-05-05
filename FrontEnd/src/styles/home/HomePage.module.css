@@ -1,5 +1,3 @@
-
-
 .ButtonContainer {
   position: absolute;
   width: 100vw;
@@ -8,7 +6,7 @@
 
 .AvatarContainer {
   position: absolute;
-  bottom: 344px;
+  top: 10vh;
   left: calc(50% - 200px);
 }
 
