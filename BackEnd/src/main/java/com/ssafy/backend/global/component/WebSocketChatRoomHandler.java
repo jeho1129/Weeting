@@ -16,24 +16,30 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class WebSocketChatRoomHandler extends TextWebSocketHandler {
-    private final Map<String, ConcurrentHashMap<String, WebSocketSession>> roomSessions = new ConcurrentHashMap<>();
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    // 메시지 수신 및 처리
+    private final Map<String, ConcurrentHashMap<String, WebSocketSession>> roomSessions = new ConcurrentHashMap<>();
+
+
+    // 채팅 수신 처리
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        ChatMessageDto chatMessage = objectMapper.readValue(message.getPayload(), ChatMessageDto.class);
+        String userNickname = (String) session.getAttributes().get("user");
+        String payload = message.getPayload();
+        ChatMessageDto chatMessage = objectMapper.readValue(payload, ChatMessageDto.class);
+        chatMessage.setNickname(userNickname); // 로그인 유저의 닉네임 설정
         broadcastMessage(chatMessage);
     }
 
-    // 메시지 브로드캐스트
+
+    // 채팅
     private void broadcastMessage(ChatMessageDto chatMessage) throws IOException {
-        String formattedMessage = chatMessage.getNickname() + " : " + chatMessage.getMessage();
+        String formattedMessage = chatMessage.getNickname() + " : " + chatMessage.getMessage();  // 닉네임 : 채팅내용
         TextMessage broadcastMessage = new TextMessage(formattedMessage);
 
-        // 해당 채팅방의 모든 세션에 메시지 전송
+        // 해당 채팅방의 세션에 메시지 전송
         ConcurrentHashMap<String, WebSocketSession> sessions = roomSessions.get(chatMessage.getRoomId());
         if (sessions != null) {
             for (WebSocketSession session : sessions.values()) {
@@ -44,7 +50,7 @@ public class WebSocketChatRoomHandler extends TextWebSocketHandler {
         }
     }
 
-    // 새로운 세션 연결
+    // 세션 연결
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String roomId = getRoomIdFromSession(session);
@@ -64,9 +70,9 @@ public class WebSocketChatRoomHandler extends TextWebSocketHandler {
         }
     }
 
-    // 세션에서 채팅방 ID 추출
+    // 세션에서 roomID 추출
     private String getRoomIdFromSession(WebSocketSession session) {
-        // URI에서 채팅방 ID 추출하는 로직 구현, 예시: /chatroom/{roomId}
+        // URI에서 채팅방 ID 추출, 예시: /chatroom/{roomId}
         String path = session.getUri().getPath();
         return path.substring(path.lastIndexOf('/') + 1);
     }

@@ -17,6 +17,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Autowired
     private final WebSocketChatRoomHandler webSocketChatRoomHandler;
+
+    // 핸들러 Constructor
     public WebSocketConfig(WebSocketChatRoomHandler webSocketChatRoomHandler) {
         this.webSocketChatRoomHandler = webSocketChatRoomHandler;
     }

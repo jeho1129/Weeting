@@ -46,12 +46,12 @@ public class ChatRoomController {
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
-        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+            List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
         return ResponseEntity.ok().body(Message.success(result));
     }
 
 
-    // 특정 채팅방 입장 (입장하는 로직으로 service 코드 변경해야함)
+    // 특정 채팅방 입장
     @PutMapping("/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
@@ -71,16 +71,6 @@ public class ChatRoomController {
         chatRoomService.LeaveChatRoom(chatRoomId, userId);
         return ResponseEntity.ok().body(Message.success());
     }
-
-
-    // 채팅 테스트
-    @GetMapping("/connect/{chatRoomId}")
-    public ResponseEntity<Message<String>> getChatRoom(@PathVariable("chatRoomId") String chatRoomId) {
-        String url = "/chat/" + chatRoomId;
-        return ResponseEntity.ok().body(Message.success(url));
-    }
-
-
 
 
 
