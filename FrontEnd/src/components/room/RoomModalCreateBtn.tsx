@@ -8,7 +8,9 @@ import RoomRadioBtn from './RoomRadioBtn';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [roomName, setRoomName] = useState<string>('');
   const [selectedMode, setSelectedMode] = useState<number>(-2);
+  const [roomMode, setRoomMode] = useState<'rank' | 'normal' | null>(null);
   const [selectedMaxCount, setSelectedMaxCount] = useState<number>(4);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [password, setPassword] = useState<number | null | ''>('');
@@ -45,9 +47,37 @@ const RoomModalCreateBtn = () => {
 
   //만약 비공개방 체크가 되어있고, 비밀번호가 숫자 4자리가 아니면 만들기 요청시 실패처리
   // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
+  // 모드 0 = 노말   모드 1 = 랭크
   const createtHandler = () => {
     console.log('hi');
-    roomCreateApi();
+    if (selectedMode === 0) {
+      setRoomMode('normal');
+    } else if (selectedMode === 1) {
+      setRoomMode('rank');
+    }
+
+    if (password === '') {
+      setPassword(null);
+    }
+    roomCreateApi({
+      roomName: roomName,
+      roomMode: roomMode,
+      roomPassword: password,
+      roomMaxCnt: selectedMaxCount,
+    })
+      .then((res) => {
+        console.log('res :', res);
+        setModalIsOpen(false);
+      })
+      .catch((err) => {
+        alert('모드 또는 방 비밀번호를 다시 확인해주세요');
+        console.log(err);
+      });
+  };
+
+  const handleRoomNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 방 이름 변경 핸들러
+    setRoomName(e.target.value);
   };
 
   const onChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +114,7 @@ const RoomModalCreateBtn = () => {
         <div className={styles.Container}>
           <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 이름</span>
-            <input type="text" className={styles.Input} />
+            <input type="text" className={styles.Input} value={roomName} onChange={handleRoomNameChange} />
           </div>
           <div className={styles.RoomMode}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 모드</span>
@@ -100,7 +130,7 @@ const RoomModalCreateBtn = () => {
               <input type="checkbox" onChange={(e) => setIsPrivate(e.target.checked)} />
             </span>
             {isPrivate && (
-              <input type="text" className={styles.Input} value={password} onChange={handlePasswordChange} />
+              <input type="text" placeholder='비밀번호 4자리' className={styles.Input} value={password} onChange={handlePasswordChange} />
             )}
             {isPrivate === false && <input type="text" className={styles.Input} disabled />}
           </div>
