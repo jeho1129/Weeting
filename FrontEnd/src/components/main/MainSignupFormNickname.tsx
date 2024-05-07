@@ -2,6 +2,7 @@ import styles from '@/styles/main/MainLoginForm.module.css';
 import { MainSignupFormNicknameProps } from '@/types/user';
 import { nicknameCheckApi } from '@/services/userApi';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible, nicknameCheckHandler }: MainSignupFormNicknameProps) => {
   const [nicknameChecked, setNicknameChecked] = useState(0);
@@ -15,17 +16,26 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
       .then((data) => {
         console.log('data :', data);
         if (data.dataBody === true) {
-          alert('이미 사용중인 닉네임입니다');
+          Swal.fire({
+            title: "이미 사용중인 닉네임입니다",
+            icon: "error"
+          });
           nicknameCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
           setNicknameChecked(1)
         } else {
-          alert('사용할 수 있는 닉네임입니다');
+          Swal.fire({
+            title: "사용할 수 있는 닉네임입니다",
+            icon: "success"
+          });
           nicknameCheckHandler(1); // 사용 가능한 id에 대해 1을 전달
           setNicknameChecked(0)
         }
       })
       .catch(() => {
-        alert('다시 시도해주세요');
+        Swal.fire({
+          title: "다시 시도해주세요",
+          icon: "error"
+        });
       });
     console.log('닉네임 중복확인 api call');
   };
@@ -46,12 +56,16 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
         />
         <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
       </div>
-      <div className={styles.Container}>
-        <div className={styles.Label}></div>
-        {nicknamePossible === 0 && nicknameChecked === 1 && (
-          <div className={styles.SignupAlertText}>이미 존재하는 닉네임 입니다</div>
+      {(nicknamePossible === 0 && nicknameChecked === 1) ? (
+          <div className={styles.Container}>
+            <div className={styles.Label}></div>
+            <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 닉네임 입니다</div>
+          </div>
+        ) : (
+          <div className={styles.BeforeContainer}>
+            <div className={styles.Label}></div>
+          </div>
         )}
-      </div>
     </>
   );
 };

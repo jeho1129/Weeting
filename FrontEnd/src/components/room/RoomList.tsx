@@ -30,17 +30,18 @@ const RoomList = () => {
 //     }
 //   };
 
-  const asdf = () => {
+  const roomEnterHandler = () => {
     console.log('hi')
 
   }
   
   return (
     // <div className="container">
-      
+      // roomSelectedMode에 따라서 다르게 보여주기
+      // roomSelectedMode 0 = 전체, roomSelectedMode 1 = 노말, roomSelectedMode 2 = 랭크
       <ul className={styles.ListGroup}>
         {RoomWaitData.map((room, index) => (
-          <li key={index} className={styles.OneRoom} onClick={asdf}>
+          <li key={index} className={styles.OneRoom} onClick={roomEnterHandler}>
             <div className={`${styles.FirstRow}`}>
               <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
               <div className={`${styles.RoomUsers} FontM20`}>{room.roomUsers.length}/{room.roomMaxCnt}</div>
