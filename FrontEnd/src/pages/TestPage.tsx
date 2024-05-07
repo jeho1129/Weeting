@@ -85,9 +85,9 @@ const ChatRoom: React.FC = () => {
   }, []);
 
   const connectWebSocket = () => {
-    const roomId = 1; 
+    const roomId = 1;
     // websocket.current = new WebSocket(`ws://localhost:8080/chatroom/${roomId}`);
-    websocket.current = new WebSocket(`ws://k10c103.p.ssafy.io:9002/chatroom/${roomId}`);
+    websocket.current = new WebSocket(`ws://localhost:8080/chatroom/${roomId}`);
 
     websocket.current.onopen = () => {
       console.log('Connected to the chat server');

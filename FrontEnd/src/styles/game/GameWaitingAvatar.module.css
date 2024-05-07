@@ -25,7 +25,21 @@
 
 .messageFadeOut {
   animation: fadeOut 1s ease-out 1s forwards;
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 4px 16px;
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
 }
 .messageIn {
   display: block;
+  background-color: #f0f0f0; /* 말풍선 배경 색 */
+  border: 1px solid #d0d0d0; /* 테두리 색 */
+  border-radius: 10px; /* 모서리를 둥글게 */
+  padding: 4px 16px;
+  color: #333; /* 글자 색 */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
 }
