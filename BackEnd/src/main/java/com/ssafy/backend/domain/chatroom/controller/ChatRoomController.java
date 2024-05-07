@@ -34,10 +34,10 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
-    public ResponseEntity<Message<?>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
+    public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                                                            @AuthenticationPrincipal User user) {
         Long userId = user.getId();
-        Optional<?> result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
+        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
         return ResponseEntity.ok().body(Message.success(result));
     }
 

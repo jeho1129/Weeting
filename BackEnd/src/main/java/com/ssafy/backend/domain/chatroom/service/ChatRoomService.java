@@ -17,8 +17,10 @@ public class ChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public Optional<?> createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) {
-        String noRoomName = "방 제목을 입력하세요.";
+    public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) {
+        if (chatRoomCreateRequestDto.getRoomName() == null || chatRoomCreateRequestDto.getRoomName().trim().isEmpty()) {
+            throw new IllegalArgumentException("방 제목을 입력하세요.");
+        }
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .roomId(UUID.randomUUID().toString())
                 .roomName(chatRoomCreateRequestDto.getRoomName())
@@ -30,14 +32,11 @@ public class ChatRoomService {
                 .mode(chatRoomCreateRequestDto.getMode())
                 .build();
 
-        // 방 제목이 비어 있는지 확인
-        if (chatRoomDto.getRoomName() == null || chatRoomDto.getRoomName().trim().isEmpty()) {
-            return Optional.of(noRoomName);
-        } else {
-            redisTemplate.opsForValue().set(chatRoomDto.getRoomId(), chatRoomDto);
-            return Optional.of(chatRoomDto);
-        }
+        redisTemplate.opsForValue().set(chatRoomDto.getRoomId(), chatRoomDto);
+
+        return chatRoomDto;
     }
+
 
 
     public List<ChatRoomDto> findAllChatRooms() {
