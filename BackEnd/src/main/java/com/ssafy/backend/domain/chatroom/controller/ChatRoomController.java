@@ -52,7 +52,7 @@ public class ChatRoomController {
 
 
     // 특정 채팅방 입장
-    @PutMapping("/{chatRoomId}")
+    @PatchMapping("/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
