@@ -3,25 +3,13 @@ from pydantic import BaseModel
 from pykospacing import Spacing
 from konlpy.tag import Okt
 from model_manager import get_similar_words
-import aioredis, re, websockets
+import aioredis, re
 
 router = APIRouter()
 spacing = Spacing()
 okt = Okt()
 
 redis = aioredis.from_url("redis://54.180.158.223:6379", password="c103103", encoding="utf8", decode_responses=True)
-
-async def receive_message_from_spring():
-    uri = "ws://54.180.158.223:8080/ws"
-    async with websockets.connect(uri) as websocket:
-        while True:
-            try:
-                message = await websocket.recv()
-                if message:
-                    await process_message(message)
-            except websockets.exceptions.ConnectionClosedError:
-                print("Connection closed.")
-                break
 
 async def check_text_against_forbidden_words(words, user_id):
     forbidden_similar_words = await redis.hgetall(f"similar:{user_id}")
