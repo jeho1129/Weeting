@@ -10,7 +10,7 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -20,7 +20,9 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
   return (
     <div className={`FontD16 ${styles.ChatList}`}>
       {chatMessages.map((message, index) => (
-        <div key={index}>{message.content}</div>
+        <div key={index}>
+          <strong>{message.nickname}: </strong> {message.content}
+        </div>
       ))}
       <div ref={messagesEndRef} />
     </div>

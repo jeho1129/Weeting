@@ -4,18 +4,50 @@ import avatarshock from '@/assets/images/inGameElectricShock.png';
 
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
+import { ChatMessage } from '@/types/chat';
+
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
+import { useRecoilValue } from 'recoil';
+import { gameState } from '@/recoil/atom';
+import { useEffect, useState } from 'react';
+
+interface Position {
+  top: string;
+  left: string;
+}
+const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; latestMessage: string }) => {
+  const [isOut, setIsOut] = useState(false);
+  useEffect(() => {
+    setIsOut(false);
+    setTimeout(() => {
+      setIsOut(true);
+    }, 100);
+  }, [latestMessage]);
+  return (
+    <>
+      <div
+        style={{ top: `calc(${top} + 32%)`, left: `calc(${left} + 1%)`, position: 'absolute' }}
+        className={isOut ? styles.messageFadeOut : styles.messageIn}
+      >
+        {latestMessage}
+      </div>
+    </>
+  );
+};
 
 const GameWaitingAvatars = ({
-	roomStatus,
+  roomStatus,
   roomUsers,
   roomMaxCnt,
+  chatMessage,
 }: {
-	roomStatus: RoomInfo['roomStatus'];
+  roomStatus: RoomInfo['roomStatus'];
   roomUsers: RoomInfo['roomUsers'];
   roomMaxCnt: RoomInfo['roomMaxCnt'];
+  chatMessage: ChatMessage[];
 }) => {
-  const calculatePosition = (index, maxCount) => {
+  const gameInfo = useRecoilValue(gameState);
+  const calculatePosition = (index: number, maxCount: number) => {
     let position;
     let top = '14.5%';
     if (index % 2 !== 0) {
@@ -53,36 +85,48 @@ const GameWaitingAvatars = ({
     <div className={styles.inGameAvatars}>
       {roomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
+        const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+        const latestMessage = userMessages[userMessages.length - 1]?.content;
         return (
-					<div>
-						<img
-							key={member.userId}
-							src={avatar}
-							alt="avatar"
-							className={styles.inGameAvatar}
-							style={{ top: position.top, left: position.left }}
-						/>
-						{roomStatus === 'start' && (
+          <div key={member.userId}>
+            <img
+              key={member.userId}
+              src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
+              alt="avatar"
+              className={styles.inGameAvatar}
+              style={{ top: position.top, left: position.left }}
+            />
+            <GameMessage top={position.top} left={position.left} latestMessage={latestMessage} />
+
+            {/* <div
+              style={{ top: `calc(${position.top} + 32%)`, left: `calc(${position.left} + 1%)`, position: 'absolute' }}
+              className={styles.messageFadeOut}
+            >
+              {latestMessage}
+            </div> */}
+
+            {roomStatus === 'start' && (
               <>
-              <div>
-                <div className={styles.inGameAvatar}
+                <div>
+                  <div
+                    className={styles.inGameAvatar}
                     style={{
                       top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
                       left: position.left,
                       position: 'absolute',
-                    }} >
-                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', position: 'relative'}}>
+                    }}
+                  >
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
+                    >
                       <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
-                      <img
-                        src={forbiddenFlag}
-                        alt="forbidden word"
-                      />
+                      <img src={forbiddenFlag} alt="forbidden word" />
                     </div>
+                  </div>
                 </div>
-              </div>
               </>
-							)}
-					</div>
+            )}
+          </div>
         );
       })}
     </div>

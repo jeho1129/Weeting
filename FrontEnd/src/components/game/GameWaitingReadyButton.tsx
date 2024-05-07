@@ -16,7 +16,8 @@ const GameWaitingReadyButton = ({roomUsers, blink, onStartGame}: { roomUsers: Ro
   };
   
   // 방장인 경우 반짝이도록 수정
-  const isFirstMember = roomUsers.findIndex(member => member.userId === '1') === 0;
+  // const isFirstMember = roomUsers.findIndex(member => member.userId === '1') === 0;
+  const isFirstMember = roomUsers[0];
   const buttonContent = isFirstMember ? '게임시작' : (isReady ? '준비 취소' : '준비');
 
   let buttonStyle = `FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`;
