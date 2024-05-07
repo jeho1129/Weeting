@@ -10,13 +10,23 @@
 }
 
 .RadioMode {
-  border: 1px solid red;
   height: 30px;
   line-height: 30px;
   border-radius: 5px;
-  font-size: 14px;
-  background-color: #FAFAFA;
+  font-weight: bold;
   margin: 4px;
   text-align: center;
   padding: 4px 16px;
+  cursor: pointer;
+}
+
+.Pink {
+  border: none;
+  background-color: pink;
+
+}
+
+.LightGray {
+  border: none;
+  background-color: lightgray;
 }
