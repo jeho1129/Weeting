@@ -4,7 +4,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userUpdateApi, nicknameCheckApi } from '@/services/userApi';
 import { useState, useRef } from 'react';
 import styles from '@/styles/avatar/Avatar.module.css';
-
 const AvatarOutfit = ({
   size,
   location,
@@ -85,7 +84,7 @@ const AvatarOutfit = ({
                   style={{
                     width: `${(125.85 * size) / 300 - 10}px`,
                     height: `${(size * 50) / 300}px`,
-                    fontSize: `${(size * 32) / 300}px`,
+                    fontSize: `${(size * 28) / 300}px`,
                     left: `calc(50% - ${(125.85 * size) / 600 - 5}px)`,
                   }}
                   type="text"
@@ -94,7 +93,11 @@ const AvatarOutfit = ({
                   maxLength={4}
                   size={4}
                   spellCheck={false}
+                  id='nicknameInput'
                   ref={inputEl}
+                  onFocus={() => {
+                    setIsClick(true);
+                  }}
                   onChange={(e) => {
                     setNewNickname(e.target.value);
                   }}
@@ -132,7 +135,7 @@ const AvatarOutfit = ({
                   style={{
                     width: `${(125.85 * size) / 300}px`,
                     height: `${(size * 50) / 300}px`,
-                    fontSize: `${(size * 32) / 300}px`,
+                    fontSize: `${(size * 28) / 300}px`,
                     left: `calc(50% - ${(125.85 * size) / 600}px)`,
                   }}
                 >
