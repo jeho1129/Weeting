@@ -25,10 +25,16 @@ const MainSignupFormPwCheck = ({
           onChange={onPasswordCheckHandler}
         />
       </div>
-      <div className={styles.Container}>
-        <div className={styles.Label}></div>
-        {!isPasswordMatch() && <div className={styles.SignupAlertText}>비밀번호가 일치하지 않습니다</div>}
-      </div>
+      {!isPasswordMatch() ? (
+        <div className={styles.Container}>
+          <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>비밀번호가 일치하지 않습니다</div>
+        </div>
+      ) : (
+        <div className={styles.BeforeContainer}>
+          <div className={styles.Label}></div>
+        </div>
+      )}
     </>
   );
 };
