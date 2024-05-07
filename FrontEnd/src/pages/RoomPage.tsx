@@ -1,4 +1,3 @@
-import HomeFrame from '@/components/home/HomeFrame';
 import styles from '@/styles/room/RoomPage.module.css';
 import { Outlet } from 'react-router-dom';
 import HomeButton from '@/components/home/HomeButton';
@@ -7,7 +6,6 @@ const RoomPage = () => {
   return (
     <>
       <div className={styles.FrameContainer}>
-        <HomeFrame />
         <Outlet />
         <div className={styles.ButtonContainer}>
           <HomeButton {...{ message: '홈', direction: 'left', location: 'home' }} />
