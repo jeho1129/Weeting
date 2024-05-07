@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import framehome from '@/assets/images/framehome.png';
 import framehomesky from '@/assets/images/framehomesky.png';
 import framemain from '@/assets/images/framemain.png';
+import customTitle from '@/assets/images/customTitle.svg';
 import building1 from '@/assets/images/building1.png';
 import building2 from '@/assets/images/building2.png';
 import styles from '@/styles/Frame.module.css';
@@ -24,6 +25,7 @@ const HomeFrame = () => {
               src={framehome}
               alt=""
             />
+            {location.pathname === '/custom' ? <img className={styles.CustomTitle} src={customTitle} alt="" /> : <></>}
           </>
         ) : (
           <>
