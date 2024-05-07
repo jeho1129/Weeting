@@ -16,6 +16,7 @@ import RoomPage from '@/pages/RoomPage';
 import MainPage from '@/pages/MainPage';
 import GamePage from '@/pages/GamePage';
 import HomePage from '@/pages/HomePage';
+import TestPage from '@/pages/TestPage';
 import ErrorPage from '@/pages/ErrorPage';
 
 const Router = () => {
@@ -39,6 +40,7 @@ const Router = () => {
           </Route>
         </Route>
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/test" element={<TestPage />} />
         <Route path="*" element={<Navigate replace to="/error" />} />
       </Routes>
     </BrowserRouter>
