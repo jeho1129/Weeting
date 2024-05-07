@@ -19,9 +19,9 @@ public class ChatRoomService {
     public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) {
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .roomId(UUID.randomUUID().toString())
-                .name(chatRoomCreateRequestDto.getName())
-                .password(chatRoomCreateRequestDto.getPassword())
-                .maxMembers(chatRoomCreateRequestDto.getMaxMembers())
+                .roomName(chatRoomCreateRequestDto.getRoomName())
+                .roomPassword(chatRoomCreateRequestDto.getRoomPassword())
+                .roomMaxCnt(chatRoomCreateRequestDto.getRoomMaxCnt())
                 .members(new ArrayList<>(Arrays.asList(userId))) // 초기 멤버 리스트에 방 생성자 유저ID 포함
                 .theme("")
                 .status(ChatRoomDto.RoomStatus.WAIT)

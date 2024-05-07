@@ -7,6 +7,7 @@ import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
 import com.ssafy.backend.domain.security.utils.JwtUtils;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
+import com.ssafy.backend.global.config.WebSocketConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
@@ -24,6 +25,7 @@ import java.util.Random;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
+    private final WebSocketConfig webSocketConfig;
 
     private final Random random = new Random();
 
@@ -44,31 +46,33 @@ public class ChatRoomController {
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
-        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+            List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
         return ResponseEntity.ok().body(Message.success(result));
     }
 
 
-    // 특정 채팅방 입장 (입장하는 로직으로 service 코드 변경해야함)
-    @PutMapping("/{ChatRoomId}")
+    // 특정 채팅방 입장
+    @PatchMapping("/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("ChatRoomId") String ChatRoomId,
+    public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
         Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.EnterChatRoom(ChatRoomId, userId);
+        ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, userId);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
 
     // 채팅방 나가기
-    @PatchMapping("/leave/{ChatRoomId}")
+    @PatchMapping("/leave/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<Void>> LeaveChatRoom(@PathVariable("ChatRoomId") String ChatRoomId,
+    public ResponseEntity<Message<String>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                        @AuthenticationPrincipal User user) {
         Long userId = user.getId();
-        chatRoomService.LeaveChatRoom(ChatRoomId, userId);
-        return ResponseEntity.ok().body(Message.success());
+        chatRoomService.LeaveChatRoom(chatRoomId, userId);
+        String result = "나가기 완료 !";
+        return ResponseEntity.ok().body(Message.success(result));
     }
+
 
 
     @GetMapping("/randomTheme")
