@@ -63,6 +63,7 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
             placeholder="메세지를 입력해주세요"
             value={message} // input에 message 상태를 value로 설정
             onChange={onChatHandler}
+            maxLength={20}
           />
           <button className={`FontM20 ${styles.Btn}`}>확인</button>
         </div>

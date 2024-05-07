@@ -44,14 +44,14 @@ const GameWaiting = () => {
       roomMode: 'normal',
       roomId: 1,
       roomName: '테스트 방',
-      roomStatus: 'allready',
+      roomStatus: 'waiting',
       roomForbiddentime: null,
       roomEndtime: null,
       roomSubject: null,
       roomMaxCnt: 8,
       roomUsers: [
-        { userId: 9, nickname: '하하호호', outfit: 'casual', ready: false, word: '안녕', score: 1, isAlive: true },
-        { userId: 2, nickname: '줴훈줴훈', outfit: 'sporty', ready: true, word: '안녕', score: 2, isAlive: true },
+        { userId: 9, nickname: '하하호호', outfit: 'casual', ready: false, word: '안아아아안녕', score: 16.6, isAlive: true },
+        { userId: 13, nickname: '허허후후', outfit: 'sporty', ready: true, word: '메롱', score: 2, isAlive: true },
         { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕', score: 3, isAlive: false },
         { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
         { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보', score: 4, isAlive: false },
@@ -127,16 +127,18 @@ const GameWaiting = () => {
         <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart} />
         <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} setChatMessages={setChatMessages} />
       </div>
-      <GameForbiddenWord
-        roomInfo={roomInfo}
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        onConfirm={(word: string) => {
-          console.log('설정된 금칙어:', word);
-          setChoose(true);
-          setModalOpen(false);
-        }}
-      />
+      {isModalOpen && (
+        <GameForbiddenWord
+          roomInfo={roomInfo}
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          onConfirm={(word: string) => {
+            console.log('설정된 금칙어:', word);
+            setChoose(true);
+            setModalOpen(false);
+          }}
+        />
+      )}
       {isRankOpen && (
         <GameRankModal
           roomInfo={roomInfo}

@@ -26,10 +26,28 @@ const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; 
   return (
     <>
       <div
-        style={{ top: `calc(${top} + 32%)`, left: `calc(${left} + 1%)`, position: 'absolute' }}
-        className={isOut ? styles.messageFadeOut : styles.messageIn}
+        style={{
+          top: `calc(${top} + 32%)`,
+          left: `calc(${left} - 4.6%)`,
+          position: 'absolute',
+        }}
       >
-        {latestMessage}
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: `14ch`,
+          }}
+        >
+          <div
+            className={isOut ? styles.messageFadeOut : styles.messageIn}
+            style={{ maxWidth: `320px` }}
+          >
+            {latestMessage}
+          </div>
+        </div>
       </div>
     </>
   );
@@ -49,22 +67,22 @@ const GameWaitingAvatars = ({
   const gameInfo = useRecoilValue(gameState);
   const calculatePosition = (index: number, maxCount: number) => {
     let position;
-    let top = '14.5%';
+    let top = '15.5%';
     if (index % 2 !== 0) {
-      top = '63%';
+      top = '72%';
     }
     let left = '0';
     switch (maxCount) {
       case 4:
         left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 40}% + 20%)`;
-        top = `${index % 2 === 0 ? 19 : 68}%`;
+        top = `${index % 2 === 0 ? 20 : 77}%`;
         break;
       case 6:
         left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 30}% + 10%)`;
         if (index >= 2 && index <= 3) {
           top = `calc(${top} + 5%)`;
         } else {
-          top = `${index % 2 === 0 ? 17.5 : 67}%`;
+          top = `${index % 2 === 0 ? 18.8 : 75}%`;
         }
         break;
       case 8:
@@ -72,7 +90,7 @@ const GameWaitingAvatars = ({
         if (index >= 2 && index <= 5) {
           top = `calc(${top} + 5%)`;
         } else {
-          top = `${index % 2 === 0 ? 16.5 : 66}%`;
+          top = `${index % 2 === 0 ? 18 : 74.5}%`;
         }
         break;
     }
@@ -89,29 +107,27 @@ const GameWaitingAvatars = ({
         const latestMessage = userMessages[userMessages.length - 1]?.content;
         return (
           <div key={member.userId}>
-            <img
-              key={member.userId}
-              src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
-              alt="avatar"
-              className={styles.inGameAvatar}
-              style={{ top: position.top, left: position.left }}
-            />
-            <GameMessage top={position.top} left={position.left} latestMessage={latestMessage} />
-
-            {/* <div
-              style={{ top: `calc(${position.top} + 32%)`, left: `calc(${position.left} + 1%)`, position: 'absolute' }}
-              className={styles.messageFadeOut}
-            >
-              {latestMessage}
-            </div> */}
-
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <img
+                key={member.userId}
+                src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
+                alt="avatar"
+                className={styles.inGameAvatar}
+                style={{ top: position.top, left: position.left }}
+              />
+              <GameMessage
+                top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
+                left={position.left}
+                latestMessage={latestMessage}
+              />
+            </div>
             {roomStatus === 'start' && (
               <>
                 <div>
                   <div
                     className={styles.inGameAvatar}
                     style={{
-                      top: index % 2 === 0 ? `calc(${position.top} - 12%)` : `calc(${position.top} + 25%)`, // 조건에 따라 top 위치 조정
+                      top: index % 2 === 0 ? `calc(${position.top} - 12.9%)` : `calc(${position.top} + 25%)`,
                       left: position.left,
                       position: 'absolute',
                     }}
