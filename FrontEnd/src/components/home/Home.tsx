@@ -2,7 +2,7 @@ import styles from '@/styles/home/HomePage.module.css';
 import Avatar from './../avatar/Avatar';
 import HomeButton from './HomeButton';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { userState, outfitState } from '@/recoil/atom';
 import { logoutApi, userInfoLoadApi } from '@/services/userApi';
 import { removeCookie } from '@/utils/axios';
@@ -14,6 +14,8 @@ const Home = () => {
   const outfitInfo = useRecoilValue(outfitState);
   const setOutfitInfo = useSetRecoilState(outfitState);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
@@ -29,6 +31,7 @@ const Home = () => {
       .then((userId) => {
         outfitNowApi(userId).then((data) => {
           setOutfitInfo(data);
+          setIsLoading(true);
         });
       })
       .catch((err) => {
@@ -36,11 +39,14 @@ const Home = () => {
       });
   }, []);
 
-  const logOut = () => {
+  const logout = () => {
     logoutApi()
       .then(() => {
         alert('로그아웃');
         removeCookie('accessToken');
+        if (localStorage.getItem('localToken')) {
+          localStorage.removeItem('localToken');
+        }
       })
       .then(() => {
         navigate('/');
@@ -50,7 +56,7 @@ const Home = () => {
   return (
     <>
       <div className={styles.ButtonContainer}>
-        <div style={{ backgroundColor: 'aqua' }} onClick={logOut}>
+        <div style={{ backgroundColor: 'aqua' }} onClick={logout}>
           로그아웃
         </div>
         <HomeButton {...{ message: '커스텀', direction: 'left', location: 'custom' }} />
@@ -58,7 +64,18 @@ const Home = () => {
         <HomeButton {...{ message: '게임', direction: 'right', location: 'room' }} />
       </div>
       <div className={styles.AvatarContainer}>
-        <Avatar {...{ move: true, size: 400, isNest: true, outfit: outfitInfo }} />
+        {isLoading ? (
+          <Avatar
+            {...{
+              size: 400,
+              outfit: outfitInfo,
+              location: 'Home',
+              options: { isNest: true },
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       {/* <div className={styles.FrameContainer}>
         <HomeFrame />

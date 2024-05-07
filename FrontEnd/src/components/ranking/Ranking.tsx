@@ -34,10 +34,13 @@ const Ranking = () => {
       <div className={styles.RankingContainer}>
         <div className={styles.AvatarContainer}>
           <div>
-            <Avatar {...{ move: true, size: 400, isNest: true, outfit: outfitInfo }} />
+            <Avatar {...{ move: true, size: 400, isNest: true, outfit: outfitInfo, ingame: false }} />
           </div>
           <div>
-            <div className={`FontM32`}>내 순위는 {userInfo.ranking}</div>
+            <div className={`FontM32`}>
+              <div>내 순위는</div>
+              <div className="FontM60">{userInfo.ranking ? `${userInfo.ranking}위 입니다!` : '정각에 공개됩니다!'}</div>
+            </div>
           </div>
         </div>
         <div className={styles.ListContainer}>

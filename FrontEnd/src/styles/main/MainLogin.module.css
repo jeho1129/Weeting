@@ -1,4 +1,4 @@
-.Align {
+/* .Align {
   display: flex;
   justify-content: center;
   margin-top: 3rem;
@@ -37,4 +37,47 @@
   z-index: 9999;
   width: 20vw;
   height: 20vh;
+} */
+
+.Container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ButtonContainer {
+  position: absolute;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.LoginContainer {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  border-radius: 15px;
+}
+
+.Logo {
+  position: absolute;
+  width: 453px;
+  height: auto;
+  top: -120px;
+  left: 150px;
+  z-index: 2;
+}
+
+.LoginForm {
+  width: 800px;
+  height: 500px;
+  backdrop-filter: blur(2px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
