@@ -38,8 +38,8 @@ spring:
   data:
     # Redis
     redis:
-#      host: k10C103.p.ssafy.io
-      host: localhost
+      host: k10C103.p.ssafy.io
+#      host: localhost
       port: 6379
 #      password: c103103
 
@@ -64,7 +64,6 @@ logging:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
       org.springframework.web.socket: DEBUG
-
 
 
 
