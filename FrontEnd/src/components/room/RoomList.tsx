@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { RoomListData } from './../../types/roomListData';
+import { Link, useNavigate } from 'react-router-dom';
+import { RoomWaitData } from '@/types/roomWaitData';
+import styles from '@/styles/room/RoomList.module.css'
+import watingAvatar from '@/assets/images/inGameAvatar.png'
+import { Lock } from '@phosphor-icons/react';
+import RoomRadioBtn from './RoomRadioBtn';
 
-const ChatRoomPage = () => {
+const RoomList = () => {
   const [roomName, setRoomName] = useState('');
   const [chatRooms, setChatRooms] = useState([]);
+
+  const navigate = useNavigate()
 
   //axios 및 웹소켓 연결되면 풀기
 //   useEffect(() => {
@@ -24,26 +30,42 @@ const ChatRoomPage = () => {
 //     }
 //   };
 
+  const asdf = () => {
+    console.log('hi')
+
+  }
   
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <h3>채팅방 리스트</h3>
-        </div>
-      </div>
+    // <div className="container">
       
-      <ul className="list-group">
-        {RoomListData.map((room, index) => (
-          <li key={index} className="list-group-item list-group-item-action">
-            <Link to={`/rooms/${room.roomid}`}>
-              <h6>{room.roomname} <span className="badge badge-info badge-pill">{room.roommembers.length}</span></h6>
+      <ul className={styles.ListGroup}>
+        {RoomWaitData.map((room, index) => (
+          <li key={index} className={styles.OneRoom} onClick={asdf}>
+            <div className={`${styles.FirstRow}`}>
+              <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+              <div className={`${styles.RoomUsers} FontM20`}>{room.roomUsers.length}/{room.roomMaxCnt}</div>
+              {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
+              
+            </div>
+            <div className={styles.SecondRow}>
+              <div></div>
+              {room.roomMode === 'rank' ? (
+                <div className={`${styles.Mode} FontM20`}>랭크</div>
+              ) : (
+                <div className={`${styles.Mode} FontM20`}>노말</div>
+              )}
+            </div>
+            <div>
+              <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
+            </div>
+            <Link to={`/rooms/${room.roomId}`}>
+              <h6>{room.roomName} <span className="badge badge-info badge-pill">{room.roomUsers.length}</span></h6>
             </Link>
           </li>
         ))}
       </ul>
-    </div>
+    // </div>
   );
 };
 
-export default ChatRoomPage;
+export default RoomList;

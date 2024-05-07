@@ -8,7 +8,7 @@ import RoomRadioBtn from './RoomRadioBtn';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedMode, setSelectedMode] = useState<number>(0);
+  const [selectedMode, setSelectedMode] = useState<number>(-2);
   const [selectedMaxCount, setSelectedMaxCount] = useState<number>(4);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [password, setPassword] = useState<number | null | ''>('');
@@ -44,6 +44,7 @@ const RoomModalCreateBtn = () => {
   };
 
   //만약 비공개방 체크가 되어있고, 비밀번호가 숫자 4자리가 아니면 만들기 요청시 실패처리
+  // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
   const createtHandler = () => {
     console.log('hi');
     roomCreateApi();
@@ -75,7 +76,9 @@ const RoomModalCreateBtn = () => {
 
   return (
     <div>
-      <button onClick={openModal} className={`${styles.MakeBtn} FontM32`} >만들기</button>
+      <button onClick={openModal} className={`${styles.MakeBtn} FontM32`}>
+        만들기
+      </button>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
         <XCircle className={styles.XCircle} size={32} onClick={closeModal} />
         <div className={styles.Container}>
