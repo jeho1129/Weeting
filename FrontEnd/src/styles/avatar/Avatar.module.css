@@ -30,18 +30,14 @@
 }
 
 .NameTagEditStart {
-  text-decoration: underline;
-  color: rgb(f2, f2, f2);
-}
-
-.NameTagEditEnd {
-  visibility: hidden;
+  caret-color: #0093f3;
+  color: #0093f3;
 }
 
 .NameTagEdit {
   position: absolute;
   z-index: 100;
-  top: 65%;
+  top: 66%;
   font-family: 'MapleStoryLight', sans-serif;
   display: flex;
   justify-content: center;

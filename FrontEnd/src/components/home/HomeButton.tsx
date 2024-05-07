@@ -5,10 +5,12 @@ const HomeButton = ({
   message,
   direction,
   location,
+  size,
 }: {
   message: string;
   direction: 'up' | 'down' | 'right' | 'left' | 'back' | 'logout';
   location: string;
+  size?: number;
 }) => {
   const navigate = useNavigate();
   const presentLocation = useLocation();
@@ -19,15 +21,15 @@ const HomeButton = ({
         onClick={() => navigate(`/${location}`, { state: { previousLocationPathname: presentLocation.pathname } })}
       >
         {direction === 'up' ? (
-          <CaretDoubleUp size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleUp size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : direction === 'down' ? (
-          <CaretDoubleDown size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleDown size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : direction === 'left' || direction === 'back' ? (
-          <CaretDoubleLeft size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleLeft size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : direction === 'right' ? (
-          <CaretDoubleRight size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleRight size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : (
-          <SignOut size={80} weight="bold" color="#ffffff" />
+          <SignOut size={size ? size : 80} weight="bold" color="#ffffff" />
         )}
         <div className={`${direction === 'back' ? 'FontM32' : 'FontM60'}`} style={{ color: '#ffffff' }}>
           {message}
