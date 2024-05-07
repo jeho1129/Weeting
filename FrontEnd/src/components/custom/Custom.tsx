@@ -13,6 +13,8 @@ const Custom = () => {
   const [outfitList, setOutfitList] = useState<Outfit[]>(dummyOutfit);
   const [nowOutfit, setNowOutfit] = useState<OutfitItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
+  const nicknameInput = document.getElementById('nicknameInput');
 
   useEffect(() => {
     outfitNowApi(userInfo.userId)
@@ -30,7 +32,7 @@ const Custom = () => {
   return (
     <>
       <div className={styles.CustomContainer}>
-        <div>
+        <div className={styles.AvatarContainer}>
           {!isLoading ? (
             <Avatar
               {...{
@@ -44,8 +46,22 @@ const Custom = () => {
             <div style={{ width: '350px', height: '350px', backgroundColor: 'transparent' }}></div>
           )}
 
-          <div>
-            <button
+          <div className={`FontM20 ${styles.CustomButtonContainer}`}>
+            <div
+              className={`${styles.CustomButtonNickname} ${styles.CustomButton}`}
+              onClick={() => {
+                if (isClicked) {
+                  setIsClicked(false);
+                } else {
+                  nicknameInput?.focus();
+                  setIsClicked(true);
+                }
+              }}
+            >
+              닉네임 수정
+            </div>
+            <div
+              className={`${styles.CustomButtonOutfit} ${styles.CustomButton}`}
               onClick={() => {
                 outfitChangeApi(
                   userInfo.userId,
@@ -54,7 +70,7 @@ const Custom = () => {
               }}
             >
               커스텀 확정
-            </button>
+            </div>
           </div>
         </div>
         <CustomOutfitList {...{ outfitList: outfitList, nowOutfit: nowOutfit, setNowOutfit: setNowOutfit }} />

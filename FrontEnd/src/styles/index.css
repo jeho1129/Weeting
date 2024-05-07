@@ -1,0 +1,16 @@
+#outletContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#outlet {
+  position: relative;
+  width: 1536px;
+  height: 833px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: aquamarine; */
+}

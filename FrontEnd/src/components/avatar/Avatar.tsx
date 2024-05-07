@@ -34,18 +34,12 @@ const Avatar = ({ size, outfit, location, options }: AvatarProps) => {
   return (
     <>
       <div className={styles.Avatar} style={{ width: `${size}px`, height: `${size}px` }}>
-        {
-          // nametag의 값이 로드 되면 무조건 null값이 아니기 때문에 nametag의 값 유무로 로딩되었는지 확인
-          outfitSet.nametag !== null ? (
-            <div>
-              <AvatarBody {...{ size, location, isAlive }} />
-              <AvatarEyes {...{ size, location, isAlive }} />
-              <AvatarOutfit {...{ size, location, outfitSet, nickname }} />
-            </div>
-          ) : (
-            <div></div>
-          )
-        }
+        {/* // nametag의 값이 로드 되면 무조건 null값이 아니기 때문에 nametag의 값 유무로 로딩되었는지 확인 */}
+        <div>
+          <AvatarBody {...{ size, location, isAlive }} />
+          <AvatarEyes {...{ size, location, isAlive }} />
+          <AvatarOutfit {...{ size, location, outfitSet, nickname }} />
+        </div>
         {isNest === true ? (
           <img className={styles.Nest} style={{ width: `${size}px`, height: `auto` }} src={nest} alt="" />
         ) : (

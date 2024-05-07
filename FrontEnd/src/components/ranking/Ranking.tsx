@@ -5,6 +5,7 @@ import styles from '@/styles/ranking/RankingPage.module.css';
 import Avatar from '@/components/avatar/Avatar';
 import HomeButton from '@/components/home/HomeButton';
 import RankingList from './RankingList';
+import rankingTitle from '@/assets/images/rankingTitle.svg';
 
 import { outfitState, userState } from '@/recoil/atom';
 import { RankingUser } from '@/types/user';
@@ -28,13 +29,21 @@ const Ranking = () => {
 
   return (
     <>
+      <img className={styles.RankingTitle} src={rankingTitle} alt="" />
       <div className={styles.ButtonContainer}>
         <HomeButton {...{ message: '', direction: 'up', location: 'home' }} />
       </div>
       <div className={styles.RankingContainer}>
         <div className={styles.AvatarContainer}>
           <div>
-            <Avatar {...{ move: true, size: 400, isNest: true, outfit: outfitInfo, ingame: false }} />
+            <Avatar
+              {...{
+                size: 350,
+                outfit: outfitInfo,
+                location: 'Ranking',
+                options: { nickname: userInfo.nickname, isNest: true },
+              }}
+            />
           </div>
           <div>
             <div className={`FontM32`}>
@@ -44,7 +53,6 @@ const Ranking = () => {
           </div>
         </div>
         <div className={styles.ListContainer}>
-          <div className="FontM60">✨🎈랭킹🎉✨</div>
           <div className={styles.ListWH}>
             <RankingList rankingList={rankingList!} />
           </div>
