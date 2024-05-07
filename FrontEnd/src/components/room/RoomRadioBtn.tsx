@@ -3,7 +3,7 @@ import styles from '@/styles/room/RoomRadio.module.css';
 const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
   const roomModeList = [
     { text: '노말', value: 0 },
-    { text: '랭킹', value: 1 },
+    { text: '랭크', value: 1 },
   ];
 
   // if selectedMode === 0 이면 노말모드, 그렇지 않으면 랭킹모드
@@ -20,14 +20,7 @@ const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
             onChange={onChangeMode}
             checked={idx === selectedMode}
           />
-          <span
-            className={styles.RadioMode}
-            style={{
-              border: idx === selectedMode ? '1px solid pink' : '1px solid lightgray',
-              backgroundColor: idx === selectedMode ? 'pink' : 'lightgray',
-              cursor: 'pointer',
-            }}
-          >
+          <span className={`${styles.RadioMode} ${idx === selectedMode ? styles.Pink : styles.LightGray}`}>
             {mode.text}
           </span>
         </label>
