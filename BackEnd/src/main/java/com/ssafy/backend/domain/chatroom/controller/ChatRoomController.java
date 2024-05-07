@@ -45,9 +45,14 @@ public class ChatRoomController {
     // 채팅방 전체 목록 조회
     @GetMapping("/all")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
-            List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
-        return ResponseEntity.ok().body(Message.success(result));
+    public ResponseEntity<Message<?>> findAllChatRooms() {
+        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+        if (result.isEmpty()) {
+            String noChatRoomsMessage = "생성된 방이 없습니다.";
+            return ResponseEntity.ok().body(Message.success(noChatRoomsMessage));
+        } else {
+            return ResponseEntity.ok().body(Message.success(result));
+        }
     }
 
 
