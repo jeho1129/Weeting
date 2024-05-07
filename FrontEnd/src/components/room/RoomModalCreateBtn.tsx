@@ -70,7 +70,7 @@ const RoomModalCreateBtn = () => {
         setModalIsOpen(false);
       })
       .catch((err) => {
-        alert('모드 또는 방 비밀번호를 다시 확인해주세요');
+        alert('방 이름 또는 방 비밀번호를 다시 확인해주세요');
         console.log(err);
       });
   };
@@ -89,6 +89,10 @@ const RoomModalCreateBtn = () => {
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
       setPassword(input === '' ? '' : Number(input));
     }
+  };
+
+  const modeAlertHandler = () => {
+    alert('모드를 선택해주세요');
   };
 
   // 디버깅코드
@@ -130,15 +134,27 @@ const RoomModalCreateBtn = () => {
               <input type="checkbox" onChange={(e) => setIsPrivate(e.target.checked)} />
             </span>
             {isPrivate && (
-              <input type="text" placeholder='비밀번호 4자리' className={styles.Input} value={password} onChange={handlePasswordChange} />
+              <input
+                type="text"
+                placeholder="비밀번호 4자리"
+                className={styles.Input}
+                value={password}
+                onChange={handlePasswordChange}
+              />
             )}
             {isPrivate === false && <input type="text" className={styles.Input} disabled />}
           </div>
         </div>
         <div className={styles.BtnContainer}>
-          <button onClick={createtHandler} className={`${styles.Btn} FontM20`}>
-            만들기
-          </button>
+          {selectedMode === -2 ? (
+            <button onClick={modeAlertHandler} className={`${styles.Btn} FontM20`}>
+              만들기
+            </button>
+          ) : (
+            <button onClick={createtHandler} className={`${styles.Btn} FontM20`}>
+              만들기
+            </button>
+          )}
           <button className={`${styles.Btn} FontM20`} onClick={closeModal}>
             취소하기
           </button>

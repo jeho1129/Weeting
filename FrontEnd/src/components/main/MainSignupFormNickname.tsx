@@ -46,12 +46,16 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
         />
         <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
       </div>
-      <div className={styles.Container}>
-        <div className={styles.Label}></div>
-        {nicknamePossible === 0 && nicknameChecked === 1 && (
-          <div className={styles.SignupAlertText}>이미 존재하는 닉네임 입니다</div>
+      {(nicknamePossible === 0 && nicknameChecked === 1) ? (
+          <div className={styles.Container}>
+            <div className={styles.Label}></div>
+            <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 닉네임 입니다</div>
+          </div>
+        ) : (
+          <div className={styles.BeforeContainer}>
+            <div className={styles.Label}></div>
+          </div>
         )}
-      </div>
     </>
   );
 };
