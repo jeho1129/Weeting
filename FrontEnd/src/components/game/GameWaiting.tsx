@@ -17,13 +17,11 @@ interface ChatMessageReqeust {
   text: string;
   roomId: number;
 }
-
 interface ChatMessageResponse {
   id: number;
   content: string;
   writer: string;
 }
-
 const GameWaiting = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const [stompClient, setStompClient] = useState<Client | null>(null);
@@ -83,8 +81,7 @@ const GameWaiting = () => {
   };
 
   useEffect(() => {
-    const ws = new WebSocket('ws://k10c103.p.ssafy.io:9002/ws/chat');
-
+    const ws = new WebSocket('ws://k10c103.p.ssafy.io:9002/chatroom/{roomId}');
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
@@ -128,11 +125,7 @@ const GameWaiting = () => {
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
         <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart} />
-        <GameWaitingRightSide
-          roomInfo={roomInfo}
-          chatMessages={chatMessages}
-          
-        />
+        <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} setChatMessages={setChatMessages} />
       </div>
       <GameForbiddenWord
         roomInfo={roomInfo}
