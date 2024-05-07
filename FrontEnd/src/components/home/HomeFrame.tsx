@@ -8,8 +8,8 @@ import styles from '@/styles/Frame.module.css';
 
 const HomeFrame = () => {
   const location = useLocation();
-  console.log('이동한곳:', location);
-  console.log('indexOF', location.pathname.indexOf('/room/') !== -1);
+  // console.log('이동한곳:', location);
+  // console.log('indexOF', location.pathname.indexOf('/room/') !== -1);
 
   return (
     <div className={styles.FrameContainer}>
