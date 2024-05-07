@@ -8,7 +8,7 @@ const RoomPage = () => {
       <div className={styles.FrameContainer}>
         <Outlet />
         <div className={styles.ButtonContainer}>
-          <HomeButton {...{ message: '홈', direction: 'left', location: 'home' }} />
+          <HomeButton {...{ message: '', direction: 'left', location: 'home' }} />
         </div>
       </div>
     </>
