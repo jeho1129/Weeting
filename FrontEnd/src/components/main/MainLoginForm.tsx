@@ -5,6 +5,7 @@ import { setCookie, getCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import Swal from 'sweetalert2'
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
@@ -37,12 +38,14 @@ const MainLoginForm = () => {
         setUser(loggedInUserState);
       })
       .then(() => {
-        alert('로그인 되었습니다');
         navigate('/home');
       })
       .catch((err) => {
         console.log(err);
-        alert('회원정보가 잘못되었습니다');
+        Swal.fire({
+          title: "회원정보가 잘못되었습니다",
+          icon: "error"
+        });
       });
   };
 

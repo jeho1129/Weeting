@@ -2,6 +2,7 @@ import { idCheckApi } from '@/services/userApi';
 import styles from '@/styles/main/MainLoginForm.module.css';
 import { MainSignupFormIdProps } from '@/types/user';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainSignupFormIdProps) => {
   const [idChecked, setIdChecked] = useState(0);
@@ -15,17 +16,26 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
       .then((data) => {
         console.log('data :', data);
         if (data.dataBody === true) {
-          alert('이미 사용중인 아이디입니다');
+          Swal.fire({
+            title: "이미 사용중인 아이디입니다",
+            icon: "error"
+          });
           idCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
           setIdChecked(1);
         } else {
-          alert('사용할 수 있는 아이디입니다');
+          Swal.fire({
+            title: "사용할 수 있는 아이디입니다",
+            icon: "success"
+          });
           idCheckHandler(1); // 사용 가능한 id에 대해 1을 전달
           setIdChecked(0);
         }
       })
       .catch(() => {
-        alert('다시 시도해주세요');
+        Swal.fire({
+          title: "다시 시도해주세요",
+          icon: "error"
+        });
       });
     console.log('id 중복확인 api call');
   };
