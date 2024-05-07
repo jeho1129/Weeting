@@ -65,11 +65,12 @@ public class ChatRoomController {
     // 채팅방 나가기
     @PatchMapping("/leave/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<Void>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
+    public ResponseEntity<Message<String>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                        @AuthenticationPrincipal User user) {
         Long userId = user.getId();
         chatRoomService.LeaveChatRoom(chatRoomId, userId);
-        return ResponseEntity.ok().body(Message.success());
+        String result = "나가기 완료 !";
+        return ResponseEntity.ok().body(Message.success(result));
     }
 
 
