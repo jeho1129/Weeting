@@ -18,6 +18,13 @@ public class ChatRoomDto {
         WAIT, PROGRESS
     }
 
+    /*
+    * 게임 모드 (노말, 랭크)
+    * */
+    public enum RoomMode {
+        NORMAL, RANK
+    }
+
     private String roomId;  // 채팅방 고유값
     private String roomName;  // 방 제목
     private int roomPassword;  // 비밀번호
@@ -25,5 +32,6 @@ public class ChatRoomDto {
     private List<Long> members;  // 참여 유저 id 목록
     private String theme;  // 대화 주제
     private RoomStatus status;  // 방 상태
+    private RoomMode mode;
 
 }
