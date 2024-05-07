@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -33,11 +34,10 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
-    public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
+    public ResponseEntity<Message<?>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                                                            @AuthenticationPrincipal User user) {
         Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
-
+        Optional<?> result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
