@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import RoomCount from './RoomCount';
 import RoomRadioBtn from './RoomRadioBtn';
+import Swal from 'sweetalert2';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -70,7 +71,10 @@ const RoomModalCreateBtn = () => {
         setModalIsOpen(false);
       })
       .catch((err) => {
-        alert('방 이름 또는 방 비밀번호를 다시 확인해주세요');
+        Swal.fire({
+          title: "방 이름 또는 방 비밀번호를 다시 확인해주세요",
+          icon: "error"
+        });
         console.log(err);
       });
   };
@@ -92,7 +96,10 @@ const RoomModalCreateBtn = () => {
   };
 
   const modeAlertHandler = () => {
-    alert('모드를 선택해주세요');
+    Swal.fire({
+      title: "모드를 선택해주세요",
+      icon: "error"
+    });
   };
 
   // 디버깅코드
