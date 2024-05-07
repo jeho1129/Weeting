@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class ChatRoomCreateRequestDto {
 
-    private String name;  // 방 제목
-    private String password;  // 비밀번호
-    private int maxMembers;  // 참여가능 최대 유저 수
+    private String roomName;  // 방 제목
+    private String roomPassword;  // 비밀번호
+    private int roomMaxCnt;  // 참여가능 최대 유저 수
 
 }
