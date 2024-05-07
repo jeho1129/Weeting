@@ -47,7 +47,7 @@ const RoomModalCreateBtn = () => {
 
   //만약 비공개방 체크가 되어있고, 비밀번호가 숫자 4자리가 아니면 만들기 요청시 실패처리
   // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
-  // 모드 0 = 노말   모드 1 = 랭크
+  // 모드0 = 노말   모드1 = 랭크  모드null = 선택안함
   const createtHandler = () => {
     console.log('hi');
     if (selectedMode === 0) {
