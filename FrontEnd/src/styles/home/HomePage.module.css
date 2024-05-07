@@ -23,6 +23,7 @@
   padding: 20px;
   position: absolute;
   cursor: pointer;
+  backdrop-filter: blur(2px);
 }
 
 .ButtonArrowUp {
@@ -50,8 +51,16 @@
   top: calc(50% - 50px);
 }
 .ButtonArrowBack {
-  height: 50px;
+  height: 80px;
+  width: 80px;
   flex-direction: row;
-  left: 3vw;
-  top: 3vh;
+  left: 5vw;
+  top: calc(50% - 50px);
+}
+
+.ButtonLogout {
+  height: 80px;
+  flex-direction: row;
+  right: 3w;
+  top: 3w;
 }

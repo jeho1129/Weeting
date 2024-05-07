@@ -14,12 +14,13 @@
 }
 
 .MainGuestFrame {
+  height: 100vh;
   animation: moveRightM 25s linear infinite;
 }
 
 @keyframes moveRightM {
   100% {
-    transform: translate(calc(-2499.3 * (100vh / 833)));
+    transform: translateX(calc(-2499.61 * (100vh / 833)));
   }
 }
 

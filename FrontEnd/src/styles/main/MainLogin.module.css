@@ -57,8 +57,8 @@
 .LoginContainer {
   position: relative;
   width: 800px;
-  height: 540px;
-  background-color: aqua;
+  height: 500px;
+  border-radius: 15px;
 }
 
 .Logo {
@@ -67,15 +67,17 @@
   height: auto;
   top: -120px;
   left: 150px;
+  z-index: 2;
 }
 
 .LoginForm {
   width: 800px;
-  height: 540px;
+  height: 500px;
+  backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
