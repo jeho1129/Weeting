@@ -67,7 +67,6 @@ logging:
 
 
 
-
 #    mariadb:
 #      driver-class-name: com.mariadb.cj.jdbc.Driver
 #      url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
