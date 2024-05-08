@@ -5,7 +5,7 @@ import { getResizeEventListener } from '@/utils/responsiveFrame';
 
 export default function Layout() {
   useEffect(() => {
-    const FixRatio = getResizeEventListener(1440, 833);
+    const FixRatio = getResizeEventListener(1536, 833);
     window.onresize = FixRatio;
     FixRatio();
   }, []);
