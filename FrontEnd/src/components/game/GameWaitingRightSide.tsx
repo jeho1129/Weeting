@@ -7,17 +7,22 @@ import GameChattingForm from './GameWaitingChattingForm';
 import GameWaitingPole from '@/components/game/GameWaitingPole';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/atom';
+import { Client } from '@stomp/stompjs';
+import { useParams } from 'react-router-dom';
 
 const GameWaitingRightSide = ({
   roomInfo,
   chatMessages,
   setChatMessages,
+  stompClient,
 }: {
   roomInfo: RoomInfo;
   chatMessages: ChatMessage[];
   setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
+  stompClient: Client | null;
 }) => {
   const userInfo = useRecoilValue(userState);
+  const param = useParams();
 
   const onSendMessage = (message: string) => {
     const newMessage: ChatMessage = {
@@ -26,7 +31,15 @@ const GameWaitingRightSide = ({
       time: new Date().toLocaleString(),
       nickname: userInfo.nickname,
     };
-    setChatMessages([...chatMessages, newMessage]);
+
+    const newTest = {
+      content: message,
+    };
+    // setChatMessages([...chatMessages, newMessage]);
+    stompClient?.publish({
+      destination: `/pub/api/v1/chat/${param.id}`,
+      body: JSON.stringify(newTest),
+    });
   };
   return (
     <>
