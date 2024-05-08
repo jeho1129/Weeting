@@ -50,7 +50,6 @@ spring:
     username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest  # RabbitMQ 비밀번호, 기본값은 guest
 
-
 # jwt
 jwt:
   access: WEETINGACCESSKEYLONGENOUGHATLEAST256BITSSCRETKEYJOONSUNANDHAJUNSDANGEROUSCHATTING
