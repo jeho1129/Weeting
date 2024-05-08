@@ -57,6 +57,16 @@
   border-radius: 15px;
 }
 
+.Rank {
+  background-color: #7EBCE6;
+  border: none;
+}
+
+.Normal {
+  background-color: #fcb671;
+  border: none;
+}
+
 .NoRoom {
   width: 68vw;
   display: flex;

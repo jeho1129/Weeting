@@ -49,10 +49,10 @@ const RoomList = ({ roomSelectedMode }) => {
       else return false;
     }).length === 0 ? (
       <div className={styles.NoRoom}>
-        {/* <img src={roomSign} alt="roomSign" /> */}
-        <img src={roomBird} alt="roomSign" />
+        <img src={roomSign} alt="roomSign" />
+        {/* <img src={roomBird} alt="roomSign" /> */}
         <div className='FontM32'>
-          방이 없습니다
+          방이 없어용~!
         </div>
       </div>
     ) : (
@@ -76,9 +76,9 @@ const RoomList = ({ roomSelectedMode }) => {
           <div className={styles.SecondRow}>
             <div></div>
             {room.roomMode === 'rank' ? (
-              <div className={`${styles.Mode} FontM20`}>랭크</div>
+              <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
             ) : (
-              <div className={`${styles.Mode} FontM20`}>노말</div>
+              <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
             )}
           </div>
           <div>

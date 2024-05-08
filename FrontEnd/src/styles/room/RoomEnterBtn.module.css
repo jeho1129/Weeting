@@ -7,5 +7,6 @@
   color: white;
 }
 .QuickEnterBtn:hover {
+  background-color: #86dfff;
   cursor: pointer;
 }
