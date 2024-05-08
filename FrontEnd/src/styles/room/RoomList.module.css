@@ -5,23 +5,22 @@
   flex-wrap: wrap;
   overflow-y: auto;
 }
-.ListGroup::-webkit-scrollbar {
-  /* 스크롤바 전체 */
+
+/* 스크롤바 전체 */
+/* .ListGroup::-webkit-scrollbar {
   width: 10px;
-}
-.ListGroup::-webkit-scrollbar-thumb {
-  /* 스크롤 막대 */
+} */
+/* 스크롤 막대 */
+/* .ListGroup::-webkit-scrollbar-thumb {
   background-color: white;
   border-radius: 10px;
   background-clip: padding-box;
-  /* border: 2px solid transparent; */
-}
-.ListGroup::-webkit-scrollbar-track {
-  /* 스크롤 막대 외부 */
+} */
+/* 스크롤 막대 외부 */
+/* .ListGroup::-webkit-scrollbar-track {
   background-color: rgba(153, 153, 153, 0.3);
   border-radius: 10px;
-  /* box-shadow: inset 0px 0px 5px white; */
-}
+} */
 
 .OneRoom {
   width: 26.6vw;

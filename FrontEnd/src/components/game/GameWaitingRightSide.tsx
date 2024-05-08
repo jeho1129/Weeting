@@ -1,18 +1,21 @@
 import { useState } from 'react';
-
 import styles from '@/styles/game/GameWaiting.module.css';
 import { RoomInfo } from '@/types/game';
 import { ChatMessage } from '@/types/chat';
 import GameChattingList from './GameWaitingChattingList';
 import GameChattingForm from './GameWaitingChattingForm';
-
 import GameWaitingPole from '@/components/game/GameWaitingPole';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/atom';
 
-const GameWaitingRightSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-
+const GameWaitingRightSide = ({
+  roomInfo,
+  chatMessages,
+  setChatMessages,
+}: {
+  roomInfo: RoomInfo;
+  chatMessages: ChatMessage[];
+}) => {
   const userInfo = useRecoilValue(userState);
 
   const onSendMessage = (message: string) => {
@@ -20,10 +23,9 @@ const GameWaitingRightSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
       userId: userInfo.userId,
       content: message,
       time: new Date().toLocaleString(),
-      nickname: userInfo.nickname, // userInfo에서 nickname을 가져와서 저장
+      nickname: userInfo.nickname,
     };
-
-    setChatMessages([...chatMessages, newMessage]); // 새 메시지를 chatMessages 배열에 추가
+    setChatMessages([...chatMessages, newMessage]);
   };
   return (
     <>
