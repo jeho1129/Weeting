@@ -30,7 +30,7 @@ public class ChatServiceImpl implements ChatService{
                 .roomId(roomId)
                 .userId(userId)
                 .nickname(messageDto.getNickname())
-                .message(messageDto.getMessage())
+                .content(messageDto.getContent())
                 .sendTime(LocalDateTime.now())
                 .build();
 
@@ -39,7 +39,7 @@ public class ChatServiceImpl implements ChatService{
         ChatDto chatDto = ChatDto.builder()
                 .userId(userId)
                 .nickname(messageDto.getNickname())
-                .message(messageDto.getMessage())
+                .content(messageDto.getContent())
                 .sendTime(LocalDateTime.now())
                 .build();
 

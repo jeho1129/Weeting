@@ -28,7 +28,7 @@ public class Chat {
     private String nickname;
 
     @Field("content")
-    private String message;
+    private String content;
 
     @Field("created_at")
     @CreatedDate
