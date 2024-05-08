@@ -22,7 +22,7 @@ public class ChatRoomDto {
     * 게임 모드 (노말, 랭크)
     * */
     public enum RoomMode {
-        NORMAL, RANK
+        normal, rank
     }
 
     private String roomId;  // 채팅방 고유값
