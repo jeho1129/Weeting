@@ -15,7 +15,7 @@ public class ChatRoomDto {
     * 방 상태 (대기중, 진행중)
     * */
     public enum RoomStatus {
-        WAIT, PROGRESS
+        wating, allready, wordsetting, wordfinish, start, end
     }
 
     /*

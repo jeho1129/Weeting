@@ -28,7 +28,7 @@ public class ChatRoomService {
                 .roomMaxCnt(chatRoomCreateRequestDto.getRoomMaxCnt())
                 .members(new ArrayList<>(Arrays.asList(userId))) // 초기 멤버 리스트에 방 생성자 유저ID 포함
                 .theme("")
-                .status(ChatRoomDto.RoomStatus.WAIT)
+                .status(ChatRoomDto.RoomStatus.wating)
                 .mode(chatRoomCreateRequestDto.getMode())
                 .build();
 
