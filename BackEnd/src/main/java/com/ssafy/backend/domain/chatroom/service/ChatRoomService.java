@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @Service
@@ -17,6 +18,9 @@ public class ChatRoomService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) {
+        if (chatRoomCreateRequestDto.getRoomName() == null || chatRoomCreateRequestDto.getRoomName().trim().isEmpty()) {
+            throw new IllegalArgumentException("방 제목을 입력하세요.");
+        }
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .roomId(UUID.randomUUID().toString())
                 .roomName(chatRoomCreateRequestDto.getRoomName())
@@ -25,12 +29,14 @@ public class ChatRoomService {
                 .members(new ArrayList<>(Arrays.asList(userId))) // 초기 멤버 리스트에 방 생성자 유저ID 포함
                 .theme("")
                 .status(ChatRoomDto.RoomStatus.WAIT)
+                .mode(chatRoomCreateRequestDto.getMode())
                 .build();
 
         redisTemplate.opsForValue().set(chatRoomDto.getRoomId(), chatRoomDto);
 
         return chatRoomDto;
     }
+
 
 
     public List<ChatRoomDto> findAllChatRooms() {

@@ -9,6 +9,7 @@ import MainSignupFormId from './MainSignupFormId';
 import MainSignupFormNickname from './MainSignupFormNickname';
 import MainSignupFormPw from './MainSignupFormPw';
 import MainSignupFormPwCheck from './MainSignupFormPwCheck';
+import Swal from 'sweetalert2';
 
 const MainSignupForm = () => {
   const [id, setId] = useState('');
@@ -51,7 +52,6 @@ const MainSignupForm = () => {
       nickname: nickname,
     })
       .then(() => {
-        alert('회원가입 되었습니다');
         // 로그인
         loginApi({
           account: id,
@@ -72,17 +72,26 @@ const MainSignupForm = () => {
           })
           .catch((err) => {
             console.log(err);
-            alert('회원정보가 잘못되었습니다');
+            Swal.fire({
+              title: "회원정보가 잘못되었습니다",
+              icon: "error"
+            });
           });
       })
       .catch(() => {
-        alert('비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)');
+        Swal.fire({
+          title: "비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)",
+          icon: "error"
+        });
       });
   };
 
   const alertHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('아이디 또는 닉네임 중복확인을 해주세요');
+    Swal.fire({
+      title: "아이디 또는 닉네임 중복확인을 해주세요",
+      icon: "error"
+    });
   };
 
   const idCheckHandler = (isPossible: number) => {
@@ -111,13 +120,13 @@ const MainSignupForm = () => {
         />
         {idPossible === 1 && nicknamePossible == 1 ? (
           <div className={styles.BtnAlign}>
-            <button onClick={signupHandler} className={`${styles.SignupBtn}`}>
+            <button onClick={signupHandler} className={`${styles.SignupBtn} FontM20`}>
               가입
             </button>
           </div>
         ) : (
           <div className={styles.BtnAlign}>
-            <button onClick={alertHandler} className={`${styles.SignupBtn}`}>
+            <button onClick={alertHandler} className={`${styles.SignupBtn} FontM20`}>
               가입
             </button>
           </div>

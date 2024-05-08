@@ -1,6 +1,5 @@
 .Avatar {
   position: relative;
-  background-color: magenta;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -28,6 +27,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.NameTagEditStart {
+  caret-color: #0093f3;
+  color: #0093f3;
+}
+
+.NameTagEdit {
+  position: absolute;
+  z-index: 100;
+  top: 66%;
+  font-family: 'MapleStoryLight', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+  background-color: rgb(234, 234, 234);
+  border-radius: 15%;
+  outline: none;
 }
 
 .AvatarEyes {
