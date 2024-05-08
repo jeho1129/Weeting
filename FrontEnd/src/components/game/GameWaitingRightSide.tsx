@@ -15,6 +15,7 @@ const GameWaitingRightSide = ({
 }: {
   roomInfo: RoomInfo;
   chatMessages: ChatMessage[];
+  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }) => {
   const userInfo = useRecoilValue(userState);
 
