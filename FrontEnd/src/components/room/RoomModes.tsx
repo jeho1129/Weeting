@@ -1,13 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import RoomWaitRadioBtn from './RoomWaitRadioBtn';
 
-const RoomModes = () => {
-  const [roomSelectedMode, setRoomSelectedMode] = useState<number>(0);
-
-  const onChangeRoomMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomSelectedMode(Number(e.target.value));
-  };
-
+const RoomModes = ({ roomSelectedMode, onChangeRoomMode }) => {
   useEffect(() => {
     console.log('roomSelectedMode :', roomSelectedMode);
   }, [roomSelectedMode]);

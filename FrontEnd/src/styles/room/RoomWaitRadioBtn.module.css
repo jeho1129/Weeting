@@ -12,20 +12,20 @@
 .RadioMode {
   height: 30px;
   line-height: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-right: 20px;
   text-align: center;
   padding: 6px 20px;
   cursor: pointer;
 }
 
-.Pink {
+.SelectedRadioColor {
   border: none;
-  background-color: pink;
-
+  background-color: #0093f3;
+  color: white;
 }
 
-.LightGray {
+.UnselectedRadioColor {
   border: none;
-  background-color: #CCCCCC;
+  background-color: white;
 }
