@@ -5,10 +5,14 @@
   border-radius: 10px;
   padding-left: 20px;
 }
+.SearchInput::placeholder {
+
+}
 
 .Glass {
   position: absolute;
   z-index: 999;
   margin-left: -40px;
   cursor: pointer;
+  margin-top: 3px;
 }

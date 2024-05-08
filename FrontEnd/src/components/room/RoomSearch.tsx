@@ -23,9 +23,9 @@ const RoomSearch = () => {
           placeholder="방 이름을 입력하세요"
           onChange={searchValueHandler}
           value={searchValue}
-          className={styles.SearchInput}
+          className={`${styles.SearchInput} FontM20`}
         />
-        <MagnifyingGlass onClick={searchHandler} className={styles.Glass} size={32} />
+        <MagnifyingGlass onClick={searchHandler} className={styles.Glass} size={26} />
       </form>
     </>
   );
