@@ -7,7 +7,7 @@ import watingAvatar from '@/assets/images/inGameAvatar.png';
 import { Lock } from '@phosphor-icons/react';
 import RoomRadioBtn from './RoomRadioBtn';
 
-const RoomList = () => {
+const RoomList = ({ roomSelectedMode }) => {
   const [roomName, setRoomName] = useState('');
   const [chatRooms, setChatRooms] = useState([]);
 
@@ -29,17 +29,23 @@ const RoomList = () => {
   //       console.error("채팅방 목록 로드 실패", error);
   //     }
   //   };
-
   const roomEnterHandler = () => {
     console.log('hi');
   };
 
   return (
-    // <div className="container">
     // roomSelectedMode에 따라서 다르게 보여주기
     // roomSelectedMode 0 = 전체, roomSelectedMode 1 = 노말, roomSelectedMode 2 = 랭크
     <ul className={styles.ListGroup}>
-      {RoomWaitData.map((room, index) => (
+      {RoomWaitData.filter((room) => {
+        if (roomSelectedMode === 0)
+          return true; // 모든 방 보기
+        else if (roomSelectedMode === 1)
+          return room.roomMode === 'normal'; // 노말 모드의 방만 보기
+        else if (roomSelectedMode === 2)
+          return room.roomMode === 'rank'; // 랭크 모드의 방만 보기
+        else return false;
+      }).map((room, index) => (
         <li key={index} className={styles.OneRoom} onClick={roomEnterHandler}>
           <div className={`${styles.FirstRow}`}>
             <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
@@ -67,7 +73,6 @@ const RoomList = () => {
         </li>
       ))}
     </ul>
-    // </div>
   );
 };
 

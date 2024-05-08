@@ -21,7 +21,9 @@ const RoomWaitRadioBtn = ({ roomSelectedMode, onChangeRoomMode }) => {
             onChange={onChangeRoomMode}
             checked={idx === roomSelectedMode}
           />
-          <span className={`${styles.RadioMode} ${idx === roomSelectedMode ? styles.SelectedRadioColor : styles.UnselectedRadioColor} FontM20`}>
+          <span
+            className={`${styles.RadioMode} ${idx === roomSelectedMode ? styles.SelectedRadioColor : styles.UnselectedRadioColor} FontM20`}
+          >
             {mode.text}
           </span>
         </label>
