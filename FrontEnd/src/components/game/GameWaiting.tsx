@@ -100,11 +100,19 @@ const GameWaiting = () => {
 
       onConnect: () => {
         console.log('연결ㄹㄹㄹㄹ');
-        console.log(chatMessages);
-        client.subscribe(`/topic/room.${roomId.id}`, (message: IMessage) => {
-          const msg = JSON.parse(message.body);
-          console.log(msg);
+        client.subscribe(`/topic/room.${roomId.id}`, (message) => {
+          console.log(message);
+          const msg: { userId: number; content: string; nickname: string } = JSON.parse(message.body);
+          console.log(message.body, 'sdf');
+          setChatMessages((prevMessages) => [
+            ...prevMessages,
+            { userId: msg.userId, content: msg.content, nickname: msg.nickname, time: new Date().toISOString() },
+          ]);
+          // console.log(msg);
         });
+      },
+      debug: (str) => {
+        console.log(new Date(), str);
       },
     });
 
@@ -139,7 +147,12 @@ const GameWaiting = () => {
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
         <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart} />
-        <GameWaitingRightSide roomInfo={roomInfo} chatMessages={chatMessages} setChatMessages={setChatMessages} />
+        <GameWaitingRightSide
+          roomInfo={roomInfo}
+          chatMessages={chatMessages}
+          setChatMessages={setChatMessages}
+          stompClient={stompClient}
+        />
       </div>
       {isModalOpen && (
         <GameForbiddenWord
