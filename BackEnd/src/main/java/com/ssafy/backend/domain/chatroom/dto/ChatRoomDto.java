@@ -15,7 +15,7 @@ public class ChatRoomDto {
     * 방 상태 (대기중, 진행중)
     * */
     public enum RoomStatus {
-        wating, allready, wordsetting, wordfinish, start, end
+        waiting, allready, wordsetting, wordfinish, start, end
     }
 
     /*
@@ -29,9 +29,9 @@ public class ChatRoomDto {
     private String roomName;  // 방 제목
     private int roomPassword;  // 비밀번호
     private int roomMaxCnt;  // 참여가능 최대 유저 수
-    private List<Long> members;  // 참여 유저 id 목록
-    private String theme;  // 대화 주제
-    private RoomStatus status;  // 방 상태
-    private RoomMode mode;
+    private List<Long> roomUsers;  // 참여 유저 id 목록
+    private String roomTheme;  // 대화 주제
+    private RoomStatus roomStatus;  // 방 상태
+    private RoomMode roomMode;
 
 }

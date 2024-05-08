@@ -29,7 +29,6 @@ public class RabbitMqConfig {
 
     // Topic Exchange에 맞는 라우팅 키 지정
     private static final String ROUTING_KEY = "room.*";
-
     // 기본 토픽 익스체인지
     @Bean
     public TopicExchange topicExchange() {
