@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@flaticon/flaticon-uicons": "^3.2.1",
     "@phosphor-icons/react": "^2.1.5",
     "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.32.0",
