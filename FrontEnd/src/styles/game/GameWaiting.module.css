@@ -9,6 +9,7 @@
 .Align {
   display: flex;
   height: 100vh;
+  margin-top: 20px;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -18,6 +19,7 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
+  height: 203px;
   bottom: 0;
 }
 
@@ -33,7 +35,7 @@
 }
 
 .ElectricPole {
-  height: 100vh;
+  height: 100%;
   width: auto;
 }
 
@@ -54,7 +56,8 @@
 .Box {
   background-color: rgba(255, 255, 255, 0.7);
   width: 23vw;
-  height: 60vh;
+  height: 52vh;
+  margin-top: 5px;
   border-radius: 15px;
   margin-bottom: 10px;
   display: flex;
@@ -62,6 +65,7 @@
 }
 
 .GameWaitingLogo {
+  margin-top: 10px;
   width: 300px;
 }
 
@@ -144,16 +148,16 @@
 
 .modalOpenBackground {
   background-color: rgba(0, 0, 0, 0.5);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
+  overflow: hidden;
   z-index: 15;
 }
 
 .Score {
   align-items: center;
 }
-
 
 .ChatBoxBorder {
   position: absolute;
