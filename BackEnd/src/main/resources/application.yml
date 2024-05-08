@@ -41,7 +41,7 @@ spring:
       host: k10C103.p.ssafy.io
 #      host: localhost
       port: 6379
-#      password: c103103
+      password: c103103
 
   #rabbitmq
   rabbitmq:
