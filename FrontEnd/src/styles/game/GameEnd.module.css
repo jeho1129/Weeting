@@ -1,58 +1,67 @@
 .Container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 40%;
-    height: 45%;
-    border-radius: 15px;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    padding: 2%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  height: 45%;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  padding: 2%;
 }
 
 .Container::before {
-    content: "게임종료";
-    font-size: xxx-large;
-    font-weight: bold;
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white; 
-    padding: 5px 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  content: '게 임 종 료';
+  font-size: 60px;
+  font-weight: bold;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .modal ul {
-    width: 350px;
-    list-style-type: none;
-    padding: 0;
-    margin-top: 35px;
-    margin-bottom: 20px;
+  width: 350px;
+  list-style-type: none;
+  padding: 0;
+  margin-top: 35px;
+  margin-bottom: 20px;
 }
 
 .modal ul li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 0; /* 위아래로 10px 간격 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0; /* 위아래로 10px 간격 */
 }
 
 .Btn {
-    background-color: white;
-    width: 150px;
-    height: 40px;
-    border-radius: 15px;
+  width: 130px;
+  background-color: #0093f3;
+  color: white;
+  height: 60px;
+  border-radius: 15px;
+  border: none;
 }
 
 .Center {
-    
-    align-items: center;
+  align-items: center;
+}
+
+.FlexContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+  font-size: 28px;
 }
