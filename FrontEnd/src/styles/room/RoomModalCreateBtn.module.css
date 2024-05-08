@@ -56,7 +56,8 @@
 .MakeBtn {
   width: 150px;
   height: 70px;
-  background-color: #FFD80F;
+  background-color: #b0a0d5;
+  color: white;
   border: none;
   border-radius: 15px;
 }
