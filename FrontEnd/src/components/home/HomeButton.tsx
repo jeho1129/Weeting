@@ -1,33 +1,35 @@
-import { CaretDoubleLeft, CaretDoubleRight, CaretDoubleDown, CaretDoubleUp } from '@phosphor-icons/react';
+import { CaretDoubleLeft, CaretDoubleRight, CaretDoubleDown, CaretDoubleUp, SignOut } from '@phosphor-icons/react';
 import styles from '@/styles/home/HomePage.module.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 const HomeButton = ({
   message,
   direction,
   location,
+  size,
 }: {
   message: string;
-  direction: 'up' | 'down' | 'right' | 'left' | 'back';
+  direction: 'up' | 'down' | 'right' | 'left' | 'back' | 'logout';
   location: string;
+  size?: number;
 }) => {
   const navigate = useNavigate();
   const presentLocation = useLocation();
   return (
     <>
       <div
-        className={`${styles.ButtonArrow} ${direction === 'up' ? styles.ButtonArrowUp : direction === 'down' ? styles.ButtonArrowDown : direction === 'left' ? styles.ButtonArrowLeft : styles.ButtonArrowRight}`}
+        className={`${styles.ButtonArrow} ${direction === 'up' ? styles.ButtonArrowUp : direction === 'down' ? styles.ButtonArrowDown : direction === 'left' ? styles.ButtonArrowLeft : direction === 'right' ? styles.ButtonArrowRight : direction === 'back' ? styles.ButtonArrowBack : styles.ButtonLogout}`}
         onClick={() => navigate(`/${location}`, { state: { previousLocationPathname: presentLocation.pathname } })}
       >
         {direction === 'up' ? (
-          <CaretDoubleUp size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleUp size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : direction === 'down' ? (
-          <CaretDoubleDown size={80} weight="bold" color="#ffffff" />
-        ) : direction === 'left' ? (
-          <CaretDoubleLeft size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleDown size={size ? size : 80} weight="bold" color="#ffffff" />
+        ) : direction === 'left' || direction === 'back' ? (
+          <CaretDoubleLeft size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : direction === 'right' ? (
-          <CaretDoubleRight size={80} weight="bold" color="#ffffff" />
+          <CaretDoubleRight size={size ? size : 80} weight="bold" color="#ffffff" />
         ) : (
-          <CaretDoubleLeft size={60} weight="bold" color="#ffffff" />
+          <SignOut size={size ? size : 80} weight="bold" color="#ffffff" />
         )}
         <div className={`${direction === 'back' ? 'FontM32' : 'FontM60'}`} style={{ color: '#ffffff' }}>
           {message}

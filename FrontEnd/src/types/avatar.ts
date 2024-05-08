@@ -1,0 +1,12 @@
+import { OutfitItem } from './custom';
+
+export interface AvatarProps {
+  size: number;
+  outfit: OutfitItem[];
+  location: 'Home' | 'Ingame' | 'Custom' | 'Ranking' | 'Room';
+  options?: {
+    nickname?: string;
+    isNest?: boolean;
+    isAlive?: boolean;
+  };
+}

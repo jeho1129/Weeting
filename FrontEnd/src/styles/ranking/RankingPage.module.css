@@ -6,16 +6,17 @@
 
 .RankingContainer {
   position: absolute;
-  top: 20vh;
-  width: 100vw;
-  height: 70vh;
+  top: 10%;
+  width: 100%;
+  height: 80%;
   display: flex;
-  justify-content: space-around;
 }
 
 .AvatarContainer {
   position: relative;
-  background-color: blue;
+  width: 400px;
+  height: 600px;
+  /* background-color: blue; */
 }
 
 .ListContainer {
@@ -44,5 +45,9 @@
   margin-top: 50px;
 }
 
-.RankingItem {
+.RankingTitle {
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  left: 0;
 }
