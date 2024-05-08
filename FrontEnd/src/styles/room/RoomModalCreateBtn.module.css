@@ -63,6 +63,7 @@
 }
 .MakeBtn:hover {
   cursor: pointer;
+  background-color: #86dfff;
 }
 
 input[type="text"]:disabled {
