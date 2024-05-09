@@ -9,10 +9,12 @@ import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
 
 const GameWaitingMemberList = ({
+  roomMode,
   roomStatus,
   roomMaxCnt,
   roomUsers,
 }: {
+  roomMode: RoomInfo['roomMode'];
   roomStatus: RoomInfo['roomStatus'];
   roomMaxCnt: RoomInfo['roomMaxCnt'];
   roomUsers: RoomInfo['roomUsers'];

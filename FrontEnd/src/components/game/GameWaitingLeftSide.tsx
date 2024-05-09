@@ -36,6 +36,7 @@ const GameWaitingLeftSide = ({
       <div className={styles.Align}>
         <GameWaitingLogo />
         <GameWaitingMemberList
+          roomMode={roomInfo.roomMode}
           roomStatus={roomInfo.roomStatus}
           roomMaxCnt={roomInfo.roomMaxCnt}
           roomUsers={roomInfo.roomUsers}

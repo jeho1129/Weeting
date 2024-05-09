@@ -102,11 +102,17 @@ const GameWaiting = () => {
         console.log('연결ㄹㄹㄹㄹ');
         client.subscribe(`/topic/room.${roomId.id}`, (message) => {
           console.log(message);
-          const msg: { userId: number; content: string; nickname: string } = JSON.parse(message.body);
+          const msg: { userId: number; content: string; nickname: string; time: string } = JSON.parse(message.body);
           console.log(message.body, 'sdf');
           setChatMessages((prevMessages) => [
             ...prevMessages,
-            { userId: msg.userId, content: msg.content, nickname: msg.nickname, time: new Date().toISOString() },
+            {
+              userId: msg.userId,
+              content: msg.content,
+              nickname: msg.nickname,
+              time: msg.time,
+              // time: new Date().toISOString()
+            },
           ]);
           // console.log(msg);
         });
