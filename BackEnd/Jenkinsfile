@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        REPO = "s10-final/S10P31C103"
-        DOCKERHUB_REGISTRY = "superjaehun/back"
+        REPO = 's10-final/S10P31C103'
+        DOCKERHUB_REGISTRY = 'superjaehun/back'
         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
     }
     stages {
@@ -15,8 +15,8 @@ pipeline {
             steps {
                 dir("${env.WORKSPACE}/BackEnd") {
                     script {
-                        sh "ls -al"
-                        sh "chmod +x ./gradlew"
+                        sh 'ls -al'
+                        sh 'chmod +x ./gradlew'
                     }
                 }
             }
@@ -24,8 +24,8 @@ pipeline {
         stage('Stop and Remove Container') {
             steps {
                 script {
-                    sh "docker stop back || true"
-                    sh "docker rm back || true"
+                    sh 'docker stop back || true'
+                    sh 'docker rm back || true'
                 }
             }
         }
@@ -33,27 +33,27 @@ pipeline {
             steps {
                 script {
                     // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
+                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
                     sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
-                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
+                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"
                 }
             }
         }
-        stage("Build") {
+        stage('Build') {
             steps {
                 script {
                     sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
                 }
             }
         }
-        stage("Login") {
+        stage('Login') {
             steps {
                 script {
                     sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
                 }
             }
         }
-        stage("Tag and Push") {
+        stage('Tag and Push') {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
@@ -84,42 +84,43 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        try {
-                            sh "docker-compose up -d"
-                        } catch(Exception e) {
-                            sh "docker-compose up -d --force-recreate"
+                        dir("${env.WORKSPACE}/BackEnd") {
+                            try {
+                                sh 'docker-compose up -d'
+                    } catch (Exception e) {
+                                sh 'docker-compose up -d --force-recreate'
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
+
     post {
         success {
             script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'good', 
-                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
+                def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
+                mattermostSend(color: 'good',
+                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
                 channel: 'C103-Jenkins'
                 )
             }
         }
         failure {
             script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'danger', 
-                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
+                def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
+                mattermostSend(color: 'danger',
+                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
                 channel: 'C103-Jenkins'
                 )
             }
         }
     }
-
 }
 
 // CICD test2
