@@ -1,7 +1,7 @@
 version: '3'
 services:
   back:
-    image: superjaehun/back:latest
+    image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
     depends_on:

@@ -85,10 +85,9 @@ pipeline {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         try {
-                            sh "docker-compose down"
                             sh "docker-compose up -d"
                         } catch(Exception e) {
-                            sh "docker restart back || true"
+                            sh "docker-compose up -d --force-recreate"
                         }
                     }
                 }
@@ -98,7 +97,7 @@ pipeline {
     
     post {
         success {
-        	script {
+            script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'good', 
@@ -109,7 +108,7 @@ pipeline {
             }
         }
         failure {
-        	script {
+            script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'danger', 
