@@ -5,11 +5,11 @@ import { setCookie } from '@/utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import Swal from 'sweetalert2';
 import MainSignupFormId from './MainSignupFormId';
 import MainSignupFormNickname from './MainSignupFormNickname';
 import MainSignupFormPw from './MainSignupFormPw';
 import MainSignupFormPwCheck from './MainSignupFormPwCheck';
-import Swal from 'sweetalert2';
 
 const MainSignupForm = () => {
   const [id, setId] = useState('');
@@ -46,6 +46,13 @@ const MainSignupForm = () => {
 
   const signupHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== passwordCheck) {
+      Swal.fire({
+        title: '비밀번호, 2차비밀번호가 일치하지 않습니다',
+        icon: 'error',
+      });
+      return;
+    }
     signupApi({
       account: id,
       password: password,
@@ -73,24 +80,39 @@ const MainSignupForm = () => {
           .catch((err) => {
             console.log(err);
             Swal.fire({
-              title: "회원정보가 잘못되었습니다",
-              icon: "error"
+              title: '회원정보가 잘못되었습니다',
+              icon: 'error',
             });
           });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          Swal.fire({
+            title: '네트워크를 확인해주세요',
+            icon: 'error',
+          });
+          return;
+        }
         Swal.fire({
-          title: "비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)",
-          icon: "error"
+          title: '비밀번호 형식을 확인해주세요\n(영어, 숫자, 특수문자포함 8글자 이상)',
+          icon: 'error',
         });
       });
   };
 
-  const alertHandler = (e: React.FormEvent) => {
+  const idAlertHandler = (e: React.FormEvent) => {
     e.preventDefault();
     Swal.fire({
-      title: "아이디 또는 닉네임 중복확인을 해주세요",
-      icon: "error"
+      title: '아이디 중복확인을 해주세요',
+      icon: 'error',
+    });
+  };
+
+  const nicknameAlertHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    Swal.fire({
+      title: '닉네임 중복확인을 해주세요',
+      icon: 'error',
     });
   };
 
@@ -118,15 +140,23 @@ const MainSignupForm = () => {
           passwordCheck={passwordCheck}
           onPasswordCheckHandler={onPasswordCheckHandler}
         />
-        {idPossible === 1 && nicknamePossible == 1 ? (
+        {idPossible === 0 && (
           <div className={styles.BtnAlign}>
-            <button onClick={signupHandler} className={`${styles.SignupBtn} FontM20`}>
+            <button onClick={idAlertHandler} className={`${styles.SignupBtn} FontM20`}>
               가입
             </button>
           </div>
-        ) : (
+        )}
+        {idPossible === 1 && nicknamePossible === 0 && (
           <div className={styles.BtnAlign}>
-            <button onClick={alertHandler} className={`${styles.SignupBtn} FontM20`}>
+            <button onClick={nicknameAlertHandler} className={`${styles.SignupBtn} FontM20`}>
+              가입
+            </button>
+          </div>
+        )}
+        {idPossible !== 0 && nicknamePossible !== 0 && (
+          <div className={styles.BtnAlign}>
+            <button onClick={signupHandler} className={`${styles.SignupBtn} FontM20`}>
               가입
             </button>
           </div>
