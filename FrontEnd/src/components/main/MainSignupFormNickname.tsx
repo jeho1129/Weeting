@@ -23,6 +23,13 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
           nicknameCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
           setNicknameChecked(1)
         } else {
+          if (nickname === '') {
+            Swal.fire({
+              title: '닉네임을 입력해주세요',
+              icon: 'error',
+            });
+            return;
+          }
           Swal.fire({
             title: "사용할 수 있는 닉네임입니다",
             icon: "success"
