@@ -32,8 +32,6 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
-                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
                     sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
@@ -42,84 +40,63 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
+                    dir("${env.WORKSPACE}/BackEnd") {
+                        sh "./gradlew clean build"
+                        sh "docker build -t ${DOCKERHUB_REGISTRY} ."
+                    }
                 }
             }
         }
         stage("Login") {
             steps {
                 script {
-                    sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
                 }
             }
         }
-        stage("Tag and Push") {
+        stage("Push") {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker push ${DOCKERHUB_REGISTRY}"
-                    }
+                    sh "docker push ${DOCKERHUB_REGISTRY}"
                 }
             }
         }
-        // stage('Prune old images') {
-        //     steps {
-        //         script {
-        //             // 사용하지 않는 모든 도커 리소스 정리
-        //             sh "docker image prune -af"
-        //         }
-        //     }
-        // }
-        stage('Pull') {
-            steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
-                        sh "docker pull ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
-        stage('Up') {
-            steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        try {
-                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
-                        } catch(Exception e) {
-                            sh "docker restart back || true"
-                        }
-                    }
+        stage('Deploy') {
+        steps {
+            script {
+                // Docker Compose 파일 경로 설정
+                def dockerComposePath = "${env.WORKSPACE}/BackEnd/docker-compose.yml"
+                
+                // Docker Compose 파일 확인
+                if (fileExists(dockerComposePath)) {
+                    // 기존 컨테이너 중지 및 제거
+                    sh "docker-compose -f ${dockerComposePath} down"
+                    
+                    // 새 이미지를 사용하여 컨테이너 시작
+                    sh "docker-compose -f ${dockerComposePath} up -d"
+                } else {
+                    error "Docker Compose 파일이 존재하지 않습니다: ${dockerComposePath}"
                 }
             }
         }
     }
-    
+    }
     post {
         success {
-        	script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'good', 
-                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+            mattermostSend (
+                color: 'good',
+                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${env.CHANGE_AUTHOR} (${env.CHANGE_TITLE})\n${env.BUILD_URL}",
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
                 channel: 'C103-Jenkins'
-                )
-            }
+            )
         }
         failure {
-        	script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'danger', 
-                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+            mattermostSend (
+                color: 'danger',
+                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${env.CHANGE_AUTHOR} (${env.CHANGE_TITLE})\n${env.BUILD_URL}",
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
                 channel: 'C103-Jenkins'
-                )
-            }
+            )
         }
     }
-
 }
-
-// CICD test2
