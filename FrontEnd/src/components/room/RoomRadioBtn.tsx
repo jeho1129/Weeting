@@ -20,7 +20,7 @@ const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
             onChange={onChangeMode}
             checked={idx === selectedMode}
           />
-          <span className={`${styles.RadioMode} ${idx === selectedMode ? styles.Pink : styles.LightGray}`}>
+          <span className={`${styles.RadioMode} ${idx === selectedMode ? styles.SelectedRadioColor : styles.UnselectedRadioColor}`}>
             {mode.text}
           </span>
         </label>
