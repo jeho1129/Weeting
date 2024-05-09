@@ -41,17 +41,33 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
     });
   }, []);
 
+  // 입력 조건 검증 함수
+  const isValidInput = () => {
+    if (roomInfo.roomMode === 'rank') {
+      return forbiddenWord.length >= 2 && forbiddenWord.length <= 6;
+    } else {
+      // 'normal' 모드
+      return forbiddenWord.length >= 1 && forbiddenWord.length <= 6;
+    }
+  };
+
   return (
     <div className={styles.Container}>
       <div className="FontM32">OO 님의 금칙어를 정해주세요</div>
       <div className="FontM60">주제 : {theme}</div>
-      <input className="FontM20" type="text" value={forbiddenWord} onChange={(e) => setForbiddenWord(e.target.value)} />
+      <input
+        className="FontM20"
+        type="text"
+        maxLength={5}
+        value={forbiddenWord}
+        onChange={(e) => setForbiddenWord(e.target.value)}
+      />
       <div className={`FontM20 ${styles.WarningMsg}`} dangerouslySetInnerHTML={{ __html: warningMsg }}></div>
 
       <button
-        style={{ fontSize: `28px` }}
-        className={`FontM32  ${styles.ConfirmBtn}`}
-        onClick={() => onConfirm(forbiddenWord)}
+        style={{ fontSize: `28px`, backgroundColor: isValidInput() ? '#0093f3' : '#cccccc' }}
+        className={`FontM32 ${styles.ConfirmBtn}`}
+        onClick={() => isValidInput() && onConfirm(forbiddenWord)}
       >
         확인
       </button>

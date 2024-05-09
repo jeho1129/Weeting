@@ -28,7 +28,8 @@ const GameWaitingRightSide = ({
     const newMessage: ChatMessage = {
       userId: userInfo.userId,
       content: message,
-      time: new Date().toLocaleString(),
+      time: '',
+      // time: new Date().toLocaleString(),
       nickname: userInfo.nickname,
     };
 
@@ -38,7 +39,7 @@ const GameWaitingRightSide = ({
     // setChatMessages([...chatMessages, newMessage]);
     stompClient?.publish({
       destination: `/pub/api/v1/chat/${param.id}`,
-      body: JSON.stringify(newTest),
+      body: JSON.stringify(newMessage),
     });
   };
   return (
