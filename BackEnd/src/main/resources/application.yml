@@ -67,11 +67,3 @@ logging:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
       org.springframework.web.socket: DEBUG
-
-
-
-#    mariadb:
-#      driver-class-name: com.mariadb.cj.jdbc.Driver
-#      url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-#      username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-#      password: sF9lNwfigU

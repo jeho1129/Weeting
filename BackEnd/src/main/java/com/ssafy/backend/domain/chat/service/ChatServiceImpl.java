@@ -4,6 +4,7 @@ import com.ssafy.backend.domain.chat.document.Chat;
 import com.ssafy.backend.domain.chat.dto.ChatDto;
 import com.ssafy.backend.domain.chat.dto.ChatMessageDto;
 import com.ssafy.backend.domain.chat.repository.ChatRepository;
+import com.ssafy.backend.domain.user.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.TopicExchange;
@@ -24,21 +25,19 @@ public class ChatServiceImpl implements ChatService{
 
 
     @Override
-    public void sendMessage(ChatMessageDto messageDto, Long userId, String roomId) {
+    public void sendMessage(ChatMessageDto messageDto, String roomId, User user) {
 
         Chat chat = Chat.builder()
                 .roomId(roomId)
-                .userId(userId)
-                .nickname(messageDto.getNickname())
+                .userId(user.getId())
+                .nickname((user.getNickname()))
                 .content(messageDto.getContent())
-                .sendTime(LocalDateTime.now())
                 .build();
 
         chatRepository.save(chat);
 
         ChatDto chatDto = ChatDto.builder()
-                .userId(userId)
-                .nickname(messageDto.getNickname())
+                .nickname(user.getNickname())
                 .content(messageDto.getContent())
                 .sendTime(LocalDateTime.now())
                 .build();
@@ -46,5 +45,11 @@ public class ChatServiceImpl implements ChatService{
         rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + roomId, chatDto);
     }
 
+
+
+    @Override
+    public List<Chat> getChatHistory(String roomId) {
+        return chatRepository.findByRoomId(roomId);
+    }
 
 }

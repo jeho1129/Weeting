@@ -24,14 +24,11 @@ public class Chat {
     @Field("user_id")
     private Long userId;
 
-    @Field("sender_name")
+    @Field("nick_name")
     private String nickname;
 
     @Field("content")
     private String content;
 
-    @Field("created_at")
-    @CreatedDate
-    private LocalDateTime sendTime;
 
 }
