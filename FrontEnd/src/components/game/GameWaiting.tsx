@@ -36,7 +36,7 @@ const GameWaiting = () => {
       roomMode: 'normal',
       roomId: 'd',
       roomName: '테스트 방',
-      roomStatus: 'waiting',
+      roomStatus: 'start',
       roomForbiddentime: null,
       roomEndtime: null,
       roomSubject: null,
@@ -47,7 +47,7 @@ const GameWaiting = () => {
           nickname: '하하호호',
           outfit: 'casual',
           ready: false,
-          word: '안아아아안녕',
+          word: '사과',
           score: 16.6,
           isAlive: true,
         },
@@ -107,8 +107,7 @@ const GameWaiting = () => {
           // console.log(msg);
         });
       },
-      debug: (str) => {
-      },
+      debug: (str) => {},
     });
 
     client.activate(); // STOMP 클라이언트 활성화

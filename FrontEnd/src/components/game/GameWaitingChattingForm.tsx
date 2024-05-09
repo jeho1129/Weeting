@@ -19,14 +19,18 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
 
   //배포서버에서 돌리기
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/ws');
+    const ws = new WebSocket('ws://localhost:8000/ws');
 
     ws.onopen = () => {
       console.log('지호지호웹소캣가즈아');
     };
     // 서버로부터 메시지를 받는 이벤트 리스너 설정
     ws.onmessage = (score) => {
+      console.log(score);
+      
       const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
+      console.log(score.data);
+
       // 서버로부터 받은 메시지를 상태에 저장
       setServerResponse((prevScore) => [
         ...prevScore,
@@ -83,11 +87,8 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
     }
 
     if (message.trim() && webSocket && webSocket.readyState === WebSocket.OPEN) {
-      console.log(userInfo.nickname);
-      console.log(message);
-
       // WebSocket을 통해 서버로 메시지 전송
-      webSocket.send(JSON.stringify({ nickname: userInfo.nickname, message }));
+      webSocket.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
       onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
       setMessage('');
     }
