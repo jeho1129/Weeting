@@ -4,7 +4,7 @@ WORKDIR /app
 
 # 필요한 패키지 설치
 RUN apt-get update && \
-    apt-get install -y git openjdk-11-jdk python3 python3-pip && \
+    apt-get install -y git cmake build-essential openjdk-11-jdk python3 python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -16,6 +16,20 @@ ENV PATH $JAVA_HOME/bin:$PATH
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt && \
     pip3 install git+https://github.com/allinux/PyKoSpacing.git
+
+# Khaiii 설치
+# RUN git clone https://github.com/kakao/khaiii.git
+# WORKDIR /app/khaiii
+# RUN mkdir build
+# WORKDIR /app/khaiii/build
+# RUN cmake ..
+# RUN make all
+# RUN make resource
+# RUN make install
+# RUN make package_python
+# RUN pip3 install .
+
+# WORKDIR /app
 
 COPY . .
 
