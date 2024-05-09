@@ -155,7 +155,7 @@ const RoomModalCreateBtn = () => {
             {isPrivate && (
               <input
                 type="text"
-                placeholder="비밀번호 4자리"
+                placeholder="숫자 4자리"
                 className={styles.Input}
                 value={password}
                 onChange={handlePasswordChange}
