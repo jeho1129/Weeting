@@ -38,8 +38,8 @@ public class ChatServiceImpl implements ChatService{
         chatRepository.save(chat);
 
         ChatDto chatDto = ChatDto.builder()
-                .userId(user.getId())
-                .nickname(user.getNickname())
+                .userId(messageDto.getUserId())
+                .nickname(messageDto.getNickname())
                 .content(messageDto.getContent())
                 .sendTime(LocalDateTime.now())
                 .build();
