@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.chatroom.service;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.entity.ForbiddenWord;
+import com.ssafy.backend.global.component.WebSocketChatRoomHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +18,7 @@ public class ChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) {
+    public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, Long userId) throws Exception {
         if (chatRoomCreateRequestDto.getRoomName() == null || chatRoomCreateRequestDto.getRoomName().trim().isEmpty()) {
             throw new IllegalArgumentException("방 제목을 입력하세요.");
         }
@@ -61,13 +62,6 @@ public class ChatRoomService {
         return chatRoomDto;
     }
 
-//    public ChatRoomDto getChatRoomInfo(String ChatRoomId,
-//                                       Long userId) {
-//        ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(ChatRoomId);
-//        chatRoomDto.getRoomUsers().add(userId);
-//        redisTemplate.opsForValue().set(ChatRoomId, chatRoomDto);
-//        return chatRoomDto;
-//    }
 
     public void LeaveChatRoom(String ChatRoomId,
                               Long userId) {

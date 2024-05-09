@@ -1,19 +1,32 @@
 package com.ssafy.backend.global.config;
 
 
+import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
 import com.ssafy.backend.global.component.RabbitMqProps;
+import com.ssafy.backend.global.component.WebSocketChatRoomHandler;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+@EnableWebSocket
+public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer {
 
     private final RabbitMqProps rabbitMqProps;
+    private final WebSocketChatRoomHandler webSocketChatRoomHandler;
+
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler((WebSocketHandler) webSocketChatRoomHandler, "/ws/chatroom/list")
+                .setAllowedOrigins("*");
+    }
+
 
     /*
     * STOMP 구성
