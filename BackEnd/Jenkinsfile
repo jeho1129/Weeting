@@ -87,7 +87,7 @@ pipeline {
                         dir("${env.WORKSPACE}/BackEnd") {
                             try {
                                 sh 'docker-compose up -d'
-                    } catch (Exception e) {
+                            } catch (Exception e) {
                                 sh 'docker-compose up -d --force-recreate'
                             }
                         }
