@@ -62,7 +62,7 @@ const GameWaitingMemberList = ({
                     </>
                   ) : roomStatus === 'start' && roomMode === 'normal' ? (
                     <>
-                      <span className={styles.Score}>{member.isAlive ? '생존' : '탈락'}</span>
+                      <span className={styles.Score}>{member.isAlive ? '생존 😊' : '탈락 🍗'}</span>
                     </>
                   ) : (
                     <img
