@@ -65,7 +65,7 @@ pipeline {
         steps {
             script {
                 // Docker Compose 파일 경로 설정
-                def dockerComposePath = "${env.WORKSPACE}/docker-compose.yml"
+                def dockerComposePath = "${env.WORKSPACE}/BackEnd/docker-compose.yml"
                 
                 // Docker Compose 파일 확인
                 if (fileExists(dockerComposePath)) {
