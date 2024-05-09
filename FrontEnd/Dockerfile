@@ -1,5 +1,5 @@
 # 1단계: 빌드 단계 (최신 버전 사용)
-FROM node:latest as build
+FROM node:20.12.2 as build
 
 # 작업 디렉토리 설정
 WORKDIR /app
