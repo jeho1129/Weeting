@@ -1,5 +1,7 @@
 package com.ssafy.backend.domain.chat.document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.FieldResult;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -29,6 +31,10 @@ public class Chat {
 
     @Field("content")
     private String content;
+
+    @Field("send_time")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년MM월dd일 HH시mm분ss초")
+    private LocalDateTime sendTime;
 
 
 }
