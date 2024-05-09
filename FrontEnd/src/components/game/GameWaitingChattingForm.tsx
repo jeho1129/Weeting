@@ -83,6 +83,9 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
     }
 
     if (message.trim() && webSocket && webSocket.readyState === WebSocket.OPEN) {
+      console.log(userInfo.nickname);
+      console.log(message);
+
       // WebSocket을 통해 서버로 메시지 전송
       webSocket.send(JSON.stringify({ nickname: userInfo.nickname, message }));
       onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출

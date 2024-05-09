@@ -14,16 +14,6 @@ import { gameState } from '@/recoil/atom';
 
 import { getCookie } from '@/utils/axios';
 
-interface ChatMessageReqeust {
-  from: string;
-  text: string;
-  roomId: string;
-}
-interface ChatMessageResponse {
-  id: number;
-  content: string;
-  writer: string;
-}
 const GameWaiting = () => {
   const roomId = useParams();
   const [stompClient, setStompClient] = useState<Client | null>(null);
