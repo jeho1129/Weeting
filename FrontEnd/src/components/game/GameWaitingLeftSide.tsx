@@ -10,8 +10,6 @@ import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameNormalTimer';
 import GameRankTimer from '@/components/game/GameRankTimer';
 
-import RoomModes from './../room/RoomModes';
-
 const GameWaitingLeftSide = ({
   roomInfo,
   scoreUpdates,

@@ -45,37 +45,37 @@ const GameWaiting = () => {
 
   const setGameState = useSetRecoilState(gameState);
   useEffect(() => {
-    // const dummy2: RoomInfo = {
-    //   roomMode: 'normal',
-    //   roomId: 'd',
-    //   roomName: '테스트 방',
-    //   roomStatus: 'waiting',
-    //   roomForbiddentime: null,
-    //   roomEndtime: null,
-    //   roomSubject: null,
-    //   roomMaxCnt: 8,
-    //   roomUsers: [
-    //     {
-    //       userId: 9,
-    //       nickname: '하하호호',
-    //       outfit: 'casual',
-    //       ready: false,
-    //       word: '안아아아안녕',
-    //       score: 16.6,
-    //       isAlive: true,
-    //     },
-    //     { userId: 13, nickname: '허허후후', outfit: 'sporty', ready: true, word: '메롱', score: 2, isAlive: true },
-    //     // { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕', score: 3, isAlive: false },
-    //     // { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: false, word: '안녕', score: 1, isAlive: true },
-    //     // { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보', score: 4, isAlive: false },
-    //     // { userId: 6, nickname: '웅냐', outfit: 'formal', ready: true, word: '메롱', score: 67, isAlive: true },
-    //     // { userId: 7, nickname: '헤위이잉', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
-    //     // { userId: 8, nickname: '인범머스크', outfit: 'formal', ready: true, word: '안녕', score: 5, isAlive: true },
-    //   ],
-    // };
-    // setRoomInfo(dummy2);
-    // // api호출 후 .then 안에서
-    // setGameState(dummy2);
+    const dummy2: RoomInfo = {
+      roomMode: 'normal',
+      roomId: 'd',
+      roomName: '테스트 방',
+      roomStatus: 'start',
+      roomForbiddentime: null,
+      roomEndtime: null,
+      roomSubject: null,
+      roomMaxCnt: 8,
+      roomUsers: [
+        {
+          userId: 9,
+          nickname: '하하호호',
+          outfit: 'casual',
+          ready: false,
+          word: '안아아아안녕',
+          score: 16.6,
+          isAlive: true,
+        },
+        { userId: 13, nickname: '허허후후', outfit: 'sporty', ready: true, word: '메롱', score: 2, isAlive: false },
+        { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕', score: 3, isAlive: false },
+        { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: false, word: '안녕', score: 1, isAlive: true },
+        // { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보', score: 4, isAlive: false },
+        // { userId: 6, nickname: '웅냐', outfit: 'formal', ready: true, word: '메롱', score: 67, isAlive: true },
+        // { userId: 7, nickname: '헤위이잉', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
+        // { userId: 8, nickname: '인범머스크', outfit: 'formal', ready: true, word: '안녕', score: 5, isAlive: true },
+      ],
+    };
+    setRoomInfo(dummy2);
+    // api호출 후 .then 안에서
+    setGameState(dummy2);
   }, []);
 
   const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'start' | 'end') => {
