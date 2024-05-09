@@ -2,10 +2,21 @@ import { useState } from 'react';
 import styles from '@/styles/game/GameWaitingReadyButton.module.css';
 import { RoomInfo } from '@/types/game';
 import { useNavigate } from 'react-router-dom';
+import { userState } from '@/recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-const GameWaitingReadyButton = ({roomUsers, blink, onStartGame}: { roomUsers: RoomInfo["roomUsers"], blink?: boolean, onStartGame: () => void  }) => {
+const GameWaitingReadyButton = ({
+  roomUsers,
+  blink,
+  onStartGame,
+}: {
+  roomUsers: RoomInfo['roomUsers'];
+  blink?: boolean;
+  onStartGame: () => void;
+}) => {
   const [isReady, setIsReady] = useState(false);
   const navigate = useNavigate();
+  const myId = useRecoilValue(userState);
 
   const ReadyHandler = () => {
     if (isFirstMember) {
@@ -14,11 +25,10 @@ const GameWaitingReadyButton = ({roomUsers, blink, onStartGame}: { roomUsers: Ro
       setIsReady(!isReady);
     }
   };
-  
+
   // 방장인 경우 반짝이도록 수정
-  // const isFirstMember = roomUsers.findIndex(member => member.userId === '1') === 0;
   const isFirstMember = roomUsers[0];
-  const buttonContent = isFirstMember ? '게임시작' : (isReady ? '준비 취소' : '준비');
+  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비 취소' : '준비';
 
   let buttonStyle = `FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`;
 

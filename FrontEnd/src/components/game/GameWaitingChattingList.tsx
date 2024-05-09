@@ -7,10 +7,13 @@ interface GameChattingListProps {
 }
 
 const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => {
-  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const chatListRef = useRef<HTMLDivElement>(null); // .ChatList에 대한 참조 추가
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const scrollHeight = chatListRef.current?.scrollHeight; // 총 스크롤 높이
+    const height = chatListRef.current?.clientHeight; // 컨테이너 높이
+    const maxScrollTop = scrollHeight! - height!; // 최대 스크롤 가능 위치
+    chatListRef.current?.scrollTo({ top: maxScrollTop, behavior: 'smooth' }); // 최하단으로 스크롤
   };
 
   useEffect(() => {
@@ -18,13 +21,12 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
   }, [chatMessages]); // chatMessages가 변경될 때마다 스크롤을 최하단으로 이동
 
   return (
-    <div className={`FontD16 ${styles.ChatList}`}>
+    <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}> {/* ref 할당 */}
       {chatMessages.map((message, index) => (
         <div key={index}>
-          <strong>{message.nickname}: </strong> {message.content}
+          <strong>{message.nickname}: </strong>{message.content}
         </div>
       ))}
-      <div ref={messagesEndRef} />
     </div>
   );
 };

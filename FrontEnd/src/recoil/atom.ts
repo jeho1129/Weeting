@@ -24,7 +24,7 @@ export const gameState = atom<RoomInfo>({
   key: 'gameState',
   default: {
     roomMode: 'rank',
-    roomId: 0,
+    roomId: '',
     roomName: '',
     roomStatus: 'waiting',
     roomForbiddentime: null,
