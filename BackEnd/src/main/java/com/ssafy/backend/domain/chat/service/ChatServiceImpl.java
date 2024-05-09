@@ -32,11 +32,13 @@ public class ChatServiceImpl implements ChatService{
                 .userId(user.getId())
                 .nickname((user.getNickname()))
                 .content(messageDto.getContent())
+                .sendTime(LocalDateTime.now())
                 .build();
 
         chatRepository.save(chat);
 
         ChatDto chatDto = ChatDto.builder()
+                .userId(user.getId())
                 .nickname(user.getNickname())
                 .content(messageDto.getContent())
                 .sendTime(LocalDateTime.now())
