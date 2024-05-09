@@ -1,9 +1,7 @@
 version: '3'
 services:
   back:
-    build:
-      context: ./BackEnd
-      dockerfile: Dockerfile
+    image: superjaehun/back:latest
     ports:
       - "9002:8080"
     depends_on:
@@ -35,4 +33,3 @@ services:
 
 volumes:
   mysql_data:
-  

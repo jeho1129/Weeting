@@ -11,92 +11,65 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Setup Environment') {
+        stage('Build') {
             steps {
-                dir("${env.WORKSPACE}/BackEnd") {
+                dir("BackEnd") {
+                    sh "./gradlew clean build"
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                dir("BackEnd") {
                     script {
-                        sh "ls -al"
-                        sh "chmod +x ./gradlew"
+                        dockerImage = docker.build("${DOCKERHUB_REGISTRY}:${env.BUILD_NUMBER}")
                     }
                 }
             }
         }
-        stage('Stop and Remove Container') {
+        stage('Push Docker Image') {
             steps {
                 script {
-                    sh "docker stop back || true"
-                    sh "docker rm back || true"
-                }
-            }
-        }
-        stage('Remove Old Images') {
-            steps {
-                script {
-                    sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
-                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
-                }
-            }
-        }
-        stage("Build") {
-            steps {
-                script {
-                    dir("${env.WORKSPACE}/BackEnd") {
-                        sh "./gradlew clean build"
-                        sh "docker build -t ${DOCKERHUB_REGISTRY} ."
+                    docker.withRegistry('https://registry.hub.docker.com', 'Docker-hub') {
+                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push("latest")
                     }
-                }
-            }
-        }
-        stage("Login") {
-            steps {
-                script {
-                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-                }
-            }
-        }
-        stage("Push") {
-            steps {
-                script {
-                    sh "docker push ${DOCKERHUB_REGISTRY}"
                 }
             }
         }
         stage('Deploy') {
-        steps {
-            script {
-                // Docker Compose 파일 경로 설정
-                def dockerComposePath = "${env.WORKSPACE}/BackEnd/docker-compose.yml"
-                
-                // Docker Compose 파일 확인
-                if (fileExists(dockerComposePath)) {
-                    // 기존 컨테이너 중지 및 제거
-                    sh "docker-compose -f ${dockerComposePath} down"
-                    
-                    // 새 이미지를 사용하여 컨테이너 시작
-                    sh "docker-compose -f ${dockerComposePath} up -d"
-                } else {
-                    error "Docker Compose 파일이 존재하지 않습니다: ${dockerComposePath}"
+            steps {
+                dir("BackEnd") {
+                    sh "docker-compose down"
+                    sh "docker-compose up -d"
                 }
             }
         }
     }
-    }
     post {
         success {
-            mattermostSend (
-                color: 'good',
-                message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${env.CHANGE_AUTHOR} (${env.CHANGE_TITLE})\n${env.BUILD_URL}",
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
-                channel: 'C103-Jenkins'
-            )
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (
+                    color: 'good',
+                    message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
+                    endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
+                    channel: 'C103-Jenkins'
+                )
+            }
         }
         failure {
-            mattermostSend (
-                color: 'danger',
-                message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${env.CHANGE_AUTHOR} (${env.CHANGE_TITLE})\n${env.BUILD_URL}",
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
-                channel: 'C103-Jenkins'
-            )
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (
+                    color: 'danger',
+                    message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
+                    endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe',
+                    channel: 'C103-Jenkins'
+                )
+            }
         }
     }
 }
