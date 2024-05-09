@@ -7,7 +7,10 @@ from KoreanProcessing.morpheme import process_message
 import asyncio, model_manager, websockets
 
 async def receive_message_from_spring():
-    uri = "ws://localhost:8080/ws"
+    # 배포 서버 URI
+    # uri = "ws://54.180.158.223:8080/ws"
+    # 로컬 서버 URI
+    uri = "ws://localhost:8000/ws"
     async with websockets.connect(uri) as websocket:
         while True:
             try:
