@@ -33,15 +33,13 @@ const GameWaitingRightSide = ({
       nickname: userInfo.nickname,
     };
 
-    const newTest = {
-      content: message,
-    };
     // setChatMessages([...chatMessages, newMessage]);
     stompClient?.publish({
       destination: `/pub/api/v1/chat/${param.id}`,
       body: JSON.stringify(newMessage),
     });
   };
+  
   return (
     <>
       <div className={styles.RightSide}>

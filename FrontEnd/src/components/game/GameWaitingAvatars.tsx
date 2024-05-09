@@ -15,7 +15,17 @@ interface Position {
   top: string;
   left: string;
 }
-const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; latestMessage: string }) => {
+const GameMessage = ({
+  index, // 여기에 index를 추가합니다.
+  top,
+  left,
+  latestMessage,
+}: {
+  index: number; // index 타입을 number로 선언합니다.
+  top: string;
+  left: string;
+  latestMessage: string;
+}) => {
   const [isOut, setIsOut] = useState(false);
   useEffect(() => {
     setIsOut(false);
@@ -23,6 +33,14 @@ const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; 
       setIsOut(true);
     }, 100);
   }, [latestMessage]);
+  const messageClassName = isOut
+    ? index % 2 === 0
+      ? styles.MsgOut
+      : styles.MsgOutUnder
+    : index % 2 === 0
+      ? styles.MsgIn
+      : styles.MsgInUnder;
+
   return (
     <>
       <div
@@ -41,10 +59,7 @@ const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; 
             width: `14ch`,
           }}
         >
-          <div
-            className={isOut ? styles.messageFadeOut : styles.messageIn}
-            style={{ maxWidth: `320px` }}
-          >
+          <div className={messageClassName} style={{ maxWidth: `320px` }}>
             {latestMessage}
           </div>
         </div>
@@ -116,10 +131,16 @@ const GameWaitingAvatars = ({
                 style={{ top: position.top, left: position.left }}
               />
               <GameMessage
+                index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
                 top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                 left={position.left}
                 latestMessage={latestMessage}
               />
+              {/* <GameMessage
+                top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
+                left={position.left}
+                latestMessage={latestMessage}
+              /> */}
             </div>
             {roomStatus === 'start' && (
               <>

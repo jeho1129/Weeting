@@ -11,3 +11,8 @@ export interface RoomInfo {
   roomMaxCnt: number;
   roomUsers: IngameUser[];
 }
+
+export interface MessageScore {
+  nickname:string;
+  highest_simialrity:number;
+}
