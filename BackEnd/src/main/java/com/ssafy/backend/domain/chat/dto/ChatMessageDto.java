@@ -5,10 +5,6 @@ import lombok.Data;
 @Data
 public class ChatMessageDto {
 
-    private Long userId;
-
-    private String nickname;
-
     private String content;
 
 }
