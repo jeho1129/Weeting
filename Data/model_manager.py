@@ -1,7 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from fastapi import HTTPException, status
 from konlpy.tag import Okt
-import asyncio, fasttext, re, os
+import fasttext, re, os
 
 fasttext.FastText.eprint = lambda x: None
 
