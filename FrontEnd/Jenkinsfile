@@ -32,6 +32,7 @@ pipeline {
             steps {
                 script {
                     sh "ls -al"
+                    sh "npm install"
                     sh "docker build -t ${DOCKERHUB_REGISTRY} FrontEnd"
                     sh "touch ./.env"
                     sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > ./.env"
