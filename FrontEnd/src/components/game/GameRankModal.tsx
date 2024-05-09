@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styles from '@/styles/game/GameEnd.module.css';
 import { RoomInfo } from '@/types/game';
 import finish from '@/assets/images/finish.png';
-import { deadicon } from '~@flaticon/flaticon-uicons/css/all/all';
 
 interface GameRankModalProps {
   roomInfo: RoomInfo;

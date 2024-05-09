@@ -5,7 +5,7 @@ import { RoomInfo } from '@/types/game';
 const GameWaitingQuitButton = (roomId: { roomId: RoomInfo["roomId"] }) => {
   const navigate = useNavigate();
   const QuitHandler = () => {
-    navigate('/login');
+    navigate('/room');
   };
   return (
     <>
