@@ -11,7 +11,6 @@ import { RoomInfo } from '@/types/game';
 import { ChatMessage, ScoreUpdate } from '@/types/chat';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameState } from '@/recoil/atom';
-import { userState } from '@/recoil/atom';
 
 import { getCookie } from '@/utils/axios';
 
@@ -27,8 +26,6 @@ interface ChatMessageResponse {
 }
 const GameWaiting = () => {
   const roomId = useParams();
-  console.log(roomId);
-
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [writer, setWriter] = useState<string>('');
 
@@ -49,7 +46,7 @@ const GameWaiting = () => {
       roomMode: 'normal',
       roomId: 'd',
       roomName: '테스트 방',
-      roomStatus: 'start',
+      roomStatus: 'waiting',
       roomForbiddentime: null,
       roomEndtime: null,
       roomSubject: null,
@@ -94,15 +91,15 @@ const GameWaiting = () => {
 
   useEffect(() => {
     const client = new Client({
-      // brokerURL: `ws://localhost:8080/ws`,
-      brokerURL: `wss://k10c103.p.ssafy.io:9002/ws`,
+      brokerURL: `ws://localhost:8080/ws`,
+      // brokerURL: `wss://k10c103.p.ssafy.io:9002/ws`,
       reconnectDelay: 5000, // 연결 끊겼을 때, 재연결시도까지 지연시간(ms)
       connectHeaders: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
       },
 
       onConnect: () => {
-        console.log('웹소캣연결됐다링');
+        console.log('웹소캣재훈이랑 연결완료');
         client.subscribe(`/topic/room.${roomId.id}`, (message) => {
           console.log(message);
           const msg: { userId: number; content: string; nickname: string; time: string } = JSON.parse(message.body);
@@ -121,7 +118,6 @@ const GameWaiting = () => {
         });
       },
       debug: (str) => {
-        console.log(new Date(), str);
       },
     });
 
