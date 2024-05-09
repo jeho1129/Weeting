@@ -2,7 +2,7 @@ version: '3'
 services:
   back:
     build:
-      context: ./back
+      context: ./BackEnd
       dockerfile: Dockerfile
     ports:
       - "9002:8080"
