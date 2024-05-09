@@ -79,11 +79,6 @@ const RoomList = ({ roomSelectedMode }) => {
             <div>
               <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
             </div>
-            <Link to={`/rooms/${room.roomId}`}>
-              <h6>
-                {room.roomName} <span className="badge badge-info badge-pill">{room.roomUsers.length}</span>
-              </h6>
-            </Link>
           </li>
         ))
       )}
