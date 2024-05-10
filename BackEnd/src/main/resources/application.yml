@@ -33,14 +33,14 @@ spring:
   #    password: sF9lNwfigU
 
   # NoSQL
-  data:
     # Redis
-    redis:
-      # host: k10c103.p.ssafy.io
-      #      host: localhost
-      host: redis
-      port: 6379
-      password: c103103
+  redis:
+    # host: k10c103.p.ssafy.io
+    #      host: localhost
+    host: redis
+    port: 6379
+    password: c103103
+  data:
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
@@ -48,7 +48,7 @@ spring:
   rabbitmq:
     host: rabbitmq
     #    host: localhost
-    port: 5672
+    port: 61613
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
     virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
