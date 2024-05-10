@@ -29,6 +29,7 @@ export interface IngameUser {
   outfit: string;
   ready: boolean;
   word: string | null;
+  highest_score: number;
   score: number;
   isAlive: boolean;
 }

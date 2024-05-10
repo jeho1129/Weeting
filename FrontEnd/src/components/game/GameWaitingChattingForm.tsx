@@ -1,14 +1,16 @@
 import { gameState, userState } from '@/recoil/atom';
+import { RoomInfo } from '@/types/game';
 import styles from '@/styles/game/GameWaitingChattingForm.module.css';
 import { MessageScore } from '@/types/game';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 interface GameChattingFormProps {
+  roomStatus: RoomInfo['roomStatus'];
   onSendMessage: (message: string) => void;
 }
 
-const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
+const GameChattingForm = ({ roomStatus, onSendMessage }: GameChattingFormProps) => {
   const [message, setMessage] = useState('');
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
   const userInfo = useRecoilValue(userState);
@@ -24,22 +26,24 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
     ws.onopen = () => {
       console.log('지호지호웹소캣가즈아');
     };
-    // 서버로부터 메시지를 받는 이벤트 리스너 설정
-    ws.onmessage = (score) => {
-      console.log(score);
-      
-      const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
-      console.log(score.data);
+    if (roomStatus === 'start') {
+      // 서버로부터 메시지를 받는 이벤트 리스너 설정
+      ws.onmessage = (score) => {
+        console.log(score);
 
-      // 서버로부터 받은 메시지를 상태에 저장
-      setServerResponse((prevScore) => [
-        ...prevScore,
-        {
-          nickname: msg.nickname,
-          highest_simialrity: msg.highest_simialrity,
-        },
-      ]);
-    };
+        const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
+        console.log(score.data);
+
+        // 서버로부터 받은 메시지를 상태에 저장
+        setServerResponse((prevScore) => [
+          ...prevScore,
+          {
+            nickname: msg.nickname,
+            highest_simialrity: msg.highest_simialrity,
+          },
+        ]);
+      };
+    }
 
     ws.onerror = (error) => {
       console.error('웹소켓 에러 발생:', error);
@@ -52,7 +56,7 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
         ws.close();
       }
     };
-  }, []);
+  }, [roomStatus]);
 
   const onChatHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
