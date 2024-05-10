@@ -45,10 +45,16 @@ const Ranking = () => {
               }}
             />
           </div>
-          <div>
-            <div className={`FontM32`}>
-              <div>내 순위는</div>
-              <div className="FontM60">{userInfo.ranking ? `${userInfo.ranking}위 입니다!` : '정각에 공개됩니다!'}</div>
+          <div className={styles.AvatarRankingMessage}>
+            <div className={styles.AvatarRankingMessageContainer}>
+              <div className={`FontM32 ${styles.AvatarRankingMessage1}`}>내 순위는</div>
+              <div className={`${styles.AvatarRankingMessage2} ${userInfo.ranking ? 'FontM60' : `FontM32`}`}>
+                {userInfo.ranking
+                  ? userInfo.ranking <= 50
+                    ? `${userInfo.ranking}위`
+                    : '순위권 밖'
+                  : '정각에 공개됩니다!'}
+              </div>
             </div>
           </div>
         </div>
