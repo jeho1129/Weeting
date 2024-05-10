@@ -2,27 +2,31 @@ package com.ssafy.backend.domain.chatroom.service;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ChatRoomGameService {
 
+    private final RedisTemplate<String, Object> redisTemplate;
+
     public void roomStatusModify(String roomId, ChatRoomDto.RoomStatus roomStatus) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(roomId);
 
         switch (roomStatus) {
             case waiting:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.allready);
             case allready:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordsetting);
             case wordsetting:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
             case wordfinish:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
             case start:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
             case end:
-                break;
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
         }
 
     }
