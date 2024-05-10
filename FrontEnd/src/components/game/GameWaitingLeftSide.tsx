@@ -7,8 +7,8 @@ import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
 import GameWaitingLogo from '@/components/game/GameWaitingLogo';
-import GameWordTimer from '@/components/game/GameWordTimer';
-import GameTimer from '@/assets/images/timerNormal.png';
+import GameWordTimer from '@/components/game/GameNormalTimer';
+import GameRankTimer from '@/components/game/GameRankTimer';
 
 const GameWaitingLeftSide = ({
   roomInfo,
@@ -34,6 +34,7 @@ const GameWaitingLeftSide = ({
       <div className={styles.Align}>
         <GameWaitingLogo />
         <GameWaitingMemberList
+          roomMode={roomInfo.roomMode}
           roomStatus={roomInfo.roomStatus}
           roomMaxCnt={roomInfo.roomMaxCnt}
           roomUsers={roomInfo.roomUsers}
@@ -44,12 +45,12 @@ const GameWaitingLeftSide = ({
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
-        {(roomInfo.roomStatus === 'wordsetting' || roomInfo.roomStatus === 'start') && (
-          <GameWordTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
-        )}
-        {/* {roomInfo.roomMode === 'rank' && (
-          <GameTimer/>
-        )} */}
+        {(roomInfo.roomStatus === 'wordsetting' || roomInfo.roomStatus === 'start') &&
+          (roomInfo.roomMode === 'rank' ? (
+            <GameRankTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
+          ) : (
+            <GameWordTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
+          ))}
       </div>
     </>
   );
