@@ -5,7 +5,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { userState, outfitState } from '@/recoil/atom';
 import { logoutApi, userInfoLoadApi } from '@/services/userApi';
-import { removeCookie } from '@/utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { outfitNowApi } from '@/services/customApi';
 const Home = () => {
@@ -24,7 +23,7 @@ const Home = () => {
           userId: data.dataBody.id,
           nickname: data.dataBody.nickname,
           score: data.dataBody.score,
-          ranking: data.dataBody.rank,
+          ranking: data.dataBody.ranking,
         });
         return data.dataBody.id;
       })
@@ -39,26 +38,10 @@ const Home = () => {
       });
   }, []);
 
-  const logout = () => {
-    logoutApi()
-      .then(() => {
-        alert('로그아웃');
-        removeCookie('accessToken');
-        if (localStorage.getItem('localToken')) {
-          localStorage.removeItem('localToken');
-        }
-      })
-      .then(() => {
-        navigate('/');
-      });
-  };
-
   return (
     <>
       <div className={styles.ButtonContainer}>
-        <div style={{ backgroundColor: 'aqua' }} onClick={logout}>
-          로그아웃
-        </div>
+        <HomeButton {...{ message: '로그아웃', direction: 'logout', size: 30 }} />
         <HomeButton {...{ message: '커스텀', direction: 'left', location: 'custom' }} />
         <HomeButton {...{ message: '랭킹', direction: 'down', location: 'ranking' }} />
         <HomeButton {...{ message: '게임', direction: 'right', location: 'room' }} />

@@ -59,8 +59,8 @@
 }
 
 .ButtonLogout {
-  height: 80px;
+  height: 50px;
   flex-direction: row;
-  right: 3w;
-  top: 3w;
+  right: 3%;
+  top: 3%;
 }
