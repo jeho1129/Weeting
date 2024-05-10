@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   back:
+    container_name: back 
     networks:
       - weeting-network
     image: ${DOCKERHUB_REGISTRY}
@@ -20,7 +21,7 @@ services:
   front:
     networks:
       - weeting-network
-    container_name: superjaehun_front 
+    container_name: front 
     build:
       context: ../FrontEnd
       dockerfile: Dockerfile
