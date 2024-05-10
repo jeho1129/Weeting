@@ -28,6 +28,11 @@
 
 .RoomName {
   margin-right: 1.2vw;
+  width: 10vw;
+  height: 4vh;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .RoomUsers {

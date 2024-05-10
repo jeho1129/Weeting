@@ -65,7 +65,27 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
           중복 확인
         </button>
       </div>
-      {idPossible === 0 && idChecked === 1 ? (
+      {idChecked === 0 && idPossible === 0 && (
+        <div className={styles.BeforeContainer}>
+          <div className={styles.Label}></div>
+        </div>
+      )}
+
+      {idChecked === 1 && idPossible === 0 && (
+        <div className={styles.Container}>
+          <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디 입니다</div>
+        </div>
+      )}
+
+      {idChecked === 0 && idPossible === 1 && (
+        <div className={styles.Container}>
+          <div className={styles.Label}></div>
+          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다</div>
+        </div>
+      )}
+
+      {/* {idPossible === 0 && idChecked === 1 ? (
         <div className={styles.Container}>
           <div className={styles.Label}></div>
           <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디 입니다</div>
@@ -74,7 +94,9 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
         <div className={styles.BeforeContainer}>
           <div className={styles.Label}></div>
         </div>
-      )}
+      )} */}
+
+
     </>
   );
 };

@@ -15,7 +15,7 @@ const RoomModalCreateBtn = () => {
   const [roomMode, setRoomMode] = useState<'rank' | 'normal' | null>(null);
   const [selectedMaxCount, setSelectedMaxCount] = useState<number>(4);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
-  const [password, setPassword] = useState<number | ''>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
   const customStyles = {
@@ -103,7 +103,7 @@ const RoomModalCreateBtn = () => {
     console.log(isNaN(Number(input)));
     
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
-      setPassword(input === '' ? '' : Number(input));
+      setPassword(input);
     }
   };
 
