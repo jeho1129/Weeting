@@ -28,7 +28,6 @@ const GameWaiting = () => {
   // 더미 데이터로 useState 초기화
   const dummy = useRecoilValue(gameState);
   const [roomInfo, setRoomInfo] = useState<RoomInfo>(dummy);
-  // console.log(roomInfo);
 
   const setGameState = useSetRecoilState(gameState);
   useEffect(() => {
@@ -36,7 +35,7 @@ const GameWaiting = () => {
       roomMode: 'normal',
       roomId: 'd',
       roomName: '테스트 방',
-      roomStatus: 'waiting',
+      roomStatus: 'start',
       roomForbiddentime: null,
       roomEndtime: null,
       roomSubject: null,
@@ -48,17 +47,16 @@ const GameWaiting = () => {
           outfit: 'casual',
           ready: false,
           word: '사과',
-          highest_score: 78.87,
           score: 16.6,
           isAlive: true,
         },
-        { userId: 13, nickname: '허허후후', outfit: 'sporty', ready: true, word: '메롱',highest_score: 78.87, score: 2, isAlive: false },
-        { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕',highest_score: 78.87, score: 3, isAlive: false },
-        { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: false, word: '안녕',highest_score: 78.87, score: 1, isAlive: true },
-        // { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보',highest_score: 78.87, score: 4, isAlive: false },
-        // { userId: 6, nickname: '웅냐', outfit: 'formal', ready: true, word: '메롱',highest_score: 78.87, score: 67, isAlive: true },
-        // { userId: 7, nickname: '헤위이잉', outfit: 'formal', ready: true, word: '안녕',highest_score: 78.87, score: 1, isAlive: true },
-        // { userId: 8, nickname: '인범머스크', outfit: 'formal', ready: true, word: '안녕',highest_score: 78.87, score: 5, isAlive: true },
+        { userId: 13, nickname: '허허후후', outfit: 'sporty', ready: true, word: '메롱', score: 2, isAlive: false },
+        { userId: 3, nickname: '헤엥', outfit: 'formal', ready: true, word: '안녕', score: 3, isAlive: false },
+        { userId: 4, nickname: '웅냥냥', outfit: 'formal', ready: false, word: '안녕', score: 1, isAlive: true },
+        // { userId: 5, nickname: '홀롤로', outfit: 'formal', ready: true, word: '바보', score: 4, isAlive: false },
+        // { userId: 6, nickname: '웅냐', outfit: 'formal', ready: true, word: '메롱', score: 67, isAlive: true },
+        // { userId: 7, nickname: '헤위이잉', outfit: 'formal', ready: true, word: '안녕', score: 1, isAlive: true },
+        // { userId: 8, nickname: '인범머스크', outfit: 'formal', ready: true, word: '안녕', score: 5, isAlive: true },
       ],
     };
     setRoomInfo(dummy2);
@@ -92,7 +90,7 @@ const GameWaiting = () => {
       onConnect: () => {
         console.log('웹소캣재훈이랑 연결완료');
         client.subscribe(`/topic/room.${roomId.id}`, (message) => {
-          console.log(message);
+          // console.log(message);
           const msg: { userId: number; content: string; nickname: string; sendTime: string } = JSON.parse(message.body);
           console.log(message.body, 'sdf');
           setChatMessages((prevMessages) => [
@@ -105,14 +103,12 @@ const GameWaiting = () => {
               // time: new Date().toISOString()
             },
           ]);
-          console.log(msg.sendTime);
-          console.log(new Date(msg.sendTime));
-          
+          // console.log(msg.sendTime);
+          // console.log(new Date(msg.sendTime));
         });
       },
       debug: (str) => {},
     });
-
     client.activate(); // STOMP 클라이언트 활성화
     setStompClient(client); // STOMP 클라이언트 상태 업데이트
 
