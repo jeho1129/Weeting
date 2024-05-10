@@ -315,7 +315,7 @@ export const RoomWaitData: RoomWaitInfo[] = [
   },
   {
     roomMode: 'normal',
-    roomId: '6',
+    roomId: '7',
     roomName: '일곱 번째 방',
     roomStatus: 'end',
     roomMaxCnt: 8,

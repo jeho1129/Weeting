@@ -1,62 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { RoomWaitData } from '@/types/roomWaitData';
-import styles from '@/styles/room/RoomList.module.css';
 import watingAvatar from '@/assets/images/inGameAvatar.png';
+import roomSign from '@/assets/images/roomSign.png';
+import styles from '@/styles/room/RoomList.module.css';
+import { RoomWaitData } from '@/types/roomWaitData';
 import { Lock } from '@phosphor-icons/react';
-import RoomRadioBtn from './RoomRadioBtn';
-import roomSign from '@/assets/images/roomSign.png'
-import roomBird from '@/assets/images/roomBird.png'
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { RoomWaitInfo } from '@/types/room';
 
-const RoomList = ({ roomSelectedMode }) => {
-  const [roomName, setRoomName] = useState('');
+const RoomList = ({ roomSelectedMode, searchValue }) => {
+  const [stompClient, setStompClient] = useState<Client | null>(null);
   const [chatRooms, setChatRooms] = useState([]);
+  const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo>([]);
+  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
 
   const navigate = useNavigate();
 
-  //axios 및 웹소켓 연결되면 풀기
-  //   useEffect(() => {
-  //     findAllRoom();
-  //   }, []);
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
 
-  //   const findAllRoom = async () => {
-  //     try {
-  //       const response = await axios.get('/chat/rooms');
-  //       // HTML을 방지하고 JSON 배열만 허용
-  //       if (Object.prototype.toString.call(response.data) === "[object Array]") {
-  //         setChatRooms(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("채팅방 목록 로드 실패", error);
-  //     }
-  //   };
-  const roomEnterHandler = () => {
-    console.log('hi');
+    ws.onopen = () => {
+      console.log('리스트받아오자아');
+    };
+    // 서버로부터 메시지를 받는 이벤트 리스너 설정
+    ws.onmessage = (event) => {
+      const listedData: RoomWaitInfo[] = JSON.parse(event.data)
+      setServerResponseData(listedData)
+
+      // const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
+      // console.log(score.data);
+
+      // 서버로부터 받은 메시지를 상태에 저장
+      // setServerResponse((prevList) => [
+      //   ...prevList,
+      //   {
+      //     nickname: msg.nickname,
+      //     highest_simialrity: msg.highest_simialrity,
+      //   },
+      // ]);
+    };
+
+    ws.onerror = (error) => {
+      console.error('웹소켓 에러 발생:', error);
+    };
+
+    setWebSocket(ws);
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("serverResponseData :", serverResponseData)
+  }, [serverResponseData])
+
+  const roomEnterHandler = (roomId: string) => {
+    navigate(`/room/${roomId}`);
   };
 
   return (
     // roomSelectedMode에 따라서 다르게 보여주기
     // roomSelectedMode 0 = 전체, roomSelectedMode 1 = 노말, roomSelectedMode 2 = 랭크
     <ul className={styles.ListGroup}>
-    {RoomWaitData.filter((room) => {
-      if (roomSelectedMode === 0)
-        return true; // 모든 방 보기
-      else if (roomSelectedMode === 1)
-        return room.roomMode === 'normal'; // 노말 모드의 방만 보기
-      else if (roomSelectedMode === 2)
-        return room.roomMode === 'rank'; // 랭크 모드의 방만 보기
-      else return false;
-    }).length === 0 ? (
-      <div className={styles.NoRoom}>
-        <img src={roomSign} alt="roomSign" />
-        {/* <img src={roomBird} alt="roomSign" /> */}
-        <div className='FontM32'>
-          방이 없어용~!
-        </div>
-      </div>
-    ) : (
-      RoomWaitData.filter((room) => {
+      {/* 검색어가 없는 경우 */}
+      {searchValue === '' && serverResponseData.filter((room) => {
         if (roomSelectedMode === 0)
           return true; // 모든 방 보기
         else if (roomSelectedMode === 1)
@@ -64,34 +73,94 @@ const RoomList = ({ roomSelectedMode }) => {
         else if (roomSelectedMode === 2)
           return room.roomMode === 'rank'; // 랭크 모드의 방만 보기
         else return false;
-      }).map((room, index) => (
-        <li key={index} className={styles.OneRoom} onClick={roomEnterHandler}>
-          <div className={`${styles.FirstRow}`}>
-            <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
-            <div className={`${styles.RoomUsers} FontM20`}>
-              {room.roomUsers.length}/{room.roomMaxCnt}
+      }).length === 0 ? (
+        <div className={styles.NoRoom}>
+          <img src={roomSign} alt="roomSign" />
+          <div className="FontM32">방이 없어요 . .</div>
+        </div>
+      ) : (
+        searchValue === '' && serverResponseData.filter((room) => {
+          if (roomSelectedMode === 0)
+            return true; // 모든 방 보기
+          else if (roomSelectedMode === 1)
+            return room.roomMode === 'normal'; // 노말 모드의 방만 보기
+          else if (roomSelectedMode === 2)
+            return room.roomMode === 'rank'; // 랭크 모드의 방만 보기
+          else return false;
+        }).map((room, index) => (
+          <li key={index} className={styles.OneRoom} onClick={() => roomEnterHandler(room.roomId)}>
+            <div className={`${styles.FirstRow}`}>
+              <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+              <div className={`${styles.RoomUsers} FontM20`}>
+                {room.roomUsers.length}/{room.roomMaxCnt}
+              </div>
+              {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
             </div>
-            {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
-          </div>
-          <div className={styles.SecondRow}>
-            <div></div>
-            {room.roomMode === 'rank' ? (
-              <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
-            ) : (
-              <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
-            )}
-          </div>
-          <div>
-            <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
-          </div>
-          <Link to={`/rooms/${room.roomId}`}>
-            <h6>
-              {room.roomName} <span className="badge badge-info badge-pill">{room.roomUsers.length}</span>
-            </h6>
-          </Link>
-        </li>
-      ))
-    )}
+            <div className={styles.SecondRow}>
+              <div></div>
+              {room.roomMode === 'rank' ? (
+                <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
+              ) : (
+                <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
+              )}
+            </div>
+            <div>
+              <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
+            </div>
+          </li>
+        ))
+      )}
+
+      {/* 검색어가 있는 경우 */}
+      {searchValue !== '' && serverResponseData.filter((room) => {
+        if (roomSelectedMode === 0){
+          console.log('roomName :', room.roomName)
+          return (room.roomName.includes(searchValue)); // 모든 방 보기
+        }
+        else if (roomSelectedMode === 1)
+          return (room.roomMode === 'normal' && room.roomName.includes(searchValue)); // 노말 모드의 방만 보기
+        else if (roomSelectedMode === 2)
+          return (room.roomMode === 'rank' && room.roomName.includes(searchValue)); // 랭크 모드의 방만 보기
+        else return false;
+      }).length === 0 ? (
+        <div className={styles.NoRoom}>
+          <img src={roomSign} alt="roomSign" />
+          <div className="FontM32">방이 없어용~!</div>
+        </div>
+      ) : (
+        searchValue !== '' && serverResponseData.filter((room) => {
+          if (roomSelectedMode === 0)
+            return (room.roomName.includes(searchValue)); // 모든 방 보기
+          else if (roomSelectedMode === 1)
+            return (room.roomMode === 'normal' && room.roomName.includes(searchValue)); // 노말 모드의 방만 보기
+          else if (roomSelectedMode === 2)
+            return (room.roomMode === 'rank' && room.roomName.includes(searchValue)); // 랭크 모드의 방만 보기
+          else return false;
+        }).map((room, index) => (
+          <li key={index} className={styles.OneRoom} onClick={() => roomEnterHandler(room.roomId)}>
+            <div className={`${styles.FirstRow}`}>
+              <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+              <div className={`${styles.RoomUsers} FontM20`}>
+                {room.roomUsers.length}/{room.roomMaxCnt}
+              </div>
+              {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
+            </div>
+            <div className={styles.SecondRow}>
+              <div></div>
+              {room.roomMode === 'rank' ? (
+                <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
+              ) : (
+                <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
+              )}
+            </div>
+            <div>
+              <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
+            </div>
+          </li>
+        ))
+      )}
+
+      
     </ul>
   );
 };

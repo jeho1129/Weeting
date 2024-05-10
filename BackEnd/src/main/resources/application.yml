@@ -20,9 +20,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 로컬
-#    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-#    username: ssafy
-#    password: ssafy
+    #    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #    username: ssafy
+    #    password: ssafy
     # 배포
     url: jdbc:mysql://k10c103.p.ssafy.io:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     username: root
@@ -46,19 +46,19 @@ spring:
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
-  #rabbitmq
+
   rabbitmq:
 #    host: k10C103.p.ssafy.io
     host: localhost
     port: 5672
-    username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
-    password: guest  # RabbitMQ 비밀번호, 기본값은 guest
-    virtual-host: /  # RabbitMQ 가상 호스트, 기본값은 /
+    username: guest # RabbitMQ 사용자 이름, 기본값은 guest
+    password: guest # RabbitMQ 비밀번호, 기본값은 guest
+    virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
 
 # jwt
 jwt:
   access: WEETINGACCESSKEYLONGENOUGHATLEAST256BITSSCRETKEYJOONSUNANDHAJUNSDANGEROUSCHATTING
-  accessTime: 86400000  # 60?
+  accessTime: 86400000 # 60?
 
 # log
 logging:

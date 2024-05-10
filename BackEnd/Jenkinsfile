@@ -17,43 +17,59 @@ pipeline {
                     script {
                         sh "ls -al"
                         sh "chmod +x ./gradlew"
+                        // docker-compose가 설치되어 있는지 확인하고, 없으면 설치
+                        sh '''
+                        if ! command -v docker-compose &> /dev/null
+                        then
+                            echo "docker-compose not found, installing..."
+                            curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                            chmod +x /usr/local/bin/docker-compose
+                        else
+                            echo "docker-compose is already installed."
+                        fi
+                        '''
                     }
                 }
             }
         }
-        stage('Stop and Remove Container') {
+        stage('Create .env file for Frontend') {
+            steps {
+                dir("${env.WORKSPACE}/FrontEnd") {
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
+                }
+            }
+        }
+        stage('Stop and Remove Existing Containers') {
             steps {
                 script {
-                    sh "docker stop back || true"
-                    sh "docker rm back || true"
+                    sh "docker-compose -f ${env.WORKSPACE}/BackEnd/docker-compose.yml down || true"  // 실행 중인 컨테이너 중지 및 제거
                 }
             }
         }
         stage('Remove Old Images') {
             steps {
                 script {
-                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
-                    sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
             }
         }
-        stage("Build") {
+        stage("Build with Docker Compose") {
             steps {
                 script {
-                    sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
+                    dir("${env.WORKSPACE}/BackEnd") {
+                        sh "docker-compose -f docker-compose.yml build"
+                    }
                 }
             }
         }
-        stage("Login") {
+        stage("Login to Docker Hub") {
             steps {
                 script {
                     sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
                 }
             }
         }
-        stage("Tag and Push") {
+        stage("Push to Docker Hub") {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
@@ -62,42 +78,22 @@ pipeline {
                 }
             }
         }
-        // stage('Prune old images') {
-        //     steps {
-        //         script {
-        //             // 사용하지 않는 모든 도커 리소스 정리
-        //             sh "docker image prune -af"
-        //         }
-        //     }
-        // }
-        stage('Pull') {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
-                        sh "docker pull ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
-        stage('Up') {
-            steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        try {
-                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
-                        } catch(Exception e) {
-                            sh "docker restart back || true"
+                        dir("${env.WORKSPACE}/BackEnd") {
+                            sh "docker-compose -f docker-compose.yml up -d"
                         }
                     }
                 }
             }
         }
     }
-    
+
     post {
         success {
-        	script {
+            script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'good', 
@@ -108,7 +104,7 @@ pipeline {
             }
         }
         failure {
-        	script {
+            script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'danger', 
@@ -119,7 +115,118 @@ pipeline {
             }
         }
     }
-
 }
 
-// CICD test2
+
+// pipeline {
+//     agent any
+//     environment {
+//         REPO = "s10-final/S10P31C103"
+//         DOCKERHUB_REGISTRY = "superjaehun/back"
+//         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
+//     }
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 checkout scm
+//             }
+//         }
+//         stage('Setup Environment') {
+//             steps {
+//                 dir("${env.WORKSPACE}/BackEnd") {
+//                     script {
+//                         sh "ls -al"
+//                         sh "chmod +x ./gradlew"
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Stop and Remove Existing Containers') {
+//             steps {
+//                 script {
+//                     sh "docker-compose -f docker-compose.yml down || true"  // 실행 중인 컨테이너 중지 및 제거
+//                 }
+//             }
+//         }
+//         stage('Remove Old Images') {
+//             steps {
+//                 script {
+//                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
+//                 }
+//             }
+//         }
+//         stage("Build with Docker Compose") {
+//             steps {
+//                 script {
+//                     sh "/usr/local/bin/docker-compose -f docker-compose.yml build"
+
+//                 }
+//             }
+//         }
+//         stage("Login to Docker Hub") {
+//             steps {
+//                 script {
+//                     sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+//                 }
+//             }
+//         }
+//         stage("Tag and Push") {
+//             steps {
+//                 script {
+//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+//                         sh "docker-compose -f docker-compose.yml push"
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Deploy with Docker Compose') {
+//             steps {
+//                 script {
+//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+//                         sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
+//                         sh "docker pull ${DOCKERHUB_REGISTRY}"
+//                     }
+//                 }
+//             }
+//         }
+//         stage('Up') {
+//             steps {
+//                 script {
+//                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+//                         dir("BackEnd") {
+//                             try {
+//                                 sh "docker-compose up -d"
+//                             } catch(Exception e) {
+//                                 sh "docker-compose up -d --force-recreate"
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     post {
+//         success {
+//             script {
+//                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+//                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+//                 mattermostSend (color: 'good', 
+//                 message: "BE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+//                 endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+//                 channel: 'C103-Jenkins'
+//                 )
+//             }
+//         }
+//         failure {
+//             script {
+//                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+//                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+//                 mattermostSend (color: 'danger', 
+//                 message: "BE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+//                 endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+//                 channel: 'C103-Jenkins'
+//                 )
+//             }
+//         }
+//     }
+// }
