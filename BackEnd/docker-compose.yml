@@ -33,6 +33,7 @@ services:
 
   redis:
     container_name: redis
+    hostname: redis
     volumes:
       - ~/redis/data:/data
     user: root
@@ -58,6 +59,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
+    hostname: rabbitmq
     image: rabbitmq:management  # RabbitMQ 관리 플러그인 포함 이미지 사용
     networks:
       - weeting-network
