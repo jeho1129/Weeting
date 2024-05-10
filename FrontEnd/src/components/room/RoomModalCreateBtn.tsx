@@ -104,6 +104,8 @@ const RoomModalCreateBtn = () => {
     
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
       setPassword(input);
+      console.log("input :", input);
+      
     }
   };
 
