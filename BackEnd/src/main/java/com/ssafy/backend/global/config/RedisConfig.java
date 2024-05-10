@@ -17,10 +17,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories  // 스프링 데이터 Redis 저장소를 활성화하여, Redis를 사용한 데이터 접근 레이어를 자동으로 구성할 수 있게 해준다.
 public class RedisConfig {
 
-    @Value("${spring.data.redis.host}")
+    @Value("${spring.redis.host}")
     private String host;
 
-    @Value("${spring.data.redis.port}")
+    @Value("${spring.redis.port}")
     private int port;
 
     /**
