@@ -12,6 +12,7 @@ services:
       SPRING_REDIS_PASSWORD: c103103
 
   front:
+    container_name: superjaehun/front 
     build:
       context: ../FrontEnd
       dockerfile: Dockerfile

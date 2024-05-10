@@ -32,6 +32,13 @@ pipeline {
                 }
             }
         }
+        stage('Create .env file for Frontend') {
+            steps {
+                dir("${env.WORKSPACE}/FrontEnd") {
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
+                }
+            }
+        }
         stage('Stop and Remove Existing Containers') {
             steps {
                 script {
