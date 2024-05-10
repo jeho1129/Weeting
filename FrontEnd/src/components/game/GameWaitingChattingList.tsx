@@ -24,7 +24,7 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
     <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}> {/* ref 할당 */}
       {chatMessages.map((message, index) => (
         <div key={index}>
-          <strong>{message.nickname}: </strong>{message.content}
+          <strong style={{color:'blue'}}>{message.nickname}: </strong>{message.content}
         </div>
       ))}
     </div>

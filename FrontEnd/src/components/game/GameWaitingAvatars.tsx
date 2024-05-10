@@ -11,28 +11,28 @@ import { useRecoilValue } from 'recoil';
 import { gameState } from '@/recoil/atom';
 import { useEffect, useState } from 'react';
 
-interface Position {
-  top: string;
-  left: string;
-}
 const GameMessage = ({
   index, // 여기에 index를 추가합니다.
   top,
   left,
   latestMessage,
+  sendTime,
 }: {
   index: number; // index 타입을 number로 선언합니다.
   top: string;
   left: string;
   latestMessage: string;
+  sendTime: string;
 }) => {
   const [isOut, setIsOut] = useState(false);
+
   useEffect(() => {
     setIsOut(false);
     setTimeout(() => {
       setIsOut(true);
     }, 100);
-  }, [latestMessage]);
+  }, [sendTime]);
+
   const messageClassName = isOut
     ? index % 2 === 0
       ? styles.MsgOut
@@ -120,6 +120,7 @@ const GameWaitingAvatars = ({
         const position = calculatePosition(index, roomMaxCnt);
         const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
+
         return (
           <div key={member.userId}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -130,18 +131,19 @@ const GameWaitingAvatars = ({
                 className={styles.inGameAvatar}
                 style={{ top: position.top, left: position.left }}
               />
-              <GameMessage
-                index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
-                top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
-                left={position.left}
-                latestMessage={latestMessage}
-              />
-              {/* <GameMessage
-                top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
-                left={position.left}
-                latestMessage={latestMessage}
-              /> */}
+              {latestMessage === undefined ? (
+                <></>
+              ) : (
+                <GameMessage
+                  index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
+                  top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
+                  left={position.left}
+                  latestMessage={latestMessage}
+                  sendTime={new Date().toISOString()}
+                />
+              )}
             </div>
+
             {roomStatus === 'start' && (
               <>
                 <div>

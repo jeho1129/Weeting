@@ -20,39 +20,35 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
 
   //배포서버에서 돌리기
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws');
-    ws.onopen = () => {
-      console.log('지호지호웹소캣가즈아');
-    };
-    // 서버로부터 메시지를 받는 이벤트 리스너 설정
-    ws.onmessage = (score) => {
-      console.log(score);
+    if (gameInfo.roomStatus === 'start') {
+      const ws = new WebSocket('ws://localhost:8000/ws');
+      ws.onopen = () => {
+        console.log('지호지호웹소캣가즈아');
+      };
+      ws.onmessage = (score) => {
+        const msg: { nickname: string; highest_similarity: number } = JSON.parse(score.data);
+        console.log(score.data);
+        setServerResponse((prevScore) => [
+          ...prevScore,
+          {
+            nickname: msg.nickname,
+            highest_similarity: msg.highest_similarity,
+          },
+        ]);
+      };
+      ws.onerror = (error) => {
+        console.error('웹소켓 에러 발생:', error);
+      };
 
-      const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
-      console.log(score.data);
+      setWebSocket(ws);
 
-      // 서버로부터 받은 메시지를 상태에 저장
-      setServerResponse((prevScore) => [
-        ...prevScore,
-        {
-          nickname: msg.nickname,
-          highest_simialrity: msg.highest_simialrity,
-        },
-      ]);
-    };
-
-    ws.onerror = (error) => {
-      console.error('웹소켓 에러 발생:', error);
-    };
-
-    setWebSocket(ws);
-
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
-  }, []);
+      return () => {
+        if (ws) {
+          ws.close();
+        }
+      };
+    }
+  }, [gameInfo.roomStatus]);
 
   const onChatHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
@@ -75,7 +71,6 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
             ? {
                 userId: ingameUserInfo.userId,
                 nickname: ingameUserInfo.nickname,
-                outfit: ingameUserInfo.outfit,
                 ready: ingameUserInfo.ready,
                 word: ingameUserInfo.word,
                 score: ingameUserInfo.score,
@@ -84,11 +79,34 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
             : user,
         ),
       });
-    }
+    } else if (gameInfo.roomStatus === 'start') {
+      // 최근 서버 응답에서 사용자의 최고 유사도 점수를 찾음
+      console.log(serverResponse);
+      const latestScore = serverResponse.find((res) => res.nickname === userInfo.nickname)?.highest_similarity;
+      console.log(latestScore);
 
-    if (message.trim() && webSocket && webSocket.readyState === WebSocket.OPEN) {
+      if (latestScore && latestScore > ingameUserInfo.score) {
+        // 사용자 점수를 최신값으로 업데이트
+        setGameInfo((prevGameInfo) => ({
+          ...prevGameInfo,
+          roomUsers: prevGameInfo.roomUsers.map((user) =>
+            user.userId === userInfo.userId
+              ? {
+                  ...user,
+                  score: latestScore, // 최고 유사도 점수로 업데이트
+                }
+              : user,
+          ),
+        }));
+      }
+    }
+    console.log(gameInfo);
+
+    if (message.trim()) {
       // WebSocket을 통해 서버로 메시지 전송
-      webSocket.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
+      if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+        webSocket.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
+      }
       onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
       setMessage('');
     }

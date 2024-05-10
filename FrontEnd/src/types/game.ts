@@ -14,5 +14,5 @@ export interface RoomInfo {
 
 export interface MessageScore {
   nickname:string;
-  highest_simialrity:number;
+  highest_similarity:number;
 }
