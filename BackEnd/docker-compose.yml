@@ -1,6 +1,8 @@
 version: '3.8'
 services:
   back:
+    networks:
+      - weeting-network
     image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
@@ -16,6 +18,8 @@ services:
       SPRING_REDIS_PASSWORD: c103103
 
   front:
+    networks:
+      - weeting-network
     container_name: superjaehun_front 
     build:
       context: ../FrontEnd
@@ -26,12 +30,20 @@ services:
       - back
 
   redis:
-    image: redis
+    container_name: redis
+    volumes:
+      - ~/redis/data:/data
+    user: root
+    networks:
+      - weeting-network
+    image: redis:alpine
     ports:
       - "6379:6379"
     command: redis-server --requirepass c103103
 
   mysql:
+    networks:
+      - weeting-network
     image: mysql:latest
     environment:
       MYSQL_DATABASE: weeting
