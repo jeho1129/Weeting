@@ -38,19 +38,19 @@ spring:
   data:
     # Redis
     redis:
-      host: k10c103.p.ssafy.io
-#      host: localhost
+#      host: k10c103.p.ssafy.io
+      host: localhost
 #      host: redis
       port: 6379
-      password: c103103
+#      password: c103103
     # mongoDB
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
   #rabbitmq
   rabbitmq:
-    host: rabbitmq
-#    host: localhost
+#    host: rabbitmq
+    host: localhost
     port: 5672
     username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest  # RabbitMQ 비밀번호, 기본값은 guest
