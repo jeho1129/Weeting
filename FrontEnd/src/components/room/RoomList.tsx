@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const RoomList = ({ roomSelectedMode, searchValue }) => {
-  const [stompClient, setStompClient] = useState<Client | null>(null);
-  const [chatRooms, setChatRooms] = useState([]);
   const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo>([]);
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
 
@@ -25,18 +23,6 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
     ws.onmessage = (event) => {
       const listedData: RoomWaitInfo[] = JSON.parse(event.data);
       setServerResponseData(listedData);
-
-      // const msg: { nickname: string; highest_simialrity: number } = JSON.parse(score.data);
-      // console.log(score.data);
-
-      // 서버로부터 받은 메시지를 상태에 저장
-      // setServerResponse((prevList) => [
-      //   ...prevList,
-      //   {
-      //     nickname: msg.nickname,
-      //     highest_simialrity: msg.highest_simialrity,
-      //   },
-      // ]);
     };
 
     ws.onerror = (error) => {
@@ -56,26 +42,38 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
     console.log('serverResponseData :', serverResponseData);
   }, [serverResponseData]);
 
-  const roomEnterHandler = async (roomId: string, roomPassword: string) => {
+  const roomEnterHandler = async (
+    roomId: string,
+    roomPassword: string,
+    roomUsersLength: number,
+    roomMaxCnt: number,
+  ) => {
+    if (roomUsersLength >= roomMaxCnt) {
+      Swal.fire({
+        title: '방이 가득 찼습니다',
+        icon: 'error',
+      });
+      return;
+    }
     if (roomPassword === null) {
       navigate(`/room/${roomId}`);
     } else {
       const { value: password } = await Swal.fire({
-        title: "방 비밀번호를 입력해주세요",
-        input: "password",
-        inputPlaceholder: "숫자 4자리",
+        title: '방 비밀번호를 입력해주세요',
+        input: 'password',
+        inputPlaceholder: '숫자 4자리',
         inputAttributes: {
-          maxlength: "4",
-          autocapitalize: "off",
-          autocorrect: "off"
-        }
+          maxlength: '4',
+          autocapitalize: 'off',
+          autocorrect: 'off',
+        },
       });
       if (password === roomPassword) {
         navigate(`/room/${roomId}`);
       } else {
         Swal.fire({
-          title: "비밀번호가 일치하지 않습니다",
-          icon: "error"
+          title: '비밀번호가 일치하지 않습니다',
+          icon: 'error',
         });
       }
     }
@@ -88,6 +86,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       {/* 검색어가 없는 경우 */}
       {searchValue === '' &&
       serverResponseData.filter((room) => {
+        console.log('roommm :', room);
         if (roomSelectedMode === 0)
           return true; // 모든 방 보기
         else if (roomSelectedMode === 1)
@@ -113,7 +112,11 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
             else return false;
           })
           .map((room, index) => (
-            <li key={index} className={styles.OneRoom} onClick={() => roomEnterHandler(room.roomId, room.roomPassword)}>
+            <li
+              key={index}
+              className={styles.OneRoom}
+              onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)}
+            >
               <div className={`${styles.FirstRow}`}>
                 <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
                 <div className={`${styles.RoomUsers} FontM20`}>
