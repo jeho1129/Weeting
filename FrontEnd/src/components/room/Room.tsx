@@ -8,6 +8,12 @@ import RoomSearch from './RoomSearch';
 
 const Room = () => {
   const [roomSelectedMode, setRoomSelectedMode] = useState<number>(0);
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  // 검색어 변경 핸들러
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
 
   const onChangeRoomMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRoomSelectedMode((prevMode) => Number(e.target.value));
@@ -31,11 +37,11 @@ const Room = () => {
               <RoomModes roomSelectedMode={roomSelectedMode} onChangeRoomMode={onChangeRoomMode} />
             </div>
             <div>
-              <RoomSearch />
+              <RoomSearch searchValue={searchValue} onSearchChange={onSearchChange} />
             </div>
           </div>
           <div>
-            <RoomList roomSelectedMode={roomSelectedMode} />
+            <RoomList roomSelectedMode={roomSelectedMode} searchValue={searchValue} />
           </div>
         </div>
       </div>

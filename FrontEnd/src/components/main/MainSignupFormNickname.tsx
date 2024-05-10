@@ -23,6 +23,13 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
           nicknameCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
           setNicknameChecked(1)
         } else {
+          if (nickname === '') {
+            Swal.fire({
+              title: '닉네임을 입력해주세요',
+              icon: 'error',
+            });
+            return;
+          }
           Swal.fire({
             title: "사용할 수 있는 닉네임입니다",
             icon: "success"
@@ -56,16 +63,25 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
         />
         <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
       </div>
-      {(nicknamePossible === 0 && nicknameChecked === 1) ? (
-          <div className={styles.Container}>
-            <div className={styles.Label}></div>
-            <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 닉네임 입니다</div>
-          </div>
-        ) : (
-          <div className={styles.BeforeContainer}>
-            <div className={styles.Label}></div>
-          </div>
-        )}
+      {nicknameChecked === 0 && nicknamePossible === 0 && (
+        <div className={styles.BeforeContainer}>
+          <div className={styles.Label}></div>
+        </div>
+      )}
+
+      {nicknameChecked === 1 && nicknamePossible === 0 && (
+        <div className={styles.Container}>
+          <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디 입니다</div>
+        </div>
+      )}
+
+      {nicknameChecked === 0 && nicknamePossible === 1 && (
+        <div className={styles.Container}>
+          <div className={styles.Label}></div>
+          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다</div>
+        </div>
+      )}
     </>
   );
 };

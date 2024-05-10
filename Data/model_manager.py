@@ -1,12 +1,15 @@
 from concurrent.futures import ThreadPoolExecutor
 from fastapi import HTTPException, status
 from konlpy.tag import Okt
-import asyncio, fasttext, re, os
+import fasttext, re, os
 
 fasttext.FastText.eprint = lambda x: None
 
 model = None
-MODEL_PATH = '/app/model/model.bin'
+# 배포 서버 모델 경로
+# MODEL_PATH = '/app/model/model.bin'
+# 로컬 서버 모델 경로
+MODEL_PATH = 'KoreanProcessing/model.bin'
 hangul_pattern = re.compile(r'^[\uAC00-\uD7A3]+$')
 okt = Okt()
 
