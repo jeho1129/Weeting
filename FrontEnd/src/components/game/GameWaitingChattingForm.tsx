@@ -74,7 +74,7 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
                 ready: ingameUserInfo.ready,
                 word: ingameUserInfo.word,
                 score: ingameUserInfo.score,
-                isAlive: false,
+                isAlive: '',
               }
             : user,
         ),

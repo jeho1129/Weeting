@@ -26,38 +26,38 @@ const GameWaiting = () => {
   const [scoreUpdates, setScoreUpdates] = useState<ScoreUpdate[]>([]);
 
   // 더미 데이터로 useState 초기화
-  const dummy = useRecoilValue(gameState);
-  const [roomInfo, setRoomInfo] = useState<RoomInfo>(dummy);
+  // const dummy = useRecoilValue(gameState);
+  const dummy2: RoomInfo = {
+    roomMode: 'rank',
+    roomId: 'd',
+    roomName: '테스트 방',
+    roomStatus: 'start',
+    roomForbiddentime: null,
+    roomEndtime: null,
+    roomSubject: null,
+    roomMaxCnt: 8,
+    roomUsers: [
+      {
+        userId: 3,
+        nickname: '하하호호',
+        ready: false,
+        word: '사과',
+        score: 16.6,
+        isAlive: '',
+      },
+      { userId: 10, nickname: '허허후후', ready: true, word: '메롱', score: 2, isAlive: '' },
+      { userId: 9, nickname: '헤엥', ready: true, word: '안녕', score: 3, isAlive: '' },
+      { userId: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: '' },
+      { userId: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: '' },
+      { userId: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: '' },
+      { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
+      { userId: 8, nickname: '인범머스크', ready: true, word: '안녕', score: 5, isAlive: '' },
+    ],
+  };
+  const [roomInfo, setRoomInfo] = useState<RoomInfo>(dummy2);
 
   const setGameState = useSetRecoilState(gameState);
   useEffect(() => {
-    const dummy2: RoomInfo = {
-      roomMode: 'rank',
-      roomId: 'd',
-      roomName: '테스트 방',
-      roomStatus: 'start',
-      roomForbiddentime: null,
-      roomEndtime: null,
-      roomSubject: null,
-      roomMaxCnt: 8,
-      roomUsers: [
-        {
-          userId: 3,
-          nickname: '하하호호',
-          ready: false,
-          word: '사과',
-          score: 16.6,
-          isAlive: true,
-        },
-        { userId: 10, nickname: '허허후후', ready: true, word: '메롱', score: 2, isAlive: false },
-        { userId: 9, nickname: '헤엥', ready: true, word: '안녕', score: 3, isAlive: false },
-        { userId: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: true },
-        // { userId: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: false },
-        // { userId: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: true },
-        // { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: true },
-        // { userId: 8, nickname: '인범머스크', ready: true, word: '안녕', score: 5, isAlive: true },
-      ],
-    };
     setRoomInfo(dummy2);
     // api호출 후 .then 안에서
     setGameState(dummy2);
