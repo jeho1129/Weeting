@@ -16,7 +16,7 @@ services:
       context: ../FrontEnd
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "9003:3000"
     depends_on:
       - back
 
