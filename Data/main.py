@@ -25,7 +25,7 @@ async def receive_message():
 async def lifespan(app: FastAPI):
     try:
         model_manager.load_model()
-        asyncio.create_task(receive_message_from_spring())
+        asyncio.create_task(receive_message())
         yield
     except Exception as e:
         print(f"Error during model loading: {e}")
