@@ -153,7 +153,8 @@ pipeline {
         stage("Build with Docker Compose") {
             steps {
                 script {
-                    sh "docker-compose -f docker-compose.yml build"  // 도커 컴포즈를 통한 이미지 빌드
+                    sh "/usr/local/bin/docker-compose -f docker-compose.yml build"
+
                 }
             }
         }
