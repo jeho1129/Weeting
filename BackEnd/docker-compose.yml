@@ -11,6 +11,15 @@ services:
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: c103103
 
+  front:
+    build:
+      context: ../FrontEnd
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back
+
   redis:
     image: redis
     ports:
