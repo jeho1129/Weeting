@@ -177,12 +177,30 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    sh "docker-compose -f docker-compose.yml up -d"  // 백그라운드로 컴포즈 서비스 시작
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                        sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
+                        sh "docker pull ${DOCKERHUB_REGISTRY}"
+                    }
+                }
+            }
+        }
+        stage('Up') {
+            steps {
+                script {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                        dir("BackEnd") {
+                            try {
+                                sh "docker-compose up -d"
+                            } catch(Exception e) {
+                                sh "docker-compose up -d --force-recreate"
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    
+
     post {
         success {
             script {
