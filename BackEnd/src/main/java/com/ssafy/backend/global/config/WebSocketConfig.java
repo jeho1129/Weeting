@@ -20,7 +20,6 @@ public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBro
     private final RabbitMqProps rabbitMqProps;
     private final WebSocketChatRoomHandler webSocketChatRoomHandler;
 
-
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler((WebSocketHandler) webSocketChatRoomHandler, "/ws/chatroom/list")
