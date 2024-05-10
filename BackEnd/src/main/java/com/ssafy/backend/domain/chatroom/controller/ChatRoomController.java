@@ -36,8 +36,7 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
     public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                                                            @AuthenticationPrincipal User user) throws Exception {
-        Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
+        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, user);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -61,8 +60,7 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
-        Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, userId);
+        ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, user);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -72,8 +70,7 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<String>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                        @AuthenticationPrincipal User user) {
-        Long userId = user.getId();
-        chatRoomService.LeaveChatRoom(chatRoomId, userId);
+        chatRoomService.LeaveChatRoom(chatRoomId, user);
         String result = "나가기 완료 !";
         return ResponseEntity.ok().body(Message.success(result));
     }
