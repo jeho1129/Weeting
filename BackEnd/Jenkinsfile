@@ -83,7 +83,6 @@ pipeline {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         dir("${env.WORKSPACE}/BackEnd") {
-                            sh "docker-compose down -v"  // 추가
                             sh "docker-compose -f docker-compose.yml up -d"
                         }
                     }
