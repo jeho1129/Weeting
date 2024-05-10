@@ -20,46 +20,43 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 로컬
-#    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-#    username: ssafy
-#    password: ssafy
+    #    url: jdbc:mysql://localhost:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #    username: ssafy
+    #    password: ssafy
     # 배포
     url: jdbc:mysql://k10c103.p.ssafy.io:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     username: root
     password: c103103
     # mariaDB
-#    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-#    username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-#    password: sF9lNwfigU
-
-
+  #    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+  #    username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+  #    password: sF9lNwfigU
 
   # NoSQL
   data:
     # Redis
     redis:
       # host: k10c103.p.ssafy.io
-#      host: localhost
+      #      host: localhost
       host: redis
       port: 6379
       password: c103103
-    # mongoDB
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
-  #rabbitmq
+
   rabbitmq:
     host: rabbitmq
-#    host: localhost
+    #    host: localhost
     port: 5672
-    username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
-    password: guest  # RabbitMQ 비밀번호, 기본값은 guest
-    virtual-host: /  # RabbitMQ 가상 호스트, 기본값은 /
+    username: guest # RabbitMQ 사용자 이름, 기본값은 guest
+    password: guest # RabbitMQ 비밀번호, 기본값은 guest
+    virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
 
 # jwt
 jwt:
   access: WEETINGACCESSKEYLONGENOUGHATLEAST256BITSSCRETKEYJOONSUNANDHAJUNSDANGEROUSCHATTING
-  accessTime: 86400000  # 60?
+  accessTime: 86400000 # 60?
 
 # log
 logging:
