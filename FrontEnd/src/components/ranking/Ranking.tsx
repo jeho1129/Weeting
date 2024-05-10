@@ -7,14 +7,13 @@ import HomeButton from '@/components/home/HomeButton';
 import RankingList from './RankingList';
 import rankingTitle from '@/assets/images/rankingTitle.svg';
 
-import { outfitState, userState } from '@/recoil/atom';
+import { userState } from '@/recoil/atom';
 import { RankingUser } from '@/types/user';
 import { rankingListApi } from '@/services/rankApi';
 
 const Ranking = () => {
   const [rankingList, setRankingList] = useState<RankingUser[]>([]);
   const userInfo = useRecoilValue(userState);
-  const outfitInfo = useRecoilValue(outfitState);
 
   useEffect(() => {
     rankingListApi()
@@ -38,8 +37,8 @@ const Ranking = () => {
           <div>
             <Avatar
               {...{
+                userId: userInfo.userId,
                 size: 350,
-                outfit: outfitInfo,
                 location: 'Ranking',
                 options: { nickname: userInfo.nickname, isNest: true },
               }}

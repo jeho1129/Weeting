@@ -1,20 +1,21 @@
 import styles from '@/styles/home/HomePage.module.css';
-import Avatar from './../avatar/Avatar';
+import Avatar from '../avatar/Avatar';
 import HomeButton from './HomeButton';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { userState, outfitState } from '@/recoil/atom';
-import { logoutApi, userInfoLoadApi } from '@/services/userApi';
-import { useNavigate } from 'react-router-dom';
-import { outfitNowApi } from '@/services/customApi';
+import { userInfoLoadApi } from '@/services/userApi';
+import { AvatarProps } from '@/types/avatar';
 const Home = () => {
   // 회원정보 조회 계속 해서 리코일에 반영하기
+  const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
-  const outfitInfo = useRecoilValue(outfitState);
-  const setOutfitInfo = useSetRecoilState(outfitState);
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [avatarFirstProps, setAvatarFirstProps] = useState<AvatarProps>({
+    userId: userInfo.userId,
+    size: 400,
+    location: 'Home',
+    options: { isNest: true },
+  });
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
@@ -26,12 +27,6 @@ const Home = () => {
           ranking: data.dataBody.ranking,
         });
         return data.dataBody.id;
-      })
-      .then((userId) => {
-        outfitNowApi(userId).then((data) => {
-          setOutfitInfo(data);
-          setIsLoading(true);
-        });
       })
       .catch((err) => {
         console.log(err);
@@ -47,21 +42,21 @@ const Home = () => {
         <HomeButton {...{ message: '게임', direction: 'right', location: 'room' }} />
       </div>
       <div className={styles.AvatarContainer}>
-        {isLoading ? (
-          <Avatar
-            {...{
-              size: 400,
-              outfit: outfitInfo,
-              location: 'Home',
-              options: { isNest: true },
-            }}
-          />
-        ) : (
-          <></>
-        )}
+        <Avatar {...avatarFirstProps} />
       </div>
-      {/* <div className={styles.FrameContainer}>
-        <HomeFrame />
+      {/* <div style={{ position: 'absolute' }}>
+        <button
+          onClick={() => {
+            setAvatarFirstProps({
+              userId: userInfo.userId,
+              size: 400,
+              location: 'Home',
+              options: { isNest: true, isAlive: false },
+            });
+          }}
+        >
+          빨간버튼
+        </button>
       </div> */}
     </>
   );
