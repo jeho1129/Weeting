@@ -28,7 +28,8 @@ const GameWaitingLeftSide = ({
         setBlink(false);
       }, 5000); // 5초 후에 반짝이는 효과를 종료
     }
-  }, [roomInfo.roomStatus]);
+  }, [roomInfo.roomStatus]);  
+
   return (
     <>
       <div className={styles.Align}>
