@@ -18,7 +18,8 @@ public class ChatDto {
 
     private String content;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년MM월dd일 HH시mm분ss초")
+    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MMdd HH시mm분ss초")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime sendTime;
 
 }
