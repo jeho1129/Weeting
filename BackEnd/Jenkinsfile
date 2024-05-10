@@ -84,17 +84,19 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        try {
-                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
-                        } catch(Exception e) {
-                            sh "docker restart back || true"
+                        dir("BackEnd") {
+                            try {
+                                sh "docker-compose up -d"
+                            } catch(Exception e) {
+                                sh "docker-compose up -d --force-recreate"
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
+
     post {
         success {
             script {
