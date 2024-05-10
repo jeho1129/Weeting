@@ -30,7 +30,7 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --requirepass c103103
-    
+
   mysql:
     image: mysql:latest
     environment:
@@ -38,8 +38,8 @@ services:
       MYSQL_ROOT_PASSWORD: c103103
     ports:
       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
+    # volumes:
+    #   - mysql_data:/var/lib/mysql
 
 volumes:
   mysql_data:
