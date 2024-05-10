@@ -82,6 +82,11 @@
   color: red;
 }
 
+.SignupSuccessText {
+  margin-left: 50px;
+  color: green;
+}
+
 .SignupBtn {
   width: 130px;
   height: 40px;
