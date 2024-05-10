@@ -18,18 +18,18 @@ RUN pip3 install --no-cache-dir -r requirements.txt && \
     pip3 install git+https://github.com/allinux/PyKoSpacing.git
 
 # Khaiii 설치
-# RUN git clone https://github.com/kakao/khaiii.git
-# WORKDIR /app/khaiii
-# RUN mkdir build
-# WORKDIR /app/khaiii/build
-# RUN cmake ..
-# RUN make all
-# RUN make resource
-# RUN make install
-# RUN make package_python
-# RUN pip3 install .
+RUN git clone https://github.com/kakao/khaiii.git
+WORKDIR /app/khaiii
+RUN mkdir build
+WORKDIR /app/khaiii/build
+RUN cmake ..
+RUN make all
+RUN make resource
+RUN make install
+RUN make package_python
+RUN pip3 install .
 
-# WORKDIR /app
+WORKDIR /app
 
 COPY . .
 
