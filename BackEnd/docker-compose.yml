@@ -10,13 +10,6 @@ services:
     depends_on:
       - redis
       - mysql
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: k10c103.p.ssafy.io
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: c103103
 
   front:
     networks:
@@ -40,7 +33,6 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
-    command: redis-server --requirepass c103103
 
   mysql:
     networks:
