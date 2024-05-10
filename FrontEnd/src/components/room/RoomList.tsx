@@ -115,12 +115,12 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       {searchValue !== '' && serverResponseData.filter((room) => {
         if (roomSelectedMode === 0){
           console.log('roomName :', room.roomName)
-          return (searchValue === room.roomName); // 모든 방 보기
+          return (room.roomName.includes(searchValue)); // 모든 방 보기
         }
         else if (roomSelectedMode === 1)
-          return (room.roomMode === 'normal' && searchValue === room.roomName); // 노말 모드의 방만 보기
+          return (room.roomMode === 'normal' && room.roomName.includes(searchValue)); // 노말 모드의 방만 보기
         else if (roomSelectedMode === 2)
-          return (room.roomMode === 'rank' && searchValue === room.roomName); // 랭크 모드의 방만 보기
+          return (room.roomMode === 'rank' && room.roomName.includes(searchValue)); // 랭크 모드의 방만 보기
         else return false;
       }).length === 0 ? (
         <div className={styles.NoRoom}>
@@ -130,11 +130,11 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       ) : (
         searchValue !== '' && serverResponseData.filter((room) => {
           if (roomSelectedMode === 0)
-            return (searchValue === room.roomName); // 모든 방 보기
+            return (room.roomName.includes(searchValue)); // 모든 방 보기
           else if (roomSelectedMode === 1)
-            return (room.roomMode === 'normal' && searchValue === room.roomName); // 노말 모드의 방만 보기
+            return (room.roomMode === 'normal' && room.roomName.includes(searchValue)); // 노말 모드의 방만 보기
           else if (roomSelectedMode === 2)
-            return (room.roomMode === 'rank' && searchValue === room.roomName); // 랭크 모드의 방만 보기
+            return (room.roomMode === 'rank' && room.roomName.includes(searchValue)); // 랭크 모드의 방만 보기
           else return false;
         }).map((room, index) => (
           <li key={index} className={styles.OneRoom} onClick={() => roomEnterHandler(room.roomId)}>
