@@ -68,7 +68,7 @@ services:
       - "15672:15672"    # 관리 대시보드 포트
       - "61613:61613"    # STOMP 플러그인 포트
     environment:
-      - RABBITMQ_STOMP_ENABLED=true  # STOMP 플러그인 활성화
+      - RABBITMQ_PLUGINS=rabbitmq_stomp,rabbitmq_web_stomp  # STOMP 플러그인 활성화
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
