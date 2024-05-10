@@ -95,7 +95,7 @@ const GameWaiting = () => {
   useEffect(() => {
     const client = new Client({
       // brokerURL: `ws://localhost:8080/ws`,
-      brokerURL: `wss://k10c103.p.ssafy.io:9002/ws`,
+      brokerURL: `ws://k10c103.p.ssafy.io:9002/ws`,
       reconnectDelay: 5000, // 연결 끊겼을 때, 재연결시도까지 지연시간(ms)
       connectHeaders: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
