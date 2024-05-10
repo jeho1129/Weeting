@@ -34,13 +34,13 @@ spring:
 
   # NoSQL
     # Redis
-  redis:
-    # host: k10c103.p.ssafy.io
-    #      host: localhost
-    host: redis
-    port: 6379
-    password: c103103
   data:
+    redis:
+      # host: k10c103.p.ssafy.io
+      #      host: localhost
+      host: redis
+      port: 6379
+      password: c103103
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
