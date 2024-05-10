@@ -1,6 +1,7 @@
 import avatar from '@/assets/images/inGameAvatar.png';
 import avatardead from '@/assets/images/inGameDead.png';
 import avatarshock from '@/assets/images/inGameElectricShock.png';
+import Avatar from '@/components/avatar/Avatar';
 
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
@@ -11,18 +12,36 @@ import { useRecoilValue } from 'recoil';
 import { gameState } from '@/recoil/atom';
 import { useEffect, useState } from 'react';
 
-interface Position {
+const GameMessage = ({
+  index, // 여기에 index를 추가합니다.
+  top,
+  left,
+  latestMessage,
+  sendTime,
+}: {
+  index: number; // index 타입을 number로 선언합니다.
   top: string;
   left: string;
-}
-const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; latestMessage: string }) => {
+  latestMessage: string;
+  sendTime: string;
+}) => {
   const [isOut, setIsOut] = useState(false);
+
   useEffect(() => {
     setIsOut(false);
     setTimeout(() => {
       setIsOut(true);
     }, 100);
-  }, [latestMessage]);
+  }, [sendTime]);
+
+  const messageClassName = isOut
+    ? index % 2 === 0
+      ? styles.MsgOut
+      : styles.MsgOutUnder
+    : index % 2 === 0
+      ? styles.MsgIn
+      : styles.MsgInUnder;
+
   return (
     <>
       <div
@@ -41,10 +60,7 @@ const GameMessage = ({ top, left, latestMessage }: { top: string; left: string; 
             width: `14ch`,
           }}
         >
-          <div
-            className={isOut ? styles.messageFadeOut : styles.messageIn}
-            style={{ maxWidth: `320px` }}
-          >
+          <div className={messageClassName} style={{ maxWidth: `320px` }}>
             {latestMessage}
           </div>
         </div>
@@ -105,29 +121,53 @@ const GameWaitingAvatars = ({
         const position = calculatePosition(index, roomMaxCnt);
         const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
+
         return (
           <div key={member.userId}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <img
+              {/* 아바타 */}
+              <div
                 key={member.userId}
-                src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
-                alt="avatar"
-                className={styles.inGameAvatar}
-                style={{ top: position.top, left: position.left }}
-              />
-              <GameMessage
-                top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
-                left={position.left}
-                latestMessage={latestMessage}
-              />
+                style={{
+                  position: 'absolute',
+                  top: `calc(${position.top} - 14%)`,
+                  left: `calc(${position.left} - 5.5%)`,
+                }}
+              >
+                <Avatar
+                  {...{
+                    userId: member.userId,
+                    size: 0.7 * 300,
+                    location: 'Ingame',
+                    options: {
+                      nickname: member.nickname,
+                      isAlive: member.isAlive == '' ? true : false,
+                      isNest: index === 0 ? true : false,
+                    },
+                  }}
+                />
+              </div>
+
+              {latestMessage === undefined ? (
+                <></>
+              ) : (
+                <GameMessage
+                  index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
+                  top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
+                  left={position.left}
+                  latestMessage={latestMessage}
+                  sendTime={new Date().toISOString()}
+                />
+              )}
             </div>
+
             {roomStatus === 'start' && (
               <>
                 <div>
                   <div
                     className={styles.inGameAvatar}
                     style={{
-                      top: index % 2 === 0 ? `calc(${position.top} - 12.9%)` : `calc(${position.top} + 25%)`,
+                      top: index % 2 === 0 ? `calc(${position.top} - 15%)` : `calc(${position.top} + 25%)`,
                       left: position.left,
                       position: 'absolute',
                     }}

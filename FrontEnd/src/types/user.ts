@@ -26,11 +26,10 @@ export interface RankingUser {
 export interface IngameUser {
   userId: number;
   nickname: string;
-  outfit: string;
   ready: boolean;
   word: string | null;
   score: number;
-  isAlive: boolean;
+  isAlive: string;
 }
 
 export interface MainSignupFormIdProps {
