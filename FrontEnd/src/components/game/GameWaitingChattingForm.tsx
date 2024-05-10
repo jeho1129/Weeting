@@ -21,7 +21,8 @@ const GameChattingForm = ({ onSendMessage }: GameChattingFormProps) => {
   //배포서버에서 돌리기
   useEffect(() => {
     if (gameInfo.roomStatus === 'start') {
-      const ws = new WebSocket('ws://localhost:8000/ws');
+      // const ws = new WebSocket('ws://localhost:8000/ws');
+      const ws = new WebSocket('ws://54.180.158.223:9002/ws');
       ws.onopen = () => {
         console.log('지호지호웹소캣가즈아');
       };
