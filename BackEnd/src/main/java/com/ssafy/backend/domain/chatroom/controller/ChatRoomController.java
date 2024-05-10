@@ -33,9 +33,9 @@ public class ChatRoomController {
 
     // 채팅방 생성
     @PostMapping("/create")
-//    @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
+    @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
     public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
-                                                           @AuthenticationPrincipal User user) {
+                                                           @AuthenticationPrincipal User user) throws Exception {
         Long userId = user.getId();
         ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
         return ResponseEntity.ok().body(Message.success(result));
@@ -43,22 +43,22 @@ public class ChatRoomController {
 
 
     // 채팅방 전체 목록 조회
-    @GetMapping("/all")
+//    @GetMapping("/all")
 //    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<?>> findAllChatRooms() {
-        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
-        if (result.isEmpty()) {
-            String noChatRoomsMessage = "생성된 방이 없습니다.";
-            return ResponseEntity.ok().body(Message.success(noChatRoomsMessage));
-        } else {
-            return ResponseEntity.ok().body(Message.success(result));
-        }
-    }
+//    public ResponseEntity<Message<?>> findAllChatRooms() {
+//        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+//        if (result.isEmpty()) {
+//            String noChatRoomsMessage = "생성된 방이 없습니다.";
+//            return ResponseEntity.ok().body(Message.success(noChatRoomsMessage));
+//        } else {
+//            return ResponseEntity.ok().body(Message.success(result));
+//        }
+//    }
 
 
     // 특정 채팅방 입장
     @PatchMapping("/{chatRoomId}")
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
         Long userId = user.getId();
@@ -69,7 +69,7 @@ public class ChatRoomController {
 
     // 채팅방 나가기
     @PatchMapping("/leave/{chatRoomId}")
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<String>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                        @AuthenticationPrincipal User user) {
         Long userId = user.getId();
