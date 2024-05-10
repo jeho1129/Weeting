@@ -27,7 +27,7 @@ public class ChatRoomDto {
 
     private String roomId;  // 채팅방 고유값
     private String roomName;  // 방 제목
-    private int roomPassword;  // 비밀번호
+    private String roomPassword;  // 비밀번호
     private int roomMaxCnt;  // 참여가능 최대 유저 수
     private List<Long> roomUsers;  // 참여 유저 id 목록
     private String roomTheme;  // 대화 주제
