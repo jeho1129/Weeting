@@ -22,7 +22,7 @@ RUN git clone https://github.com/kakao/khaiii.git
 WORKDIR /app/khaiii
 RUN mkdir build
 WORKDIR /app/khaiii/build
-RUN cmake ..
+RUN cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release
 RUN make all
 RUN make resource
 RUN make install
