@@ -76,7 +76,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       }).length === 0 ? (
         <div className={styles.NoRoom}>
           <img src={roomSign} alt="roomSign" />
-          <div className="FontM32">방이 없어용~!</div>
+          <div className="FontM32">방이 없어요 . .</div>
         </div>
       ) : (
         searchValue === '' && serverResponseData.filter((room) => {
