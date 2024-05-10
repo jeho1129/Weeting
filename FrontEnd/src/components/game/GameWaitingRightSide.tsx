@@ -25,23 +25,19 @@ const GameWaitingRightSide = ({
   const param = useParams();
 
   const onSendMessage = (message: string) => {
-    const newMessage: ChatMessage = {
+    const newMessage = {
       userId: userInfo.userId,
       content: message,
-      time: '',
-      // time: new Date().toLocaleString(),
       nickname: userInfo.nickname,
     };
 
-    const newTest = {
-      content: message,
-    };
     // setChatMessages([...chatMessages, newMessage]);
     stompClient?.publish({
       destination: `/pub/api/v1/chat/${param.id}`,
       body: JSON.stringify(newMessage),
     });
   };
+  
   return (
     <>
       <div className={styles.RightSide}>

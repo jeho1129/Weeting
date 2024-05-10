@@ -7,6 +7,8 @@ import ok from '@/assets/images/ingamewordfinish.png';
 import choosing from '@/assets/images/ingamewordchoosing.png';
 import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
+import { gameState } from '@/recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const GameWaitingMemberList = ({
   roomMode,
@@ -19,7 +21,8 @@ const GameWaitingMemberList = ({
   roomMaxCnt: RoomInfo['roomMaxCnt'];
   roomUsers: RoomInfo['roomUsers'];
 }) => {
-  const sortedMembers = roomStatus === 'start' ? [...roomUsers].sort((a, b) => b.score - a.score) : roomUsers;
+  const gameInfo = useRecoilValue(gameState)
+  const sortedMembers = gameInfo.roomStatus === 'start' ? [...gameInfo.roomUsers].sort((a, b) => b.score - a.score) : gameInfo.roomUsers;
 
   return (
     <>
