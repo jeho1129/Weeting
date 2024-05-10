@@ -38,17 +38,23 @@ spring:
   data:
     # Redis
     redis:
-      host: k10C103.p.ssafy.io
-#      host: localhost
+#      host: k10c103.p.ssafy.io
+      host: localhost
+#      host: redis
       port: 6379
-      password: c103103
+#      password: c103103
+    # mongoDB
+    mongodb:
+      uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
   #rabbitmq
   rabbitmq:
-    host: k10C103.p.ssafy.io
+#    host: k10c103.p.ssafy.io
+    host: localhost
     port: 5672
     username: guest  # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest  # RabbitMQ 비밀번호, 기본값은 guest
+    virtual-host: /  # RabbitMQ 가상 호스트, 기본값은 /
 
 # jwt
 jwt:
@@ -62,11 +68,3 @@ logging:
       type.descriptor.sql: trace
       org.hibernate.SQLQuery: debug
       org.springframework.web.socket: DEBUG
-
-
-
-#    mariadb:
-#      driver-class-name: com.mariadb.cj.jdbc.Driver
-#      url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S10P31C103?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-#      username: S10P31C103@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-#      password: sF9lNwfigU

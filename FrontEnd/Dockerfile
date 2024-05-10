@@ -1,12 +1,17 @@
 # 1단계: 빌드 단계 (최신 버전 사용)
-FROM node:latest as build
+FROM node:20.12.2 as build
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 의존성 설치
+# 의존성 파일 복사
 COPY package*.json ./
-RUN npm install --force
+
+# 의존성 설치 전에 package-lock.json과 node_modules 제거
+RUN rm -rf node_modules package-lock.json && npm cache clean --force
+
+# 의존성 설치
+RUN npm install
 
 # 앱 소스 코드 추가
 COPY . .

@@ -1,29 +1,46 @@
 import { useState } from 'react';
-
 import styles from '@/styles/game/GameWaiting.module.css';
 import { RoomInfo } from '@/types/game';
 import { ChatMessage } from '@/types/chat';
 import GameChattingList from './GameWaitingChattingList';
 import GameChattingForm from './GameWaitingChattingForm';
-
 import GameWaitingPole from '@/components/game/GameWaitingPole';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '@/recoil/atom';
+import { Client } from '@stomp/stompjs';
+import { useParams } from 'react-router-dom';
 
-const GameWaitingRightSide = ({ roomInfo }: { roomInfo: RoomInfo }) => {
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-
+const GameWaitingRightSide = ({
+  roomInfo,
+  chatMessages,
+  setChatMessages,
+  stompClient,
+}: {
+  roomInfo: RoomInfo;
+  chatMessages: ChatMessage[];
+  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
+  stompClient: Client | null;
+}) => {
   const userInfo = useRecoilValue(userState);
+  const param = useParams();
 
   const onSendMessage = (message: string) => {
     const newMessage: ChatMessage = {
       userId: userInfo.userId,
       content: message,
-      time: new Date().toLocaleString(),
-      nickname: userInfo.nickname, // userInfo에서 nickname을 가져와서 저장
+      time: '',
+      // time: new Date().toLocaleString(),
+      nickname: userInfo.nickname,
     };
 
-    setChatMessages([...chatMessages, newMessage]); // 새 메시지를 chatMessages 배열에 추가
+    const newTest = {
+      content: message,
+    };
+    // setChatMessages([...chatMessages, newMessage]);
+    stompClient?.publish({
+      destination: `/pub/api/v1/chat/${param.id}`,
+      body: JSON.stringify(newMessage),
+    });
   };
   return (
     <>

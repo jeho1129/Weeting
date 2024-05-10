@@ -9,10 +9,12 @@ import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
 
 const GameWaitingMemberList = ({
+  roomMode,
   roomStatus,
   roomMaxCnt,
   roomUsers,
 }: {
+  roomMode: RoomInfo['roomMode'];
   roomStatus: RoomInfo['roomStatus'];
   roomMaxCnt: RoomInfo['roomMaxCnt'];
   roomUsers: RoomInfo['roomUsers'];
@@ -49,7 +51,7 @@ const GameWaitingMemberList = ({
                       alt={member.ready ? '레디' : '대기중'}
                       className={styles.StatusIcon}
                     />
-                  ) : roomStatus === 'start' ? (
+                  ) : roomStatus === 'start' && roomMode === 'rank' ? (
                     <>
                       <span className={styles.Score}>{member.score}</span>
                       <img
@@ -57,6 +59,10 @@ const GameWaitingMemberList = ({
                         alt={index === 0 ? '첫 번째' : '퍼센트'}
                         className={styles.StatusIcon}
                       />
+                    </>
+                  ) : roomStatus === 'start' && roomMode === 'normal' ? (
+                    <>
+                      <span className={styles.Score}>{member.isAlive ? '생존 😊' : '탈락 🍗'}</span>
                     </>
                   ) : (
                     <img
