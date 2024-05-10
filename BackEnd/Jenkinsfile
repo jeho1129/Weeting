@@ -74,7 +74,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        dir("BackEnd") {
+                        dir("${env.WORKSPACE}/BackEnd") {
                             try {
                                 sh "docker-compose up -d"
                             } catch(Exception e) {
