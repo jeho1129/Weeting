@@ -29,7 +29,7 @@ export interface IngameUser {
   ready: boolean;
   word: string | null;
   score: number;
-  isAlive: boolean;
+  isAlive: string;
 }
 
 export interface MainSignupFormIdProps {

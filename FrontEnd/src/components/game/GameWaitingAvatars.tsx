@@ -1,6 +1,7 @@
 import avatar from '@/assets/images/inGameAvatar.png';
 import avatardead from '@/assets/images/inGameDead.png';
 import avatarshock from '@/assets/images/inGameElectricShock.png';
+import Avatar from '@/components/avatar/Avatar';
 
 import styles from '@/styles/game/GameWaitingAvatar.module.css';
 import { RoomInfo } from '@/types/game';
@@ -124,13 +125,29 @@ const GameWaitingAvatars = ({
         return (
           <div key={member.userId}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <img
+              {/* 아바타 */}
+              <div
                 key={member.userId}
-                src={gameInfo.roomUsers.filter((it) => it.userId === member.userId)[0].isAlive ? avatar : avatardead}
-                alt="avatar"
-                className={styles.inGameAvatar}
-                style={{ top: position.top, left: position.left }}
-              />
+                style={{
+                  position: 'absolute',
+                  top: `calc(${position.top} - 14%)`,
+                  left: `calc(${position.left} - 5.5%)`,
+                }}
+              >
+                <Avatar
+                  {...{
+                    userId: member.userId,
+                    size: 0.7 * 300,
+                    location: 'Ingame',
+                    options: {
+                      nickname: member.nickname,
+                      isAlive: member.isAlive == '' ? true : false,
+                      isNest: index === 0 ? true : false,
+                    },
+                  }}
+                />
+              </div>
+
               {latestMessage === undefined ? (
                 <></>
               ) : (
@@ -150,7 +167,7 @@ const GameWaitingAvatars = ({
                   <div
                     className={styles.inGameAvatar}
                     style={{
-                      top: index % 2 === 0 ? `calc(${position.top} - 12.9%)` : `calc(${position.top} + 25%)`,
+                      top: index % 2 === 0 ? `calc(${position.top} - 15%)` : `calc(${position.top} + 25%)`,
                       left: position.left,
                       position: 'absolute',
                     }}
