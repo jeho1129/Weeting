@@ -25,11 +25,9 @@ const GameWaitingRightSide = ({
   const param = useParams();
 
   const onSendMessage = (message: string) => {
-    const newMessage: ChatMessage = {
+    const newMessage = {
       userId: userInfo.userId,
       content: message,
-      time: '',
-      // time: new Date().toLocaleString(),
       nickname: userInfo.nickname,
     };
 
@@ -54,7 +52,7 @@ const GameWaitingRightSide = ({
         <div className={styles.ChatBox}>
           <GameChattingList chatMessages={chatMessages} />
         </div>
-        <GameChattingForm onSendMessage={onSendMessage} />
+        <GameChattingForm roomStatus={roomInfo.roomStatus} onSendMessage={onSendMessage} />
         <div className={styles.ChatBuilding}></div>
       </div>
     </>
