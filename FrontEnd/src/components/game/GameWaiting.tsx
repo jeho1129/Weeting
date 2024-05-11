@@ -1,120 +1,128 @@
 import { useState, useEffect } from 'react';
-import { Client, IMessage } from '@stomp/stompjs';
-import { Link, useParams } from 'react-router-dom';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
 import GameRankModal from '@/components/game/GameRankModal';
 import styles from '@/styles/game/GameWaiting.module.css';
 import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
-import { RoomInfo } from '@/types/game';
-import { ChatMessage, ScoreUpdate } from '@/types/chat';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { gameState } from '@/recoil/atom';
+import { gameState, userState } from '@/recoil/atom';
+import { RoomInfo, MessageScore } from '@/types/game';
 
-import { getCookie } from '@/utils/axios';
+//////////// 추후 지울 값 ////////////////
+import { dummy2 } from '@/types/game'; //
+/////////////////////////////////////////
 
 const GameWaiting = () => {
-  const roomId = useParams();
-  const [stompClient, setStompClient] = useState<Client | null>(null);
-  const [writer, setWriter] = useState<string>('');
+  ///////// 변수 선언 //////////////////////////////////////////////////////
+  const userInfo = useRecoilValue(userState);
 
+  const [messageScore, setMessageScore] = useState<MessageScore>({
+    nickname: userInfo.nickname,
+    highest_similarity: 0,
+  });
+  const [webSocketRoom, setWebSocketRoom] = useState<WebSocket | null>(null);
+  const [webSocketScore, setWebSocketScore] = useState<WebSocket | null>(null);
+
+  // 모달 창 관련
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isRankOpen, setRankOpen] = useState<boolean>(false);
-  const [choose, setChoose] = useState<boolean>(false);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [scoreUpdates, setScoreUpdates] = useState<ScoreUpdate[]>([]);
 
-  // 더미 데이터로 useState 초기화
-  // const dummy = useRecoilValue(gameState);
-  const dummy2: RoomInfo = {
-    roomMode: 'rank',
-    roomId: 'd',
-    roomName: '테스트 방',
-    roomStatus: 'start',
-    roomForbiddentime: null,
-    roomEndtime: null,
-    roomSubject: null,
-    roomMaxCnt: 8,
-    roomUsers: [
-      {
-        userId: 3,
-        nickname: '하하호호',
-        ready: false,
-        word: '사과',
-        score: 16.6,
-        isAlive: '',
-      },
-      { userId: 10, nickname: '허허후후', ready: true, word: '메롱', score: 2, isAlive: '' },
-      { userId: 9, nickname: '헤엥', ready: true, word: '안녕', score: 3, isAlive: '' },
-      { userId: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: '' },
-      { userId: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: '' },
-      { userId: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: '' },
-      { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
-      { userId: 8, nickname: '인범머스크', ready: true, word: '안녕', score: 5, isAlive: '' },
-    ],
-  };
+  // 금지어 설정 완료
+  const [choose, setChoose] = useState<boolean>(false);
+
+  // 인게임 info는 useState값을 변경해서 사용
   const [roomInfo, setRoomInfo] = useState<RoomInfo>(dummy2);
 
-  const setGameState = useSetRecoilState(gameState);
-  useEffect(() => {
-    setRoomInfo(dummy2);
-    // api호출 후 .then 안에서
-    setGameState(dummy2);
-  }, []);
+  // recoil은 저장용(혹시 튕겼을 경우에 사용)
+  const setRoomInfoRecoil = useSetRecoilState(gameState);
 
+  //////////////////////////////////////////////////////////////////////
+
+  ///////// 함수 선언 //////////////////////////////////////////////////////
+  // 채팅 방 상태 변경 함수
   const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'start' | 'end') => {
     setRoomInfo((prev) => ({ ...prev, roomStatus: status }));
   };
 
+  // 각 상태(대기, 준비, 게임중)에 따라 함수 호출 시 다음 상태(금지어설정, 게임중, 게임끝)로 자동 변경
   const wordSettingOrStart = () => {
-    if (roomInfo.roomStatus === 'waiting') {
+    if (roomInfo.roomStatus === 'waiting' && roomInfo.roomUsers.length > 3) {
+      changeRoomStatus('allready');
+    } else if (roomInfo.roomStatus === 'allready') {
       changeRoomStatus('wordsetting');
-    } else if (roomInfo.roomStatus === 'allready' && roomInfo.roomUsers.length > 3) {
+    } else if (roomInfo.roomStatus === 'wordsetting') {
       changeRoomStatus('start');
     } else if (roomInfo.roomStatus === 'start') {
       changeRoomStatus('end');
+    } else if (roomInfo.roomStatus === 'end') {
+      changeRoomStatus('waiting');
+    } else {
+      changeRoomStatus('waiting');
     }
   };
+  //////////////////////////////////////////////////////////////////////
+
+  ///////// useEffect //////////////////////////////////////////////////////
+
+  // roomInfo 웹소켓 연결
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8000/ws');
+    // 알아서 해줘...
+    // setRoomInfo
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
+
+  // roomInfo가 변경되면 recoil에 반영
+  useEffect(() => {
+    setRoomInfoRecoil(roomInfo);
+  }, [roomInfo]);
 
   useEffect(() => {
-    const client = new Client({
-      brokerURL: `ws://localhost:8080/ws`,
-      // brokerURL: `wss://k10c103.p.ssafy.io:9002/ws`,
-      reconnectDelay: 5000, // 연결 끊겼을 때, 재연결시도까지 지연시간(ms)
-      connectHeaders: {
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-
-      onConnect: () => {
-        console.log('웹소캣재훈이랑 연결완료');
-        client.subscribe(`/topic/room.${roomId.id}`, (message) => {
-          console.log(message);
-          const msg: { userId: number; content: string; nickname: string; sendTime: string } = JSON.parse(message.body);
-          setChatMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              userId: msg.userId,
-              content: msg.content,
-              nickname: msg.nickname,
-              sendTime: msg.sendTime,
-              // time: new Date().toISOString()
-            },
-          ]);
-          // console.log(msg.sendTime);
-          // console.log(new Date(msg.sendTime));
+    if (roomInfo.roomStatus === 'start' && choose === null) {
+      // 지금 유저를 isAlive에 값 넣어서 roomInfo에 반영
+      // 지금 유저가 금칙어를 입력해줘야하는 사람에게 임의의 값 지정
+    }
+    // 점수 웹소켓 연결
+    else if (roomInfo.roomStatus === 'start') {
+      const ws = new WebSocket('ws://localhost:8000/ws');
+      ws.onopen = () => {
+        console.log('-----지호지호웹소캣가즈아--------');
+      };
+      ws.onmessage = (score) => {
+        const Score: { nickname: string; highest_similarity: number } = JSON.parse(score.data);
+        console.log(score.data);
+        setMessageScore({
+          nickname: Score.nickname,
+          highest_similarity: Score.highest_similarity,
         });
-      },
-      debug: (str) => {},
-    });
-    client.activate(); // STOMP 클라이언트 활성화
-    setStompClient(client); // STOMP 클라이언트 상태 업데이트
+        // 만약 가장 높은 점수라면
+        if (roomInfo.roomUsers.filter((user) => user.userId === userInfo.userId)[0].score < Score.highest_similarity) {
+          //게임 정보변경 (내 score값 변경)
+          //.send 뭐... 어쩌구저쩌구....
+        }
+      };
+      ws.onerror = (error) => {
+        console.error('웹소켓 에러 발생:', error);
+      };
 
-    return () => {
-      client.deactivate(); // 컴포넌트 언마운트 시, STOMP 클라이언트 비활성화
-    };
-  }, [setChatMessages]);
+      setWebSocketScore(ws);
 
+      return () => {
+        if (ws) {
+          ws.close();
+        }
+      };
+    }
+  }, [roomInfo.roomStatus]);
+
+  console.log(messageScore);
+
+  // 금지어 설정 모달창
   useEffect(() => {
     if (roomInfo.roomStatus === 'wordsetting' && !choose) {
       setModalOpen(true);
@@ -123,28 +131,28 @@ const GameWaiting = () => {
     }
   }, [roomInfo, choose]);
 
+  // 금지어가 모두 설정되었으면 상태 업데이트
+  // 위의 change어쩌구 상태자동변경 함수랑 합쳐서 사용하면 될 듯
   useEffect(() => {
     const allWordsSet = roomInfo.roomUsers.every((user) => user.word !== null);
 
-    if (allWordsSet && roomInfo.roomStatus === 'allready') {
+    if (allWordsSet && roomInfo.roomStatus === 'wordsetting') {
       changeRoomStatus('start');
     }
   }, [roomInfo.roomUsers]);
 
+  //////////////////////////////////////////////////////////////////////
+
   return (
     <>
-      {isModalOpen && <div className={styles.modalOpenBackground}></div>}
-      {isRankOpen && <div className={styles.modalOpenBackground}></div>}
+      {/* 모달 창 열기 */}
+      {(isRankOpen || isModalOpen) && <div className={styles.modalOpenBackground}></div>}
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
-        <GameWaitingLeftSide roomInfo={roomInfo} scoreUpdates={scoreUpdates} changeRoomStatus={wordSettingOrStart} />
-        <GameWaitingRightSide
-          roomInfo={roomInfo}
-          chatMessages={chatMessages}
-          setChatMessages={setChatMessages}
-          stompClient={stompClient}
-        />
+        <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} changeRoomStatus={wordSettingOrStart} />
+        <GameWaitingRightSide {...{ roomInfo, webSocketScore }} />
       </div>
+
       {isModalOpen && (
         <GameForbiddenWord
           roomInfo={roomInfo}
@@ -157,6 +165,7 @@ const GameWaiting = () => {
           }}
         />
       )}
+
       {isRankOpen && (
         <GameRankModal
           roomInfo={roomInfo}
