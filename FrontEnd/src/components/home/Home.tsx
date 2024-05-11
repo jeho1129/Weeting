@@ -16,6 +16,7 @@ const Home = () => {
     location: 'Home',
     options: { isNest: true },
   });
+  const [clickCnt, setClickCnt] = useState(0);
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
@@ -41,23 +42,25 @@ const Home = () => {
         <HomeButton {...{ message: '랭킹', direction: 'down', location: 'ranking' }} />
         <HomeButton {...{ message: '게임', direction: 'right', location: 'room' }} />
       </div>
-      <div className={styles.AvatarContainer}>
+      <div className={styles.AvatarContainer} onClick={() => setClickCnt(clickCnt + 1)}>
         <Avatar {...avatarFirstProps} />
       </div>
-      {/* <div style={{ position: 'absolute' }}>
-        <button
-          onClick={() => {
-            setAvatarFirstProps({
-              userId: userInfo.userId,
-              size: 400,
-              location: 'Home',
-              options: { isNest: true, isAlive: false },
-            });
-          }}
-        >
-          빨간버튼
-        </button>
-      </div> */}
+      {clickCnt >= 7 && (
+        <div style={{ position: 'absolute' }}>
+          <button
+            onClick={() => {
+              setAvatarFirstProps({
+                userId: userInfo.userId,
+                size: 400,
+                location: 'Home',
+                options: { isNest: true, isAlive: false },
+              });
+            }}
+          >
+            응애나주거
+          </button>
+        </div>
+      )}
     </>
   );
 };
