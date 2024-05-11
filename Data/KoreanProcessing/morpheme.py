@@ -58,19 +58,19 @@ async def check_text_against_forbidden_words(words, user_id):
     return most_similar_word, highest_similarity
 
 class ForbiddenWordData(BaseModel):
-    user_id: str
+    nickname: str
     forbidden_word: str
 
-@router.post("/forbidden")
+@router.post("/api/v1/forbidden")
 async def store_forbidden_word(data: ForbiddenWordData):
-    user_id = data.user_id
+    nickname = data.nickname
     forbidden_word = data.forbidden_word
 
     try:
-        await redis.set(f"forbidden:{user_id}", forbidden_word)
+        await redis.set(f"forbidden:{nickname}", forbidden_word)
         similar_words = await get_similar_words(forbidden_word, 15000)
         for w in similar_words:
-            await redis.hset(f"similar:{user_id}", w['word'], w['score'])
+            await redis.hset(f"similar:{nickname}", w['word'], w['score'])
 
         return {"message": "Forbidden word and similar words stored successfully"}
 
