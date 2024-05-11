@@ -1,5 +1,4 @@
 import { gameState, userState } from '@/recoil/atom';
-import { RoomInfo } from '@/types/game';
 import styles from '@/styles/game/GameWaitingChattingForm.module.css';
 import { MessageScore } from '@/types/game';
 import { useEffect, useState } from 'react';

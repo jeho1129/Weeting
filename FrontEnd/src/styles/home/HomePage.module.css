@@ -64,3 +64,22 @@
   right: 3%;
   top: 3%;
 }
+
+.RadioBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+}
+
+.RadioBtninside {
+  width: 80px;
+  height: 80px;
+  background-color:  rgba(238, 238, 238, 0.5);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+}
