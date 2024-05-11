@@ -125,7 +125,7 @@ const MainSignupForm = () => {
   };
 
   return (
-    <div className={styles.Mgt}>
+    <div className={styles.MgtSignin}>
       <form>
         <MainSignupFormId id={id} onIdHandler={onIdHandler} idPossible={idPossible} idCheckHandler={idCheckHandler} />
         <MainSignupFormNickname
@@ -154,7 +154,7 @@ const MainSignupForm = () => {
             </button>
           </div>
         )}
-        {idPossible !== 0 && nicknamePossible !== 0 && (
+        {idPossible === 1 && nicknamePossible === 1 && (
           <div className={styles.BtnAlign}>
             <button onClick={signupHandler} className={`${styles.SignupBtn} FontM20`}>
               가입
