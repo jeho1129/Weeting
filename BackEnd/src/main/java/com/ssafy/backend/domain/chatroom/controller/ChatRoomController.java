@@ -4,20 +4,14 @@ import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.entity.Theme;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
-import com.ssafy.backend.domain.security.utils.JwtUtils;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
-import com.ssafy.backend.global.config.WebSocketConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -26,7 +20,6 @@ import java.util.Random;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
-    private final WebSocketConfig webSocketConfig;
 
     private final Random random = new Random();
 
@@ -75,6 +68,14 @@ public class ChatRoomController {
         return ResponseEntity.ok().body(Message.success(result));
     }
 
+
+    // 방 정보 조회
+    @GetMapping("/get/{chatRoomId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@PathVariable("chatRoomId") String chatRoomId) {
+        ChatRoomDto result = chatRoomService.findChatRoom(chatRoomId);
+        return ResponseEntity.ok().body(Message.success(result));
+    }
 
 
     @GetMapping("/randomTheme")
