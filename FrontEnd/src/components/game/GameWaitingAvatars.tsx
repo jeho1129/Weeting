@@ -13,13 +13,13 @@ import { gameState } from '@/recoil/atom';
 import { useEffect, useState } from 'react';
 
 const GameMessage = ({
-  index, // 여기에 index를 추가합니다.
+  index,
   top,
   left,
   latestMessage,
   sendTime,
 }: {
-  index: number; // index 타입을 number로 선언합니다.
+  index: number;
   top: string;
   left: string;
   latestMessage: string;
@@ -80,7 +80,6 @@ const GameWaitingAvatars = ({
   roomMaxCnt: RoomInfo['roomMaxCnt'];
   chatMessage: ChatMessage[];
 }) => {
-  const gameInfo = useRecoilValue(gameState);
   const calculatePosition = (index: number, maxCount: number) => {
     let position;
     let top = '15.5%';
@@ -115,9 +114,33 @@ const GameWaitingAvatars = ({
     return position;
   };
 
+  const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomUsers);
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const updatedUsers = roomUsers.map((member) => {
+      const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+      const latestMessage = userMessages[userMessages.length - 1]?.content;
+
+      if (latestMessage && latestMessage.includes(member.word!)) {
+        return { ...member, isAlive: new Date().toLocaleTimeString() };
+      } else {
+        return member;
+      }
+    });
+    console.log(updatedUsers);
+
+    // websocket 가져와서 여기 바꾸기
+
+    setUpdatedRoomUsers(updatedUsers);
+  }, [chatMessage, roomUsers]);
+  ////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <div className={styles.inGameAvatars}>
-      {roomUsers.map((member, index) => {
+      {updatedRoomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
         const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
