@@ -30,6 +30,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
 async def check_text_against_forbidden_words(words, user_id):
     forbidden_similar_words = await redis.hgetall(f"similar:{user_id}")
+    forbidden_word = await redis.get(f"forbidden:{user_id}")
     # existing_word = await redis.get(f"highest_word:{user_id}")
     # existing_score = await redis.get(f"hightest_score:{user_id}")
     # existing_score = float(existing_score) if existing_score else 0.0
@@ -37,6 +38,10 @@ async def check_text_against_forbidden_words(words, user_id):
     most_similar_word, highest_similarity = None, 0.0
 
     for word in words:
+        if word == forbidden_word:
+            most_similar_word = word
+            highest_similarity = 100
+            break
         if word in forbidden_similar_words:
             score = float(forbidden_similar_words[word])
             if score > highest_similarity:
