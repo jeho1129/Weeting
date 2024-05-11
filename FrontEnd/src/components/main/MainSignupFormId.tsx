@@ -10,6 +10,13 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
   const handleIdCheck = (e: React.FormEvent) => {
     e.preventDefault();
     // id 중복확인 api call
+    if (id.trim() === '') {
+      Swal.fire({
+        title: '아이디를 입력해주세요',
+        icon: 'error',
+      });
+      return;
+    }
     idCheckApi({
       account: id,
     })
@@ -95,8 +102,6 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
           <div className={styles.Label}></div>
         </div>
       )} */}
-
-
     </>
   );
 };
