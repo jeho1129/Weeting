@@ -29,7 +29,7 @@ const createAxiosInstance = () => {
   instance.interceptors.request.use(
     (config) => {
       const accessToken = cookies.get('accessToken');
-      if (accessToken && accessToken !== true) {
+      if (accessToken) {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
       }
       return config;

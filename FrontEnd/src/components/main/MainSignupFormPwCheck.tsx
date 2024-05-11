@@ -13,7 +13,7 @@ const MainSignupFormPwCheck = ({
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={`${styles.Label} FontM20`} htmlFor="passwordCheck">
+        <label className={`${styles.Label} FontM20Bold`} htmlFor="passwordCheck">
           pw check
         </label>
         <input
@@ -33,6 +33,7 @@ const MainSignupFormPwCheck = ({
       ) : (
         <div className={styles.BeforeContainer}>
           <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>　</div>
         </div>
       )}
     </>

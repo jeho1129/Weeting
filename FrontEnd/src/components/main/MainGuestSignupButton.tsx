@@ -7,7 +7,7 @@ const MainGuestSignupButton = () => {
     navigate('/signup');
   };
   return (
-    <button className={styles.Btn} onClick={signupHandler}>
+    <button className={`FontM24 ${styles.Btn}`} onClick={signupHandler}>
       회원가입
     </button>
   );

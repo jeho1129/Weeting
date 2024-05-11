@@ -1,3 +1,4 @@
+import customTitle from '@/assets/images/customTitle.svg';
 import styles from '@/styles/custom/Custom.module.css';
 import AvatarFirst from '@/components/avatar/AvatarFirst';
 import HomeButton from '@/components/home/HomeButton';
@@ -31,6 +32,10 @@ const Custom = () => {
 
   return (
     <>
+      <img className={styles.CustomTitle} src={customTitle} alt="" />
+      <div className={styles.ButtonContainer}>
+        <HomeButton {...{ message: '', direction: 'right', location: 'home' }} />
+      </div>
       <div className={styles.CustomContainer}>
         <div className={styles.AvatarContainer}>
           {!isLoading ? (
@@ -77,9 +82,6 @@ const Custom = () => {
           </div>
         </div>
         <CustomOutfitList {...{ outfitList: outfitList, nowOutfit: nowOutfit, setNowOutfit: setNowOutfit }} />
-      </div>
-      <div className={styles.ButtonContainer}>
-        <HomeButton {...{ message: '', direction: 'right', location: 'home' }} />
       </div>
     </>
   );

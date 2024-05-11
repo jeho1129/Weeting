@@ -1,12 +1,12 @@
 .ButtonContainer {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 .RankingContainer {
   position: relative;
-  top: 5%;
+  top: 8%;
   width: 100%;
   height: 85%;
   /* background-color: bisque; */
@@ -18,7 +18,7 @@
   height: 600px;
   /* background-color: blue; */
   left: 13%;
-  top: 16%;
+  top: 13%;
 }
 
 .AvatarRankingMessage {
@@ -75,7 +75,7 @@
 
 .RankingItem {
   display: grid;
-  grid-template-columns: 140px 200px 250px;
+  grid-template-columns: 140px 220px 250px;
   grid-auto-rows: 60px;
   gap: 10px;
   text-align: center;

@@ -8,6 +8,7 @@ export const getResizeEventListener = (standardWidth: number, standardHeight: nu
       outlet.style.width = `${standardWidth}px`;
       outlet.style.height = `${standardHeight}px`;
 
+      console.log(outletContainer.clientHeight);
       let width = outletContainer?.clientWidth;
       let height = width * (standardHeight / standardWidth);
 

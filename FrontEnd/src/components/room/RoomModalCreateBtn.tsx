@@ -7,6 +7,7 @@ import RoomCount from './RoomCount';
 import RoomRadioBtn from './RoomRadioBtn';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import ReactModal from 'react-modal';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,7 +19,7 @@ const RoomModalCreateBtn = () => {
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const customStyles = {
+  const customStyles: ReactModal.Styles = {
     overlay: {
       backgroundColor: ' rgba(0, 0, 0, 0.4)',
     },
