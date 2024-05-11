@@ -10,3 +10,13 @@
   margin-right: 3rem;
   cursor: pointer;
 }
+
+.Btn:hover {
+  background-color: #0093f3;
+  color: white;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+
+.Btn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
