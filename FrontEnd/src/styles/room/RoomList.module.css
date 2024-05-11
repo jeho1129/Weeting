@@ -1,6 +1,8 @@
 .ListGroup {
   width: 68vw;
   height: 69vh;
+  /* min-height: 10vh;
+  max-height: 69vh; */
   display: flex;
   flex-wrap: wrap;
   overflow-y: auto;

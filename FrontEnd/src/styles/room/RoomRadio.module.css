@@ -18,6 +18,7 @@
   text-align: center;
   padding: 4px 16px;
   cursor: pointer;
+  font-family: 'MapleStoryLight', sans-serif;
 }
 
 .SelectedRadioColor {
@@ -28,5 +29,5 @@
 
 .UnselectedRadioColor {
   border: none;
-  background-color: lightgray;
+  background-color: #f0f0f0;
 }

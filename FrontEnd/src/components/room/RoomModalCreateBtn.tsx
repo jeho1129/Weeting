@@ -101,9 +101,10 @@ const RoomModalCreateBtn = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     console.log(isNaN(Number(input)));
-    
+
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
       setPassword(input);
+      console.log('input :', input);
     }
   };
 
@@ -137,7 +138,13 @@ const RoomModalCreateBtn = () => {
         <div className={styles.Container}>
           <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 이름</span>
-            <input type="text" className={styles.Input} value={roomName} onChange={handleRoomNameChange} />
+            <input
+              type="text"
+              maxLength={10}
+              className={styles.Input}
+              value={roomName}
+              onChange={handleRoomNameChange}
+            />
           </div>
           <div className={styles.RoomMode}>
             <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 모드</span>
@@ -149,8 +156,10 @@ const RoomModalCreateBtn = () => {
           </div>
           <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>
-              &#9679; 비공개방
-              <input type="checkbox" onChange={(e) => setIsPrivate(e.target.checked)} />
+              <div className={styles.RoomPrivate}>
+                &#9679; 비공개방
+                <input className={styles.CheckBox} type="checkbox" onChange={(e) => setIsPrivate(e.target.checked)} />
+              </div>
             </span>
             {isPrivate && (
               <input
