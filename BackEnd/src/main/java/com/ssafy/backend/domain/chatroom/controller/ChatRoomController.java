@@ -1,5 +1,6 @@
 package com.ssafy.backend.domain.chatroom.controller;
 
+import com.ssafy.backend.domain.chat.dto.ChatMessageDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.entity.Theme;
@@ -8,6 +9,8 @@ import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -72,13 +75,18 @@ public class ChatRoomController {
     }
 
 
-    // 방 정보 조회
-    @GetMapping("/get/{chatRoomId}")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@PathVariable("chatRoomId") String chatRoomId) {
-        ChatRoomDto result = chatRoomService.findChatRoom(chatRoomId);
+    // 방 정보 조회 (실시간)
+    @MessageMapping("/api/v1/get/{roomId}")
+    public void findChatRoom(@DestinationVariable String roomId) {
 
-        return ResponseEntity.ok().body(Message.success(result));
+        chatRoomService.findChatRoom(roomId);
+    }
+
+    // 모든 방 전체 조회 (실시간)
+    @MessageMapping("/api/v1/get/all")
+    public void findAllChatRooms() {
+
+        chatRoomService.findAllChatRooms();
     }
 
 
