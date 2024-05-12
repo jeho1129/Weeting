@@ -106,5 +106,22 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     }
 
 
+    @Override
+    public void gameInitialize(String chatRoomId) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
+        }
+
+        for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
+            userInfo.setReady(false);
+            userInfo.setWord("");
+            userInfo.setScore(0.0F);
+            userInfo.setIsAlive(true);
+        }
+
+        redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+    }
 
 }

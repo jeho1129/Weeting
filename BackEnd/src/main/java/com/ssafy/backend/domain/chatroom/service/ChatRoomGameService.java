@@ -19,4 +19,7 @@ public interface ChatRoomGameService {
 
     // 게임 결과 반환
     List<ChatRoomGameResultDto> gameResult(String chatRoomId);
+
+    // 게임 결과 초기화
+    void gameInitialize(String chatRoomId);
 }
