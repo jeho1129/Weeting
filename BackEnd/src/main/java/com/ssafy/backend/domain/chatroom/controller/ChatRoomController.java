@@ -77,7 +77,7 @@ public class ChatRoomController {
 
 
     // 방 정보 조회 (실시간)
-    @MessageMapping("/api/v1/get/{roomId}")  // /pub/api/v1/get/{roomId}
+    @MessageMapping("/api/v1/chatroom/get/{roomId}")  // /pub/api/v1/get/{roomId}
     public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@DestinationVariable String roomId) {
 
         ChatRoomDto result = chatRoomService.findChatRoom(roomId);
@@ -85,7 +85,7 @@ public class ChatRoomController {
     }
 
     // 모든 방 전체 조회 (실시간)
-    @MessageMapping("/api/v1/get/all")  // /pub/api/v1/get/all
+    @MessageMapping("/api/v1/chatroom/get/all")  // /pub/api/v1/get/all
     public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
 
         List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
