@@ -34,7 +34,7 @@ export const dummy2: RoomInfo = {
       ready: false,
       word: '사과',
       score: 16.6,
-      isAlive: '',
+      isAlive: '죽었어요',
     },
     { userId: 10, nickname: '허허후후', ready: true, word: '메롱', score: 2, isAlive: '' },
     { userId: 9, nickname: '헤엥', ready: true, word: '안녕', score: 3, isAlive: '' },
