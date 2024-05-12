@@ -14,7 +14,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const ws = new WebSocket('ws://54.180.158.223:9002/ws/chatroom/list');
+    const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
 
     ws.onopen = () => {
       console.log('리스트받아오자아');
