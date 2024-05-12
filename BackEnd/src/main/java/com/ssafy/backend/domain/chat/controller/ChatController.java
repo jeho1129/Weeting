@@ -32,9 +32,9 @@ public class ChatController {
     }
 
 
-    @GetMapping("/api/v1/chat/history/{roomId}")
-    public ResponseEntity<Message<List<Chat>>> getChatHistory(@PathVariable String roomId) {
-        List<Chat> chatHistory = chatService.getChatHistory(roomId);
+    @GetMapping("/api/v1/chat/history/{chatRoomId}")
+    public ResponseEntity<Message<List<Chat>>> getChatHistory(@PathVariable("chatRoomId") String chatRoomId) {
+        List<Chat> chatHistory = chatService.getChatHistory(chatRoomId);
         return ResponseEntity.ok().body(Message.success(chatHistory));
     }
 
