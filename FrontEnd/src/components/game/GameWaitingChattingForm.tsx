@@ -1,7 +1,7 @@
 import { userState } from '@/recoil/atom';
 import { RoomInfo } from '@/types/game';
 import styles from '@/styles/game/GameWaitingChattingForm.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 const GameChattingForm = ({
@@ -20,11 +20,45 @@ const GameChattingForm = ({
   const [message, setMessage] = useState('');
   const ingameUserInfo = roomInfo.roomUsers.filter((user) => user.userId === userInfo.userId)[0];
 
+  // 마지막으로 채팅 입력한 시간
+  const [lastMessageTime, setLastMessageTime] = useState<Date | null>(null);
+
   ///////// 함수 선언 //////////////////////////////////////////////////////
   // 채팅 메세지 입력
   const onChatHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
+    setLastMessageTime(new Date()); // 메세지 입력 시 현재 시간을 업데이트
   };
+
+  // 내 정보 웹소캣으로 전달
+  useEffect(() => {
+    // roomInfo.roomStatus가 'start'인 경우에만 로직을 실행합니다.
+    if (roomInfo.roomStatus === 'start') {
+      const timer = setTimeout(() => {
+        if (lastMessageTime && new Date().getTime() - lastMessageTime.getTime() >= 15000) {
+          // 게임 정보 변경
+          // // roomInfo 관련 websocket연결 후에 .send 형태로 변환
+
+          // 현재 시간을 'HH:MM:SS' 형태의 문자열로 포맷팅합니다.
+          // const currentTimeFormatted = new Date().toTimeString().split(' ')[0];
+          // TODO: 여기서 user.isAlive를 업데이트하는 로직을 구현합니다.
+          // 예시로는 webSocket을 통해 서버에 업데이트 요청을 보내는 방법이 있습니다.
+          // if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN) {
+          //   webSocketScore.send(
+          //     JSON.stringify({
+          //       userId: userInfo.userId,
+          //       isAlive: currentTimeFormatted,
+          //     }),
+          //   );
+          // }
+        }
+      }, 15000); // 15초 후에 실행됩니다. 주석이 잘못되어 있었습니다. 1분이 아니라 15초 후에 실행됩니다.
+
+      // 컴포넌트가 언마운트되거나 lastMessageTime이 업데이트될 때 타이머를 클리어합니다.
+      return () => clearTimeout(timer);
+    }
+    // 의존성 배열에 roomInfo.roomStatus를 추가합니다. 이렇게 하면 roomInfo.roomStatus가 변할 때마다 useEffect가 다시 실행됩니다.
+  }, [lastMessageTime, roomInfo.roomStatus]);
 
   // 입력 함수
   const submitHandler = (e: React.FormEvent) => {
