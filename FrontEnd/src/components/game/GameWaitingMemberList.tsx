@@ -54,7 +54,7 @@ const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                   ) : roomInfo.roomStatus === 'start' && roomInfo.roomMode === 'normal' ? (
                     <>
                       <div style={{ height: '27px' }}>
-                        <span className={styles.Alive}>{member.isAlive ? '생존 😊' : '탈락 🍗'}</span>
+                        <span className={styles.Alive}>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</span>
                       </div>
                     </>
                   ) : (
