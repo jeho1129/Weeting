@@ -81,7 +81,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
 
     @Override
-    public void findChatRoom(String ChatRoomId) {
+    public ChatRoomDto findChatRoom(String ChatRoomId) {
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(ChatRoomId);
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
@@ -96,11 +96,13 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .build();
 
         rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + ChatRoomId, chatRoomDto);
+
+        return chatRoomDto;
     }
 
 
     @Override
-    public void findAllChatRooms() {
+    public List<ChatRoomDto> findAllChatRooms() {
         Set<String> chatRoomIds = redisTemplate.keys("*");
 
         List<ChatRoomDto> chatRooms = new ArrayList<>();
@@ -111,6 +113,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         }
 
         rabbitTemplate.convertAndSend("amq.topic", "room.all", chatRooms);
+
+        return chatRooms;
     }
 
 

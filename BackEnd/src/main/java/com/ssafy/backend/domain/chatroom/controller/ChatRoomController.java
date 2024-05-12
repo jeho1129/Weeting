@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -76,17 +77,20 @@ public class ChatRoomController {
 
 
     // 방 정보 조회 (실시간)
-    @MessageMapping("/api/v1/get/{roomId}")
-    public void findChatRoom(@DestinationVariable String roomId) {
+    @MessageMapping("/api/v1/get/{roomId}")  // /pub/api/v1/get/{roomId}
+    public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@DestinationVariable String roomId) {
 
-        chatRoomService.findChatRoom(roomId);
+        ChatRoomDto result = chatRoomService.findChatRoom(roomId);
+        return ResponseEntity.ok().body(Message.success(result));
     }
 
     // 모든 방 전체 조회 (실시간)
-    @MessageMapping("/api/v1/get/all")
-    public void findAllChatRooms() {
+    @MessageMapping("/api/v1/get/all")  // /pub/api/v1/get/all
+    public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
 
-        chatRoomService.findAllChatRooms();
+        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+        return ResponseEntity.ok().body(Message.success(result));
+
     }
 
 
