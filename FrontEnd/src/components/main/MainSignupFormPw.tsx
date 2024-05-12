@@ -5,7 +5,7 @@ const MainSignupFormPw = ({ password, onPasswordHandler }: MainSignupFormPasswor
   return (
     <>
       <div className={styles.Mgb2}>
-        <label className={`${styles.Label} FontM20`} htmlFor="password">
+        <label className={`${styles.Label} FontM20Bold`} htmlFor="password">
           pw
         </label>
         <input
