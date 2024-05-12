@@ -14,15 +14,16 @@ public interface ChatRoomService {
     ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                            User user) throws Exception;
 
-    // 방 전체 리스트 조회
-    List<ChatRoomDto> findAllChatRooms();
-
     // 방 입장
     ChatRoomDto EnterChatRoom(String ChatRoomId,
                               User user);
 
+    // 방 전체 리스트 조회
+//    List<ChatRoomDto> findAllChatRooms();
+    void findAllChatRooms();
+
     // 방 정보 조회
-    ChatRoomDto findChatRoom(String ChatRoomId);
+    void findChatRoom(String ChatRoomId);
 
     // 방 나가기
     void LeaveChatRoom(String ChatRoomId,
