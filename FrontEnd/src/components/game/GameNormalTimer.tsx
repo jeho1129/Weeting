@@ -7,7 +7,7 @@ import { gameState } from '@/recoil/atom';
 
 const GameWordTimer = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo; changeRoomStatus: () => void }) => {
   // roomStatus가 start일 때 타이머를 240초로 설정
-  const initialTime = roomInfo.roomStatus === 'start' ? 240 : 30;
+  const initialTime = roomInfo.roomStatus === 'start' ? 20 : 30;
   const [timeLeft, setTimeLeft] = useState(initialTime);
   
 

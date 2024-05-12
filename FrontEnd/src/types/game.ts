@@ -19,14 +19,14 @@ export interface MessageScore {
 
 // 나중에 지울값
 export const dummy2: RoomInfo = {
-  roomMode: 'rank',
+  roomMode: 'normal',
   roomId: 'd',
   roomName: '테스트 방',
   roomStatus: 'start',
   roomForbiddentime: null,
   roomEndtime: null,
   roomSubject: null,
-  roomMaxCnt: 6,
+  roomMaxCnt: 8,
   roomUsers: [
     {
       userId: 3,
@@ -41,7 +41,7 @@ export const dummy2: RoomInfo = {
     { userId: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: '' },
     { userId: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: '' },
     { userId: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: '' },
-    // { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
-    // { userId: 12, nickname: '....', ready: true, word: '안녕', score: 5, isAlive: '' },
+    { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
+    { userId: 12, nickname: '....', ready: true, word: '안녕', score: 5, isAlive: '' },
   ],
 };
