@@ -20,10 +20,10 @@ public interface ChatRoomService {
 
     // 방 전체 리스트 조회
 //    List<ChatRoomDto> findAllChatRooms();
-    void findAllChatRooms();
+    List<ChatRoomDto> findAllChatRooms();
 
     // 방 정보 조회
-    void findChatRoom(String ChatRoomId);
+    ChatRoomDto findChatRoom(String ChatRoomId);
 
     // 방 나가기
     void LeaveChatRoom(String ChatRoomId,
