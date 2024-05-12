@@ -11,13 +11,13 @@ services:
       - redis
       - mysql
       - rabbitmq
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: c103103
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: c103103
+    #   SPRING_REDIS_HOST: redis
+    #   SPRING_REDIS_PORT: 6379
+    #   SPRING_REDIS_PASSWORD: c103103
 
   front:
     networks:
@@ -39,7 +39,7 @@ services:
     user: root
     networks:
       - weeting-network
-    image: redis:alpine
+    image: redis:latest
     ports:
       - "6379:6379"
     command: redis-server --requirepass c103103
