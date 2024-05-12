@@ -23,7 +23,6 @@ const GameWaitingRightSide = ({
   const roomId = useParams().id;
   const userInfo = useRecoilValue(userState);
   const [stompClient, setStompClient] = useState<Client | null>(null);
-
   // 채팅 메세지 리스트
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 

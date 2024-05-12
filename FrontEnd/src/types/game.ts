@@ -19,7 +19,7 @@ export interface MessageScore {
 
 // 나중에 지울값
 export const dummy2: RoomInfo = {
-  roomMode: 'normal',
+  roomMode: 'rank',
   roomId: 'd',
   roomName: '테스트 방',
   roomStatus: 'start',
@@ -34,7 +34,7 @@ export const dummy2: RoomInfo = {
       ready: false,
       word: '사과',
       score: 16.6,
-      isAlive: '죽었어요',
+      isAlive: '',
     },
     { userId: 10, nickname: '허허후후', ready: true, word: '메롱', score: 2, isAlive: '응나도ㅠ' },
     { userId: 9, nickname: '헤엥', ready: true, word: '안녕', score: 3, isAlive: '' },

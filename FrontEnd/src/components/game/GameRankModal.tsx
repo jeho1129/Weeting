@@ -69,7 +69,7 @@ const GameRankModal: React.FC<GameRankModalProps> = ({
                   <li key={member.userId} className={'FontM32'}>
                     <div className={styles.FlexContainer}>
                       <div>{member.nickname}</div>
-                      <div>{member.isAlive ? '생존 😊' : '탈락 🍗'}</div>
+                      <div>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</div>
                     </div>
                   </li>
                 ))
