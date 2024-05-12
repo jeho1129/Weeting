@@ -49,4 +49,13 @@ public class ChatRoomGameController {
         return ResponseEntity.ok().body(Message.success(result));
     }
 
+    // 게임 결과 초기화
+    @PatchMapping("/initialize/{chatRoomId}")
+    public ResponseEntity<Message<String>> gameInitialize (@PathVariable("chatRoomId") String chatRoomId) {
+        chatRoomGameService.gameInitialize(chatRoomId);
+        String result = "유저 상태 초기화 완료 !";
+
+        return ResponseEntity.ok().body(Message.success(result));
+    }
+
 }
