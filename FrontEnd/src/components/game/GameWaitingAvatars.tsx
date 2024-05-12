@@ -6,6 +6,8 @@ import { ChatMessage } from '@/types/chat';
 
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 import { useEffect, useState } from 'react';
+import { userState } from '@/recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const GameMessage = ({
   index,
@@ -122,6 +124,7 @@ const GameWaitingAvatars = ({
   };
 
   const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomUsers);
+  const userInfo = useRecoilValue(userState);
 
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -179,19 +182,16 @@ const GameWaitingAvatars = ({
                   }}
                 />
               </div>
-
-              {latestMessage === undefined ? (
-                <></>
-              ) : (
+              {member.isAlive === '' && latestMessage !== undefined ? (
                 <GameMessage
-                  index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
+                  index={index}
                   top={index % 2 === 0 ? position.top : `calc(${position.top} - 200px)`}
                   // top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                   left={position.left}
                   latestMessage={latestMessage}
                   sendTime={new Date().toISOString()}
                 />
-              )}
+              ) : null}
             </div>
 
             {roomStatus === 'start' && (
@@ -209,8 +209,12 @@ const GameWaitingAvatars = ({
                     <div
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
                     >
-                      <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
-                      <img src={forbiddenFlag} alt="forbidden word" />
+                      {member.userId !== userInfo.userId ? (
+                        <>
+                          <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
+                          <img src={forbiddenFlag} alt="forbidden word" />
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 </div>

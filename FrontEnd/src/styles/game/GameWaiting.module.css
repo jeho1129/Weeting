@@ -122,7 +122,6 @@
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  padding-bottom: 10px;
 }
 
 .Nickname {
@@ -175,6 +174,10 @@
 }
 
 .Score {
+  align-items: center;
+}
+
+.Alive {
   align-items: center;
 }
 
