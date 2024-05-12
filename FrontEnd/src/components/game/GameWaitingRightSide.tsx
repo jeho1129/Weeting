@@ -91,7 +91,7 @@ const GameWaitingRightSide = ({
         />
         <div className={styles.ChatBoxBorder}></div>
         <div className={styles.ChatBox}>
-          <GameChattingList chatMessages={chatMessages} />
+          <GameChattingList roomUsers={roomInfo.roomUsers} chatMessages={chatMessages} />
         </div>
         <GameChattingForm {...{ roomInfo, webSocketScore, onSendMessage }} onSendMessage={onSendMessage} />
         <div className={styles.ChatBuilding}></div>
