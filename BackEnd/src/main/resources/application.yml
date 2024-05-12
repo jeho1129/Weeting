@@ -41,7 +41,7 @@ spring:
       host: 54.180.158.223
       # host: localhost
       port: 6379
-      password: c103103
+      password: 'c103103'
     # mongoDB
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
