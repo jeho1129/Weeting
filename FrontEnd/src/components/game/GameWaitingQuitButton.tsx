@@ -27,8 +27,8 @@ const GameWaitingQuitButton: React.FC<GameWaitingQuitButtonProps> = ({ roomId, o
   };
 
   return (
-    <button className={`FontM32 ${styles.Btn}`} onClick={handleQuitRoom}>
-      Quit
+    <button className={`FontM32 ${styles.Btn} ${styles.QuitBtn}`} onClick={handleQuitRoom}>
+      방 나가기
     </button>
   );
 };

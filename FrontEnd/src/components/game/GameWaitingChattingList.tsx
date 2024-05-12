@@ -21,10 +21,13 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ chatMessages }) => 
   }, [chatMessages]); // chatMessages가 변경될 때마다 스크롤을 최하단으로 이동
 
   return (
-    <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}> {/* ref 할당 */}
+    <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}>
+      {' '}
+      {/* ref 할당 */}
       {chatMessages.map((message, index) => (
         <div key={index}>
-          <strong style={{color:'blue'}}>{message.nickname}: </strong>{message.content}
+          <strong style={{ color: '#0093f3' }}>{message.nickname}　　</strong>
+          {message.content}
         </div>
       ))}
     </div>

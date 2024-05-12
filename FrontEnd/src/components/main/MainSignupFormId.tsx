@@ -57,7 +57,7 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={`${styles.Label} FontM20`} htmlFor="id">
+        <label className={`${styles.Label} FontM20Bold`} htmlFor="id">
           id
         </label>
         <input
@@ -68,27 +68,31 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
           value={id}
           onChange={onIdHandler}
         />
-        <button onClick={handleIdCheck} className={`${styles.checkBtn} FontM20`}>
+        <button
+          onClick={handleIdCheck}
+          className={`${styles.checkBtn} ${idChecked === 0 && idPossible === 1 ? styles.checkBtnActive : ''} FontM20`}
+        >
           중복 확인
         </button>
       </div>
       {idChecked === 0 && idPossible === 0 && (
         <div className={styles.BeforeContainer}>
           <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>　</div>
         </div>
       )}
 
       {idChecked === 1 && idPossible === 0 && (
         <div className={styles.Container}>
           <div className={styles.Label}></div>
-          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디 입니다</div>
+          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디입니다.</div>
         </div>
       )}
 
       {idChecked === 0 && idPossible === 1 && (
         <div className={styles.Container}>
           <div className={styles.Label}></div>
-          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다</div>
+          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다.</div>
         </div>
       )}
 

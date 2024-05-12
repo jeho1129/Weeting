@@ -8,7 +8,7 @@ import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameState, userState } from '@/recoil/atom';
 import { RoomInfo, MessageScore } from '@/types/game';
-
+import GameLoading from './GameLoading';
 //////////// 추후 지울 값 ////////////////
 import { dummy2 } from '@/types/game'; //
 /////////////////////////////////////////
@@ -16,7 +16,7 @@ import { dummy2 } from '@/types/game'; //
 const GameWaiting = () => {
   ///////// 변수 선언 //////////////////////////////////////////////////////
   const userInfo = useRecoilValue(userState);
-
+  const [gameStartLoading, setGameStartLoading] = useState(false);
   const [messageScore, setMessageScore] = useState<MessageScore>({
     nickname: userInfo.nickname,
     highest_similarity: 0,
@@ -68,7 +68,7 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8000/ws');
-    // 알아서 해줘...
+    // 백에서.... 1분간 채팅안한사람 확인해야할 거 같은데?
     // setRoomInfo
     return () => {
       if (ws) {
@@ -82,13 +82,21 @@ const GameWaiting = () => {
     setRoomInfoRecoil(roomInfo);
   }, [roomInfo]);
 
+  // 상태 변경 시 확인할 것
   useEffect(() => {
     if (roomInfo.roomStatus === 'start' && choose === null) {
       // 지금 유저를 isAlive에 값 넣어서 roomInfo에 반영
+      // 이건... websocket이 되면 .send로 보내줘야함
       // 지금 유저가 금칙어를 입력해줘야하는 사람에게 임의의 값 지정
+      // 이것도 백에서 해줘야할거같은데?
     }
+    // roomstatus 가 start일 때
     // 점수 웹소켓 연결
     else if (roomInfo.roomStatus === 'start') {
+      setGameStartLoading(true);
+      setTimeout(() => {
+        setGameStartLoading(false);
+      }, 6000);
       const ws = new WebSocket('ws://localhost:8000/ws');
       ws.onopen = () => {
         console.log('-----지호지호웹소캣가즈아--------');
@@ -145,6 +153,7 @@ const GameWaiting = () => {
 
   return (
     <>
+      {gameStartLoading && <GameLoading />}
       {/* 모달 창 열기 */}
       {(isRankOpen || isModalOpen) && <div className={styles.modalOpenBackground}></div>}
 

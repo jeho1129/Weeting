@@ -13,7 +13,8 @@ export default function Layout() {
     const audio = audioRef.current;
     if (audio.paused) {
       audio.play();
-      audio.autoplay;
+      audio.autoplay = true;
+      audio.loop = true;
     } else {
       audio.pause();
       audio.currentTime = 0;
@@ -37,7 +38,6 @@ export default function Layout() {
       </div>
       <div id="outletContainer">
         <div id="outlet">
-          {/* <div id="outlet" style={{ width: '100vw', height: '100vh' }}> */}
           <Outlet />
         </div>
       </div>
