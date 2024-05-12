@@ -179,19 +179,16 @@ const GameWaitingAvatars = ({
                   }}
                 />
               </div>
-
-              {latestMessage === undefined ? (
-                <></>
-              ) : (
+              {member.isAlive === '' && latestMessage !== undefined ? (
                 <GameMessage
-                  index={index} // index 값을 GameMessage 컴포넌트에 전달합니다.
+                  index={index}
                   top={index % 2 === 0 ? position.top : `calc(${position.top} - 200px)`}
                   // top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                   left={position.left}
                   latestMessage={latestMessage}
                   sendTime={new Date().toISOString()}
                 />
-              )}
+              ) : null}
             </div>
 
             {roomStatus === 'start' && (
