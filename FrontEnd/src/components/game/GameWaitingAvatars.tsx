@@ -6,6 +6,8 @@ import { ChatMessage } from '@/types/chat';
 
 import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 import { useEffect, useState } from 'react';
+import { userState } from '@/recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const GameMessage = ({
   index,
@@ -122,6 +124,7 @@ const GameWaitingAvatars = ({
   };
 
   const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomUsers);
+  const userInfo = useRecoilValue(userState);
 
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -206,8 +209,12 @@ const GameWaitingAvatars = ({
                     <div
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
                     >
-                      <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
-                      <img src={forbiddenFlag} alt="forbidden word" />
+                      {member.userId !== userInfo.userId ? (
+                        <>
+                          <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
+                          <img src={forbiddenFlag} alt="forbidden word" />
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 </div>
