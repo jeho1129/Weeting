@@ -150,6 +150,10 @@ const GameWaiting = () => {
   }, [roomInfo.roomUsers]);
 
   //////////////////////////////////////////////////////////////////////
+  // 게임 완료되면 처음으로 세팅하기
+  const handleRoomUserReset = (updatedRoomInfo) => {
+    setRoomInfo(updatedRoomInfo);
+  }
 
   return (
     <>
@@ -183,7 +187,8 @@ const GameWaiting = () => {
           onStatusChange={() => {
             setRoomInfo((prev) => ({ ...prev, roomStatus: 'waiting', roomSubject: null }));
           }}
-        />
+          onRoomUsersReset={handleRoomUserReset}
+          />
       )}
     </>
   );
