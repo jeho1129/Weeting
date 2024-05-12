@@ -81,8 +81,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
 
     @Override
-    public ChatRoomDto findChatRoom(String ChatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(ChatRoomId);
+    public ChatRoomDto findChatRoom(String roomId) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(roomId);
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .roomId(roomInfo.getRoomId())
@@ -95,7 +95,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomMode(roomInfo.getRoomMode())
                 .build();
 
-        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + ChatRoomId, chatRoomDto);
+        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + roomId, chatRoomDto);
 
         return chatRoomDto;
     }
