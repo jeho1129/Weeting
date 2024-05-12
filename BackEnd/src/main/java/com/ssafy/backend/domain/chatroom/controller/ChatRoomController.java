@@ -30,6 +30,7 @@ public class ChatRoomController {
     public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                                                            @AuthenticationPrincipal User user) throws Exception {
         ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, user);
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -54,6 +55,7 @@ public class ChatRoomController {
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
         ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, user);
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -65,6 +67,7 @@ public class ChatRoomController {
                                                        @AuthenticationPrincipal User user) {
         chatRoomService.LeaveChatRoom(chatRoomId, user);
         String result = "나가기 완료 !";
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -74,6 +77,7 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@PathVariable("chatRoomId") String chatRoomId) {
         ChatRoomDto result = chatRoomService.findChatRoom(chatRoomId);
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
