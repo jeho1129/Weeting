@@ -127,7 +127,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         }
 
 //        rabbitTemplate.convertAndSend(topicExchange.getName(), "room.all", chatRooms);
-
+        System.out.println("채팅룸 : " + chatRooms);
         return chatRooms;
     }
 
