@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import GameForbiddenWord from '@/components/game/GameWordModal';
 import GameRankModal from '@/components/game/GameRankModal';
 import styles from '@/styles/game/GameWaiting.module.css';
@@ -41,7 +40,7 @@ const GameWaiting = () => {
 
   ///////// 함수 선언 //////////////////////////////////////////////////////
   // 채팅 방 상태 변경 함수
-  const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'start' | 'end') => {
+  const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end') => {
     setRoomInfo((prev) => ({ ...prev, roomStatus: status }));
   };
 
@@ -52,6 +51,8 @@ const GameWaiting = () => {
     } else if (roomInfo.roomStatus === 'allready') {
       changeRoomStatus('wordsetting');
     } else if (roomInfo.roomStatus === 'wordsetting') {
+      changeRoomStatus('wordfinish');
+    } else if (roomInfo.roomStatus === 'wordfinish') {
       changeRoomStatus('start');
     } else if (roomInfo.roomStatus === 'start') {
       changeRoomStatus('end');
@@ -83,11 +84,32 @@ const GameWaiting = () => {
   // roomInfo가 변경되면 recoil에 반영
   useEffect(() => {
     setRoomInfoRecoil(roomInfo);
+    console.log(roomInfo);
+    localStorage.setItem('roomInfo', JSON.stringify(roomInfo));
   }, [roomInfo]);
+
+  // 금지어 설정 모달창
+  useEffect(() => {
+    if (roomInfo.roomStatus === 'wordsetting' && !choose) {
+      setModalOpen(true);
+    } else if (roomInfo.roomStatus === 'end') {
+      setRankOpen(true);
+    }
+  }, [roomInfo, choose]);
+
+  // 금지어가 모두 설정되었으면 상태 업데이트
+  // 위의 change어쩌구 상태자동변경 함수랑 합쳐서 사용하면 될 듯
+  useEffect(() => {
+    const allWordsSet = roomInfo.roomUsers.every((user) => user.word !== '');
+
+    if (allWordsSet && roomInfo.roomStatus === 'wordsetting') {
+      changeRoomStatus('wordfinish');
+    }
+  }, [roomInfo.roomUsers]);
 
   // 상태 변경 시 확인할 것
   useEffect(() => {
-    if (roomInfo.roomStatus === 'start' && choose === null) {
+    if (roomInfo.roomStatus === 'wordfinish' && choose === null) {
       // 지금 유저를 isAlive에 값 넣어서 roomInfo에 반영
       // 이건... websocket이 되면 .send로 보내줘야함
       // 지금 유저가 금칙어를 입력해줘야하는 사람에게 임의의 값 지정
@@ -95,11 +117,15 @@ const GameWaiting = () => {
     }
     // roomstatus 가 start일 때
     // 점수 웹소켓 연결
-    else if (roomInfo.roomStatus === 'start') {
+    else if (roomInfo.roomStatus === 'wordfinish') {
       setGameStartLoading(true);
       setTimeout(() => {
         setGameStartLoading(false);
-      }, 6000);
+        changeRoomStatus('start');
+      }, 10000);
+
+      // api 쏘기
+    } else if (roomInfo.roomStatus === 'start') {
       // local용
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
@@ -136,30 +162,11 @@ const GameWaiting = () => {
 
   console.log(messageScore);
 
-  // 금지어 설정 모달창
-  useEffect(() => {
-    if (roomInfo.roomStatus === 'wordsetting' && !choose) {
-      setModalOpen(true);
-    } else if (roomInfo.roomStatus === 'end') {
-      setRankOpen(true);
-    }
-  }, [roomInfo, choose]);
-
-  // 금지어가 모두 설정되었으면 상태 업데이트
-  // 위의 change어쩌구 상태자동변경 함수랑 합쳐서 사용하면 될 듯
-  useEffect(() => {
-    const allWordsSet = roomInfo.roomUsers.every((user) => user.word !== null);
-
-    if (allWordsSet && roomInfo.roomStatus === 'wordsetting') {
-      changeRoomStatus('start');
-    }
-  }, [roomInfo.roomUsers]);
-
   //////////////////////////////////////////////////////////////////////
   // 게임 완료되면 처음으로 세팅하기
   const handleRoomUserReset = (updatedRoomInfo) => {
     setRoomInfo(updatedRoomInfo);
-  }
+  };
 
   return (
     <>
@@ -194,7 +201,7 @@ const GameWaiting = () => {
             setRoomInfo((prev) => ({ ...prev, roomStatus: 'waiting', roomSubject: null }));
           }}
           onRoomUsersReset={handleRoomUserReset}
-          />
+        />
       )}
     </>
   );

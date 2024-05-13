@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // loading 틀만 만들어둠
 const GameLoading = () => {
-  const [countDown, setCountDown] = useState<string>('5');
+  const [countDown, setCountDown] = useState<string>('10');
   useEffect(() => {
     if (+countDown > 0) {
       setTimeout(() => {
