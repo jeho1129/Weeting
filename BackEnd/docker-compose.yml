@@ -71,7 +71,7 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management; rabbitmq-server"]
 
 volumes:
