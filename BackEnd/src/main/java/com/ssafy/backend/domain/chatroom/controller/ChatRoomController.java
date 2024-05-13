@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -79,21 +80,24 @@ public class ChatRoomController {
 
 
     // 방 정보 조회 (실시간)
-    @MessageMapping("/api/v1/chatroom/get/{roomId}")  // /pub/api/v1/get/{roomId}
-    public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@DestinationVariable String roomId) {
-
-        ChatRoomDto result = chatRoomService.findChatRoom(roomId);
-        return ResponseEntity.ok().body(Message.success(result));
-    }
+//    @MessageMapping("/api/v1/chatroom/get/{roomId}")  // /app/api/v1/chatroom/get/{roomId} (요청)
+//    @SendTo("/topic/room/{roomId}")  // topic/room/{roomId} (구독)
+//    public ChatRoomDto findChatRoom(@DestinationVariable String roomId) {
+//
+//        ChatRoomDto result = chatRoomService.findChatRoom(roomId);
+//
+//        return result;
+//    }
 
     // 모든 방 전체 조회 (실시간)
-    @MessageMapping("/api/v1/chatroom/get/all")  // /pub/api/v1/get/all
-    public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
-
-        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
-        return ResponseEntity.ok().body(Message.success(result));
-
-    }
+//    @MessageMapping("/api/v1/chatroom/get/all")  // /app/api/v1/chatroom/get/all (요청)
+//    @SendTo("/topic/roomList")  // /topic/roomList (구독)
+//    public List<ChatRoomDto> findAllChatRooms() {
+//
+//        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+//
+//        return result;
+//    }
 
 
     @GetMapping("/randomTheme")
