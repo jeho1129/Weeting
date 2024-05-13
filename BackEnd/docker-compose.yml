@@ -70,7 +70,7 @@ services:
     command: ["rabbitmq-plugins", "enable", "rabbitmq_stomp", "rabbitmq_web_stomp"]  # STOMP 플러그인 활성화
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      -
+
 volumes:
   mysql_data:
   rabbitmq_data: 
