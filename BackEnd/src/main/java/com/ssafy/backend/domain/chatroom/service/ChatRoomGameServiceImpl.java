@@ -90,6 +90,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         List<ChatRoomGameResultDto> results = new ArrayList<>();
 
         for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
+            redisTemplate.delete("similar:" + userInfo.getNickname());
+            redisTemplate.delete("forbidden:" + userInfo.getNickname());
+
             ChatRoomGameResultDto resultDto = ChatRoomGameResultDto.builder()
                     .id(userInfo.getId())
                     .nickname(userInfo.getNickname())
