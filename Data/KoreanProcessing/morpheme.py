@@ -68,7 +68,7 @@ async def store_forbidden_word(data: ForbiddenWordData):
 
     try:
         await redis.set(f"forbidden:{nickname}", forbidden_word)
-        similar_words = await get_similar_words(forbidden_word, 15000)
+        similar_words = await get_similar_words(forbidden_word, 4000)
         for w in similar_words:
             await redis.hset(f"similar:{nickname}", w['word'], w['score'])
 
