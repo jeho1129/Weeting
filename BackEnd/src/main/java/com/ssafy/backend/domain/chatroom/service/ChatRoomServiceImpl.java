@@ -63,6 +63,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                                      User user) {
         ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(ChatRoomId);
 
+        if (chatRoomDto.getRoomMaxCnt() == chatRoomDto.getRoomUsers().toArray().length) {
+            throw new IllegalArgumentException("방 인원이 다 찼어요 ㅠ");
+        }
+
         ChatRoomUserInfo userInfo = new ChatRoomUserInfo(
                 user.getId(),
                 user.getNickname(),
