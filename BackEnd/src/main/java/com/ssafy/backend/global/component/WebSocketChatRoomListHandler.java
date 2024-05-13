@@ -32,8 +32,8 @@ public class WebSocketChatRoomListHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("Connection Closed [" + session.getId() + "]");
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        System.out.println("연결 끊김 [" + session.getId() + "]");
     }
 
     private void sendRooms(WebSocketSession session) throws IOException {
