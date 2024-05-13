@@ -22,4 +22,14 @@ public interface ChatRoomGameService {
 
     // 게임 결과 초기화
     void gameInitialize(String chatRoomId);
+
+    // 사용자 점수 변경
+    void updatePlayerScore(Long userId,
+                           int scoreAdjustment);
+
+    // 등수에 따른 사용자 점수 측정
+    int[] getScoreAdjustments(int numberOfPlayers);
+
+    // 변경된 사용자 점수에 따른 전체 사용자 등수 업데이트
+    void updateRankings();
 }
