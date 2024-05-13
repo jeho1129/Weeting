@@ -13,7 +13,7 @@ spring:
         jdbc:
           batch_size: 100
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
       id:
         new_generator_mappings: false
 
