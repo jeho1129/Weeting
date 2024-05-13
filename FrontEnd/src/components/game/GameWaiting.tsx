@@ -69,9 +69,9 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     // local 개발용
-    // const ws = new WebSocket('ws://localhost:8000/ws');
+    const ws = new WebSocket('ws://localhost:8000/ws');
     // 배포용
-    const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+    // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
     // 백에서.... 1분간 채팅안한사람 확인해야할 거 같은데?
     // setRoomInfo
     return () => {
@@ -127,9 +127,9 @@ const GameWaiting = () => {
       // api 쏘기
     } else if (roomInfo.roomStatus === 'start') {
       // local용
-      // const ws = new WebSocket('ws://localhost:8000/ws');
+      const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+      // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
       ws.onopen = () => {
         console.log('-----지호지호웹소캣가즈아--------');
       };
