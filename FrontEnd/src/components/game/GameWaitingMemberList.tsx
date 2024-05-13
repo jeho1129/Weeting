@@ -8,34 +8,25 @@ import choosing from '@/assets/images/ingamewordchoosing.png';
 import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
 
-const GameWaitingMemberList = ({
-  roomMode,
-  roomStatus,
-  roomMaxCnt,
-  roomUsers,
-}: {
-  roomMode: RoomInfo['roomMode'];
-  roomStatus: RoomInfo['roomStatus'];
-  roomMaxCnt: RoomInfo['roomMaxCnt'];
-  roomUsers: RoomInfo['roomUsers'];
-}) => {
-  const sortedMembers = roomStatus === 'start' ? [...roomUsers].sort((a, b) => b.score - a.score) : roomUsers;
+const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+  const sortedMembers =
+    roomInfo.roomStatus === 'start' ? [...roomInfo.roomUsers].sort((a, b) => b.score - a.score) : roomInfo.roomUsers;
 
   return (
     <>
       <div className={styles.Box}>
         <div className={styles.List}>
           <div className={`FontM32 ${styles.RoomMemberCount}`}>
-            <div>참가자 목록</div>
+            <div>참가자 목록　</div>
             <div>
-              {sortedMembers.length} / {roomMaxCnt} 명
+              {sortedMembers.length} / {roomInfo.roomMaxCnt} 명
             </div>
           </div>
           <div className={styles.RoomUsers}>
             {sortedMembers.map((member, index) => (
               <div key={member.userId} className={styles.RoomMember}>
                 <div className={styles.Nickname}>
-                  {index === 0 && roomStatus !== 'start' ? (
+                  {index === 0 && roomInfo.roomStatus !== 'start' ? (
                     <>
                       {member.nickname}
                       <img src={crown} alt="방장" className={styles.CrownIcon} />
@@ -45,13 +36,13 @@ const GameWaitingMemberList = ({
                   )}
                 </div>
                 <div className={styles.Nickname}>
-                  {roomStatus === 'wordsetting' ? (
+                  {roomInfo.roomStatus === 'wordsetting' ? (
                     <img
                       src={member.word ? ok : choosing}
                       alt={member.ready ? '레디' : '대기중'}
                       className={styles.StatusIcon}
                     />
-                  ) : roomStatus === 'start' && roomMode === 'rank' ? (
+                  ) : roomInfo.roomStatus === 'start' && roomInfo.roomMode === 'rank' ? (
                     <>
                       <span className={styles.Score}>{member.score}</span>
                       <img
@@ -60,9 +51,11 @@ const GameWaitingMemberList = ({
                         className={styles.StatusIcon}
                       />
                     </>
-                  ) : roomStatus === 'start' && roomMode === 'normal' ? (
+                  ) : roomInfo.roomStatus === 'start' && roomInfo.roomMode === 'normal' ? (
                     <>
-                      <span className={styles.Score}>{member.isAlive ? '생존 😊' : '탈락 🍗'}</span>
+                      <div style={{ height: '27px' }}>
+                        <span className={styles.Alive}>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</span>
+                      </div>
                     </>
                   ) : (
                     <img

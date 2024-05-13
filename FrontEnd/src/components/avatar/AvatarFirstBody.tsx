@@ -14,7 +14,10 @@ const AvatarBody = ({
 }) => {
   return (
     <>
-      <div className={styles.AvatarBody} style={{ width: `${size}px` }}>
+      <div
+        className={`${isAlive && location !== 'Custom' && location !== 'Room' ? styles.AvatarBodyMove : ''} ${styles.AvatarBody}`}
+        style={{ width: `${size}px` }}
+      >
         {isAlive ? (
           <>
             <img src={body} style={{ width: `${(190 * size) / 300}px` }} alt="" />

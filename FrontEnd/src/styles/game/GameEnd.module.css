@@ -52,6 +52,7 @@
   height: 60px;
   border-radius: 15px;
   border: none;
+  cursor: pointer;
 }
 
 .Center {
