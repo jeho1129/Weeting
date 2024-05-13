@@ -12,7 +12,7 @@ export interface RoomWaitInfo {
   roomMode:'rank' | 'normal'
   roomId: string;
   roomName: string;
-  roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordokay' | 'start' | 'end';
+  roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end';
   roomMaxCnt: number;
   roomPassword: number | null;
   roomUsers: IngameUser[];
