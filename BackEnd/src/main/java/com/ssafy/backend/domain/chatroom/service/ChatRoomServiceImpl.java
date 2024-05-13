@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final RabbitTemplate rabbitTemplate;
     private final TopicExchange topicExchange;
+
+
 
     @Override
     public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto,
@@ -63,7 +67,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                                      User user) {
         ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(ChatRoomId);
 
-        if (chatRoomDto.getRoomMaxCnt() == chatRoomDto.getRoomUsers().toArray().length) {
+        if (chatRoomDto.getRoomMaxCnt() <= chatRoomDto.getRoomUsers().toArray().length) {
             throw new IllegalArgumentException("방 인원이 다 찼어요 ㅠ");
         }
 
