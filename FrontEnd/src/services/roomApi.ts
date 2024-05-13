@@ -14,3 +14,16 @@ export async function roomCreateApi(param: RoomCreateProps) {
     return Promise.reject(error);
   }
 }
+
+export async function roomEnterApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

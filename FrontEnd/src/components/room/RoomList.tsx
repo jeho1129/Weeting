@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil';
 import { Client } from '@stomp/stompjs';
 import Swal from 'sweetalert2';
 import { ChatMessage } from '@/types/chat';
+import { roomEnterApi } from '@/services/roomApi';
 
 const RoomList = ({ roomSelectedMode, searchValue }) => {
   const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo[]>([]);
@@ -30,11 +31,9 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
     // 배포
     const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
     ws.onopen = () => {
-      console.log('방리스트 받아오나염>???????');
+      console.log('방리스트 받아오기 성공');
     };
     ws.onmessage = (event) => {
-      console.log('리스트', event.data);
-
       const roomList = JSON.parse(event.data);
       setServerResponseData(roomList);
     };
@@ -48,7 +47,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
   }, []);
 
   useEffect(() => {
-    console.log('serverResponseData :', serverResponseData);
+    // console.log('serverResponseData :', serverResponseData);
   }, [serverResponseData]);
 
   const roomEnterHandler = async (
@@ -65,6 +64,8 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       return;
     }
     if (roomPassword === null) {
+      const response = await roomEnterApi(roomId);
+      console.log(response);
       navigate(`/room/${roomId}`);
     } else {
       const { value: password } = await Swal.fire({
@@ -95,7 +96,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       {/* 검색어가 없는 경우 */}
       {searchValue === '' &&
       serverResponseData.filter((room) => {
-        console.log('roommm :', room);
+        // console.log('roommm :', room);
         if (roomSelectedMode === 0)
           return true; // 모든 방 보기
         else if (roomSelectedMode === 1)
