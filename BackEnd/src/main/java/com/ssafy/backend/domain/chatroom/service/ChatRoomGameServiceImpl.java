@@ -29,7 +29,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
             if (roomInfo != null) {
                 roomInfo.setRoomStatus(newStatus);
-                redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+                String key = "chatRoom:" + roomInfo.getRoomId();
+                redisTemplate.opsForValue().set(key, roomInfo);
             }
         }, delay, unit);
     }
@@ -73,8 +74,11 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
         redisTemplate.opsForValue().set(chatRoomId, roomInfo);
-
-        return futureTime;
+        if (currentStatus == ChatRoomDto.RoomStatus.wordsetting || currentStatus == ChatRoomDto.RoomStatus.start) {
+            return futureTime;
+        } else {
+            return currentTime;
+        }
     }
 
 
@@ -92,7 +96,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 userInfo.setReady(!userReadyStatus);
 
-                redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+                String key = "chatRoom:" + roomInfo.getRoomId();
+                redisTemplate.opsForValue().set(key, roomInfo);
 
                 break;
             }
@@ -141,7 +146,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setIsAlive(true);
         }
 
-        redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+        String key = "chatRoom:" + roomInfo.getRoomId();
+        redisTemplate.opsForValue().set(key, roomInfo);
     }
 
 
