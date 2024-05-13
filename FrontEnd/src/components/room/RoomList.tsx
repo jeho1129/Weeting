@@ -26,9 +26,9 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
   useEffect(() => {
     // 채팅방 stomp client 연결
     // 로컬
-    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
+    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
     // 배포
-    // const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
+    const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
     ws.onopen = () => {
       console.log('방리스트 받아오나염>???????');
     };
