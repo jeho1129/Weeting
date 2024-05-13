@@ -45,6 +45,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 true
                 );
 
+
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .roomId(UUID.randomUUID().toString())
                 .roomName(chatRoomCreateRequestDto.getRoomName())
@@ -56,7 +57,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomMode(chatRoomCreateRequestDto.getRoomMode())
                 .build();
 
-        redisTemplate.opsForValue().set(chatRoomDto.getRoomId(), chatRoomDto);
+        String key = "chatRoom:" + chatRoomDto.getRoomId();
+        redisTemplate.opsForValue().set(key, chatRoomDto);
+
+//        redisTemplate.opsForValue().set(chatRoomDto.getRoomId(), chatRoomDto);
 
         return chatRoomDto;
     }
@@ -82,7 +86,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         chatRoomDto.getRoomUsers().add(userInfo);
 
-        redisTemplate.opsForValue().set(ChatRoomId, chatRoomDto);
+        String key = "chatRoom:" + chatRoomDto.getRoomId();
+        redisTemplate.opsForValue().set(key, chatRoomDto);
 
         return chatRoomDto;
     }
@@ -111,7 +116,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public List<ChatRoomDto> findAllChatRooms() {
-        Set<String> chatRoomIds = redisTemplate.keys("*");
+        Set<String> chatRoomIds = redisTemplate.keys("chatRoom:*");
+        System.out.println(chatRoomIds);
 
         List<ChatRoomDto> chatRooms = new ArrayList<>();
 
@@ -119,8 +125,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             ChatRoomDto chatRoom = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
             chatRooms.add(chatRoom);
         }
-
-        rabbitTemplate.convertAndSend("amq.topic", "room.all", chatRooms);
+        rabbitTemplate.convertAndSend(topicExchange.getName(), "room.all", chatRooms);
 
         return chatRooms;
     }
@@ -136,7 +141,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             if (roomInfo.getRoomUsers().isEmpty()) {
                 redisTemplate.delete(ChatRoomId);
             } else {
-                redisTemplate.opsForValue().set(ChatRoomId, roomInfo);
+                String key = "chatRoom:" + roomInfo.getRoomId();
+                redisTemplate.opsForValue().set(key, roomInfo);
             }
         }
     }
