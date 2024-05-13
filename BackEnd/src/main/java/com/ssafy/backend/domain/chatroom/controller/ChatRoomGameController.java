@@ -22,8 +22,8 @@ public class ChatRoomGameController {
 
     // 방 상태 변경
     @PatchMapping("/status/{chatRoomId}")
-    public ResponseEntity<Message<LocalTime>> roomStatusModify(String roomId) {
-        LocalTime result = chatRoomGameService.roomStatusModify(roomId);
+    public ResponseEntity<Message<LocalTime>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
+        LocalTime result = chatRoomGameService.roomStatusModify(chatRoomId);
 
         return ResponseEntity.ok().body(Message.success(result));
     }
