@@ -9,6 +9,8 @@ const { persistAtom } = recoilPersist({
   storage: sessionStorage,
 });
 
+// 만약 ingameInfo의 id가 ''가 아니면 게임방으로 이동~
+
 export const userState = atom<User>({
   key: 'userState',
   default: {
@@ -31,8 +33,9 @@ export const gameState = atom<RoomInfo>({
     roomEndtime: null,
     roomSubject: null,
     roomMaxCnt: 0,
-    roomUsers: []
+    roomUsers: [],
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const outfitState = atom<OutfitItem[]>({

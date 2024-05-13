@@ -8,7 +8,7 @@ const MainGuestLoginButton = () => {
   };
   return (
     <>
-      <button className={styles.Btn} onClick={loginHandler}>
+      <button className={`FontM24 ${styles.Btn}`} onClick={loginHandler}>
         로그인
       </button>
     </>

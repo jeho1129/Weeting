@@ -31,4 +31,12 @@
   border-radius: 10px;
   border: 1px solid rgb(78, 196, 238);
   background-color: rgb(78, 196, 238);
+  cursor: pointer;
+}
+.Btn:hover {
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+
+.Btn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
 }

@@ -13,7 +13,10 @@ const AvatarEyes = ({
 }) => {
   return (
     <>
-      <div className={styles.AvatarEyes} style={{ width: `${size}px` }}>
+      <div
+        className={`${isAlive && location !== 'Custom' && location !== 'Room' ? styles.AvatarEyesMove : ''} ${styles.AvatarEyes}`}
+        style={{ width: `${size}px` }}
+      >
         <img
           className={styles.AvatarEyesImage}
           src={isAlive ? eyes : eyesOver}

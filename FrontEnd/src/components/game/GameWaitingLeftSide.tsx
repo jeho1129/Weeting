@@ -1,7 +1,6 @@
 import styles from '@/styles/game/GameWaiting.module.css';
 import { useState, useEffect } from 'react';
-import { RoomInfo } from '@/types/game';
-import { ScoreUpdate } from '@/types/chat';
+import { RoomInfo, MessageScore } from '@/types/game';
 
 import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
@@ -12,11 +11,11 @@ import GameRankTimer from '@/components/game/GameRankTimer';
 
 const GameWaitingLeftSide = ({
   roomInfo,
-  scoreUpdates,
+  messageScore,
   changeRoomStatus,
 }: {
   roomInfo: RoomInfo;
-  scoreUpdates: number;
+  messageScore: MessageScore;
   changeRoomStatus: () => void;
 }) => {
   const [blink, setBlink] = useState(false);
@@ -29,16 +28,12 @@ const GameWaitingLeftSide = ({
       }, 5000); // 5초 후에 반짝이는 효과를 종료
     }
   }, [roomInfo.roomStatus]);
+
   return (
     <>
       <div className={styles.Align}>
         <GameWaitingLogo />
-        <GameWaitingMemberList
-          roomMode={roomInfo.roomMode}
-          roomStatus={roomInfo.roomStatus}
-          roomMaxCnt={roomInfo.roomMaxCnt}
-          roomUsers={roomInfo.roomUsers}
-        />
+        <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
             <GameWaitingReadyButton roomUsers={roomInfo.roomUsers} blink={blink} onStartGame={changeRoomStatus} />
@@ -47,7 +42,7 @@ const GameWaitingLeftSide = ({
         )}
         {(roomInfo.roomStatus === 'wordsetting' || roomInfo.roomStatus === 'start') &&
           (roomInfo.roomMode === 'rank' ? (
-            <GameRankTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
+            <GameRankTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} messageScore={messageScore} />
           ) : (
             <GameWordTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
           ))}

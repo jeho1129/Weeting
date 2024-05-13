@@ -4,7 +4,12 @@ import { nicknameCheckApi } from '@/services/userApi';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible, nicknameCheckHandler }: MainSignupFormNicknameProps) => {
+const MainSignupFormNickname = ({
+  nickname,
+  onNicknameHandler,
+  nicknamePossible,
+  nicknameCheckHandler,
+}: MainSignupFormNicknameProps) => {
   const [nicknameChecked, setNicknameChecked] = useState(0);
 
   const handleNickNameCheck = (e: React.FormEvent) => {
@@ -17,11 +22,11 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
         console.log('data :', data);
         if (data.dataBody === true) {
           Swal.fire({
-            title: "이미 사용중인 닉네임입니다",
-            icon: "error"
+            title: '이미 사용중인 닉네임입니다',
+            icon: 'error',
           });
           nicknameCheckHandler(0); // 사용 불가능한 id에 대해 0을 전달
-          setNicknameChecked(1)
+          setNicknameChecked(1);
         } else {
           if (nickname === '') {
             Swal.fire({
@@ -31,17 +36,17 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
             return;
           }
           Swal.fire({
-            title: "사용할 수 있는 닉네임입니다",
-            icon: "success"
+            title: '사용할 수 있는 닉네임입니다',
+            icon: 'success',
           });
           nicknameCheckHandler(1); // 사용 가능한 id에 대해 1을 전달
-          setNicknameChecked(0)
+          setNicknameChecked(0);
         }
       })
       .catch(() => {
         Swal.fire({
-          title: "다시 시도해주세요",
-          icon: "error"
+          title: '다시 시도해주세요',
+          icon: 'error',
         });
       });
     console.log('닉네임 중복확인 api call');
@@ -50,7 +55,7 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
   return (
     <>
       <div className={styles.Mgb}>
-        <label className={`${styles.Label} FontM20`} htmlFor="nickname">
+        <label className={`${styles.Label} FontM20Bold`} htmlFor="nickname">
           nickname
         </label>
         <input
@@ -61,25 +66,31 @@ const MainSignupFormNickname = ({ nickname, onNicknameHandler, nicknamePossible,
           value={nickname}
           onChange={onNicknameHandler}
         />
-        <button onClick={handleNickNameCheck} className={`${styles.checkBtn} FontM20`}>중복 확인</button>
+        <button
+          onClick={handleNickNameCheck}
+          className={`${styles.checkBtn} ${nicknameChecked === 0 && nicknamePossible === 1 ? styles.checkBtnActive : ''} FontM20`}
+        >
+          중복 확인
+        </button>
       </div>
       {nicknameChecked === 0 && nicknamePossible === 0 && (
         <div className={styles.BeforeContainer}>
           <div className={styles.Label}></div>
+          <div className={`${styles.SignupAlertText} FontM20`}>　</div>
         </div>
       )}
 
       {nicknameChecked === 1 && nicknamePossible === 0 && (
         <div className={styles.Container}>
           <div className={styles.Label}></div>
-          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 아이디 입니다</div>
+          <div className={`${styles.SignupAlertText} FontM20`}>이미 존재하는 닉네임입니다.</div>
         </div>
       )}
 
       {nicknameChecked === 0 && nicknamePossible === 1 && (
         <div className={styles.Container}>
           <div className={styles.Label}></div>
-          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다</div>
+          <div className={`${styles.SignupSuccessText} FontM20`}>중복 확인이 완료되었습니다.</div>
         </div>
       )}
     </>

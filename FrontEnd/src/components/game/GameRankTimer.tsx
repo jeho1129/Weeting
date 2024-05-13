@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerRank from '@/assets/images/timerRank.png';
-import { RoomInfo } from '@/types/game';
-import { useRecoilValue } from 'recoil';
-import { gameState, userState } from '@/recoil/atom';
+import { RoomInfo, MessageScore } from '@/types/game';
 
-const GameRankTimer = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo; changeRoomStatus: () => void }) => {
+const GameRankTimer = ({
+  roomInfo,
+  changeRoomStatus,
+  messageScore,
+}: {
+  roomInfo: RoomInfo;
+  changeRoomStatus: () => void;
+  messageScore: MessageScore;
+}) => {
   // roomStatus가 start일 때 타이머를 240초로 설정
   const initialTime = roomInfo.roomStatus === 'start' ? 240 : 30;
   const [timeLeft, setTimeLeft] = useState(initialTime);
-  const gameInfo = useRecoilValue(gameState);
-  const userInfo = useRecoilValue(userState);
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -23,12 +27,12 @@ const GameRankTimer = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo; cha
     }
   }, [timeLeft, roomInfo, changeRoomStatus]);
 
-  const currentUserScore = gameInfo.roomUsers.find((user) => user.userId === userInfo.userId)?.score;
-
   return (
     <div className={styles.RanktimerContainer}>
       <div className={styles.Ranktimers}>
-        <div className={styles.PersonalScore}>{currentUserScore !== undefined && <p>현재 점수 : {currentUserScore}</p>}</div>
+        <div className={styles.PersonalScore}>
+          <p>현재 점수 : {messageScore.highest_similarity}</p>
+        </div>
         <p className={styles.RanktimerText}>{timeLeft}초</p>
       </div>
       <img className={styles.GameWordTimer} src={timerRank} alt="GameTemplate" />

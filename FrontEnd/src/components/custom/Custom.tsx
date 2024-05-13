@@ -1,11 +1,12 @@
+import customTitle from '@/assets/images/customTitle.svg';
 import styles from '@/styles/custom/Custom.module.css';
-import Avatar from '@/components/avatar/Avatar';
+import AvatarFirst from '@/components/avatar/AvatarFirst';
 import HomeButton from '@/components/home/HomeButton';
 import CustomOutfitList from './CustomOutfitList';
 import { useEffect, useState } from 'react';
 import { Outfit, OutfitItem, dummyOutfit } from '@/types/custom';
 import { outfitAllApi, outfitChangeApi, outfitNowApi } from '@/services/customApi';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/atom';
 
 const Custom = () => {
@@ -31,10 +32,14 @@ const Custom = () => {
 
   return (
     <>
+      <img className={styles.CustomTitle} src={customTitle} alt="" />
+      <div className={styles.ButtonContainer}>
+        <HomeButton {...{ message: '', direction: 'right', location: 'home' }} />
+      </div>
       <div className={styles.CustomContainer}>
         <div className={styles.AvatarContainer}>
           {!isLoading ? (
-            <Avatar
+            <AvatarFirst
               {...{
                 size: 350,
                 outfit: nowOutfit,
@@ -48,20 +53,23 @@ const Custom = () => {
 
           <div className={`FontM20 ${styles.CustomButtonContainer}`}>
             <div
-              className={`${styles.CustomButtonNickname} ${styles.CustomButton}`}
+              className={`${styles.CustomButton}`}
               onClick={() => {
                 if (isClicked) {
                   setIsClicked(false);
                 } else {
                   nicknameInput?.focus();
                   setIsClicked(true);
+                  setTimeout(() => {
+                    setIsClicked(false);
+                  }, 4000);
                 }
               }}
             >
               닉네임 수정
             </div>
             <div
-              className={`${styles.CustomButtonOutfit} ${styles.CustomButton}`}
+              className={`${styles.CustomButton}`}
               onClick={() => {
                 outfitChangeApi(
                   userInfo.userId,
@@ -74,9 +82,6 @@ const Custom = () => {
           </div>
         </div>
         <CustomOutfitList {...{ outfitList: outfitList, nowOutfit: nowOutfit, setNowOutfit: setNowOutfit }} />
-      </div>
-      <div className={styles.ButtonContainer}>
-        <HomeButton {...{ message: '', direction: 'right', location: 'home' }} />
       </div>
     </>
   );
