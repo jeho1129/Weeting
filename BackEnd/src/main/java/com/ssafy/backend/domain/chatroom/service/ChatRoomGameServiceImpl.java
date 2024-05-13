@@ -31,10 +31,10 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private void scheduleTask(String chatRoomId, ChatRoomDto.RoomStatus newStatus, long delay, TimeUnit unit) {
         scheduler.schedule(() -> {
-            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+            String key = "chatRoom:" + chatRoomId;
+            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
             if (roomInfo != null) {
                 roomInfo.setRoomStatus(newStatus);
-                String key = "chatRoom:" + roomInfo.getRoomId();
                 redisTemplate.opsForValue().set(key, roomInfo);
             }
         }, delay, unit);
@@ -43,7 +43,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public LocalTime roomStatusModify(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
@@ -78,7 +80,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                 throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
         }
 
-        redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+        redisTemplate.opsForValue().set(key, roomInfo);
         if (currentStatus == ChatRoomDto.RoomStatus.wordsetting || currentStatus == ChatRoomDto.RoomStatus.start) {
             return futureTime;
         } else {
@@ -90,7 +92,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     @Override
     public void readyStatusTrans(String chatRoomId,
                                  User user) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
         }
@@ -101,7 +105,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 userInfo.setReady(!userReadyStatus);
 
-                String key = "chatRoom:" + roomInfo.getRoomId();
                 redisTemplate.opsForValue().set(key, roomInfo);
 
                 break;
@@ -112,7 +115,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public List<ChatRoomGameResultDto> gameResult(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
@@ -148,7 +153,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public void gameInitialize(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
@@ -161,7 +168,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setIsAlive(true);
         }
 
-        String key = "chatRoom:" + roomInfo.getRoomId();
         redisTemplate.opsForValue().set(key, roomInfo);
     }
 
