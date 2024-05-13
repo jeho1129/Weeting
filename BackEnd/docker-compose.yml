@@ -60,7 +60,7 @@ services:
   rabbitmq:
     container_name: rabbitmq
     hostname: rabbitmq
-    image: rabbitmq:latest
+    image: rabbitmq:management
     networks:
       - weeting-network
     ports:
@@ -70,7 +70,6 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit listeners.tcp.default=0.0.0.0:5672 -rabbitmq_management listeners.tcp.default=0.0.0.0:15672 -rabbitmq_stomp tcp_listeners=[{\"0.0.0.0\", 61613}]
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management; rabbitmq-server"]
@@ -78,7 +77,6 @@ services:
 volumes:
   mysql_data:
   rabbitmq_data:
-    driver: local
 
 networks:
   weeting-network:

@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -98,5 +100,15 @@ public class ChatRoomController {
     public Theme getRandomTheme() {
         Theme[] themes = Theme.values();
         return themes[random.nextInt(themes.length)];
+    }
+
+    @GetMapping("/randomNumbers/{num}")
+    public ResponseEntity<Message<List<Integer>>> getRandomNumbers(@PathVariable int num) {
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            numbers.add(i);
+        }
+        Collections.shuffle(numbers);
+        return ResponseEntity.ok().body(Message.success(numbers));
     }
 }
