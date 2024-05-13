@@ -1,7 +1,8 @@
-version: '3.8'
+version: '3.9'
 services:
   back:
-    container_name: back 
+    container_name: back
+    hostname: back
     networks:
       - weeting-network
     image: ${DOCKERHUB_REGISTRY}
@@ -20,7 +21,8 @@ services:
   front:
     networks:
       - weeting-network
-    container_name: front 
+    container_name: front
+    hostname: front
     build:
       context: ../FrontEnd
       dockerfile: Dockerfile
@@ -31,7 +33,7 @@ services:
 
   redis:
     container_name: redis
-#    hostname: redis
+    hostname: redis
     volumes:
       - ~/redis/data:/data
     user: root
@@ -57,7 +59,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-#    hostname: rabbitmq
+    hostname: rabbitmq
     image: rabbitmq:management
     networks:
       - weeting-network
