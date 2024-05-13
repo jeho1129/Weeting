@@ -16,6 +16,29 @@
   align-items: center;
 }
 
+.AlignLeft {
+  position: fixed;
+  left: 4%;
+  display: flex;
+  /* background-color: aqua; */
+  width: 400px;
+  height: 833px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.AlignRight {
+  position: fixed;
+  right: 100px;
+  display: flex;
+  /* background-color: aqua; */
+  width: 1000px;
+  height: 833px;
+  flex-direction: column;
+  align-items: center;
+}
+
 .ButtonAlign {
   display: flex;
   flex-direction: column;
@@ -31,8 +54,10 @@
 }
 
 .Avatars {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 0%;
+  /* background-color: aqua; */
+  right: 200px;
 }
 
 .ElectricPoles {
@@ -51,19 +76,21 @@
 }
 
 .ElectricLine1 {
-  position: absolute;
+  /* position: absolute; */
+  position: fixed;
   width: 920px;
-  left: 1%;
-  top: 21%;
+  right: 140px;
+  top: 180px;
   z-index: -50;
   /* height: 6.95vh;*/
 }
 
 .ElectricLine2 {
-  position: absolute;
+  position: fixed;
+  /* position: absolute; */
   width: 920px;
-  left: 1%;
-  top: 56%;
+  right: 140px;
+  top: 469px;
   z-index: -50;
   /* height: 6.95vh;*/
 }

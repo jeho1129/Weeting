@@ -26,7 +26,7 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
       setWarningMsg('* 한 글자 이상 6글자 이하로 입력해주세요.');
     } else {
       setWarningMsg(
-        '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다',
+        '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다 <br />* 사전에 등록된 단어일 수록 정확한 유사도가 출력됩니다.',
       );
     }
 
