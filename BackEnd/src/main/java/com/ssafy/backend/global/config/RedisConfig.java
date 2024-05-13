@@ -47,6 +47,7 @@ public class RedisConfig {
         template.setConnectionFactory(factory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setPassword("c103103"); // Redis 비밀번호 설정
         return template;
     }
 }
