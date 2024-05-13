@@ -31,7 +31,7 @@ public class WebSocketChatRoomGetHandler extends TextWebSocketHandler {
         if (roomId != null && !roomId.isEmpty()) {
             handleRoomRequest(session, roomId);
         } else {
-            session.sendMessage(new TextMessage("{\"error\": \"Room ID is missing in the request.\"}"));
+            session.sendMessage(new TextMessage("roomId가 누락됨 !"));
         }
     }
 
@@ -43,9 +43,10 @@ public class WebSocketChatRoomGetHandler extends TextWebSocketHandler {
                 String roomJson = objectMapper.writeValueAsString(chatRoomDto);
                 session.sendMessage(new TextMessage(roomJson));
             } else {
-                session.sendMessage(new TextMessage("{\"error\": \"Room not found.\"}"));
+                session.sendMessage(new TextMessage("방이 존재하지 않는다 !"));
             }
         } catch (Exception e) {
+            log.error("Error retrieving room information for roomId: {}", roomId, e);
             session.sendMessage(new TextMessage("{\"error\": \"Error retrieving room information.\"}"));
         }
     }
