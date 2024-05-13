@@ -5,27 +5,54 @@ import { RoomInfo, MessageScore } from '@/types/game';
 
 const GameRankTimer = ({
   roomInfo,
-  changeRoomStatus,
   messageScore,
 }: {
   roomInfo: RoomInfo;
-  changeRoomStatus: () => void;
   messageScore: MessageScore;
 }) => {
   // roomStatus가 start일 때 타이머를 240초로 설정
-  const initialTime = roomInfo.roomStatus === 'start' ? 240 : 30;
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const endTime: string | null = roomInfo.roomEndtime;
+  const forbiddenTime: string | null = roomInfo.roomForbiddentime;
+  const [endTimeLeft, setEndTimeLeft] = useState('');
+  const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
 
   useEffect(() => {
-    if (timeLeft > 0) {
-      const timerId = setTimeout(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1000);
-      return () => clearTimeout(timerId);
-    } else if (timeLeft == 0) {
-      changeRoomStatus();
+    console.log(new Date().toLocaleString());
+    if (endTime != null) {
+      setEndTimeLeft(((new Date(endTime).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
     }
-  }, [timeLeft, roomInfo, changeRoomStatus]);
+
+    if (forbiddenTime != null) {
+      setForbiddenTimeLeft(((new Date(forbiddenTime).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
+    }
+  }, [roomInfo]);
+
+  useEffect(() => {
+    if (roomInfo.roomStatus === 'wordsetting') {
+      const timerId = setInterval(() => {
+        setForbiddenTimeLeft(
+          ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
+        );
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(timerId);
+        setForbiddenTimeLeft('0');
+        // status 변경 websocket?? publish? send?
+      }, 30000);
+    } else if (roomInfo.roomStatus === 'start') {
+      const timerId = setInterval(() => {
+        setEndTimeLeft((new Date(endTime!).getTime() - new Date().getTime()).toFixed(0).toString());
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(timerId);
+        setEndTimeLeft('0');
+        // status 변경 websocket?? publish? send?
+      }, 240000);
+    } else {
+    }
+  }, [roomInfo]);
 
   return (
     <div className={styles.RanktimerContainer}>
@@ -33,7 +60,14 @@ const GameRankTimer = ({
         <div className={styles.PersonalScore}>
           <p>현재 점수 : {messageScore.highest_similarity}</p>
         </div>
-        <p className={styles.RanktimerText}>{timeLeft}초</p>
+        <p className={styles.RanktimerText}>
+          {roomInfo.roomStatus === 'wordsetting'
+            ? forbiddenTimeLeft
+            : roomInfo.roomStatus === 'start'
+              ? endTimeLeft
+              : ''}
+          초
+        </p>
       </div>
       <img className={styles.GameWordTimer} src={timerRank} alt="GameTemplate" />
     </div>

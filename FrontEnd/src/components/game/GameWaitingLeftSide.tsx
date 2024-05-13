@@ -31,7 +31,8 @@ const GameWaitingLeftSide = ({
 
   return (
     <>
-      <div className={styles.Align}>
+      <div className={styles.AlignLeft}>
+        {/* <div className={styles.Align}> */}
         <GameWaitingLogo />
         <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
@@ -40,11 +41,13 @@ const GameWaitingLeftSide = ({
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
-        {(roomInfo.roomStatus === 'wordsetting' || roomInfo.roomStatus === 'start') &&
+        {(roomInfo.roomStatus === 'wordsetting' ||
+          roomInfo.roomStatus === 'wordfinish' ||
+          roomInfo.roomStatus === 'start') &&
           (roomInfo.roomMode === 'rank' ? (
-            <GameRankTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} messageScore={messageScore} />
+            <GameRankTimer roomInfo={roomInfo} messageScore={messageScore} />
           ) : (
-            <GameWordTimer roomInfo={roomInfo} changeRoomStatus={changeRoomStatus} />
+            <GameWordTimer roomInfo={roomInfo}/>
           ))}
       </div>
     </>
