@@ -1,28 +1,21 @@
 package com.ssafy.backend.domain.chatroom.service;
 
-import com.ssafy.backend.domain.chat.dto.ChatDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomUserInfo;
 import com.ssafy.backend.domain.user.model.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 @Service
 @RequiredArgsConstructor
 public class ChatRoomServiceImpl implements ChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private final RabbitTemplate rabbitTemplate;
-    private final TopicExchange topicExchange;
+
 
 
 
@@ -71,6 +64,13 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
+        boolean userAlreadyInRoom = chatRoomDto.getRoomUsers().stream()
+                .anyMatch(userInfo -> userInfo.getId().equals(user.getId()));
+
+        if (userAlreadyInRoom) {
+            throw new IllegalArgumentException("넌 이미 방 안에 있다.");
+        }
+
         if (chatRoomDto.getRoomMaxCnt() <= chatRoomDto.getRoomUsers().toArray().length) {
             throw new IllegalArgumentException("방 인원이 다 찼어요 ㅠ");
         }
@@ -110,7 +110,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .build();
 
 //        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + key, chatRoomDto);
-
         return chatRoomDto;
     }
 
@@ -127,7 +126,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         }
 
 //        rabbitTemplate.convertAndSend(topicExchange.getName(), "room.all", chatRooms);
-        System.out.println("채팅룸 : " + chatRooms);
         return chatRooms;
     }
 
