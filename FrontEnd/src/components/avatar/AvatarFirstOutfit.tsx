@@ -9,11 +9,13 @@ const AvatarOutfit = ({
   location,
   outfitSet,
   nickname,
+  isAlive,
 }: {
   size: number;
   location: 'Home' | 'Ingame' | 'Custom' | 'Ranking' | 'Room';
   outfitSet: OutfitSet;
   nickname: string;
+  isAlive: boolean;
 }) => {
   const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
@@ -58,7 +60,12 @@ const AvatarOutfit = ({
         {
           // 머리 아이템
           outfitSet.head !== null ? (
-            <img src={outfitSet.head.image} className={styles.AvatarOutfit} style={{ width: `${size}px` }} alt="" />
+            <img
+              src={outfitSet.head.image}
+              className={`${isAlive && location !== 'Custom' && location !== 'Room' ? styles.AvatarOutfitBodyMove : ''} ${styles.AvatarOutfit}`}
+              style={{ width: `${size}px` }}
+              alt=""
+            />
           ) : (
             <></>
           )
@@ -67,7 +74,28 @@ const AvatarOutfit = ({
         {
           // 눈 아이템
           outfitSet.eyes !== null ? (
-            <img src={outfitSet.eyes.image} className={styles.AvatarOutfit} style={{ width: `${size}px` }} alt="" />
+            outfitSet.eyes.image.indexOf('GOONGYAE_EYEPATCH') !== -1 ? (
+              <img
+                src={outfitSet.eyes.image}
+                className={`${isAlive && location !== 'Custom' && location !== 'Room' ? styles.AvatarOutfitBodyMove : ''} ${styles.AvatarOutfit}`}
+                style={{ width: `${size}px` }}
+                alt=""
+              />
+            ) : outfitSet.eyes.image.indexOf('ONION_KOONGYA_EYES') !== -1 ? (
+              <img
+                src={outfitSet.eyes.image}
+                className={`${styles.AvatarOutfit}`}
+                style={{ width: `${size}px` }}
+                alt=""
+              />
+            ) : (
+              <img
+                src={outfitSet.eyes.image}
+                className={`${isAlive && location !== 'Custom' && location !== 'Room' ? styles.AvatarOutfitEyesMove : ''} ${styles.AvatarOutfit}`}
+                style={{ width: `${size}px` }}
+                alt=""
+              />
+            )
           ) : (
             <></>
           )
@@ -78,7 +106,7 @@ const AvatarOutfit = ({
           outfitSet.nametag !== null ? (
             // 커스텀 닉네임 수정 부분
             location === 'Custom' ? (
-              <>
+              <div>
                 <input
                   className={`${styles.NameTagEdit} ${isClick ? styles.NameTagEditStart : ''}`}
                   style={{
@@ -93,7 +121,7 @@ const AvatarOutfit = ({
                   maxLength={4}
                   size={4}
                   spellCheck={false}
-                  id='nicknameInput'
+                  id="nicknameInput"
                   ref={inputEl}
                   onFocus={() => {
                     setIsClick(true);
@@ -109,29 +137,18 @@ const AvatarOutfit = ({
                     }
                   }}
                 />
-                {/* <div
-                  className={styles.NameTag}
-                  style={{
-                    width: `${(125.85 * size) / 300}px`,
-                    height: `${(size * 50) / 300}px`,
-                    fontSize: `${(size * 32) / 300}px`,
-                    left: `calc(50% - ${(125.85 * size) / 600}px)`,
-                  }}
-                >
-                  {nickname}
-                </div> */}
                 <img
                   src={outfitSet.nametag!.image}
                   className={styles.AvatarOutfit}
                   style={{ width: `${size}px` }}
                   alt=""
                 />
-              </>
+              </div>
             ) : // 게임 방에서
             location === 'Ingame' ? (
               <>
                 <div
-                  className={styles.NameTag}
+                  className={`${isAlive ? styles.AvatarOutfitBodyMove : ''} ${styles.NameTag}`}
                   style={{
                     width: `${(125.85 * size) / 300}px`,
                     height: `${(size * 50) / 300}px`,
@@ -143,7 +160,7 @@ const AvatarOutfit = ({
                 </div>
                 <img
                   src={outfitSet.nametag!.image}
-                  className={styles.AvatarOutfit}
+                  className={`${isAlive ? styles.AvatarOutfitBodyMove : ''} ${styles.AvatarOutfit}`}
                   style={{ width: `${size}px` }}
                   alt=""
                 />

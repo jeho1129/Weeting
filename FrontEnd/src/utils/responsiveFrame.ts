@@ -8,10 +8,9 @@ export const getResizeEventListener = (standardWidth: number, standardHeight: nu
       outlet.style.width = `${standardWidth}px`;
       outlet.style.height = `${standardHeight}px`;
 
+      console.log(outletContainer.clientHeight);
       let width = outletContainer?.clientWidth;
-      console.log(width);
       let height = width * (standardHeight / standardWidth);
-      console.log(height);
 
       outlet.style.cssText = `zoom: ${height / standardHeight}`;
 

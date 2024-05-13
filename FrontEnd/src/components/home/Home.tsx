@@ -1,21 +1,25 @@
 import styles from '@/styles/home/HomePage.module.css';
-import Avatar from './../avatar/Avatar';
+import Avatar from '../avatar/Avatar';
 import HomeButton from './HomeButton';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { userState, outfitState } from '@/recoil/atom';
-import { logoutApi, userInfoLoadApi } from '@/services/userApi';
-import { removeCookie } from '@/utils/axios';
-import { useNavigate } from 'react-router-dom';
-import { outfitNowApi } from '@/services/customApi';
+import { userInfoLoadApi } from '@/services/userApi';
+import { AvatarProps } from '@/types/avatar';
+import bird from '@/assets/audio/bird.mp3';
+import { Lightning } from '@phosphor-icons/react';
+
 const Home = () => {
   // 회원정보 조회 계속 해서 리코일에 반영하기
+  const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
-  const outfitInfo = useRecoilValue(outfitState);
-  const setOutfitInfo = useSetRecoilState(outfitState);
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [avatarFirstProps, setAvatarFirstProps] = useState<AvatarProps>({
+    userId: userInfo.userId,
+    size: 400,
+    location: 'Home',
+    options: { isNest: true },
+  });
+  const [clickCnt, setClickCnt] = useState(0);
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
@@ -24,62 +28,54 @@ const Home = () => {
           userId: data.dataBody.id,
           nickname: data.dataBody.nickname,
           score: data.dataBody.score,
-          ranking: data.dataBody.rank,
+          ranking: data.dataBody.ranking,
         });
         return data.dataBody.id;
-      })
-      .then((userId) => {
-        outfitNowApi(userId).then((data) => {
-          setOutfitInfo(data);
-          setIsLoading(true);
-        });
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  const logout = () => {
-    logoutApi()
-      .then(() => {
-        alert('로그아웃');
-        removeCookie('accessToken');
-        if (localStorage.getItem('localToken')) {
-          localStorage.removeItem('localToken');
-        }
-      })
-      .then(() => {
-        navigate('/');
-      });
+  const playButtonSound = () => {
+    const audioRef = useRef(new Audio(bird));
+    const audio = audioRef.current;
+    audio.play();
   };
 
   return (
     <>
       <div className={styles.ButtonContainer}>
-        <div style={{ backgroundColor: 'aqua' }} onClick={logout}>
-          로그아웃
-        </div>
+        <HomeButton {...{ message: '로그아웃', direction: 'logout', size: 30 }} />
         <HomeButton {...{ message: '커스텀', direction: 'left', location: 'custom' }} />
         <HomeButton {...{ message: '랭킹', direction: 'down', location: 'ranking' }} />
         <HomeButton {...{ message: '게임', direction: 'right', location: 'room' }} />
       </div>
-      <div className={styles.AvatarContainer}>
-        {isLoading ? (
-          <Avatar
-            {...{
-              size: 400,
-              outfit: outfitInfo,
-              location: 'Home',
-              options: { isNest: true },
-            }}
-          />
-        ) : (
-          <></>
-        )}
+      <div
+        className={styles.AvatarContainer}
+        onClick={() => {
+          setClickCnt(clickCnt + 1);
+          playButtonSound();
+        }}
+      >
+        <Avatar {...avatarFirstProps} />
       </div>
-      {/* <div className={styles.FrameContainer}>
-        <HomeFrame />
-      </div> */}
+      {clickCnt >= 7 && (
+        <div style={{ position: 'absolute' }}>
+          <button
+            onClick={() => {
+              setAvatarFirstProps({
+                userId: userInfo.userId,
+                size: 400,
+                location: 'Home',
+                options: { isNest: true, isAlive: false },
+              });
+            }}
+          >
+            <Lightning size={20} weight="bold" />
+          </button>
+        </div>
+      )}
     </>
   );
 };

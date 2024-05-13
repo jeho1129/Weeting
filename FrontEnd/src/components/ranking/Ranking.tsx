@@ -7,14 +7,13 @@ import HomeButton from '@/components/home/HomeButton';
 import RankingList from './RankingList';
 import rankingTitle from '@/assets/images/rankingTitle.svg';
 
-import { outfitState, userState } from '@/recoil/atom';
+import { userState } from '@/recoil/atom';
 import { RankingUser } from '@/types/user';
 import { rankingListApi } from '@/services/rankApi';
 
 const Ranking = () => {
   const [rankingList, setRankingList] = useState<RankingUser[]>([]);
   const userInfo = useRecoilValue(userState);
-  const outfitInfo = useRecoilValue(outfitState);
 
   useEffect(() => {
     rankingListApi()
@@ -38,17 +37,23 @@ const Ranking = () => {
           <div>
             <Avatar
               {...{
+                userId: userInfo.userId,
                 size: 350,
-                outfit: outfitInfo,
                 location: 'Ranking',
                 options: { nickname: userInfo.nickname, isNest: true },
               }}
             />
           </div>
-          <div>
-            <div className={`FontM32`}>
-              <div>내 순위는</div>
-              <div className="FontM60">{userInfo.ranking ? `${userInfo.ranking}위 입니다!` : '정각에 공개됩니다!'}</div>
+          <div className={styles.AvatarRankingMessage}>
+            <div className={styles.AvatarRankingMessageContainer}>
+              <div className={`FontM32 ${styles.AvatarRankingMessage1}`}>내 순위는</div>
+              <div className={`${styles.AvatarRankingMessage2} ${userInfo.ranking ? 'FontM60' : `FontM32`}`}>
+                {userInfo.ranking
+                  ? userInfo.ranking <= 50
+                    ? `${userInfo.ranking}위`
+                    : '순위권 밖'
+                  : '정각에 공개됩니다!'}
+              </div>
             </div>
           </div>
         </div>

@@ -13,14 +13,16 @@ const RoomRadioBtn = ({ selectedMode, onChangeMode }) => {
       {roomModeList.map((mode, idx) => (
         <label key={idx}>
           <input
-            className={styles.RadioInput}
+            className={` ${styles.RadioInput}`}
             type="radio"
             name="roomModeList"
             value={mode.value}
             onChange={onChangeMode}
             checked={idx === selectedMode}
           />
-          <span className={`${styles.RadioMode} ${idx === selectedMode ? styles.SelectedRadioColor : styles.UnselectedRadioColor}`}>
+          <span
+            className={`${styles.RadioMode} ${idx === selectedMode ? styles.SelectedRadioColor : styles.UnselectedRadioColor}`}
+          >
             {mode.text}
           </span>
         </label>

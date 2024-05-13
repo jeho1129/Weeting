@@ -1,22 +1,28 @@
 version: '3.8'
 services:
   back:
+    container_name: back 
+    networks:
+      - weeting-network
     image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
     depends_on:
       - redis
       - mysql
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: k10c103.p.ssafy.io
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: c103103
+      - rabbitmq
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: c103103
+    #   SPRING_REDIS_HOST: redis
+    #   SPRING_REDIS_PORT: 6379
+    #   SPRING_REDIS_PASSWORD: c103103
 
   front:
-    container_name: superjaehun_front 
+    networks:
+      - weeting-network
+    container_name: front 
     build:
       context: ../FrontEnd
       dockerfile: Dockerfile
@@ -26,12 +32,22 @@ services:
       - back
 
   redis:
-    image: redis
+    container_name: redis
+    hostname: redis
+    volumes:
+      - ~/redis/data:/data
+    user: root
+    networks:
+      - weeting-network
+    image: redis:latest
     ports:
       - "6379:6379"
     command: redis-server --requirepass c103103
 
+
   mysql:
+    networks:
+      - weeting-network
     image: mysql:latest
     environment:
       MYSQL_DATABASE: weeting
@@ -41,5 +57,25 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:management  # RabbitMQ 관리 플러그인 포함 이미지 사용
+    networks:
+      - weeting-network
+    ports:
+      - "5672:5672"      # AMQP 프로토콜 포트
+      - "15672:15672"    # 관리 대시보드 포트
+      - "61613:61613"    # STOMP 플러그인 포트
+    environment:
+      - RABBITMQ_PLUGINS=rabbitmq_stomp,rabbitmq_web_stomp  # STOMP 플러그인 활성화
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   mysql_data:
+  rabbitmq_data: 
+
+networks:
+  weeting-network:
+    external: true

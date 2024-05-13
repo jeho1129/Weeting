@@ -1,38 +1,66 @@
 .ButtonContainer {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 .RankingContainer {
-  position: absolute;
-  top: 10%;
+  position: relative;
+  top: 8%;
   width: 100%;
-  height: 80%;
-  display: flex;
+  height: 85%;
+  /* background-color: bisque; */
 }
 
 .AvatarContainer {
-  position: relative;
+  position: absolute;
   width: 400px;
   height: 600px;
   /* background-color: blue; */
+  left: 13%;
+  top: 13%;
+}
+
+.AvatarRankingMessage {
+  position: absolute;
+  bottom: 10%;
+  left: 13%;
+  color: white;
+}
+.AvatarRankingMessageContainer {
+  position: relative;
+  width: 280px;
+  height: 100px;
+}
+.AvatarRankingMessage1 {
+  position: absolute;
+  top: 0;
+}
+.AvatarRankingMessage2 {
+  position: absolute;
+  bottom: 0px;
+  width: 280px;
+  text-align: center;
 }
 
 .ListContainer {
-  width: 60vw;
-  background-color: aqua;
+  position: absolute;
+  width: 700px;
+  height: 580px;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 20px;
+  top: 50px;
+  right: 50px;
+  padding: 30px;
 }
 
 .ListWH {
-  background-color: brown;
-  height: 55vh;
-  width: 40vw;
+  /* background-color: brown; */
+  height: 580px;
+  width: 800px;
   overflow: auto;
 }
 
@@ -45,9 +73,23 @@
   margin-top: 50px;
 }
 
+.RankingItem {
+  display: grid;
+  grid-template-columns: 140px 220px 250px;
+  grid-auto-rows: 60px;
+  gap: 10px;
+  text-align: center;
+}
+
+.RankingItem > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .RankingTitle {
   position: absolute;
   top: 0px;
   height: 100%;
-  left: 0;
+  left: 0%;
 }

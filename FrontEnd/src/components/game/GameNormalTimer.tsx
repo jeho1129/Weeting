@@ -9,7 +9,6 @@ const GameWordTimer = ({ roomInfo, changeRoomStatus }: { roomInfo: RoomInfo; cha
   // roomStatus가 start일 때 타이머를 240초로 설정
   const initialTime = roomInfo.roomStatus === 'start' ? 240 : 30;
   const [timeLeft, setTimeLeft] = useState(initialTime);
-  
 
   useEffect(() => {
     if (timeLeft > 0) {
