@@ -8,18 +8,36 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10); // 스레드 풀 크기 설정
+
+
+    private void scheduleTask(String chatRoomId, ChatRoomDto.RoomStatus newStatus, long delay, TimeUnit unit) {
+        scheduler.schedule(() -> {
+            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+            if (roomInfo != null) {
+                roomInfo.setRoomStatus(newStatus);
+                String key = "chatRoom:" + roomInfo.getRoomId();
+                redisTemplate.opsForValue().set(key, roomInfo);
+            }
+        }, delay, unit);
+    }
+
 
     @Override
-    public ChatRoomDto roomStatusModify(String chatRoomId) {
+    public LocalTime roomStatusModify(String chatRoomId) {
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
 
         if (roomInfo == null) {
@@ -27,6 +45,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
         ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+        LocalTime currentTime = LocalTime.now();
+        LocalTime futureTime = null;
 
         switch (currentStatus) {
             case waiting:
@@ -37,12 +57,14 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                 break;
             case wordsetting:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
+                futureTime = currentTime.plusSeconds(30);
                 break;
             case wordfinish:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
                 break;
             case start:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
+                futureTime = currentTime.plusSeconds(240);
                 break;
             case end:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
@@ -52,9 +74,11 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
         redisTemplate.opsForValue().set(chatRoomId, roomInfo);
-
-        return roomInfo;
-
+        if (currentStatus == ChatRoomDto.RoomStatus.wordsetting || currentStatus == ChatRoomDto.RoomStatus.start) {
+            return futureTime;
+        } else {
+            return currentTime;
+        }
     }
 
 
@@ -72,7 +96,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 userInfo.setReady(!userReadyStatus);
 
-                redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+                String key = "chatRoom:" + roomInfo.getRoomId();
+                redisTemplate.opsForValue().set(key, roomInfo);
 
                 break;
             }
@@ -124,7 +149,16 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setIsAlive(true);
         }
 
-        redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+        String key = "chatRoom:" + roomInfo.getRoomId();
+        redisTemplate.opsForValue().set(key, roomInfo);
     }
+
+
+    public void forbiddenWordSetting(String chatRoomId, User user) {
+
+    }
+
+
+
 
 }

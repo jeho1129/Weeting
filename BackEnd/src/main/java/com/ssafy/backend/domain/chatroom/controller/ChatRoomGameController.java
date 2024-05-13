@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.chatroom.controller;
 
-import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomGameService;
 import com.ssafy.backend.domain.user.model.entity.User;
@@ -11,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -22,8 +22,8 @@ public class ChatRoomGameController {
 
     // 방 상태 변경
     @PatchMapping("/status/{chatRoomId}")
-    public ResponseEntity<Message<ChatRoomDto>> roomStatusModify(String roomId) {
-        ChatRoomDto result = chatRoomGameService.roomStatusModify(roomId);
+    public ResponseEntity<Message<LocalTime>> roomStatusModify(String roomId) {
+        LocalTime result = chatRoomGameService.roomStatusModify(roomId);
 
         return ResponseEntity.ok().body(Message.success(result));
     }
