@@ -80,7 +80,8 @@ const GameWaitingRightSide = ({
 
   return (
     <>
-      <div className={styles.RightSide}>
+      {/* <div className={styles.RightSide}> */}
+      <div className={styles.AlignRight}>
         <GameWaitingPole
           roomName={roomInfo.roomName}
           roomStatus={roomInfo.roomStatus}
