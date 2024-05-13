@@ -31,7 +31,7 @@ services:
 
   redis:
     container_name: redis
-    hostname: redis
+#    hostname: redis
     volumes:
       - ~/redis/data:/data
     user: root
@@ -57,7 +57,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-    hostname: rabbitmq
+#    hostname: rabbitmq
     image: rabbitmq:management
     networks:
       - weeting-network
