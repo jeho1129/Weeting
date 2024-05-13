@@ -72,7 +72,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=guest
     volumes:
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-    command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management; rabbitmq-server"]
+    command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management rabbitmq_web_stomp_examples; rabbitmq-server"]
 
 volumes:
   mysql_data:
