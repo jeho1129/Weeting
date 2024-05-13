@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 import { ChatMessage } from '@/types/chat';
 
 const RoomList = ({ roomSelectedMode, searchValue }) => {
-  const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo>([]);
+  const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo[]>([]);
   // const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
 
   const roomId = useParams().id;
@@ -23,79 +23,29 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
-  //   const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
-
-  //   ws.onopen = () => {
-  //     console.log('리스트받아오자아');
-  //   };
-  //   // 서버로부터 메시지를 받는 이벤트 리스너 설정
-  //   ws.onmessage = (event) => {
-  //     const listedData: RoomWaitInfo[] = JSON.parse(event.data);
-  //     setServerResponseData(listedData);
-  //   };
-
-  //   ws.onerror = (error) => {
-  //     console.error('웹소켓 에러 발생:', error);
-  //   };
-
-  //   setWebSocket(ws);
-
-  //   return () => {
-  //     if (ws) {
-  //       ws.close();
-  //     }
-  //   };
-  // }, []);
-
-  // 채팅방 stomp client 연결
   useEffect(() => {
-    const client = new Client({
-      brokerURL: `ws://localhost:8080/ws`,
-      // brokerURL: `wss://54.180.158.223:9002/ws`,
-      reconnectDelay: 5000, // 연결 끊겼을 때, 재연결시도까지 지연시간(ms)
-      // connectHeaders: {
-      //   Authorization: `Bearer ${getCookie('accessToken')}`,
-      // },
+    // 채팅방 stomp client 연결
+    // 로컬
+    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
+    // 배포
+    const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
+    ws.onopen = () => {
+      console.log('방리스트 받아오나염>???????');
+    };
+    ws.onmessage = (event) => {
+      console.log('리스트', event.data);
 
-      onConnect: () => {
-        console.log('-------웹소캣재훈이랑 연결완료-------');
-        client.subscribe(`/topic/room.all`, (message) => {
-          const roomList: RoomWaitInfo[] = JSON.parse(message.body);
-          setServerResponseData(roomList);
-          console.log("roomList :", roomList)
-        });
-        client.publish({ destination: `/pub/api/v1/chatroom/get/all` });
-      },
-    });
-    client.activate(); // STOMP 클라이언트 활성화
-    setStompClient(client); // STOMP 클라이언트 상태 업데이트
-
+      const roomList = JSON.parse(event.data);
+      setServerResponseData(roomList);
+    };
+    ws.onerror = (error) => {
+      console.error('웹소켓 에러 발생:', error);
+    };
     return () => {
-      client.deactivate(); // 컴포넌트 언마운트 시, STOMP 클라이언트 비활성화
+      ws.close();
+      console.log('웹소켓 연결종료');
     };
   }, []);
-
-  ///////// 함수 선언 //////////////////////////////////////////////////////
-  // 채팅 메세지 보내기
-  // const onSendMessage = () => {
-  //   // const newMessage = {
-  //   //   userId: userInfo.userId,
-  //   //   nickname: userInfo.nickname,
-  //   //   content: content,
-  //   // };
-
-  //   stompClient?.publish({
-  //     destination: `/pub/api/v1/chatroom/get/all`,
-  //     // body: JSON.stringify(newMessage),
-  //   });
-  // };
-  //////////////////////////////////////////////////////////////////////
-
-  // useEffect(() => {
-  //   onSendMessage();
-  // }, []);
 
   useEffect(() => {
     console.log('serverResponseData :', serverResponseData);
