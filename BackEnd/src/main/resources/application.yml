@@ -50,7 +50,7 @@ spring:
 
   rabbitmq:
 #    host: localhost
-    host: 54.180.158.223
+    host: rabbitmq
     port: 5672
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
