@@ -57,11 +57,11 @@ def find_top_similar_words(input_word, k):
     
     return unique_results[:k]
 
-async def get_similar_words(input_word, k=10000):
+async def get_similar_words(input_word, k=4000):
     try:
         similar_words = find_top_similar_words(input_word, k)
-        recalculated_results = [{"word": word, "score": round(99.98 - idx * 0.02, 2)}
-                                for idx, (score, word) in enumerate(similar_words) if (99.98 - idx * 0.02) > 0.001]
+        recalculated_results = [{"word": word, "score": round(99.95 - idx * 0.05, 2)}
+                                for idx, (score, word) in enumerate(similar_words) if (99.95 - idx * 0.05) > 0.001]
         return recalculated_results
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
