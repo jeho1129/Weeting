@@ -9,9 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -143,11 +142,54 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     }
 
 
-    public void forbiddenWordSetting(String chatRoomId, User user) {
+    @Override
+    public void forbiddenWordSetting(String chatRoomId,
+                                     User user,
+                                     String word) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        if (chatRoomDto == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
+        }
+
+        List<ChatRoomUserInfo> users = chatRoomDto.getRoomUsers();
+        Map<Long, String> userWords = assignWords(users, word);
+
+        for (ChatRoomUserInfo userInfo : users) {
+            if (userWords.containsKey(userInfo.getId())) {
+                userInfo.setWord(userWords.get(userInfo.getId()));
+            }
+        }
+
+        redisTemplate.opsForValue().set(key, chatRoomDto);
 
     }
 
 
+    private Map<Long, String> assignWords(List<ChatRoomUserInfo> users, String word) {
+        Map<Long, String> userWords = new HashMap<>();
+        List<Long> userIds = new ArrayList<>();
+
+        for (ChatRoomUserInfo user : users) {
+            userIds.add(user.getId());
+        }
+
+        Collections.shuffle(userIds);
+
+        for (int i = 0; i < users.size(); i++) {
+            ChatRoomUserInfo currentUser = users.get(i);
+            Long assignedUserId;
+
+            do {
+                assignedUserId = userIds.get(ThreadLocalRandom.current().nextInt(userIds.size()));
+            } while (assignedUserId.equals(currentUser.getId()) || userWords.containsValue(assignedUserId.toString()));
+
+            userWords.put(currentUser.getId(), word);
+        }
+
+        return userWords;
+    }
 
 
 }

@@ -22,4 +22,11 @@ public interface ChatRoomGameService {
 
     // 게임 결과 초기화
     void gameInitialize(String chatRoomId);
+
+
+    // 금지어 설정
+    void forbiddenWordSetting(String chatRoomId,
+                              User user,
+                              String word);
+
 }
