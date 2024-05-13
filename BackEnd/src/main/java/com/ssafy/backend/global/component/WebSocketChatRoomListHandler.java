@@ -14,7 +14,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -27,15 +27,8 @@ public class WebSocketChatRoomListHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        session.sendMessage(new TextMessage("Connection Established"));
-    }
-
-
-    @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        if ("FETCH_ROOMS".equals(message.getPayload())) {
-            sendRooms(session);
-        }
+        super.afterConnectionEstablished(session);
+        sendRooms(session);  // 연결이 완료되면 채팅방 목록을 자동으로 전송
     }
 
     @Override
@@ -44,7 +37,14 @@ public class WebSocketChatRoomListHandler extends TextWebSocketHandler {
     }
 
     private void sendRooms(WebSocketSession session) throws IOException {
-        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatRoomService.findAllChatRooms())));
+        try {
+            List<ChatRoomDto> rooms = chatRoomService.findAllChatRooms();  // 채팅방 목록 조회
+            String roomsJson = objectMapper.writeValueAsString(rooms);     // JSON 형식으로 변환
+            session.sendMessage(new TextMessage(roomsJson));               // 클라이언트에 JSON 데이터 전송
+        } catch (JsonProcessingException e) {
+            log.error("Error processing JSON", e);
+            session.sendMessage(new TextMessage("{\"error\":\"Unable to fetch rooms.\"}"));
+        }
     }
 
 
