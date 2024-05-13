@@ -3,6 +3,8 @@ package com.ssafy.backend.global.config;
 
 import com.ssafy.backend.global.component.RabbitMqProps;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -11,6 +13,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
+@Slf4j
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 @EnableWebSocket
@@ -65,6 +68,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setSystemPasscode(rabbitMqProps.getPassword())
                 .setClientLogin(rabbitMqProps.getUsername())
                 .setClientPasscode(rabbitMqProps.getPassword());
+
+        log.info(String.format("RabbitMQ Host: %s", rabbitMqProps.getHost()));
+        log.info(String.format("RabbitMQ Port: %s", rabbitMqProps.getPort()));
+        log.info(String.format("RabbitMQ Username: %s", rabbitMqProps.getUsername()));
+        log.info(String.format("RabbitMQ Password: %s", rabbitMqProps.getPassword()));
+
     }
 
 
