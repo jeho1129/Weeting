@@ -1,23 +1,21 @@
 package com.ssafy.backend.domain.chatroom.controller;
 
+import com.ssafy.backend.domain.chat.dto.ChatMessageDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomCreateRequestDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.entity.Theme;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomService;
-import com.ssafy.backend.domain.security.utils.JwtUtils;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
-import com.ssafy.backend.global.config.WebSocketConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -26,7 +24,6 @@ import java.util.Random;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
-    private final WebSocketConfig webSocketConfig;
 
     private final Random random = new Random();
 
@@ -36,8 +33,8 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")  // 로그인 한 사용자만 접근 가능
     public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto,
                                                            @AuthenticationPrincipal User user) throws Exception {
-        Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, userId);
+        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, user);
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -61,8 +58,8 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<ChatRoomDto>> EnterChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
-        Long userId = user.getId();
-        ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, userId);
+        ChatRoomDto result = chatRoomService.EnterChatRoom(chatRoomId, user);
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
@@ -72,12 +69,29 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<String>> LeaveChatRoom(@PathVariable("chatRoomId") String chatRoomId,
                                                        @AuthenticationPrincipal User user) {
-        Long userId = user.getId();
-        chatRoomService.LeaveChatRoom(chatRoomId, userId);
+        chatRoomService.LeaveChatRoom(chatRoomId, user);
         String result = "나가기 완료 !";
+
         return ResponseEntity.ok().body(Message.success(result));
     }
 
+
+    // 방 정보 조회 (실시간)
+    @MessageMapping("/api/v1/chatroom/get/{roomId}")  // /pub/api/v1/get/{roomId}
+    public ResponseEntity<Message<ChatRoomDto>> findChatRoom(@DestinationVariable String roomId) {
+
+        ChatRoomDto result = chatRoomService.findChatRoom(roomId);
+        return ResponseEntity.ok().body(Message.success(result));
+    }
+
+    // 모든 방 전체 조회 (실시간)
+    @MessageMapping("/api/v1/chatroom/get/all")  // /pub/api/v1/get/all
+    public ResponseEntity<Message<List<ChatRoomDto>>> findAllChatRooms() {
+
+        List<ChatRoomDto> result = chatRoomService.findAllChatRooms();
+        return ResponseEntity.ok().body(Message.success(result));
+
+    }
 
 
     @GetMapping("/randomTheme")
