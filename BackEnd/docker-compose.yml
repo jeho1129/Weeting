@@ -76,7 +76,8 @@ services:
 
 volumes:
   mysql_data:
-  rabbitmq_data: 
+  rabbitmq_data:
+    driver: local
 
 networks:
   weeting-network:
