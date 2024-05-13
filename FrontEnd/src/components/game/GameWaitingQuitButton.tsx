@@ -10,12 +10,11 @@ interface GameWaitingQuitButtonProps {
 
 const GameWaitingQuitButton: React.FC<GameWaitingQuitButtonProps> = ({ roomId, onQuitSuccess }) => {
   const navigate = useNavigate();
-  const params = useParams().id;
+  // const params = useParams().id;
 
   const handleQuitRoom = async () => {
     try {
-      await gameOutApi(params!);
-      // alert('방을 성공적으로 나갔습니다.'); // 성공 알림
+      await gameOutApi(roomId);
       if (onQuitSuccess) {
         onQuitSuccess();
       }
