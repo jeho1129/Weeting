@@ -67,8 +67,7 @@ services:
       - "5672:5672"      # AMQP 프로토콜 포트
       - "15672:15672"    # 관리 대시보드 포트
       - "61613:61613"    # STOMP 플러그인 포트
-    environment:
-      - RABBITMQ_PLUGINS=rabbitmq_stomp,rabbitmq_web_stomp  # STOMP 플러그인 활성화
+    command: ["rabbitmq-plugins", "enable", "rabbitmq_stomp", "rabbitmq_web_stomp"]  # STOMP 플러그인 활성화
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
@@ -78,4 +77,3 @@ volumes:
 
 networks:
   weeting-network:
-    external: true
