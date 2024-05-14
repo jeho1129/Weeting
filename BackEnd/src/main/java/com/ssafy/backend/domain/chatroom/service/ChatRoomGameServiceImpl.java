@@ -12,33 +12,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
     private final UserRepository userRepository;
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10); // 스레드 풀 크기 설정
-
-
-    private void scheduleTask(String chatRoomId, ChatRoomDto.RoomStatus newStatus, long delay, TimeUnit unit) {
-        scheduler.schedule(() -> {
-            String key = "chatRoom:" + chatRoomId;
-            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-            if (roomInfo != null) {
-                roomInfo.setRoomStatus(newStatus);
-                redisTemplate.opsForValue().set(key, roomInfo);
-            }
-        }, delay, unit);
-    }
 
 
     @Override
@@ -46,7 +32,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         String key = "chatRoom:" + chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-
+        System.out.println(roomInfo);
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
         }
@@ -61,17 +47,17 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                 break;
             case allready:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordsetting);
+                futureTime = currentTime.plusSeconds(30);
                 break;
             case wordsetting:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
-                futureTime = currentTime.plusSeconds(30);
                 break;
             case wordfinish:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
+                futureTime = currentTime.plusSeconds(240);
                 break;
             case start:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
-                futureTime = currentTime.plusSeconds(240);
                 break;
             case end:
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
@@ -81,7 +67,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
         redisTemplate.opsForValue().set(key, roomInfo);
-        if (currentStatus == ChatRoomDto.RoomStatus.wordsetting || currentStatus == ChatRoomDto.RoomStatus.start) {
+        if (currentStatus == ChatRoomDto.RoomStatus.allready || currentStatus == ChatRoomDto.RoomStatus.wordfinish) {
             return futureTime;
         } else {
             return currentTime;
@@ -90,7 +76,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
     @Override
-    public void readyStatusTrans(String chatRoomId,
+    public Boolean readyStatusTrans(String chatRoomId,
                                  User user) {
         String key = "chatRoom:" + chatRoomId;
 
@@ -107,16 +93,37 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 redisTemplate.opsForValue().set(key, roomInfo);
 
-                break;
+                return !userReadyStatus;
             }
         }
     }
 
 
     @Override
+    public String grilledChicken(String chatRoomId,
+                               User user) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
+        }
+
+        for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
+            if (userInfo.getId().equals(user.getId())) {
+                userInfo.setIsAlive(LocalDateTime.now().toString());
+                redisTemplate.opsForValue().set(key, roomInfo);
+                return userInfo.getIsAlive();
+            }
+        }
+
+        return "";
+    }
+
+
+    @Override
     public List<ChatRoomGameResultDto> gameResult(String chatRoomId) {
         String key = "chatRoom:" + chatRoomId;
-
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
@@ -165,11 +172,38 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setReady(false);
             userInfo.setWord("");
             userInfo.setScore(0.0F);
-            userInfo.setIsAlive(true);
+            userInfo.setIsAlive("");
         }
 
         redisTemplate.opsForValue().set(key, roomInfo);
     }
+
+
+
+
+
+
+
+    @Override
+    public void forbiddenWordSetting(String chatRoomId,
+                                     User user,
+                                     String word) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
+        }
+
+        List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
+
+
+
+
+    }
+
+
+
 
 
     @Override
@@ -213,7 +247,4 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     }
 
 
-    public void forbiddenWordSetting(String chatRoomId, User user) {
-
-    }
 }
