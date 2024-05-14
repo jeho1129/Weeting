@@ -20,6 +20,8 @@ const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
       setTimeout(() => {
         setElectricEffect(false);
       }, 1000);
+    } else {
+      setElectricEffect(false);
     }
   }, [isAlive]);
 

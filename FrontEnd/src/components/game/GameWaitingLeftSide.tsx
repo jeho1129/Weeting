@@ -9,17 +9,7 @@ import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameNormalTimer';
 import GameRankTimer from '@/components/game/GameRankTimer';
 
-const GameWaitingLeftSide = ({
-  roomInfo,
-  messageScore,
-  changeRoomStatus,
-  setRoomInfo,
-}: {
-  roomInfo: RoomInfo;
-  messageScore: MessageScore;
-  changeRoomStatus: () => void;
-  setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfo>>;
-}) => {
+const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; messageScore: MessageScore }) => {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
@@ -39,7 +29,7 @@ const GameWaitingLeftSide = ({
         <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
-            <GameWaitingReadyButton roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} blink={blink} setRoomInfo={setRoomInfo} onStartGame={changeRoomStatus} />
+            <GameWaitingReadyButton roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} blink={blink} />
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
@@ -49,7 +39,7 @@ const GameWaitingLeftSide = ({
           (roomInfo.roomMode === 'rank' ? (
             <GameRankTimer roomInfo={roomInfo} messageScore={messageScore} />
           ) : (
-            <GameWordTimer roomInfo={roomInfo}/>
+            <GameWordTimer roomInfo={roomInfo} />
           ))}
       </div>
     </>

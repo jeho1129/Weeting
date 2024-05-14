@@ -57,7 +57,7 @@ const GameRankModal: React.FC<GameRankModalProps> = ({
         <ul>
           {roomInfo.roomMode === 'rank'
             ? sortedMembers.map((member, index) => (
-                <li key={member.userId} className={index === 0 ? 'FontM32' : ''}>
+                <li key={member.id} className={index === 0 ? 'FontM32' : ''}>
                   <div className={styles.Center}>
                     {index === 0 ? ' 1등 ' : `${index + 1}등`} {member.nickname}
                   </div>
@@ -66,7 +66,7 @@ const GameRankModal: React.FC<GameRankModalProps> = ({
               ))
             : roomInfo.roomMode === 'normal'
               ? normalMembers.map((member, index) => (
-                  <li key={member.userId} className={'FontM32'}>
+                  <li key={member.id} className={'FontM32'}>
                     <div className={styles.FlexContainer}>
                       <div>{member.nickname}</div>
                       <div>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</div>

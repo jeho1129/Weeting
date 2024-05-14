@@ -10,14 +10,10 @@ const GameWaitingReadyButton = ({
   roomId,
   roomUsers,
   blink,
-  onStartGame,
-  setRoomInfo,
 }: {
   roomId: RoomInfo['roomId'];
   roomUsers: RoomInfo['roomUsers'];
   blink?: boolean;
-  onStartGame: () => void;
-  setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfo>>;
 }) => {
   const [isReady, setIsReady] = useState(false);
   const [buttonStyle, setButtonStyle] = useState('');
@@ -35,7 +31,6 @@ const GameWaitingReadyButton = ({
       });
       return;
     } else if (isFirstMember) {
-      onStartGame();
     } else {
       try {
         gameReadyApi(roomId).then((data) => {
@@ -55,7 +50,7 @@ const GameWaitingReadyButton = ({
     if (isFirstMember && blink) {
       baseStyle += ` ${styles.Blink}`;
     }
-    if (isReady) {
+    if (!isReady) {
       baseStyle += ` ${styles.Ready}`;
     } else {
       baseStyle += ` ${styles.Readycancle}`;
