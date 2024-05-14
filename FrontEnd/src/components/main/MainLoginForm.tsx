@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Swal from 'sweetalert2';
+import { buttonClick } from '@/utils/buttonClick';
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
@@ -22,6 +23,7 @@ const MainLoginForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    buttonClick();
 
     loginApi({
       account: id,

@@ -10,6 +10,7 @@ import MainSignupFormId from './MainSignupFormId';
 import MainSignupFormNickname from './MainSignupFormNickname';
 import MainSignupFormPw from './MainSignupFormPw';
 import MainSignupFormPwCheck from './MainSignupFormPwCheck';
+import { buttonClick } from '@/utils/buttonClick';
 
 const MainSignupForm = () => {
   const [id, setId] = useState('');
@@ -45,6 +46,7 @@ const MainSignupForm = () => {
   };
 
   const signupHandler = (e: React.FormEvent) => {
+    buttonClick();
     e.preventDefault();
     if (password !== passwordCheck) {
       Swal.fire({
@@ -102,6 +104,8 @@ const MainSignupForm = () => {
 
   const idAlertHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    buttonClick();
+
     Swal.fire({
       title: '아이디 중복확인을 해주세요',
       icon: 'error',
@@ -110,6 +114,8 @@ const MainSignupForm = () => {
 
   const nicknameAlertHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    buttonClick();
+
     Swal.fire({
       title: '닉네임 중복확인을 해주세요',
       icon: 'error',

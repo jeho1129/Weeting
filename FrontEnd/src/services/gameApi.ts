@@ -19,6 +19,15 @@ export async function gameOutApi(roomId: string) {
   }
 }
 
+export async function shuffleMemberApi(num: number) {
+  try {
+    const response = await Axios.patch(`/chatroom/randomNumbers/${num}`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function forbiddenWordSettingApi({
   nickname,
   forbiddenWord,

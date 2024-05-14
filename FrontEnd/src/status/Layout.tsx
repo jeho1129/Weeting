@@ -5,6 +5,7 @@ import { getResizeEventListener } from '@/utils/responsiveFrame';
 import bgMusic from '@/assets/audio/School.mp3';
 import { SpeakerHigh, SpeakerSlash } from '@phosphor-icons/react';
 import styles from '@/styles/home/HomePage.module.css';
+
 export default function Layout() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(new Audio(bgMusic));
@@ -22,10 +23,18 @@ export default function Layout() {
     setIsPlaying(!isPlaying);
   };
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ''; // for chrome. deprectaed.
+  };
   useEffect(() => {
     const FixRatio = getResizeEventListener(1536, 833);
     window.onresize = FixRatio;
     FixRatio();
+    window.addEventListener('beforeunload', preventClose);
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+    };
   }, []);
   return (
     <>
