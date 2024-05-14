@@ -38,8 +38,6 @@ const GameWaitingReadyButton = ({
       onStartGame();
     } else {
       try {
-        // const response = await gameReadyApi(roomId);
-        // setIsReady(response);
         gameReadyApi(roomId).then((data) => {
           console.log(data);
           setIsReady(!isReady);
@@ -50,6 +48,8 @@ const GameWaitingReadyButton = ({
     }
   };
 
+  const myReady = roomUsers.find((user) => user.id === myId.userId)?.ready;
+
   useEffect(() => {
     let baseStyle = `FontM32 ${styles.Btn}`;
     if (isFirstMember && blink) {
@@ -58,12 +58,12 @@ const GameWaitingReadyButton = ({
     if (isReady) {
       baseStyle += ` ${styles.Ready}`;
     } else {
-      baseStyle += ` ${styles.Readycancle}`; // QuitBtn 스타일 적용
+      baseStyle += ` ${styles.Readycancle}`;
     }
     setButtonStyle(baseStyle);
   }, [isReady, isFirstMember, blink]);
 
-  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비' : '준비 취소';
+  const buttonContent = isFirstMember ? '게임시작' : myReady ? '준비' : '준비 취소';
 
   return (
     <>
