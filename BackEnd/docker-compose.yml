@@ -8,8 +8,6 @@ services:
     image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
-    depends_on:
-      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: root
