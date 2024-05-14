@@ -13,7 +13,7 @@ spring:
         jdbc:
           batch_size: 100
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
       id:
         new_generator_mappings: false
 
@@ -55,6 +55,8 @@ spring:
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
     virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
+
+
 
 # jwt
 jwt:

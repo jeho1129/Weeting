@@ -2,39 +2,40 @@ package com.ssafy.backend.global.config;
 
 
 import com.ssafy.backend.global.component.RabbitMqProps;
+import com.ssafy.backend.global.component.WebSocketChatRoomGetHandler;
+import com.ssafy.backend.global.component.WebSocketChatRoomListHandler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
+@Slf4j
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 @EnableWebSocket
-//public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer {
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSocketConfigurer {
 
     private final RabbitMqProps rabbitMqProps;
-//    private final WebSocketChatRoomHandler webSocketChatRoomHandler;
-//    private final WebSocketChatRoomGetHandler webSocketChatRoomGetHandler;
+    private final WebSocketChatRoomListHandler webSocketChatRoomListHandler;
+    private final WebSocketChatRoomGetHandler webSocketChatRoomGetHandler;
 
 
-//    /*
-//     * WebSocket은 path 경로에 변수를 넣을 수 없다 !
-//     * 그래서 메시지에서 변수를 파싱해야 한다.
-//     * */
-//    @Override
-//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-//        // 방 목록 전체 조회
-//        registry.addHandler((WebSocketHandler) webSocketChatRoomHandler, "/ws/chatroom/list")
-//                .setAllowedOrigins("*");
-//        // 방 상태 조회
-//        registry.addHandler((WebSocketHandler) webSocketChatRoomGetHandler, "/ws/chatroom/get")
-//                .setAllowedOrigins("*");
-//    }
+    /*
+     * WebSocket은 path 경로에 변수를 넣을 수 없다 !
+     * 그래서 메시지에서 변수를 파싱해야 한다.
+     * */
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        // 방 목록 전체 조회
+        registry.addHandler(webSocketChatRoomListHandler, "/ws/chatroom/list")
+                .setAllowedOrigins("*");
+        // 방 상태 조회
+        registry.addHandler(webSocketChatRoomGetHandler, "/ws/chatroom/get")
+                .setAllowedOrigins("*");
+    }
 
 
     /*
@@ -58,13 +59,24 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/pub") // pub으로 시작되는 메시지는 브로커로 보내짐, 메시지를 publish하는 경로
                 .setUserDestinationPrefix("/users") // 특정 사용자에게 메시지 전송시 사용할 주소
                 .enableStompBrokerRelay("/queue", "/topic", "/exchange","/amq/queue") // subscribe 경로를 설정, 메시지 브로커에서 지원하는 접두사들
-                .setRelayHost(rabbitMqProps.getHost())
+//                .setRelayHost(rabbitMqProps.getHost())
+                .setRelayHost("rabbitmq")
                 .setVirtualHost("/")
                 .setRelayPort(61613) // STOMP 기본 포트
-                .setSystemLogin(rabbitMqProps.getUsername())
-                .setSystemPasscode(rabbitMqProps.getPassword())
-                .setClientLogin(rabbitMqProps.getUsername())
-                .setClientPasscode(rabbitMqProps.getPassword());
+//                .setSystemLogin(rabbitMqProps.getUsername())
+//                .setSystemPasscode(rabbitMqProps.getPassword())
+//                .setClientLogin(rabbitMqProps.getUsername())
+//                .setClientPasscode(rabbitMqProps.getPassword());
+                .setSystemLogin("guest")
+                .setSystemPasscode("guest")
+                .setClientLogin("guest")
+                .setClientPasscode("guest");
+
+        log.info(String.format("RabbitMQ Host: %s", rabbitMqProps.getHost()));
+        log.info(String.format("RabbitMQ Port: %s", rabbitMqProps.getPort()));
+        log.info(String.format("RabbitMQ Username: %s", rabbitMqProps.getUsername()));
+        log.info(String.format("RabbitMQ Password: %s", rabbitMqProps.getPassword()));
+
     }
 
 
