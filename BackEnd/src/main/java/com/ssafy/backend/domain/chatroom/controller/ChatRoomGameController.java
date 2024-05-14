@@ -20,10 +20,12 @@ public class ChatRoomGameController {
 
     private final ChatRoomGameService chatRoomGameService;
 
+
+
     // 방 상태 변경
     @PatchMapping("/status/{chatRoomId}")
-    public ResponseEntity<Message<LocalTime>> roomStatusModify(String roomId) {
-        LocalTime result = chatRoomGameService.roomStatusModify(roomId);
+    public ResponseEntity<Message<LocalTime>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
+        LocalTime result = chatRoomGameService.roomStatusModify(chatRoomId);
 
         return ResponseEntity.ok().body(Message.success(result));
     }
@@ -32,12 +34,30 @@ public class ChatRoomGameController {
     // ready 상태 변경
     @PatchMapping("/ready/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<String>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
+    public ResponseEntity<Message<Boolean>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
-        chatRoomGameService.readyStatusTrans(chatRoomId, user);
-        String result = "준비 상태 변경 완료 !";
+        Boolean result = chatRoomGameService.readyStatusTrans(chatRoomId, user);
 
         return ResponseEntity.ok().body(Message.success(result));
+    }
+
+
+    // 죽었을 때 isAlive값 변경
+    @PatchMapping("/dead/{chatRoomId}")
+    public ResponseEntity<Message<String>> grilledChicken(@PathVariable("chatRoomId") String chatRoomId,
+                                                            @AuthenticationPrincipal User user) {
+        String result = chatRoomGameService.grilledChicken(chatRoomId, user);
+
+        return ResponseEntity.ok().body(Message.success(result));
+    }
+
+
+    // 금지어 설정
+    @PatchMapping("/wordsetting/{chatRoomId}")
+    public void forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
+                                     @AuthenticationPrincipal User user,
+                                     @RequestBody String word) {
+        chatRoomGameService.forbiddenWordSetting(chatRoomId, user, word);
     }
 
 
@@ -48,6 +68,7 @@ public class ChatRoomGameController {
 
         return ResponseEntity.ok().body(Message.success(result));
     }
+
 
     // 게임 결과 초기화
     @PatchMapping("/initialize/{chatRoomId}")
