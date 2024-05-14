@@ -2,7 +2,7 @@ import { CaretDoubleLeft, CaretDoubleRight, CaretDoubleDown, CaretDoubleUp, Sign
 import styles from '@/styles/home/HomePage.module.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { removeCookie } from '@/utils/axios';
-import { logoutApi, userInfoLoadApi } from '@/services/userApi';
+import { logoutApi } from '@/services/userApi';
 import Swal from 'sweetalert2';
 
 const HomeButton = ({
@@ -26,16 +26,16 @@ const HomeButton = ({
   const logout = () => {
     logoutApi()
       .then(() => {
-        Swal.fire({
-          title: '로그아웃 성공',
-          icon: 'success',
-        });
         removeCookie('accessToken');
         if (localStorage.getItem('localToken')) {
           localStorage.removeItem('localToken');
         }
       })
       .then(() => {
+        Swal.fire({
+          title: '로그아웃 성공',
+          icon: 'success',
+        });
         navigate('/');
       });
   };
