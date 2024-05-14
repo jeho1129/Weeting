@@ -10,8 +10,11 @@ import java.util.List;
 @Service
 public interface ChatRoomGameService {
 
-    // 방 상태 변경
-    LocalTime roomStatusModify(String roomId);
+    // 게임 시작
+    void gameStart(String chatRoomId);
+
+    // 게임 종료 (결과창 확인Btn)
+    void gameEnd(String chatRoomId);
 
     // ready 상태 변경
     Boolean readyStatusTrans(String roomId,
