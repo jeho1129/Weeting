@@ -8,7 +8,7 @@ import asyncio, model_manager, websockets
 
 async def receive_message():
     # 배포 서버 URI
-    uri = "ws://54.180.158.223:9002/ws/word"
+    uri = "ws://54.180.158.223:9002/ws"
     # 로컬 서버 URI
     # uri = "ws://localhost:8000/ws/word"
     async with websockets.connect(uri) as websocket:
