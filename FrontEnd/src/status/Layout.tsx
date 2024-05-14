@@ -8,14 +8,16 @@ import styles from '@/styles/home/HomePage.module.css';
 
 export default function Layout() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(new Audio(bgMusic));
+  let audioRef = useRef(new Audio(bgMusic));
 
   const playMusic = () => {
     const audio = audioRef.current;
     if (audio.paused) {
       audio.play();
-      audio.autoplay = true;
-      audio.loop = true;
+      audio.onended = () => {
+        audio.currentTime = 0;
+        audio.play();
+      };
     } else {
       audio.pause();
       audio.currentTime = 0;

@@ -11,6 +11,7 @@ import { Client } from '@stomp/stompjs';
 import Swal from 'sweetalert2';
 import { ChatMessage } from '@/types/chat';
 import { roomEnterApi } from '@/services/roomApi';
+import { buttonError } from '@/utils/buttonClick';
 
 const RoomList = ({ roomSelectedMode, searchValue }) => {
   const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo[]>([]);
@@ -57,6 +58,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
     roomMaxCnt: number,
   ) => {
     if (roomUsersLength >= roomMaxCnt) {
+      buttonError();
       Swal.fire({
         title: '방이 가득 찼습니다',
         icon: 'error',
@@ -81,6 +83,7 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
       if (password === roomPassword) {
         navigate(`/room/${roomId}`);
       } else {
+        buttonError();
         Swal.fire({
           title: '비밀번호가 일치하지 않습니다',
           icon: 'error',

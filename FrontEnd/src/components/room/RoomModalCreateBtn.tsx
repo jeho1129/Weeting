@@ -8,6 +8,7 @@ import RoomRadioBtn from './RoomRadioBtn';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import ReactModal from 'react-modal';
+import { buttonError } from '@/utils/buttonClick';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -82,6 +83,7 @@ const RoomModalCreateBtn = () => {
         setModalIsOpen(false);
       })
       .catch((err) => {
+        buttonError();
         Swal.fire({
           title: '방 이름 또는 방 비밀번호를 다시 확인해주세요',
           icon: 'error',
@@ -110,6 +112,7 @@ const RoomModalCreateBtn = () => {
   };
 
   const modeAlertHandler = () => {
+    buttonError();
     Swal.fire({
       title: '모드를 선택해주세요',
       icon: 'error',
