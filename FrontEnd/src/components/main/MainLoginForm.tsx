@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Swal from 'sweetalert2';
+import { buttonError } from '@/utils/buttonClick';
 
 const MainLoginForm = () => {
   const [id, setId] = useState('');
@@ -29,7 +30,7 @@ const MainLoginForm = () => {
     })
       .then((data) => {
         const loggedInUserState = data.dataBody;
-        console.log('loggedInUserState :', loggedInUserState);
+        // console.log('loggedInUserState :', loggedInUserState);
 
         // 쿠키에 accessToken 저장
         setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
@@ -41,7 +42,8 @@ const MainLoginForm = () => {
         navigate('/home');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        buttonError();
         if (err.message === 'Network Error') {
           Swal.fire({
             title: '네트워크를 확인해주세요',
@@ -49,6 +51,7 @@ const MainLoginForm = () => {
           });
           return;
         }
+
         Swal.fire({
           title: '회원정보가 잘못되었습니다',
           icon: 'error',

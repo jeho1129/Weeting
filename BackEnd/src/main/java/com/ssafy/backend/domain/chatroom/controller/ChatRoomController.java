@@ -75,6 +75,16 @@ public class ChatRoomController {
     }
 
 
+    // 빠른 입장
+    @PatchMapping("/fastenter")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Message<ChatRoomDto>> fastEnter(@AuthenticationPrincipal User user) {
+        String selectedRoomId = chatRoomService.fastEnter(user);
+        ChatRoomDto result = chatRoomService.EnterChatRoom(selectedRoomId, user);
+        return ResponseEntity.ok().body(Message.success(result));
+    }
+
+
     // 방 정보 조회 (실시간) - 실패
 //    @MessageMapping("/api/v1/chatroom/get/{roomId}")  // /app/api/v1/chatroom/get/{roomId} (요청)
 //    @SendTo("/topic/room/{roomId}")  // topic/room/{roomId} (구독)

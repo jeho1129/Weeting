@@ -4,6 +4,7 @@ import GameRankModal from '@/components/game/GameRankModal';
 import styles from '@/styles/game/GameWaiting.module.css';
 import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
+import { gameStatusUpdateApi } from '@/services/gameApi';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameState, userState } from '@/recoil/atom';
 import { RoomInfo, MessageScore } from '@/types/game';
@@ -43,27 +44,9 @@ const GameWaiting = () => {
   ///////// 함수 선언 //////////////////////////////////////////////////////
   // 채팅 방 상태 변경 함수
   const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end') => {
-    setRoomInfo((prev) => ({ ...prev, roomStatus: status }));
+    gameStatusUpdateApi(roomInfo.roomId);
   };
 
-  // 각 상태(대기, 준비, 게임중)에 따라 함수 호출 시 다음 상태(금지어설정, 게임중, 게임끝)로 자동 변경
-  const wordSettingOrStart = () => {
-    if (roomInfo.roomStatus === 'waiting' && roomInfo.roomUsers.length > 3) {
-      changeRoomStatus('allready');
-    } else if (roomInfo.roomStatus === 'allready') {
-      changeRoomStatus('wordsetting');
-    } else if (roomInfo.roomStatus === 'wordsetting') {
-      changeRoomStatus('wordfinish');
-    } else if (roomInfo.roomStatus === 'wordfinish') {
-      changeRoomStatus('start');
-    } else if (roomInfo.roomStatus === 'start') {
-      changeRoomStatus('end');
-    } else if (roomInfo.roomStatus === 'end') {
-      changeRoomStatus('waiting');
-    } else {
-      changeRoomStatus('waiting');
-    }
-  };
   //////////////////////////////////////////////////////////////////////
 
   ///////// useEffect //////////////////////////////////////////////////////
@@ -71,9 +54,9 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     // local 개발용
-    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
+    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
     // 배포용
-    const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+    // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
     // 백에서.... 1분간 채팅안한사람 확인해야할 거 같은데?
     ws.onopen = () => {
       console.log('웹소크ㅔ세에엣연결성고오오옹');
@@ -91,12 +74,11 @@ const GameWaiting = () => {
         ws.close();
       }
     };
-  }, []);
+  }, [roomInfo]);
 
   // roomInfo가 변경되면 recoil에 반영
   useEffect(() => {
     setRoomInfoRecoil(roomInfo);
-    console.log(roomInfo);
     localStorage.setItem('roomInfo', JSON.stringify(roomInfo));
   }, [roomInfo]);
 
@@ -139,9 +121,9 @@ const GameWaiting = () => {
       // api 쏘기
     } else if (roomInfo.roomStatus === 'start') {
       // local용
-      // const ws = new WebSocket('ws://localhost:8000/ws');
+      const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+      // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
       ws.onopen = () => {
         console.log('-----지호지호웹소캣가즈아--------');
       };
@@ -153,7 +135,7 @@ const GameWaiting = () => {
           highest_similarity: Score.highest_similarity,
         });
         // 만약 가장 높은 점수라면
-        if (roomInfo.roomUsers.filter((user) => user.userId === userInfo.userId)[0].score < Score.highest_similarity) {
+        if (roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0].score < Score.highest_similarity) {
           //게임 정보변경 (내 score값 변경)
           //.send 뭐... 어쩌구저쩌구....
         }
@@ -172,8 +154,6 @@ const GameWaiting = () => {
     }
   }, [roomInfo.roomStatus]);
 
-  console.log(messageScore);
-
   //////////////////////////////////////////////////////////////////////
   // 게임 완료되면 처음으로 세팅하기
   const handleRoomUserReset = (updatedRoomInfo) => {
@@ -187,7 +167,7 @@ const GameWaiting = () => {
       {(isRankOpen || isModalOpen) && <div className={styles.modalOpenBackground}></div>}
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
-        <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} changeRoomStatus={wordSettingOrStart} />
+        <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} />
         <GameWaitingRightSide {...{ roomInfo, webSocketScore }} />
       </div>
 
@@ -197,7 +177,7 @@ const GameWaiting = () => {
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
           onConfirm={(word: string) => {
-            console.log('설정된 금칙어:', word);
+            // console.log('설정된 금칙어:', word);
             setChoose(true);
             setModalOpen(false);
           }}

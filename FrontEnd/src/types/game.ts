@@ -5,9 +5,9 @@ export interface RoomInfo {
   roomId: string;
   roomName: string;
   roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end';
-  roomForbiddentime: null | string;
-  roomEndtime: null | string;
-  roomSubject: null | string;
+  roomForbiddenTime: null | string;
+  roomEndTime: null | string;
+  roomTheme: null | string;
   roomMaxCnt: number;
   roomUsers: IngameUser[];
 }
@@ -23,25 +23,25 @@ export const dummy2: RoomInfo = {
   roomId: 'd',
   roomName: '테스트 방',
   roomStatus: 'waiting',
-  roomForbiddentime: '2024-05-13T13:30:46.000',
-  roomEndtime: '2024-05-13T13:33:06.000',
-  roomSubject: null,
+  roomForbiddenTime: '2024-05-13T13:30:46.000',
+  roomEndTime: '2024-05-13T13:33:06.000',
+  roomTheme: null,
   roomMaxCnt: 8,
   roomUsers: [
     {
-      userId: 3,
+      id: 3,
       nickname: '하하호호',
       ready: false,
       word: '사과',
       score: 16.6,
       isAlive: '',
     },
-    { userId: 10, nickname: '허허후후', ready: true, word: 'gg', score: 2, isAlive: '응나도ㅠ' },
-    { userId: 9, nickname: '헤엥', ready: true, word: '사탕', score: 3, isAlive: '' },
-    { userId: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: '' },
-    { userId: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: '' },
-    { userId: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: '' },
-    { userId: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
-    { userId: 12, nickname: '....', ready: true, word: '안녕', score: 5, isAlive: '' },
+    { id: 10, nickname: '허허후후', ready: true, word: 'gg', score: 2, isAlive: '응나도ㅠ' },
+    { id: 9, nickname: '헤엥', ready: true, word: '사탕', score: 3, isAlive: '' },
+    { id: 4, nickname: '웅냥냥', ready: false, word: '안녕', score: 1, isAlive: '' },
+    { id: 5, nickname: '홀롤로', ready: true, word: '바보', score: 4, isAlive: '' },
+    { id: 6, nickname: '웅냐', ready: true, word: '메롱', score: 67, isAlive: '' },
+    { id: 7, nickname: '헤위이잉', ready: true, word: '안녕', score: 1, isAlive: '' },
+    { id: 12, nickname: '....', ready: true, word: '안녕', score: 5, isAlive: '' },
   ],
 };

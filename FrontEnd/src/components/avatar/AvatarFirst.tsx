@@ -20,6 +20,8 @@ const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
       setTimeout(() => {
         setElectricEffect(false);
       }, 1000);
+    } else {
+      setElectricEffect(false);
     }
   }, [isAlive]);
 
@@ -37,7 +39,7 @@ const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
       nametag: nameTagOutfit,
     });
 
-    console.log(outfitSet);
+    // console.log(outfitSet);
   }, [outfit]);
 
   return (

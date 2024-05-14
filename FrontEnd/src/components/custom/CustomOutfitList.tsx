@@ -38,7 +38,7 @@ const CustomOutfitList = ({
                       });
                     }
                     setNowOutfit(CheckList);
-                    console.log(CheckList);
+                    // console.log(CheckList);
                   }}
                 >
                   <CustomOutfitListItem {...{ outfit: item }} />

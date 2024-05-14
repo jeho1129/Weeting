@@ -8,6 +8,7 @@ import { Outfit, OutfitItem, dummyOutfit } from '@/types/custom';
 import { outfitAllApi, outfitChangeApi, outfitNowApi } from '@/services/customApi';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/atom';
+import { buttonClick } from '@/utils/buttonClick';
 
 const Custom = () => {
   const userInfo = useRecoilValue(userState);
@@ -55,6 +56,7 @@ const Custom = () => {
             <div
               className={`${styles.CustomButton}`}
               onClick={() => {
+                buttonClick();
                 if (isClicked) {
                   setIsClicked(false);
                 } else {
@@ -71,6 +73,7 @@ const Custom = () => {
             <div
               className={`${styles.CustomButton}`}
               onClick={() => {
+                buttonClick();
                 outfitChangeApi(
                   userInfo.userId,
                   nowOutfit.map((it) => it.outfitId),

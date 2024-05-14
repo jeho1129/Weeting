@@ -130,16 +130,16 @@ const GameWaitingAvatars = ({
   //////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     const updatedUsers = roomUsers.map((member) => {
-      const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+      const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
       const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-      if (latestMessage && latestMessage.includes(member.word!)) {
+      if (latestMessage && latestMessage.includes(member.word!) && roomStatus === 'start') {
         return { ...member, isAlive: new Date().toLocaleTimeString() };
       } else {
         return member;
       }
     });
-    console.log(updatedUsers);
+    // console.log(updatedUsers);
 
     // websocket 가져와서 여기 바꾸기
 
@@ -152,15 +152,16 @@ const GameWaitingAvatars = ({
     <div className={styles.inGameAvatars}>
       {updatedRoomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
-        const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+        const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
+        const latestSendTime = userMessages[userMessages.length - 1]?.sendTime;
 
         return (
-          <div key={member.userId}>
+          <div key={`${member.id}-${index}`}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {/* 아바타 */}
               <div
-                key={member.userId}
+                key={member.id}
                 style={{
                   position: 'absolute',
                   top: `calc(${position.top} - 60px)`,
@@ -171,12 +172,12 @@ const GameWaitingAvatars = ({
               >
                 <Avatar
                   {...{
-                    userId: member.userId,
+                    userId: member.id,
                     size: 0.7 * 300,
                     location: 'Ingame',
                     options: {
                       nickname: member.nickname,
-                      isAlive: member.isAlive == '' ? true : false,
+                      isAlive: member.isAlive === '' ? true : false,
                       isNest: index === 0 ? true : false,
                     },
                   }}
@@ -189,7 +190,7 @@ const GameWaitingAvatars = ({
                   // top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                   left={position.left}
                   latestMessage={latestMessage}
-                  sendTime={new Date().toISOString()}
+                  sendTime={latestSendTime}
                 />
               ) : null}
             </div>
@@ -209,7 +210,7 @@ const GameWaitingAvatars = ({
                     <div
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
                     >
-                      {member.userId !== userInfo.userId ? (
+                      {member.id !== userInfo.userId ? (
                         <>
                           <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
                           <img src={forbiddenFlag} alt="forbidden word" />
