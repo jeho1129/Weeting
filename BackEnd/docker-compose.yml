@@ -1,7 +1,8 @@
-version: '3.8'
+version: '3.9'
 services:
   back:
-    container_name: back 
+    container_name: back
+    hostname: back
     networks:
       - weeting-network
     image: ${DOCKERHUB_REGISTRY}
@@ -9,20 +10,22 @@ services:
       - "9002:8080"
     depends_on:
       - redis
-      - mysql
-      - rabbitmq
-    # environment:
-    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    #   SPRING_DATASOURCE_USERNAME: root
-    #   SPRING_DATASOURCE_PASSWORD: c103103
-    #   SPRING_REDIS_HOST: redis
-    #   SPRING_REDIS_PORT: 6379
-    #   SPRING_REDIS_PASSWORD: c103103
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: c103103
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: c103103
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+
 
   front:
     networks:
       - weeting-network
-    container_name: front 
+    container_name: front
+    hostname: front
     build:
       context: ../FrontEnd
       dockerfile: Dockerfile
@@ -71,8 +74,8 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management; rabbitmq-server"]
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    command: ["sh", "-c", "rabbitmq-plugins enable rabbitmq_stomp rabbitmq_web_stomp rabbitmq_management rabbitmq_web_stomp_examples; rabbitmq-server"]
 
 volumes:
   mysql_data:
