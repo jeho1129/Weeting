@@ -10,6 +10,7 @@ import { RoomInfo, MessageScore } from '@/types/game';
 import GameLoading from './GameLoading';
 //////////// 추후 지울 값 ////////////////
 import { dummy2 } from '@/types/game'; //
+import { useParams } from 'react-router-dom';
 /////////////////////////////////////////
 
 const GameWaiting = () => {
@@ -22,6 +23,7 @@ const GameWaiting = () => {
   });
   const [webSocketRoom, setWebSocketRoom] = useState<WebSocket | null>(null);
   const [webSocketScore, setWebSocketScore] = useState<WebSocket | null>(null);
+  const param = useParams().id;
 
   // 모달 창 관련
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -69,11 +71,21 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     // local 개발용
-    const ws = new WebSocket('ws://localhost:8000/ws');
+    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
     // 배포용
-    // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+    const ws = new WebSocket('wss://54.180.158.223:9002/ws');
     // 백에서.... 1분간 채팅안한사람 확인해야할 거 같은데?
-    // setRoomInfo
+    ws.onopen = () => {
+      console.log('웹소크ㅔ세에엣연결성고오오옹');
+      ws.send(JSON.stringify({ roomId: param }));
+    };
+
+    ws.onmessage = (event) => {
+      const roominfo = JSON.parse(event.data);
+      console.log('받은 방 정보:', roominfo);
+      setRoomInfo(roominfo);
+    };
+
     return () => {
       if (ws) {
         ws.close();

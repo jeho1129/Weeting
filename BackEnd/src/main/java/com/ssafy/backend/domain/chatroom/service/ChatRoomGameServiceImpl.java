@@ -3,8 +3,12 @@ package com.ssafy.backend.domain.chatroom.service;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomUserInfo;
+import com.ssafy.backend.domain.user.exception.UserErrorCode;
+import com.ssafy.backend.domain.user.exception.UserException;
 import com.ssafy.backend.domain.user.model.entity.User;
+import com.ssafy.backend.domain.user.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +25,16 @@ import java.util.concurrent.TimeUnit;
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final UserRepository userRepository;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10); // 스레드 풀 크기 설정
 
 
     private void scheduleTask(String chatRoomId, ChatRoomDto.RoomStatus newStatus, long delay, TimeUnit unit) {
         scheduler.schedule(() -> {
-            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+            String key = "chatRoom:" + chatRoomId;
+            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
             if (roomInfo != null) {
                 roomInfo.setRoomStatus(newStatus);
-                String key = "chatRoom:" + roomInfo.getRoomId();
                 redisTemplate.opsForValue().set(key, roomInfo);
             }
         }, delay, unit);
@@ -38,7 +43,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public LocalTime roomStatusModify(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
@@ -73,7 +80,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                 throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
         }
 
-        redisTemplate.opsForValue().set(chatRoomId, roomInfo);
+        redisTemplate.opsForValue().set(key, roomInfo);
         if (currentStatus == ChatRoomDto.RoomStatus.wordsetting || currentStatus == ChatRoomDto.RoomStatus.start) {
             return futureTime;
         } else {
@@ -85,7 +92,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     @Override
     public void readyStatusTrans(String chatRoomId,
                                  User user) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
         }
@@ -96,7 +105,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 userInfo.setReady(!userReadyStatus);
 
-                String key = "chatRoom:" + roomInfo.getRoomId();
                 redisTemplate.opsForValue().set(key, roomInfo);
 
                 break;
@@ -104,9 +112,12 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
     }
 
+
     @Override
     public List<ChatRoomGameResultDto> gameResult(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
@@ -130,13 +141,21 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         results.sort(Comparator.comparing(ChatRoomGameResultDto::getIsAlive).reversed()
                 .thenComparing(Comparator.comparing(ChatRoomGameResultDto::getScore).reversed()));
 
+        int[] scoreAdjustments = getScoreAdjustments(results.size());
+        for (int i = 0; i < results.size(); i++) {
+            ChatRoomGameResultDto result = results.get(i);
+            updatePlayerScore(result.getId(), scoreAdjustments[i]);
+        }
+
         return results;
     }
 
 
     @Override
     public void gameInitialize(String chatRoomId) {
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
@@ -149,16 +168,52 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setIsAlive(true);
         }
 
-        String key = "chatRoom:" + roomInfo.getRoomId();
         redisTemplate.opsForValue().set(key, roomInfo);
+    }
+
+
+    @Override
+    public void updatePlayerScore(Long userId, int scoreAdjustment) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXISTS_USER));
+        int newScore = user.getScore() + scoreAdjustment;
+        user.setScore(newScore);
+        userRepository.save(user);
+        updateRankings();
+    }
+
+
+    @Override
+    public int[] getScoreAdjustments(int numberOfPlayers) {
+        int[] scoreAdjustments = new int[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            scoreAdjustments[i] = (numberOfPlayers - 1) - (2 * i);
+        }
+        return scoreAdjustments;
+    }
+
+
+    @Override
+    public void updateRankings() {
+        List<User> allUsers = userRepository.findAll(Sort.by(Sort.Direction.DESC, "score"));
+        int currentRank = 1;
+        int usersAtThisRank = 0;
+        int lastScore = Integer.MIN_VALUE;
+
+        for (User user : allUsers) {
+            if (user.getScore() != lastScore) {
+                currentRank += usersAtThisRank;
+                usersAtThisRank = 0;
+            }
+            user.setRanking(currentRank);
+            lastScore = user.getScore();
+            usersAtThisRank++;
+        }
+        userRepository.saveAll(allUsers);
     }
 
 
     public void forbiddenWordSetting(String chatRoomId, User user) {
 
     }
-
-
-
-
 }
