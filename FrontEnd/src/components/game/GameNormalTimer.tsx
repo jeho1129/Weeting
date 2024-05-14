@@ -14,7 +14,7 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
 
   useEffect(() => {
-    console.log(new Date().toLocaleString());
+    // console.log(new Date().toLocaleString());
     if (endTime != null) {
       setEndTimeLeft(((new Date(endTime).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
     }

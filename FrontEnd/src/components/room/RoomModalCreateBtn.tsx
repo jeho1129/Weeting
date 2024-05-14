@@ -8,12 +8,13 @@ import RoomRadioBtn from './RoomRadioBtn';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import ReactModal from 'react-modal';
+import { buttonError } from '@/utils/buttonClick';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [roomName, setRoomName] = useState<string>('');
   const [selectedMode, setSelectedMode] = useState<number>(-2);
-  const [roomMode, setRoomMode] = useState<'rank' | 'normal' | null>(null);
+  // const [roomMode, setRoomMode] = useState<'rank' | 'normal' | null>(null);
   const [selectedMaxCount, setSelectedMaxCount] = useState<number>(4);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
@@ -21,7 +22,7 @@ const RoomModalCreateBtn = () => {
 
   const customStyles: ReactModal.Styles = {
     overlay: {
-      zindex: 999,
+      zIndex: '999',
       backgroundColor: ' rgba(0, 0, 0, 0.4)',
     },
     content: {
@@ -54,7 +55,7 @@ const RoomModalCreateBtn = () => {
   // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
   // 모드0 = 노말   모드1 = 랭크  모드null = 선택안함
   const createtHandler = () => {
-    console.log('hi');
+    // console.log('hi');
     // if (selectedMode === 0) {
     //   setRoomMode('normal');
     // } else if (selectedMode === 1) {
@@ -64,12 +65,12 @@ const RoomModalCreateBtn = () => {
     // if (password === '') {
     //   setPassword(null);
     // }
-    console.log({
-      roomName: roomName,
-      roomMode: selectedMode === 0 ? 'normal' : 'rank',
-      roomPassword: password,
-      roomMaxCnt: selectedMaxCount,
-    });
+    // console.log({
+    //   roomName: roomName,
+    //   roomMode: selectedMode === 0 ? 'normal' : 'rank',
+    //   roomPassword: password,
+    //   roomMaxCnt: selectedMaxCount,
+    // });
 
     roomCreateApi({
       roomName: roomName,
@@ -78,16 +79,17 @@ const RoomModalCreateBtn = () => {
       roomMaxCnt: selectedMaxCount,
     })
       .then((res) => {
-        console.log('res :', res.dataBody.roomId);
+        // console.log('res :', res.dataBody.roomId);
         navigate(`/room/${res.dataBody.roomId}`);
         setModalIsOpen(false);
       })
       .catch((err) => {
+        buttonError();
         Swal.fire({
           title: '방 이름 또는 방 비밀번호를 다시 확인해주세요',
           icon: 'error',
         });
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -102,33 +104,34 @@ const RoomModalCreateBtn = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    console.log(isNaN(Number(input)));
+    // console.log(isNaN(Number(input)));
 
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
       setPassword(input);
-      console.log('input :', input);
+      // console.log('input :', input);
     }
   };
 
   const modeAlertHandler = () => {
+    buttonError();
     Swal.fire({
       title: '모드를 선택해주세요',
       icon: 'error',
     });
   };
 
-  // 디버깅코드
-  useEffect(() => {
-    console.log('selectedMode :', selectedMode);
-  }, [selectedMode]);
+  // // 디버깅코드
+  // useEffect(() => {
+  //   console.log('selectedMode :', selectedMode);
+  // }, [selectedMode]);
 
-  useEffect(() => {
-    console.log('selectedMaxCount :', selectedMaxCount);
-  }, [selectedMaxCount]);
+  // useEffect(() => {
+  //   console.log('selectedMaxCount :', selectedMaxCount);
+  // }, [selectedMaxCount]);
 
-  useEffect(() => {
-    console.log('password :', password);
-  }, [password]);
+  // useEffect(() => {
+  //   console.log('password :', password);
+  // }, [password]);
 
   return (
     <div>

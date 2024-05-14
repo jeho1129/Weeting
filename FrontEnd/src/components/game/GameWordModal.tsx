@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import { RoomInfo } from '@/types/game';
 import { gameForbiddenWordApi } from '@/services/gameApi';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/atom';
 
 interface GameForbiddenWordProps {
   roomInfo: RoomInfo;
@@ -11,8 +13,10 @@ interface GameForbiddenWordProps {
 }
 
 const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen, onClose, onConfirm }) => {
+  const userInfo = useRecoilValue(userState);
   const [forbiddenWord, setForbiddenWord] = useState('');
   const [theme, setTheme] = useState('');
+  const myIndex = roomInfo.roomUsers.findIndex((user) => user.userId === userInfo.userId);
   const [warningMsg, setWarningMsg] = useState(
     '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다',
   );
@@ -53,7 +57,12 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
 
   return (
     <div className={styles.Container}>
-      <div className="FontM32">OO 님의 금칙어를 정해주세요</div>
+      <div className="FontM32">
+        {myIndex !== roomInfo.roomUsers.length - 1
+          ? roomInfo.roomUsers[myIndex + 1].nickname
+          : roomInfo.roomUsers[0].nickname}
+        님의 금칙어를 정해주세요
+      </div>
       <div className="FontM60">주제 : {theme}</div>
       <input
         className="FontM20"
