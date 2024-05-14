@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -41,7 +42,6 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisConfig);
     }
 
-
     /**
      * Redis 작업을 수행하기 위한 템플릿 빈을 설정합니다.
      * 이 템플릿은 키는 문자열, 값은 JSON 형태로 직렬화된 값을 사용합니다.
@@ -54,7 +54,6 @@ public class RedisConfig {
         template.setConnectionFactory(factory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        template.setPassword("c103103"); // Redis 비밀번호 설정
         return template;
     }
 }

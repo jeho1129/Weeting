@@ -1,6 +1,5 @@
 package com.ssafy.backend.domain.chatroom.dto;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.*;
 
 import java.util.List;
