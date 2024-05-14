@@ -22,7 +22,7 @@ export const dummy2: RoomInfo = {
   roomMode: 'rank',
   roomId: 'd',
   roomName: '테스트 방',
-  roomStatus: 'wordfinish',
+  roomStatus: 'waiting',
   roomForbiddentime: '2024-05-13T13:30:46.000',
   roomEndtime: '2024-05-13T13:33:06.000',
   roomSubject: null,
