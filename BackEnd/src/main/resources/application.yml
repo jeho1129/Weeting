@@ -40,10 +40,10 @@ spring:
   data:
     redis:
 #      host: redis
-      host: t1019.p.ssafy.io
+      host: k10c103.p.ssafy.io
 #      host: localhost
-      port: 16379
-      password: jb0916403
+      port: 6379
+      # password: c103103
     # mongoDB
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
