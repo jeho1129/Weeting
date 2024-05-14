@@ -1,8 +1,6 @@
 package com.ssafy.backend.domain.chatroom.dto;
 
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import java.util.Objects;
@@ -24,7 +22,7 @@ public class ChatRoomUserInfo {
 
     private float score;
 
-    private Boolean isAlive;
+    private String isAlive;
 
 
     @Override

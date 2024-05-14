@@ -17,6 +17,10 @@ public interface ChatRoomGameService {
     void readyStatusTrans(String roomId,
                           User user);
 
+    // 죽었을 때 isAlive 값 수정
+    String grilledChicken(String chatRoomId,
+                        User user);
+
     // 게임 결과 반환
     List<ChatRoomGameResultDto> gameResult(String chatRoomId);
 

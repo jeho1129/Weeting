@@ -35,7 +35,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 false,
                 "",
                 0.00F,
-                true
+                ""
                 );
 
 
@@ -81,7 +81,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .ready(false)
                 .word("")
                 .score(0.00F)
-                .isAlive(true)
+                .isAlive("")
                 .build();
 
         chatRoomDto.getRoomUsers().add(userInfo);
