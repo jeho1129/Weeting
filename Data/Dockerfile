@@ -23,4 +23,4 @@ EXPOSE 8000
 
 ENV FASTAPI_ENV production
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--ws", "wsproto", "--host", "0.0.0.0", "--port", "8000"]
