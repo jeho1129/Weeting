@@ -220,7 +220,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         redisTemplate.opsForValue().set(key, roomInfo);
 
-        return users.get(nextIndex).getNickname() + "에게 금지어 할당 : " + word;
+        return "[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word;
 
     }
 
