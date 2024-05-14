@@ -1,5 +1,5 @@
 # 빌드 스테이지
-FROM amazoncorretto:17.0.7-alpine AS builder
+FROM gradle:8.5.0-jdk17-alpine AS build
 USER root
 WORKDIR /back
 COPY gradlew .
@@ -12,11 +12,15 @@ RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
 # 실행 스테이지
-FROM openjdk:17
+FROM azul/zulu-openjdk:17
+
 WORKDIR /back
-# 시간대 설정을 위한 환경 변수 추가
-ENV TZ=Asia/Seoul
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# 빌드된 JAR 파일 복사
 COPY --from=builder /back/build/libs/*.jar app.jar
+
+# 애플리케이션 실행
 ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "app.jar"]
+
+# 볼륨 설정
 VOLUME /tmp
