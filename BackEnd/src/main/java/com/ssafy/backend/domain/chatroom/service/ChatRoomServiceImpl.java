@@ -48,6 +48,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomTheme(null)
                 .roomStatus(ChatRoomDto.RoomStatus.waiting)
                 .roomMode(chatRoomCreateRequestDto.getRoomMode())
+                .roomForbiddenTime(null)
+                .roomEndTime(null)
                 .build();
 
         String key = "chatRoom:" + chatRoomDto.getRoomId();
@@ -107,6 +109,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomTheme(roomInfo.getRoomTheme())
                 .roomStatus(roomInfo.getRoomStatus())
                 .roomMode(roomInfo.getRoomMode())
+                .roomForbiddenTime(roomInfo.getRoomForbiddenTime())
+                .roomEndTime(roomInfo.getRoomEndTime())
                 .build();
 
 //        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + key, chatRoomDto);

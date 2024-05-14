@@ -22,10 +22,10 @@ public class ChatRoomGameController {
 
 
 
-    // 게임 시작
-    @PatchMapping("/start/{chatRoomId}")
+    // 게임 시작 및 종료 확인
+    @PatchMapping("/gameStartAndEnd/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameStart(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomGameService.gameStart(chatRoomId);
+        chatRoomGameService.gameStartAndEnd(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
