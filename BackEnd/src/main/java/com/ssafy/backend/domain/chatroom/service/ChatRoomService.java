@@ -28,4 +28,7 @@ public interface ChatRoomService {
     // 방 나가기
     void LeaveChatRoom(String ChatRoomId,
                        User user);
+
+    // 빠른 입장
+    String fastEnter(User user);
 }
