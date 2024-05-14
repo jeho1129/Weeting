@@ -38,7 +38,6 @@ const GameChattingForm = ({
         if (lastMessageTime && new Date().getTime() - lastMessageTime.getTime() >= 15000) {
           // 게임 정보 변경
           // // roomInfo 관련 websocket연결 후에 .send 형태로 변환
-
           // 현재 시간을 'HH:MM:SS' 형태의 문자열로 포맷팅합니다.
           // const currentTimeFormatted = new Date().toTimeString().split(' ')[0];
           // TODO: 여기서 user.isAlive를 업데이트하는 로직을 구현합니다.

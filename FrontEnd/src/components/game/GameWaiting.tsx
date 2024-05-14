@@ -4,6 +4,7 @@ import GameRankModal from '@/components/game/GameRankModal';
 import styles from '@/styles/game/GameWaiting.module.css';
 import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
+import { gameStatusUpdateApi } from '@/services/gameApi';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameState, userState } from '@/recoil/atom';
 import { RoomInfo, MessageScore } from '@/types/game';
@@ -43,27 +44,9 @@ const GameWaiting = () => {
   ///////// 함수 선언 //////////////////////////////////////////////////////
   // 채팅 방 상태 변경 함수
   const changeRoomStatus = (status: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end') => {
-    setRoomInfo((prev) => ({ ...prev, roomStatus: status }));
+    gameStatusUpdateApi(roomInfo.roomId);
   };
 
-  // 각 상태(대기, 준비, 게임중)에 따라 함수 호출 시 다음 상태(금지어설정, 게임중, 게임끝)로 자동 변경
-  const wordSettingOrStart = () => {
-    if (roomInfo.roomStatus === 'waiting' && roomInfo.roomUsers.length > 3) {
-      changeRoomStatus('allready');
-    } else if (roomInfo.roomStatus === 'allready') {
-      changeRoomStatus('wordsetting');
-    } else if (roomInfo.roomStatus === 'wordsetting') {
-      changeRoomStatus('wordfinish');
-    } else if (roomInfo.roomStatus === 'wordfinish') {
-      changeRoomStatus('start');
-    } else if (roomInfo.roomStatus === 'start') {
-      changeRoomStatus('end');
-    } else if (roomInfo.roomStatus === 'end') {
-      changeRoomStatus('waiting');
-    } else {
-      changeRoomStatus('waiting');
-    }
-  };
   //////////////////////////////////////////////////////////////////////
 
   ///////// useEffect //////////////////////////////////////////////////////
@@ -171,8 +154,6 @@ const GameWaiting = () => {
     }
   }, [roomInfo.roomStatus]);
 
-  // console.log(messageScore);
-
   //////////////////////////////////////////////////////////////////////
   // 게임 완료되면 처음으로 세팅하기
   const handleRoomUserReset = (updatedRoomInfo) => {
@@ -186,12 +167,7 @@ const GameWaiting = () => {
       {(isRankOpen || isModalOpen) && <div className={styles.modalOpenBackground}></div>}
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
-        <GameWaitingLeftSide
-          roomInfo={roomInfo}
-          messageScore={messageScore}
-          setRoomInfo={setRoomInfo}
-          changeRoomStatus={wordSettingOrStart}
-        />
+        <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} />
         <GameWaitingRightSide {...{ roomInfo, webSocketScore }} />
       </div>
 
