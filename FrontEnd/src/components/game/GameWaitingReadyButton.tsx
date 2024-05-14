@@ -1,47 +1,63 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '@/styles/game/GameWaitingReadyButton.module.css';
 import { RoomInfo } from '@/types/game';
 import { userState } from '@/recoil/atom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import Swal from 'sweetalert2';
+import { gameReadyApi } from '@/services/gameApi';
 
 const GameWaitingReadyButton = ({
+  roomId,
   roomUsers,
   blink,
   onStartGame,
+  setRoomInfo,
 }: {
+  roomId: RoomInfo['roomId'];
   roomUsers: RoomInfo['roomUsers'];
   blink?: boolean;
   onStartGame: () => void;
+  setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfo>>;
 }) => {
   const [isReady, setIsReady] = useState(false);
+  const [buttonStyle, setButtonStyle] = useState('');
   const myId = useRecoilValue(userState);
 
-  const isFirstMember = roomUsers[0]?.userId === myId.userId;
+  const isFirstMember = roomUsers[0]?.id === myId.userId;
 
-  const ReadyHandler = () => {
+  const ReadyHandler = async () => {
     const isRoomFull = roomUsers.length >= 4;
 
-    // 방장이며 방 인원수가 4명 미만일 때는 onStartGame 호출하지 않음
     if (isFirstMember && !isRoomFull) {
-      // 게임 시작 로직을 실행하지 않고 조건에 대한 알림 또는 경고 메시지 표시할 수 있음
-      alert('최소 4명이 필요합니다.');
+      Swal.fire({
+        title: '최소 4명이 필요합니다',
+        icon: 'error',
+      });
       return;
     } else if (isFirstMember) {
-      // 방 인원수가 충분할 때만 게임 시작
       onStartGame();
     } else {
-      setIsReady(!isReady);
+      try {
+        // const response = await gameReadyApi(roomId);
+        // setIsReady(response);
+        gameReadyApi(roomId).then((data) => {
+          console.log(data);
+          setIsReady(!isReady);
+        });
+      } catch (error) {
+        console.error('Ready 상태 업데이트 실패:', error);
+      }
     }
   };
 
-  // 방장인 경우 반짝이도록 수정
-  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비 완료' : '준비';
+  useEffect(() => {
+    setButtonStyle(`FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`);
+    if (isReady) {
+      setButtonStyle(`FontM32  ${isFirstMember && blink ? styles.Blink : ''} ${styles.Btn} ${styles.Ready}`);
+    }
+  }, [isReady, isFirstMember, blink]);
 
-  let buttonStyle = `FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`;
-
-  if (isReady) {
-    buttonStyle = `FontM32  ${isFirstMember && blink ? styles.Blink : ''} ${styles.Btn} ${styles.Ready}`;
-  }
+  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비 취소' : '준비';
 
   return (
     <>

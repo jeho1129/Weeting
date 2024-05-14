@@ -13,10 +13,12 @@ const GameWaitingLeftSide = ({
   roomInfo,
   messageScore,
   changeRoomStatus,
+  setRoomInfo,
 }: {
   roomInfo: RoomInfo;
   messageScore: MessageScore;
   changeRoomStatus: () => void;
+  setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfo>>;
 }) => {
   const [blink, setBlink] = useState(false);
 
@@ -37,7 +39,7 @@ const GameWaitingLeftSide = ({
         <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
-            <GameWaitingReadyButton roomUsers={roomInfo.roomUsers} blink={blink} onStartGame={changeRoomStatus} />
+            <GameWaitingReadyButton roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} blink={blink} setRoomInfo={setRoomInfo} onStartGame={changeRoomStatus} />
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
