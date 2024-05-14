@@ -30,7 +30,7 @@ const MainLoginForm = () => {
     })
       .then((data) => {
         const loggedInUserState = data.dataBody;
-        console.log('loggedInUserState :', loggedInUserState);
+        // console.log('loggedInUserState :', loggedInUserState);
 
         // 쿠키에 accessToken 저장
         setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
@@ -42,7 +42,7 @@ const MainLoginForm = () => {
         navigate('/home');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         buttonError();
         if (err.message === 'Network Error') {
           Swal.fire({

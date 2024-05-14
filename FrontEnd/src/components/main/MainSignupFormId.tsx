@@ -24,7 +24,7 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
       account: id,
     })
       .then((data) => {
-        console.log('data :', data);
+        // console.log('data :', data);
         if (data.dataBody === true) {
           buttonError();
           Swal.fire({
@@ -57,7 +57,7 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
           icon: 'error',
         });
       });
-    console.log('id 중복확인 api call');
+    // console.log('id 중복확인 api call');
   };
 
   return (

@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
-        console.log(data.dataBody);
+        // console.log(data.dataBody);
         setUserInfo({
           userId: data.dataBody.id,
           nickname: data.dataBody.nickname,
@@ -33,7 +33,7 @@ const Home = () => {
         return data.dataBody.id;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 

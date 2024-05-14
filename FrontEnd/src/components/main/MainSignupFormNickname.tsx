@@ -20,7 +20,7 @@ const MainSignupFormNickname = ({
       nickname: nickname,
     })
       .then((data) => {
-        console.log('data :', data);
+        // console.log('data :', data);
         if (data.dataBody === true) {
           buttonError();
           Swal.fire({
@@ -53,7 +53,7 @@ const MainSignupFormNickname = ({
           icon: 'error',
         });
       });
-    console.log('닉네임 중복확인 api call');
+    // console.log('닉네임 중복확인 api call');
   };
 
   return (
