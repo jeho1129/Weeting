@@ -58,7 +58,6 @@ spring:
     virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
 
 
-
 # jwt
 jwt:
   access: WEETINGACCESSKEYLONGENOUGHATLEAST256BITSSCRETKEYJOONSUNANDHAJUNSDANGEROUSCHATTING
