@@ -54,10 +54,11 @@ public class ChatRoomGameController {
 
     // 금지어 설정
     @PatchMapping("/wordsetting/{chatRoomId}")
-    public void forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
+    public ResponseEntity<Message<String>> forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
                                      @AuthenticationPrincipal User user,
                                      @RequestBody String word) {
-        chatRoomGameService.forbiddenWordSetting(chatRoomId, user, word);
+        String result = chatRoomGameService.forbiddenWordSetting(chatRoomId, user, word);
+        return ResponseEntity.ok().body(Message.success(result));
     }
 
 
