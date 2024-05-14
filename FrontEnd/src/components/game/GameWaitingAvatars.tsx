@@ -130,7 +130,7 @@ const GameWaitingAvatars = ({
   //////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     const updatedUsers = roomUsers.map((member) => {
-      const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+      const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
       const latestMessage = userMessages[userMessages.length - 1]?.content;
 
       if (latestMessage && latestMessage.includes(member.word!)) {
@@ -152,15 +152,15 @@ const GameWaitingAvatars = ({
     <div className={styles.inGameAvatars}>
       {updatedRoomUsers.map((member, index) => {
         const position = calculatePosition(index, roomMaxCnt);
-        const userMessages = chatMessage.filter((msg) => msg.userId === member.userId);
+        const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
 
         return (
-          <div key={member.userId}>
+          <div key={`${member.id}-${index}`}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {/* 아바타 */}
               <div
-                key={member.userId}
+                key={member.id}
                 style={{
                   position: 'absolute',
                   top: `calc(${position.top} - 60px)`,
@@ -171,7 +171,7 @@ const GameWaitingAvatars = ({
               >
                 <Avatar
                   {...{
-                    userId: member.userId,
+                    userId: member.id,
                     size: 0.7 * 300,
                     location: 'Ingame',
                     options: {
@@ -209,7 +209,7 @@ const GameWaitingAvatars = ({
                     <div
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
                     >
-                      {member.userId !== userInfo.userId ? (
+                      {member.id !== userInfo.userId ? (
                         <>
                           <div className={`FontM20 ${styles.wordCenter}`}>{member.word}</div>
                           <img src={forbiddenFlag} alt="forbidden word" />
