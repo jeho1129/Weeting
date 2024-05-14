@@ -96,6 +96,8 @@ public class ChatRoomController {
 //    }
 
 
+
+
     @GetMapping("/randomTheme")
     public Theme getRandomTheme() {
         Theme[] themes = Theme.values();
