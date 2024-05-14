@@ -12,7 +12,7 @@ public interface ChatRoomGameService {
 
     // 게임 시작
 
-    void gameStart(String roomId);
+    void gameStartAndEnd(String roomId);
 
     // ready 상태 변경
     Boolean readyStatusTrans(String roomId,

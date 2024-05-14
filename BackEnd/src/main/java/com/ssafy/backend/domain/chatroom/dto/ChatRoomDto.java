@@ -3,6 +3,7 @@ package com.ssafy.backend.domain.chatroom.dto;
 import com.ssafy.backend.domain.chatroom.entity.Theme;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -34,5 +35,8 @@ public class ChatRoomDto {
     private Theme roomTheme;  // 대화 주제
     private RoomStatus roomStatus;  // 방 상태
     private RoomMode roomMode;
+
+    private LocalDateTime roomForbiddenTime;
+    private LocalDateTime roomEndTime;
 
 }
