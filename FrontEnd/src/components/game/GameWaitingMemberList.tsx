@@ -7,6 +7,7 @@ import ok from '@/assets/images/ingamewordfinish.png';
 import choosing from '@/assets/images/ingamewordchoosing.png';
 import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
+import leader from '@/assets/images/leader.png';
 
 const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   const sortedMembers =
@@ -58,11 +59,17 @@ const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                       </div>
                     </>
                   ) : (
-                    <img
-                      src={member.ready ? ready : waiting}
-                      alt={member.ready ? '레디' : '대기중'}
-                      className={styles.StatusIcon}
-                    />
+                    <>
+                      {index === 0 ? (
+                        <img src={leader} alt="방장" className={styles.StatusIcon} />
+                      ) : (
+                        <img
+                          src={member.ready ? ready : waiting}
+                          alt={member.ready ? '레디' : '대기중'}
+                          className={styles.StatusIcon}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               </div>

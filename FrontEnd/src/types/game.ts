@@ -5,9 +5,9 @@ export interface RoomInfo {
   roomId: string;
   roomName: string;
   roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end';
-  roomForbiddentime: null | string;
-  roomEndtime: null | string;
-  roomSubject: null | string;
+  roomForbiddenTime: null | string;
+  roomEndTime: null | string;
+  roomTheme: null | string;
   roomMaxCnt: number;
   roomUsers: IngameUser[];
 }
@@ -23,9 +23,9 @@ export const dummy2: RoomInfo = {
   roomId: 'd',
   roomName: '테스트 방',
   roomStatus: 'waiting',
-  roomForbiddentime: '2024-05-13T13:30:46.000',
-  roomEndtime: '2024-05-13T13:33:06.000',
-  roomSubject: null,
+  roomForbiddenTime: '2024-05-13T13:30:46.000',
+  roomEndTime: '2024-05-13T13:33:06.000',
+  roomTheme: null,
   roomMaxCnt: 8,
   roomUsers: [
     {
