@@ -1,4 +1,4 @@
-import { IngameUser } from "./user";
+import { IngameUser } from './user';
 
 export interface RoomCreateProps {
   roomName: string;
@@ -7,9 +7,8 @@ export interface RoomCreateProps {
   roomPassword: string | null;
 }
 
-
 export interface RoomWaitInfo {
-  roomMode:'rank' | 'normal'
+  roomMode: 'rank' | 'normal';
   roomId: string;
   roomName: string;
   roomStatus: 'waiting' | 'allready' | 'wordsetting' | 'wordfinish' | 'start' | 'end';
@@ -17,4 +16,3 @@ export interface RoomWaitInfo {
   roomPassword: number | null;
   roomUsers: IngameUser[];
 }
-  
