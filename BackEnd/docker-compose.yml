@@ -8,8 +8,6 @@ services:
     image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
-    depends_on:
-      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: root
@@ -37,15 +35,18 @@ services:
   redis:
     container_name: redis
     hostname: redis
-    volumes:
-      - ~/redis/data:/data
+#    volumes:
+#      - ~/redis-stable:/data
     user: root
     networks:
       - weeting-network
     image: redis:latest
     ports:
       - "6379:6379"
-    command: redis-server --requirepass c103103
+    # command: redis-server --requirepass c103103
+    volumes:
+      - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf  # 로컬 파일을 컨테이너 내부로 마운트
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]  # 설정 파일을 사용하도록 명령어 설정
 
 
   mysql:
