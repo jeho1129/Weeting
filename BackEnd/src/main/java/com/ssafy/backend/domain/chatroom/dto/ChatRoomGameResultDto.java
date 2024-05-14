@@ -16,6 +16,6 @@ public class ChatRoomGameResultDto {
 
     private float score;
 
-    private Boolean isAlive;
+    private String isAlive;
 
 }
