@@ -155,15 +155,6 @@
   gap: 10px;
 }
 
-.CustomButtonBlue {
-  background-color: #0093f3;
-  color: white;
-}
-.CustomButtonWhite {
-  background-color: white;
-  color: #0093f3;
-}
-
 .CustomButton {
   background-color: #0093f3;
   color: white;
@@ -176,13 +167,12 @@
   cursor: pointer;
 }
 
-.CustomButton:hover,
-.CustomButton:active {
+.CustomButton:hover {
   background-color: white;
   color: #0093f3;
   box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
 }
 
 .CustomButton:active {
-  box-shadow: i nset 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
 }

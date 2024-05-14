@@ -1,10 +1,14 @@
 .ListGroup {
   width: 68vw;
   height: 69vh;
-  /* min-height: 10vh;
-  max-height: 69vh; */
+}
+
+.ListContainer {
   display: flex;
   flex-wrap: wrap;
+  align-items: start;
+  min-height: 10vh;
+  max-height: 69vh;
   overflow-y: auto;
 }
 
@@ -46,8 +50,8 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  margin-left: 275px;
-  top: -2.5vh;
+  right: 100px;
+  bottom: 100px;
 }
 
 .Lock {
@@ -65,7 +69,7 @@
 }
 
 .Rank {
-  background-color: #7EBCE6;
+  background-color: #7ebce6;
   border: none;
 }
 
@@ -76,6 +80,7 @@
 
 .NoRoom {
   width: 68vw;
+  height: 69vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
