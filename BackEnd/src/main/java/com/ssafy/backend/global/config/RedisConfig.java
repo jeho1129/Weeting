@@ -42,7 +42,6 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisConfig);
     }
 
-
     /**
      * Redis 작업을 수행하기 위한 템플릿 빈을 설정합니다.
      * 이 템플릿은 키는 문자열, 값은 JSON 형태로 직렬화된 값을 사용합니다.
