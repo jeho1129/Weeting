@@ -11,7 +11,7 @@ okt = Okt()
 
 redis = aioredis.from_url("redis://54.180.158.223:6379", password="c103103", encoding="utf8", decode_responses=True)
 
-@router.websocket("/ws/word")
+@router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
