@@ -21,6 +21,7 @@ const RoomModalCreateBtn = () => {
 
   const customStyles: ReactModal.Styles = {
     overlay: {
+      zindex: 999,
       backgroundColor: ' rgba(0, 0, 0, 0.4)',
     },
     content: {

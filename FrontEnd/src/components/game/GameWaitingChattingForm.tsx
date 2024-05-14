@@ -18,7 +18,7 @@ const GameChattingForm = ({
 
   // 채팅 메세지 입력값
   const [message, setMessage] = useState('');
-  const ingameUserInfo = roomInfo.roomUsers.filter((user) => user.userId === userInfo.userId)[0];
+  const ingameUserInfo = roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0];
 
   // 마지막으로 채팅 입력한 시간
   const [lastMessageTime, setLastMessageTime] = useState<Date | null>(null);

@@ -1,6 +1,6 @@
 .Btn {
   background-color: #fff;
-  border: 1px solid #fff;
+  border: none;
   border-radius: 10px;
   width: 300px;
   height: 50px;
@@ -19,19 +19,25 @@
 .Btn:active() {
   box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
 }
-
-.Ready {
-  border: 1px solid #fff;
-  background-color: #0093f3;
-  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
-  color: white;
-  /* border: 1px solid gray; */
-  /* background-color: gray; */
+.Readycancle {
+  border: 1px solid darkgray;
+  background-color: darkgray;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
 }
-
+.Readycancle:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
+.Readycancle:hover {
+  border: 1px solid darkgray;
+  background-color: darkgray;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
 .Ready:hover {
-  /* background-color: gray; */
-  /* border: 1px solid gray; */
+  border: 1px solid #0093f3;
+  background-color: #0093f3;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+.Ready:active {
   box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
 }
 
