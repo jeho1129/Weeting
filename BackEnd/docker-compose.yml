@@ -6,6 +6,9 @@ services:
     networks:
       - weeting-network
     image: ${DOCKERHUB_REGISTRY}
+    depends_on:
+      - redis
+      - mysql
     ports:
       - "9002:8080"
     environment:
@@ -42,7 +45,7 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: ["sh", "-c", "redis-server /usr/local/etc/redis/redis.conf"]
 
 
   mysql:
