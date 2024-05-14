@@ -16,8 +16,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: c103103
       SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 16379
-#      SPRING_REDIS_PASSWORD: c103103
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: c103103
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
 
@@ -43,7 +43,7 @@ services:
       - weeting-network
     image: redis:latest
     ports:
-      - "16379:16379"
+      - "6379:6379"
     command: ["sh", "-c", "redis-server /usr/local/etc/redis/redis.conf"]
 
 
