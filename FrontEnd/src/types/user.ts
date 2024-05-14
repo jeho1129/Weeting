@@ -24,7 +24,7 @@ export interface RankingUser {
 }
 
 export interface IngameUser {
-  userId: number;
+  id: number;
   nickname: string;
   ready: boolean;
   word: string | null;

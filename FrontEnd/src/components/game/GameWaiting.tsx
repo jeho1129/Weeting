@@ -71,9 +71,9 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     // local 개발용
-    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
+    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
     // 배포용
-    const ws = new WebSocket('wss://54.180.158.223:9002/ws');
+    // const ws = new WebSocket('wss://54.180.158.223:9002/ws');
     // 백에서.... 1분간 채팅안한사람 확인해야할 거 같은데?
     ws.onopen = () => {
       console.log('웹소크ㅔ세에엣연결성고오오옹');
@@ -91,7 +91,7 @@ const GameWaiting = () => {
         ws.close();
       }
     };
-  }, []);
+  }, [roomInfo]);
 
   // roomInfo가 변경되면 recoil에 반영
   useEffect(() => {
@@ -153,7 +153,7 @@ const GameWaiting = () => {
           highest_similarity: Score.highest_similarity,
         });
         // 만약 가장 높은 점수라면
-        if (roomInfo.roomUsers.filter((user) => user.userId === userInfo.userId)[0].score < Score.highest_similarity) {
+        if (roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0].score < Score.highest_similarity) {
           //게임 정보변경 (내 score값 변경)
           //.send 뭐... 어쩌구저쩌구....
         }
@@ -187,7 +187,12 @@ const GameWaiting = () => {
       {(isRankOpen || isModalOpen) && <div className={styles.modalOpenBackground}></div>}
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
-        <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} changeRoomStatus={wordSettingOrStart} />
+        <GameWaitingLeftSide
+          roomInfo={roomInfo}
+          messageScore={messageScore}
+          setRoomInfo={setRoomInfo}
+          changeRoomStatus={wordSettingOrStart}
+        />
         <GameWaitingRightSide {...{ roomInfo, webSocketScore }} />
       </div>
 
