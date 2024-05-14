@@ -51,13 +51,19 @@ const GameWaitingReadyButton = ({
   };
 
   useEffect(() => {
-    setButtonStyle(`FontM32 ${styles.Btn} ${isFirstMember && blink ? styles.Blink : ''}`);
-    if (isReady) {
-      setButtonStyle(`FontM32  ${isFirstMember && blink ? styles.Blink : ''} ${styles.Btn} ${styles.Ready}`);
+    let baseStyle = `FontM32 ${styles.Btn}`;
+    if (isFirstMember && blink) {
+      baseStyle += ` ${styles.Blink}`;
     }
+    if (isReady) {
+      baseStyle += ` ${styles.Ready}`;
+    } else {
+      baseStyle += ` ${styles.Readycancle}`; // QuitBtn 스타일 적용
+    }
+    setButtonStyle(baseStyle);
   }, [isReady, isFirstMember, blink]);
 
-  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비 취소' : '준비';
+  const buttonContent = isFirstMember ? '게임시작' : isReady ? '준비' : '준비 취소';
 
   return (
     <>
