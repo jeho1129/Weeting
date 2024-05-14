@@ -96,7 +96,6 @@ const GameWaiting = () => {
   // roomInfo가 변경되면 recoil에 반영
   useEffect(() => {
     setRoomInfoRecoil(roomInfo);
-    console.log(roomInfo);
     localStorage.setItem('roomInfo', JSON.stringify(roomInfo));
   }, [roomInfo]);
 
@@ -172,7 +171,7 @@ const GameWaiting = () => {
     }
   }, [roomInfo.roomStatus]);
 
-  console.log(messageScore);
+  // console.log(messageScore);
 
   //////////////////////////////////////////////////////////////////////
   // 게임 완료되면 처음으로 세팅하기
@@ -202,7 +201,7 @@ const GameWaiting = () => {
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
           onConfirm={(word: string) => {
-            console.log('설정된 금칙어:', word);
+            // console.log('설정된 금칙어:', word);
             setChoose(true);
             setModalOpen(false);
           }}

@@ -19,10 +19,10 @@ const Ranking = () => {
     rankingListApi()
       .then((data: RankingUser[]) => {
         setRankingList(data);
-        console.log(userInfo);
+        // console.log(userInfo);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 

@@ -68,10 +68,10 @@ const MainSignupForm = () => {
         })
           .then((data) => {
             const loggedInUserState = data.dataBody;
-            console.log('loggedInUserState :', loggedInUserState);
+            // console.log('loggedInUserState :', loggedInUserState);
             // recoil에 login 정보 저장
             setUser(loggedInUserState);
-            console.log(data.dataBody.accessToken);
+            // console.log(data.dataBody.accessToken);
 
             // 쿠키에 accessToken 저장
             setCookie('accessToken', data.dataBody.accessToken, { path: '/' });
@@ -80,7 +80,7 @@ const MainSignupForm = () => {
             navigate('/home');
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
             buttonError();
             Swal.fire({
               title: '회원정보가 잘못되었습니다',
