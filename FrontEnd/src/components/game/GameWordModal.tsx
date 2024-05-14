@@ -16,7 +16,7 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
   const userInfo = useRecoilValue(userState);
   const [forbiddenWord, setForbiddenWord] = useState('');
   const [theme, setTheme] = useState('');
-  const myIndex = roomInfo.roomUsers.findIndex((user) => user.userId === userInfo.userId);
+  const myIndex = roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId);
   const [warningMsg, setWarningMsg] = useState(
     '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다',
   );
