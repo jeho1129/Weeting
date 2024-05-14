@@ -37,7 +37,8 @@ services:
     hostname: redis
 #    volumes:
 #      - ~/redis-stable:/data
-    user: root
+    # user: root
+    restart: always
     networks:
       - weeting-network
     image: redis:latest
