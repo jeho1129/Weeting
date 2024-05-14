@@ -34,10 +34,9 @@ public class ChatRoomGameController {
     // ready 상태 변경
     @PatchMapping("/ready/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Message<String>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
+    public ResponseEntity<Message<Boolean>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
-        chatRoomGameService.readyStatusTrans(chatRoomId, user);
-        String result = "준비 상태 변경 완료 !";
+        Boolean result = chatRoomGameService.readyStatusTrans(chatRoomId, user);
 
         return ResponseEntity.ok().body(Message.success(result));
     }

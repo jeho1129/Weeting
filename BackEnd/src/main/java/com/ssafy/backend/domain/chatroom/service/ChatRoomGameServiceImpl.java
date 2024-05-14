@@ -3,21 +3,29 @@ package com.ssafy.backend.domain.chatroom.service;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomUserInfo;
+import com.ssafy.backend.domain.user.exception.UserErrorCode;
+import com.ssafy.backend.domain.user.exception.UserException;
 import com.ssafy.backend.domain.user.model.entity.User;
+import com.ssafy.backend.domain.user.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final UserRepository userRepository;
+
 
     @Override
     public LocalTime roomStatusModify(String chatRoomId) {
@@ -68,7 +76,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
     @Override
-    public void readyStatusTrans(String chatRoomId,
+    public Boolean readyStatusTrans(String chatRoomId,
                                  User user) {
         String key = "chatRoom:" + chatRoomId;
 
@@ -85,7 +93,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
                 redisTemplate.opsForValue().set(key, roomInfo);
 
-                break;
+                return !userReadyStatus;
             }
         }
     }
@@ -140,6 +148,12 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         results.sort(Comparator.comparing(ChatRoomGameResultDto::getIsAlive).reversed()
                 .thenComparing(Comparator.comparing(ChatRoomGameResultDto::getScore).reversed()));
 
+        int[] scoreAdjustments = getScoreAdjustments(results.size());
+        for (int i = 0; i < results.size(); i++) {
+            ChatRoomGameResultDto result = results.get(i);
+            updatePlayerScore(result.getId(), scoreAdjustments[i]);
+        }
+
         return results;
     }
 
@@ -170,56 +184,66 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
 
-
-
-
     @Override
     public void forbiddenWordSetting(String chatRoomId,
                                      User user,
                                      String word) {
         String key = "chatRoom:" + chatRoomId;
-        ChatRoomDto chatRoomDto = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
-        if (chatRoomDto == null) {
-            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
         }
 
-        List<ChatRoomUserInfo> users = chatRoomDto.getRoomUsers();
-        Map<Long, String> userWords = assignWords(users, word);
+        List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
 
-        for (ChatRoomUserInfo userInfo : users) {
-            if (userWords.containsKey(userInfo.getId())) {
-                userInfo.setWord(userWords.get(userInfo.getId()));
-            }
-        }
 
-        redisTemplate.opsForValue().set(key, chatRoomDto);
+
 
     }
 
 
-    private Map<Long, String> assignWords(List<ChatRoomUserInfo> users, String word) {
-        Map<Long, String> userWords = new HashMap<>();
-        List<Long> userIds = new ArrayList<>();
 
-        for (ChatRoomUserInfo user : users) {
-            userIds.add(user.getId());
+
+
+    @Override
+    public void updatePlayerScore(Long userId, int scoreAdjustment) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXISTS_USER));
+        int newScore = user.getScore() + scoreAdjustment;
+        user.setScore(newScore);
+        userRepository.save(user);
+        updateRankings();
+    }
+
+
+    @Override
+    public int[] getScoreAdjustments(int numberOfPlayers) {
+        int[] scoreAdjustments = new int[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            scoreAdjustments[i] = (numberOfPlayers - 1) - (2 * i);
         }
+        return scoreAdjustments;
+    }
 
-        Collections.shuffle(userIds);
 
-        for (int i = 0; i < users.size(); i++) {
-            ChatRoomUserInfo currentUser = users.get(i);
-            Long assignedUserId;
+    @Override
+    public void updateRankings() {
+        List<User> allUsers = userRepository.findAll(Sort.by(Sort.Direction.DESC, "score"));
+        int currentRank = 1;
+        int usersAtThisRank = 0;
+        int lastScore = Integer.MIN_VALUE;
 
-            do {
-                assignedUserId = userIds.get(ThreadLocalRandom.current().nextInt(userIds.size()));
-            } while (assignedUserId.equals(currentUser.getId()) || userWords.containsValue(assignedUserId.toString()));
-
-            userWords.put(currentUser.getId(), word);
+        for (User user : allUsers) {
+            if (user.getScore() != lastScore) {
+                currentRank += usersAtThisRank;
+                usersAtThisRank = 0;
+            }
+            user.setRanking(currentRank);
+            lastScore = user.getScore();
+            usersAtThisRank++;
         }
-
-        return userWords;
+        userRepository.saveAll(allUsers);
     }
 
 
