@@ -1,4 +1,4 @@
-import watingAvatar from '@/assets/images/inGameAvatar.png';
+import Avatar from '@/components/avatar/Avatar';
 import roomSign from '@/assets/images/roomSign.png';
 import { userState } from '@/recoil/atom';
 import styles from '@/styles/room/RoomList.module.css';
@@ -28,9 +28,9 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
   useEffect(() => {
     // 채팅방 stomp client 연결
     // 로컬
-    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
+    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
     // 배포
-    const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
+    // const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
     ws.onopen = () => {
       console.log('방리스트 받아오기 성공');
     };
@@ -145,8 +145,19 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
                   <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
                 )}
               </div>
-              <div>
-                <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
+              <div className={styles.Avatar}>
+                {/* 이거 왜이래... */}
+                <Avatar
+                  {...{
+                    userId: room.roomUsers[0].id,
+                    size: 0.6 * 300,
+                    location: 'Ingame',
+                    options: {
+                      nickname: room.roomUsers[0].nickname,
+                      isNest: true,
+                    },
+                  }}
+                />
               </div>
             </li>
           ))
@@ -197,8 +208,18 @@ const RoomList = ({ roomSelectedMode, searchValue }) => {
                   <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
                 )}
               </div>
-              <div>
-                <img src={watingAvatar} alt="waitingAvatar" className={styles.Avatar} />
+              <div className={styles.Avatar}>
+                <Avatar
+                  {...{
+                    userId: room.roomUsers[0].id,
+                    size: 0.7 * 300,
+                    location: 'Ingame',
+                    options: {
+                      nickname: room.roomUsers[0].nickname,
+                      isNest: true,
+                    },
+                  }}
+                />
               </div>
             </li>
           ))

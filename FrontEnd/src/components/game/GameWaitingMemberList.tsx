@@ -24,7 +24,7 @@ const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </div>
           <div className={styles.RoomUsers}>
             {sortedMembers.map((member, index) => (
-              <div key={member.userId} className={styles.RoomMember}>
+              <div key={member.id} className={styles.RoomMember}>
                 <div className={styles.Nickname}>
                   {index === 0 && roomInfo.roomStatus !== 'start' ? (
                     <>

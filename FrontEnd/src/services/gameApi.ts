@@ -1,5 +1,6 @@
 import { Axios } from '@/utils/axios';
 import axios from 'axios';
+import { getCookie } from '@/utils/axios';
 
 export async function gameForbiddenWordApi() {
   try {
@@ -10,9 +11,26 @@ export async function gameForbiddenWordApi() {
   }
 }
 
+export async function gameReadyApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/ready/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function gameOutApi(roomId: string) {
   try {
-    const response = await Axios.patch(`/chatroom/leave/${roomId}`);
+    const response = await Axios.patch(`/chatroom/leave/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
     return response.data;
   } catch (error) {
     return Promise.reject(error);
