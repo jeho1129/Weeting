@@ -13,7 +13,7 @@ spring:
         jdbc:
           batch_size: 100
         default_batch_fetch_size: 100
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
       id:
         new_generator_mappings: false
 
@@ -39,10 +39,11 @@ spring:
     # Redis
   data:
     redis:
-      host: redis
+#      host: redis
+      host: k10c103.p.ssafy.io
 #      host: localhost
       port: 6379
-      password: c103103
+#      password: c103103
     # mongoDB
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
@@ -55,6 +56,7 @@ spring:
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
     virtual-host: / # RabbitMQ 가상 호스트, 기본값은 /
+
 
 # jwt
 jwt:

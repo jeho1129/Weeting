@@ -139,7 +139,7 @@ const GameWaitingAvatars = ({
         return member;
       }
     });
-    console.log(updatedUsers);
+    // console.log(updatedUsers);
 
     // websocket 가져와서 여기 바꾸기
 

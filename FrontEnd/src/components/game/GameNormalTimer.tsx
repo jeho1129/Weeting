@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerNormal from '@/assets/images/timerNormal.png';
 import { RoomInfo } from '@/types/game';
-import { useRecoilValue } from 'recoil';
-import { gameState } from '@/recoil/atom';
 
 const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   // roomStatus가 start일 때 타이머를 240초로 설정
@@ -14,7 +12,7 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
 
   useEffect(() => {
-    console.log(new Date().toLocaleString());
+    // console.log(new Date().toLocaleString());
     if (endTime != null) {
       setEndTimeLeft(((new Date(endTime).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
     }

@@ -3,6 +3,7 @@ import { MainSignupFormNicknameProps } from '@/types/user';
 import { nicknameCheckApi } from '@/services/userApi';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { buttonError } from '@/utils/buttonClick';
 
 const MainSignupFormNickname = ({
   nickname,
@@ -19,8 +20,9 @@ const MainSignupFormNickname = ({
       nickname: nickname,
     })
       .then((data) => {
-        console.log('data :', data);
+        // console.log('data :', data);
         if (data.dataBody === true) {
+          buttonError();
           Swal.fire({
             title: '이미 사용중인 닉네임입니다',
             icon: 'error',
@@ -29,6 +31,7 @@ const MainSignupFormNickname = ({
           setNicknameChecked(1);
         } else {
           if (nickname === '') {
+            buttonError();
             Swal.fire({
               title: '닉네임을 입력해주세요',
               icon: 'error',
@@ -44,12 +47,13 @@ const MainSignupFormNickname = ({
         }
       })
       .catch(() => {
+        buttonError();
         Swal.fire({
           title: '다시 시도해주세요',
           icon: 'error',
         });
       });
-    console.log('닉네임 중복확인 api call');
+    // console.log('닉네임 중복확인 api call');
   };
 
   return (
