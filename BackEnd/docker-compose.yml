@@ -39,7 +39,6 @@ services:
     hostname: redis
     volumes:
       - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf
-    user: root
     networks:
       - weeting-network
     image: redis:latest
