@@ -28,7 +28,7 @@ public interface ChatRoomGameService {
     void gameInitialize(String chatRoomId);
 
     // 금지어 설정
-    void forbiddenWordSetting(String chatRoomId,
+    String forbiddenWordSetting(String chatRoomId,
                               User user,
                               String word);
 
