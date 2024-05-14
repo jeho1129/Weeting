@@ -146,4 +146,28 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         }
     }
 
+
+    @Override
+    public String fastEnter(User user) {
+        Set<String> chatRoomIds = redisTemplate.keys("chatRoom:*");
+
+        String selectedRoomId = "";
+        int minLeftUsers = Integer.MAX_VALUE;
+
+        for (String chatRoomId : chatRoomIds) {
+            ChatRoomDto chatRoom = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
+
+            if (chatRoom != null) {
+                int spotsLeft = chatRoom.getRoomMaxCnt() - chatRoom.getRoomUsers().size();
+                if (spotsLeft < minLeftUsers && spotsLeft > 0) {
+                    minLeftUsers = spotsLeft;
+                    selectedRoomId = chatRoom.getRoomId();
+                }
+            }
+        }
+        return selectedRoomId;
+    }
+
+
+
 }
