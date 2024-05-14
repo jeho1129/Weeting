@@ -22,13 +22,19 @@ public class ChatRoomGameController {
 
 
 
-    // 게임 시작 및 종료 확인
-    @PatchMapping("/gameStartAndEnd/{chatRoomId}")
+    // 게임 시작
+    @PatchMapping("/start/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameStart(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomGameService.gameStartAndEnd(chatRoomId);
+        chatRoomGameService.gameStart(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
+    // 게임 종료 (확인창 클릭)
+    @PatchMapping("/end/{chatRoomId}")
+    public ResponseEntity<Message<Void>> gameEnd(@PathVariable("chatRoomId") String chatRoomId) {
+        chatRoomGameService.gameEnd(chatRoomId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 
     // ready 상태 변경
     @PatchMapping("/ready/{chatRoomId}")
