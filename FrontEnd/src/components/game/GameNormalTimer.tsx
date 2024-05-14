@@ -8,8 +8,8 @@ import { gameState } from '@/recoil/atom';
 const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   // roomStatus가 start일 때 타이머를 240초로 설정
   // roomStatus가 start일 때 타이머를 240초로 설정
-  const endTime: string | null = roomInfo.roomEndtime;
-  const forbiddenTime: string | null = roomInfo.roomForbiddentime;
+  const endTime: string | null = roomInfo.roomEndTime;
+  const forbiddenTime: string | null = roomInfo.roomForbiddenTime;
   const [endTimeLeft, setEndTimeLeft] = useState('');
   const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
 

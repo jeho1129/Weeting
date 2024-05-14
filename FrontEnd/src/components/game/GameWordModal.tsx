@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import { RoomInfo } from '@/types/game';
-import { gameForbiddenWordApi } from '@/services/gameApi';
 
 interface GameForbiddenWordProps {
   roomInfo: RoomInfo;
@@ -12,7 +11,6 @@ interface GameForbiddenWordProps {
 
 const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen, onClose, onConfirm }) => {
   const [forbiddenWord, setForbiddenWord] = useState('');
-  const [theme, setTheme] = useState('');
   const [warningMsg, setWarningMsg] = useState(
     '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다',
   );
@@ -29,17 +27,7 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
         '* 두 글자 이상의 국어사전에 등재된 단어만 사용 가능합니다. <br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다 <br />* 사전에 등록된 단어일 수록 정확한 유사도가 출력됩니다.',
       );
     }
-
-    gameForbiddenWordApi().then((data: string) => {
-      setTheme(data);
-    });
   }, [roomInfo.roomMode]);
-
-  useEffect(() => {
-    gameForbiddenWordApi().then((data: string) => {
-      setTheme(data);
-    });
-  }, []);
 
   // 입력 조건 검증 함수
   const isValidInput = () => {
@@ -54,7 +42,7 @@ const GameForbiddenWord: React.FC<GameForbiddenWordProps> = ({ roomInfo, isOpen,
   return (
     <div className={styles.Container}>
       <div className="FontM32">OO 님의 금칙어를 정해주세요</div>
-      <div className="FontM60">주제 : {theme}</div>
+      <div className="FontM60">주제 : {roomInfo.roomTheme}</div>
       <input
         className="FontM20"
         type="text"
