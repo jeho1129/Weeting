@@ -37,8 +37,8 @@ services:
   redis:
     container_name: redis
     hostname: redis
-    volumes:
-      - ~/redis/data:/data
+#    volumes:
+#      - ~/redis-stable:/data
     user: root
     networks:
       - weeting-network
