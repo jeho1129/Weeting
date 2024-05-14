@@ -2,12 +2,12 @@ import styles from '@/styles/home/HomePage.module.css';
 import Avatar from '../avatar/Avatar';
 import HomeButton from './HomeButton';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect, useState, useRef } from 'react';
-import { userState, outfitState } from '@/recoil/atom';
+import { useEffect, useState } from 'react';
+import { userState } from '@/recoil/atom';
 import { userInfoLoadApi } from '@/services/userApi';
 import { AvatarProps } from '@/types/avatar';
-import bird from '@/assets/audio/bird.mp3';
 import { Lightning } from '@phosphor-icons/react';
+import { buttonClick } from '@/utils/buttonClick';
 
 const Home = () => {
   // 회원정보 조회 계속 해서 리코일에 반영하기
@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     userInfoLoadApi()
       .then((data) => {
-        console.log(data.dataBody);
+        // console.log(data.dataBody);
         setUserInfo({
           userId: data.dataBody.id,
           nickname: data.dataBody.nickname,
@@ -33,15 +33,9 @@ const Home = () => {
         return data.dataBody.id;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
-
-  const playButtonSound = () => {
-    const audioRef = useRef(new Audio(bird));
-    const audio = audioRef.current;
-    audio.play();
-  };
 
   return (
     <>
@@ -55,7 +49,7 @@ const Home = () => {
         className={styles.AvatarContainer}
         onClick={() => {
           setClickCnt(clickCnt + 1);
-          playButtonSound();
+          buttonClick();
         }}
       >
         <Avatar {...avatarFirstProps} />

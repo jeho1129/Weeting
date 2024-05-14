@@ -3,7 +3,9 @@ package com.ssafy.backend.global.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -22,6 +24,9 @@ public class RedisConfig {
 
     @Value("${spring.data.redis.port}")
     private int port;
+//
+//    @Value("${spring.data.redis.password}")
+//    private String password;
 
     /**
      * Redis 연결을 관리하는 커넥션 팩토리 빈을 생성합니다.
@@ -31,9 +36,12 @@ public class RedisConfig {
      */
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
+        redisConfig.setHostName(host);
+        redisConfig.setPort(port);
+//        redisConfig.setPassword(RedisPassword.of(password));
+        return new LettuceConnectionFactory(redisConfig);
     }
-
 
     /**
      * Redis 작업을 수행하기 위한 템플릿 빈을 설정합니다.

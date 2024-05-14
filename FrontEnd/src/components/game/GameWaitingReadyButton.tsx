@@ -34,7 +34,7 @@ const GameWaitingReadyButton = ({
     } else {
       try {
         gameReadyApi(roomId).then((data) => {
-          console.log(data);
+          // console.log(data);
           setIsReady(!isReady);
         });
       } catch (error) {

@@ -3,6 +3,7 @@ import styles from '@/styles/main/MainLoginForm.module.css';
 import { MainSignupFormIdProps } from '@/types/user';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { buttonError } from '@/utils/buttonClick';
 
 const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainSignupFormIdProps) => {
   const [idChecked, setIdChecked] = useState(0);
@@ -11,6 +12,8 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
     e.preventDefault();
     // id 중복확인 api call
     if (id.trim() === '') {
+      buttonError();
+
       Swal.fire({
         title: '아이디를 입력해주세요',
         icon: 'error',
@@ -21,8 +24,9 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
       account: id,
     })
       .then((data) => {
-        console.log('data :', data);
+        // console.log('data :', data);
         if (data.dataBody === true) {
+          buttonError();
           Swal.fire({
             title: '이미 사용중인 아이디입니다',
             icon: 'error',
@@ -31,6 +35,7 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
           setIdChecked(1);
         } else {
           if (id === '') {
+            buttonError();
             Swal.fire({
               title: '아이디를 입력해주세요',
               icon: 'error',
@@ -46,12 +51,13 @@ const MainSignupFormId = ({ id, onIdHandler, idPossible, idCheckHandler }: MainS
         }
       })
       .catch(() => {
+        buttonError();
         Swal.fire({
           title: '다시 시도해주세요',
           icon: 'error',
         });
       });
-    console.log('id 중복확인 api call');
+    // console.log('id 중복확인 api call');
   };
 
   return (

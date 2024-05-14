@@ -39,7 +39,7 @@ const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
       nametag: nameTagOutfit,
     });
 
-    console.log(outfitSet);
+    // console.log(outfitSet);
   }, [outfit]);
 
   return (
