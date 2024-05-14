@@ -34,14 +34,19 @@ public class RedisConfig {
      *
      * @return RedisConnectionFactory 레티스 연결 팩토리 인스턴스
      */
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
+//        redisConfig.setHostName(host);
+//        redisConfig.setPort(port);
+//        redisConfig.setPassword(RedisPassword.of(password));
+//        return new LettuceConnectionFactory(redisConfig);
+//    }
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
-        redisConfig.setHostName(host);
-        redisConfig.setPort(port);
-        redisConfig.setPassword(RedisPassword.of(password));
-        return new LettuceConnectionFactory(redisConfig);
+        return new LettuceConnectionFactory(host, port);
     }
+
 
     /**
      * Redis 작업을 수행하기 위한 템플릿 빈을 설정합니다.
