@@ -11,8 +11,10 @@ import java.util.List;
 public interface ChatRoomGameService {
 
     // 게임 시작
+    void gameStart(String chatRoomId);
 
-    void gameStartAndEnd(String roomId);
+    // 게임 종료 (결과창 확인Btn)
+    void gameEnd(String chatRoomId);
 
     // ready 상태 변경
     Boolean readyStatusTrans(String roomId,

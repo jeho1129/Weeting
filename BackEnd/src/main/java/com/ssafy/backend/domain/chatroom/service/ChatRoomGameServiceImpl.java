@@ -27,7 +27,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
     @Override
-    public void gameStartAndEnd(String chatRoomId) {
+    public void gameStart(String chatRoomId) {
         String key = "chatRoom:" + chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
@@ -41,7 +41,21 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             roomInfo.setRoomForbiddenTime(LocalDateTime.now().plusSeconds(30));
             roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordsetting);
             redisTemplate.opsForValue().set(key, roomInfo);
-        } else if (currentStatus == ChatRoomDto.RoomStatus.end) {
+        }
+    }
+
+    @Override
+    public void gameEnd(String chatRoomId) {
+        String key = "chatRoom:" + chatRoomId;
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
+        }
+
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+
+        if (currentStatus == ChatRoomDto.RoomStatus.end) {
             roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
             gameInitialize(chatRoomId);
             redisTemplate.opsForValue().set(key, roomInfo);
