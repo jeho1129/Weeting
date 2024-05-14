@@ -32,22 +32,17 @@ services:
     depends_on:
       - back
 
-#   redis:
-#     container_name: redis
-#     hostname: redis
-# #    volumes:
-# #      - ~/redis-stable:/data
-#     # user: root
-#     restart: always
-#     networks:
-#       - weeting-network
-#     image: redis:latest
-#     ports:
-#       - "6379:6379"
-#     # command: redis-server --requirepass c103103
-#     volumes:
-#       - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf  # 로컬 파일을 컨테이너 내부로 마운트
-#     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]  # 설정 파일을 사용하도록 명령어 설정
+  redis:
+    container_name: redis
+    hostname: redis
+#    volumes:
+#      - ~/redis-stable:/data
+    networks:
+      - weeting-network
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass c103103
 
 
   mysql:
