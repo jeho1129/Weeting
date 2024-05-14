@@ -85,17 +85,21 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
         }
 
+        Boolean userReadyStatus = null;
+
         for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
             if (userInfo.getId().equals(user.getId())) {
-                Boolean userReadyStatus = userInfo.getReady();
+                userReadyStatus = userInfo.getReady();
 
                 userInfo.setReady(!userReadyStatus);
 
                 redisTemplate.opsForValue().set(key, roomInfo);
 
-                return !userReadyStatus;
+                break;
             }
         }
+
+        return !userReadyStatus;
     }
 
 
