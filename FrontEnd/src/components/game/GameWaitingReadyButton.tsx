@@ -63,7 +63,7 @@ const GameWaitingReadyButton = ({
     setButtonStyle(baseStyle);
   }, [isReady, isFirstMember, blink]);
 
-  const buttonContent = isFirstMember ? '게임시작' : myReady ? '준비' : '준비 취소';
+  const buttonContent = isFirstMember ? '게임시작' : myReady ? '준비 취소' : '준비';
 
   return (
     <>
