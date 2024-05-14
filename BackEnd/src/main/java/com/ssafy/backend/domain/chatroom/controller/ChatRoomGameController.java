@@ -20,6 +20,8 @@ public class ChatRoomGameController {
 
     private final ChatRoomGameService chatRoomGameService;
 
+
+
     // 방 상태 변경
     @PatchMapping("/status/{chatRoomId}")
     public ResponseEntity<Message<LocalTime>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
@@ -41,13 +43,22 @@ public class ChatRoomGameController {
     }
 
 
+    // 죽었을 때 isAlive값 변경
+    @PatchMapping("/dead/{chatRoomId}")
+    public ResponseEntity<Message<String>> grilledChicken(@PathVariable("chatRoomId") String chatRoomId,
+                                                            @AuthenticationPrincipal User user) {
+        String result = chatRoomGameService.grilledChicken(chatRoomId, user);
+
+        return ResponseEntity.ok().body(Message.success(result));
+    }
+
+
     // 금지어 설정
     @PatchMapping("/wordsetting/{chatRoomId}")
     public void forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
                                      @AuthenticationPrincipal User user,
                                      @RequestBody String word) {
         chatRoomGameService.forbiddenWordSetting(chatRoomId, user, word);
-
     }
 
 
@@ -58,6 +69,7 @@ public class ChatRoomGameController {
 
         return ResponseEntity.ok().body(Message.success(result));
     }
+
 
     // 게임 결과 초기화
     @PatchMapping("/initialize/{chatRoomId}")

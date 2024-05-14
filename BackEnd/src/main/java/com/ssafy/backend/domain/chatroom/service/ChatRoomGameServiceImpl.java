@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -89,10 +90,32 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
     }
 
+
+    @Override
+    public String grilledChicken(String chatRoomId,
+                               User user) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
+        }
+
+        for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
+            if (userInfo.getId().equals(user.getId())) {
+                userInfo.setIsAlive(LocalDateTime.now().toString());
+                redisTemplate.opsForValue().set(key, roomInfo);
+                return userInfo.getIsAlive();
+            }
+        }
+
+        return "";
+    }
+
+
     @Override
     public List<ChatRoomGameResultDto> gameResult(String chatRoomId) {
         String key = "chatRoom:" + chatRoomId;
-
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
@@ -135,11 +158,19 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             userInfo.setReady(false);
             userInfo.setWord("");
             userInfo.setScore(0.0F);
-            userInfo.setIsAlive(true);
+            userInfo.setIsAlive("");
         }
 
         redisTemplate.opsForValue().set(key, roomInfo);
     }
+
+
+
+
+
+
+
+
 
 
     @Override
