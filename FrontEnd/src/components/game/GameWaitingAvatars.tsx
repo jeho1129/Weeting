@@ -133,7 +133,7 @@ const GameWaitingAvatars = ({
       const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
       const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-      if (latestMessage && latestMessage.includes(member.word!)) {
+      if (latestMessage && latestMessage.includes(member.word!) && roomStatus === 'start') {
         return { ...member, isAlive: new Date().toLocaleTimeString() };
       } else {
         return member;
@@ -154,6 +154,7 @@ const GameWaitingAvatars = ({
         const position = calculatePosition(index, roomMaxCnt);
         const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
+        const latestSendTime = userMessages[userMessages.length - 1]?.sendTime;
 
         return (
           <div key={`${member.id}-${index}`}>
@@ -176,7 +177,7 @@ const GameWaitingAvatars = ({
                     location: 'Ingame',
                     options: {
                       nickname: member.nickname,
-                      isAlive: member.isAlive == '' ? true : false,
+                      isAlive: member.isAlive === '' ? true : false,
                       isNest: index === 0 ? true : false,
                     },
                   }}
@@ -189,7 +190,7 @@ const GameWaitingAvatars = ({
                   // top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                   left={position.left}
                   latestMessage={latestMessage}
-                  sendTime={new Date().toISOString()}
+                  sendTime={latestSendTime}
                 />
               ) : null}
             </div>
