@@ -13,7 +13,7 @@ export async function loginApi(param: Login) {
 
 export async function logoutApi() {
   try {
-    const response = await Axios.post(`/user/logout`, {},, {
+    const response = await Axios.post(`/user/logout`, {},{
       headers: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
       },
@@ -26,7 +26,7 @@ export async function logoutApi() {
 
 export async function signupApi(param: Signup) {
   try {
-    const response = await Axios.post(`/user/signup`, param,, {
+    const response = await Axios.post(`/user/signup`, param, {
       headers: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
       },
@@ -39,7 +39,7 @@ export async function signupApi(param: Signup) {
 
 export async function idCheckApi(param: SignupIdCheck) {
   try {
-    const response = await Axios.post(`/user/idCheck`, param,, {
+    const response = await Axios.post(`/user/idCheck`, param, {
       headers: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
       },
@@ -52,7 +52,7 @@ export async function idCheckApi(param: SignupIdCheck) {
 
 export async function nicknameCheckApi(param: SignupNicknameCheck) {
   try {
-    const response = await Axios.post(`/user/nicknameCheck`, param,, {
+    const response = await Axios.post(`/user/nicknameCheck`, param, {
       headers: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
       },

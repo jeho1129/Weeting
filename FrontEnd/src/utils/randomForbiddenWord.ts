@@ -1,4 +1,5 @@
-const words = {
+import _ from 'lodash';
+export const words = {
   과일: [
     '포도',
     '사과',
@@ -65,4 +66,8 @@ const words = {
     '체조',
     '볼링',
   ],
+};
+
+export const randomForbbidenWord = (subject: '과일' | '스포츠' | '동물') => {
+  return _.sample(words[subject]);
 };
