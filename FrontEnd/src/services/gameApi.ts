@@ -2,19 +2,6 @@ import { Axios } from '@/utils/axios';
 import axios from 'axios';
 import { getCookie } from '@/utils/axios';
 
-export async function gameForbiddenWordApi() {
-  try {
-    const response = await Axios.get(`/chatroom/randomTheme`, {
-      headers: {
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
 export async function gameReadyApi(roomId: string) {
   try {
     const response = await Axios.patch(`/chatroom/game/ready/${roomId}`, {
@@ -67,7 +54,7 @@ export async function shuffleMemberApi(num: number) {
   }
 }
 
-export async function forbiddenWordSettingApi({
+export async function forbiddenWordSettingDataApi({
   nickname,
   forbiddenWord,
 }: {
@@ -76,7 +63,7 @@ export async function forbiddenWordSettingApi({
 }) {
   try {
     const response = axios.post(
-      'localhost:8000/forbidden',
+      'localhost:8000/api/v1/forbidden',
       { userId: nickname, forbiddenWord: forbiddenWord },
       {
         headers: {
@@ -85,6 +72,36 @@ export async function forbiddenWordSettingApi({
       },
     );
     /////////////////////////////////////////^api주소 바꿈///////^이거 nickname으로 바꿔야함//////////////////////////
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function forbiddenWordSettingApi({ roomId, forbiddenWord }: { roomId: string; forbiddenWord: string }) {
+  try {
+    const response = await Axios.patch(
+      `/chatroom/game/wordsetting/${roomId}`,
+      { word: forbiddenWord },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie('accessToken')}`,
+        },
+      },
+    );
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function gameOverApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/dead/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
     return response;
   } catch (error) {
     return Promise.reject(error);
