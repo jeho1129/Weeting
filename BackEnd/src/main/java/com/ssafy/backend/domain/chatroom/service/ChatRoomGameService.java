@@ -10,6 +10,9 @@ import java.util.List;
 @Service
 public interface ChatRoomGameService {
 
+    // 방 상태 변경 로직
+    void roomStatusModify(String chatRoomId);
+
     // 게임 시작
     void gameStart(String chatRoomId);
 
