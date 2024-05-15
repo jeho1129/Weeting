@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.ssafy.backend.domain.chatroom.entity.Word.getRandomForbiddenWord;
+
 @Service
 @RequiredArgsConstructor
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
@@ -26,7 +28,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     private final TaskScheduler taskScheduler;
 
 
-    // 방 상태 변경 로직
     @Override
     public void roomStatusModify(String chatRoomId) {
         String key = "chatRoom:" + chatRoomId;
@@ -343,6 +344,11 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         // 타유저에게 금칙어 할당
         int nextIndex = (index + 1) % users.size();
+
+        if (word.isEmpty()) {
+            word = getRandomForbiddenWord();
+        }
+
         users.get(nextIndex).setWord(word);
 
 
