@@ -36,7 +36,9 @@ public class ChatRoomDto {
     private RoomStatus roomStatus;  // 방 상태
     private RoomMode roomMode;
 
-    private LocalDateTime roomForbiddenTime;
-    private LocalDateTime roomEndTime;
+    private String roomForbiddenTime;
+    private String roomEndTime;
+
+    private Boolean roomStatusFlag;
 
 }
