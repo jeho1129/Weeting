@@ -1,14 +1,13 @@
 import { roomCreateApi } from '@/services/roomApi';
 import styles from '@/styles/room/RoomModalCreateBtn.module.css';
+import { buttonError } from '@/utils/buttonClick';
 import { XCircle } from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
-import Modal from 'react-modal';
+import { useState } from 'react';
+import { default as Modal, default as ReactModal } from 'react-modal';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import RoomCount from './RoomCount';
 import RoomRadioBtn from './RoomRadioBtn';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import ReactModal from 'react-modal';
-import { buttonError } from '@/utils/buttonClick';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -55,7 +54,6 @@ const RoomModalCreateBtn = () => {
   // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
   // 모드0 = 노말   모드1 = 랭크  모드null = 선택안함
   const createtHandler = () => {
-
     roomCreateApi({
       roomName: roomName,
       roomMode: selectedMode === 0 ? 'normal' : 'rank',
@@ -98,8 +96,8 @@ const RoomModalCreateBtn = () => {
     Swal.fire({
       title: '방 이름을 입력해주세요',
       icon: 'error',
-    });    
-  }
+    });
+  };
 
   const modeAlertHandler = () => {
     buttonError();
@@ -172,12 +170,12 @@ const RoomModalCreateBtn = () => {
               만들기
             </button>
           )}
-          {roomName !== '' && selectedMode !== -2 && (password !== '' && password.length !== 4 ) && (
+          {roomName !== '' && selectedMode !== -2 && password !== '' && password.length !== 4 && (
             <button onClick={passwordAlertHandler} className={`${styles.Btn} FontM20`}>
               만들기
             </button>
           )}
-          {roomName !== '' && selectedMode !== -2 && (password === '' || password.length === 4 ) && (
+          {roomName !== '' && selectedMode !== -2 && (password === '' || password.length === 4) && (
             <button onClick={createtHandler} className={`${styles.Btn} FontM20`}>
               만들기
             </button>
