@@ -6,7 +6,7 @@ services:
     container_name: back
     hostname: back
     build:
-      context: ../BackEnd
+      context: ./BackEnd
       dockerfile: Dockerfile
     ports:
       - "9002:8080"
@@ -19,7 +19,7 @@ services:
     container_name: front
     hostname: front
     build:
-      context: ../FrontEnd
+      context: ./FrontEnd
       dockerfile: Dockerfile
     ports:
       - "9003:3000"
