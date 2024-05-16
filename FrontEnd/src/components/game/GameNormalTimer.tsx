@@ -50,7 +50,11 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
     <div className={styles.timerContainer}>
       <p className={styles.timerText}>
-        {roomInfo.roomStatus === 'wordsetting' ? forbiddenTimeLeft : roomInfo.roomStatus === 'start' ? endTimeLeft : ''}
+        {roomInfo.roomStatus === 'wordsetting'
+          ? forbiddenTimeLeft
+          : roomInfo.roomStatus === 'start'
+            ? endTimeLeft
+            : '0'}
         초
       </p>
       <img className={styles.GameWordTimer} src={timerNormal} alt="GameTemplate" />

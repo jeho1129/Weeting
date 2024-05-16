@@ -32,10 +32,8 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
       console.error('웹소켓 에러 발생:', error);
     };
     return () => {
-      if (ws) {
-        ws.close();
-        console.log('웹소켓 연결종료');
-      }
+      ws.close();
+      console.log('웹소켓 연결종료');
     };
   }, [serverResponseData]);
 
