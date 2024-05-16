@@ -15,7 +15,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: 172.18.0.2
+      SPRING_REDIS_HOST: 172.18.0.4
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: c103103
       SPRING_RABBITMQ_HOST: rabbitmq
