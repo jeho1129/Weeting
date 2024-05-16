@@ -68,6 +68,11 @@ export const words = {
   ],
 };
 
-export const randomForbbidenWord = (subject: '과일' | '스포츠' | '동물') => {
-  return _.sample(words[subject]);
+export const randomForbbidenWord = (subject: string | null) => {
+  if (subject !== null) {
+    if (subject === '과일' || subject === '동물' || subject === '스포츠') {
+      return _.sample(words[subject])!;
+    }
+  }
+  return '';
 };

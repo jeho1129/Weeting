@@ -17,9 +17,9 @@ const GameWaitingReadyButton = ({
 }) => {
   const [isReady, setIsReady] = useState(false);
   const [buttonStyle, setButtonStyle] = useState('');
-  const myId = useRecoilValue(userState);
+  const userInfo = useRecoilValue(userState);
 
-  const isFirstMember = roomUsers[0]?.id === myId.userId;
+  const isFirstMember = roomUsers[0]?.id === userInfo.userId;
 
   const ReadyHandler = async () => {
     const isRoomFull = roomUsers.length >= 4;
@@ -43,7 +43,7 @@ const GameWaitingReadyButton = ({
     }
   };
 
-  const myReady = roomUsers.find((user) => user.id === myId.userId)?.ready;
+  const myReady = roomUsers.find((user) => user.id === userInfo.userId)?.ready;
 
   useEffect(() => {
     let baseStyle = `FontM32 ${styles.Btn}`;

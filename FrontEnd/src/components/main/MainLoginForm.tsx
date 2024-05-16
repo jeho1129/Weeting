@@ -82,6 +82,7 @@ const MainLoginForm = () => {
             className={`${styles.InputBox} FontM20`}
             id="password"
             type="password"
+            autoComplete="off"
             placeholder="비밀번호를 입력하세요"
             onChange={onPasswordHandler}
           />

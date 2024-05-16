@@ -1,3 +1,5 @@
+import logo from '@/assets/images/logo.png';
+
 import styles from '@/styles/game/GameWaiting.module.css';
 import { useState, useEffect } from 'react';
 import { RoomInfo, MessageScore } from '@/types/game';
@@ -5,7 +7,6 @@ import { RoomInfo, MessageScore } from '@/types/game';
 import GameWaitingReadyButton from '@/components/game/GameWaitingReadyButton';
 import GameWaitingQuitButton from '@/components/game/GameWaitingQuitButton';
 import GameWaitingMemberList from '@/components/game/GameWaitingMemberList';
-import GameWaitingLogo from '@/components/game/GameWaitingLogo';
 import GameWordTimer from '@/components/game/GameNormalTimer';
 import GameRankTimer from '@/components/game/GameRankTimer';
 
@@ -24,8 +25,7 @@ const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; m
   return (
     <>
       <div className={styles.AlignLeft}>
-        {/* <div className={styles.Align}> */}
-        <GameWaitingLogo />
+        <img className={styles.GameWaitingLogo} src={logo} alt="GameTemplate" />
         <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
