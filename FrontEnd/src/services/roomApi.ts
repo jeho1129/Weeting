@@ -27,3 +27,15 @@ export async function roomEnterApi(roomId: string) {
     return Promise.reject(error);
   }
 }
+export async function roomFastEnterApi() {
+  try {
+    const response = await Axios.patch(`/chatroom/fastenter`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
