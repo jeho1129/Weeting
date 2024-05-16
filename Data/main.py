@@ -10,7 +10,7 @@ import asyncio, model_manager, websockets
 #     # 배포 서버 URI
 #     uri = "ws://54.180.158.223:9002/ws"
 #     # 로컬 서버 URI
-#     # uri = "ws://localhost:8000/ws/word"
+#     # uri = "ws://localhost:8000/ws"
 #     async with websockets.connect(uri) as websocket:
 #         while True:
 #             try:

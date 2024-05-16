@@ -1,7 +1,9 @@
 package com.ssafy.backend.domain.chatroom.dto;
 
+import com.ssafy.backend.domain.chatroom.entity.Theme;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -30,8 +32,13 @@ public class ChatRoomDto {
     private String roomPassword;  // 비밀번호
     private int roomMaxCnt;  // 참여가능 최대 유저 수
     private List<ChatRoomUserInfo> roomUsers;  // 참여 유저 id 목록
-    private String roomTheme;  // 대화 주제
+    private Theme roomTheme;  // 대화 주제
     private RoomStatus roomStatus;  // 방 상태
     private RoomMode roomMode;
+
+    private String roomForbiddenTime;
+    private String roomEndTime;
+
+    private Boolean roomStatusFlag;
 
 }

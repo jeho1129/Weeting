@@ -24,9 +24,9 @@ public class RedisConfig {
 
     @Value("${spring.data.redis.port}")
     private int port;
-//
-//    @Value("${spring.data.redis.password}")
-//    private String password;
+
+    @Value("${spring.data.redis.password}")
+    private String password;
 
     /**
      * Redis 연결을 관리하는 커넥션 팩토리 빈을 생성합니다.
@@ -39,9 +39,14 @@ public class RedisConfig {
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
         redisConfig.setHostName(host);
         redisConfig.setPort(port);
-//        redisConfig.setPassword(RedisPassword.of(password));
+        redisConfig.setPassword(RedisPassword.of(password));
         return new LettuceConnectionFactory(redisConfig);
     }
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        return new LettuceConnectionFactory(host, port);
+//    }
+
 
     /**
      * Redis 작업을 수행하기 위한 템플릿 빈을 설정합니다.

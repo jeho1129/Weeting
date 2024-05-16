@@ -1,56 +1,44 @@
-import { userState } from '@/recoil/atom';
-import { RoomInfo } from '@/types/game';
-import styles from '@/styles/game/GameWaitingChattingForm.module.css';
 import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import { userState } from '@/recoil/atom';
+
+import styles from '@/styles/game/GameWaitingChattingForm.module.css';
+
+import { RoomInfo } from '@/types/game';
+import { gameOverApi } from '@/services/gameApi';
+import { IngameUser } from '@/types/user';
 
 const GameChattingForm = ({
   roomInfo,
+  ingameUserInfo,
   webSocketScore,
   onSendMessage,
 }: {
   roomInfo: RoomInfo;
+  ingameUserInfo: IngameUser;
   webSocketScore: WebSocket | null;
   onSendMessage: (conent: string) => void;
 }) => {
-  ///////// 변수 선언 //////////////////////////////////////////////////////
   const userInfo = useRecoilValue(userState);
-
-  // 채팅 메세지 입력값
   const [message, setMessage] = useState('');
-  const ingameUserInfo = roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0];
 
   // 마지막으로 채팅 입력한 시간
   const [lastMessageTime, setLastMessageTime] = useState<Date | null>(null);
 
-  ///////// 함수 선언 //////////////////////////////////////////////////////
   // 채팅 메세지 입력
   const onChatHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
     setLastMessageTime(new Date()); // 메세지 입력 시 현재 시간을 업데이트
   };
 
-  // 내 정보 웹소캣으로 전달
+  // 안쓰면 죽음
   useEffect(() => {
     if (roomInfo.roomStatus === 'start') {
       const timer = setTimeout(() => {
         if (lastMessageTime && new Date().getTime() - lastMessageTime.getTime() >= 15000) {
-          // 게임 정보 변경
-          // // roomInfo 관련 websocket연결 후에 .send 형태로 변환
-          // 현재 시간을 'HH:MM:SS' 형태의 문자열로 포맷팅합니다.
-          // const currentTimeFormatted = new Date().toTimeString().split(' ')[0];
-          // TODO: 여기서 user.isAlive를 업데이트하는 로직을 구현합니다.
-          // 예시로는 webSocket을 통해 서버에 업데이트 요청을 보내는 방법이 있습니다.
-          // if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN) {
-          //   webSocketScore.send(
-          //     JSON.stringify({
-          //       userId: userInfo.userId,
-          //       isAlive: currentTimeFormatted,
-          //     }),
-          //   );
-          // }
+          gameOverApi(roomInfo.roomId);
         }
-      }, 15000);
+      }, 150000); // 15초 후에 실행됩니다.
 
       // 컴포넌트가 언마운트되거나 lastMessageTime이 업데이트될 때 타이머를 클리어합니다.
       return () => clearTimeout(timer);
@@ -62,39 +50,12 @@ const GameChattingForm = ({
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 인게임 중 && 내가 쓴 단어가 금지어일 때
-    if (roomInfo.roomStatus === 'start') {
-      if (message.indexOf(ingameUserInfo.word!) !== -1) {
-        // // 게임 정보 변경
-        // // roomInfo 관련 websocket연결 후에 .send 형태로 변환
-        // webSocketS~~~.send(JSON.stringify({
-        //   roomMode: roomInfo.roomMode,
-        //   roomId: roomInfo.roomId,
-        //   roomName: roomInfo.roomName,
-        //   roomStatus: roomInfo.roomStatus,
-        //   roomForbiddentime: roomInfo.roomForbiddentime,
-        //   roomEndtime: roomInfo.roomEndtime,
-        //   roomSubject: roomInfo.roomSubject,
-        //   roomMaxCnt: roomInfo.roomMaxCnt,
-        //   roomUsers: roomInfo.roomUsers.map((user) =>
-        //     user.userId === userInfo.userId
-        //       ? {
-        //           userId: ingameUserInfo.userId,
-        //           nickname: ingameUserInfo.nickname,
-        //           ready: ingameUserInfo.ready,
-        //           word: ingameUserInfo.word,
-        //           score: ingameUserInfo.score,
-        //           isAlive: new Date().toTimeString(),
-        //         }
-        //       : user,
-        //   ),
-        //  }));
-      }
-    }
-
     if (message.trim()) {
       // 인게임 상태라면
-      if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN) {
+      if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN && roomInfo.roomStatus === 'start') {
+        if (message.indexOf(ingameUserInfo.word!) !== -1) {
+          gameOverApi(roomInfo.roomId);
+        }
         webSocketScore.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
       }
       // 그외
@@ -115,6 +76,7 @@ const GameChattingForm = ({
             value={message}
             onChange={onChatHandler}
             maxLength={20}
+            autoComplete="off"
           />
           <button className={`FontM20 ${styles.Btn}`}>확인</button>
         </div>

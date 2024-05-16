@@ -1,28 +1,19 @@
-import { RoomInfo } from '@/types/game';
-import GameAvatars from '@/components/game/GameWaitingAvatars';
-import styles from '@/styles/game/GameWaiting.module.css';
 import electricpole from '@/assets/images/electricpole.png';
 import electricline from '@/assets/images/electricline.png';
+
+import GameAvatars from '@/components/game/GameWaitingAvatars';
+
+import styles from '@/styles/game/GameWaiting.module.css';
+
+import { RoomInfo } from '@/types/game';
 import { ChatMessage } from '@/types/chat';
 
-const GameWaitingPole = ({
-  roomName,
-  roomStatus,
-  roomUsers,
-  roomMaxCnt,
-  chatMessage,
-}: {
-  roomName: RoomInfo['roomName'];
-  roomStatus: RoomInfo['roomStatus'];
-  roomUsers: RoomInfo['roomUsers'];
-  roomMaxCnt: RoomInfo['roomMaxCnt'];
-  chatMessage: ChatMessage[];
-}) => {
+const GameWaitingPole = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; chatMessage: ChatMessage[] }) => {
   return (
     <>
-      {roomStatus !== 'start' && <div className={`FontM32 ${styles.RoomName}`}>{roomName}</div>}
+      {roomInfo.roomStatus !== 'start' && <div className={`FontM32 ${styles.RoomName}`}>{roomInfo.roomName}</div>}
       <div className={styles.Avatars}>
-        <GameAvatars roomStatus={roomStatus} roomUsers={roomUsers} roomMaxCnt={roomMaxCnt} chatMessage={chatMessage} />
+        <GameAvatars roomInfo={roomInfo} chatMessage={chatMessage} />
       </div>
       <div className={styles.ElectricPoles}>
         <img className={styles.ElectricLine1} src={electricline} alt="GameTemplate" />

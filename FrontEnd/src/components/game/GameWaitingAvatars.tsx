@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
 
+// 말풍선
 const GameMessage = ({
   index,
   top,
@@ -68,54 +69,35 @@ const GameMessage = ({
   );
 };
 
-const GameWaitingAvatars = ({
-  roomStatus,
-  roomUsers,
-  roomMaxCnt,
-  chatMessage,
-}: {
-  roomStatus: RoomInfo['roomStatus'];
-  roomUsers: RoomInfo['roomUsers'];
-  roomMaxCnt: RoomInfo['roomMaxCnt'];
-  chatMessage: ChatMessage[];
-}) => {
+// 아바타
+const GameWaitingAvatars = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; chatMessage: ChatMessage[] }) => {
+  // 위치 계산
   const calculatePosition = (index: number, maxCount: number) => {
     let position;
-    // let top = '15.5%';
     let top = '60px';
     if (index % 2 !== 0) {
-      // top = '72%';
       top = '350px';
     }
     let left = '0px';
     switch (maxCount) {
       case 4:
         left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 290}px + 143px)`;
-        // left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 40}% + 20%)`;
-
-        // top = `${index % 2 === 0 ? 20 : 77}%`;
         top = `${index % 2 === 0 ? 90 : 375}px`;
 
         break;
       case 6:
         left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 216}px + 72px)`;
-        // left = `calc(${((index % 2 === 0 ? index : index - 1) / 2) * 30}% + 10%)`;
         if (index >= 2 && index <= 3) {
-          // top = `calc(${top} + 5%)`;
           top = `calc(${top} + 30px)`;
         } else {
-          // top = `${index % 2 === 0 ? 18.8 : 75}%`;
           top = `${index % 2 === 0 ? 80 : 372}px`;
         }
         break;
       case 8:
-        // left = `${((index % 2 === 0 ? index : index - 1) / 2) * 26}%`;
         left = `${((index % 2 === 0 ? index : index - 1) / 2) * 185}px`;
         if (index >= 2 && index <= 5) {
-          // top = `calc(${top} + 5%)`;
           top = `calc(${top} + 30px)`;
         } else {
-          // top = `${index % 2 === 0 ? 18 : 74.5}%`;
           top = `${index % 2 === 0 ? 80 : 365}px`;
         }
         break;
@@ -125,35 +107,34 @@ const GameWaitingAvatars = ({
     return position;
   };
 
-  const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomUsers);
   const userInfo = useRecoilValue(userState);
-
+  
+  // const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomInfo.roomUsers);
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    const updatedUsers = roomUsers.map((member) => {
-      const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
-      const latestMessage = userMessages[userMessages.length - 1]?.content;
+  // useEffect(() => {
+  //   const updatedUsers = roomInfo.roomUsers.map((member) => {
+  //     const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
+  //     const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-      if (latestMessage && latestMessage.includes(member.word!) && roomStatus === 'start') {
-        return { ...member, isAlive: new Date().toLocaleTimeString() };
-      } else {
-        return member;
-      }
-    });
-    // console.log(updatedUsers);
+  //     if (latestMessage && latestMessage.includes(member.word!) && roomInfo.roomStatus === 'start') {
+  //       return { ...member, isAlive: new Date().toLocaleTimeString() };
+  //     } else {
+  //       return member;
+  //     }
+  //   });
 
-    // websocket 가져와서 여기 바꾸기
+  //   // websocket 가져와서 여기 바꾸기
 
-    setUpdatedRoomUsers(updatedUsers);
-  }, [chatMessage, roomUsers]);
+  //   setUpdatedRoomUsers(updatedUsers);
+  // }, [chatMessage, roomInfo.roomUsers]);
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div className={styles.inGameAvatars}>
-      {updatedRoomUsers.map((member, index) => {
-        const position = calculatePosition(index, roomMaxCnt);
+      {roomInfo.roomUsers.map((member, index) => {
+        const position = calculatePosition(index, roomInfo.roomMaxCnt);
         const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
         const latestMessage = userMessages[userMessages.length - 1]?.content;
         const latestSendTime = userMessages[userMessages.length - 1]?.sendTime;
@@ -167,9 +148,7 @@ const GameWaitingAvatars = ({
                 style={{
                   position: 'absolute',
                   top: `calc(${position.top} - 60px)`,
-                  // top: `calc(${position.top} - 14%)`,
                   left: `calc(${position.left} - 70px)`,
-                  // left: `calc(${position.left} - 5.5%)`,
                 }}
               >
                 <Avatar
@@ -189,7 +168,6 @@ const GameWaitingAvatars = ({
                 <GameMessage
                   index={index}
                   top={index % 2 === 0 ? position.top : `calc(${position.top} - 200px)`}
-                  // top={index % 2 === 0 ? position.top : `calc(${position.top} - 40%)`}
                   left={position.left}
                   latestMessage={latestMessage}
                   sendTime={latestSendTime}
@@ -197,14 +175,13 @@ const GameWaitingAvatars = ({
               ) : null}
             </div>
 
-            {roomStatus === 'start' && (
+            {roomInfo.roomStatus === 'start' && (
               <>
                 <div>
                   <div
                     className={styles.inGameAvatar}
                     style={{
                       top: index % 2 === 0 ? `calc(${position.top} - 50px)` : `calc(${position.top} + 138px)`,
-                      // top: index % 2 === 0 ? `calc(${position.top} - 15%)` : `calc(${position.top} + 25%)`,
                       left: position.left,
                       position: 'absolute',
                     }}
