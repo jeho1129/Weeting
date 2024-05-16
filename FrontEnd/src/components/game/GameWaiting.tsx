@@ -177,7 +177,6 @@ const GameWaiting = () => {
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
           onConfirm={(word: string) => {
-            // console.log('설정된 금칙어:', word);
             setChoose(true);
             setModalOpen(false);
           }}
