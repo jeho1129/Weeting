@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     sh "ls -al"
-                    sh "docker build -t frontend ."
+                    sh "docker build -t frontend ./FrontEnd"
                     sh "touch .env"
                     sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
                 }
