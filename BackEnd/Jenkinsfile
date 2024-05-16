@@ -34,7 +34,7 @@ pipeline {
                 script {
                     // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
                     // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
-                    sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
+                    sh "docker images BackEnd -q | xargs -r docker rmi || true"
                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
             }
@@ -42,26 +42,26 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    sh "docker build -t ${DOCKERHUB_REGISTRY} BackEnd"
+                    sh "docker build -t BackEnd ."
                 }
             }
         }
-        stage("Login") {
-            steps {
-                script {
-                    sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-                }
-            }
-        }
-        stage("Tag and Push") {
-            steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker push ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
+        // stage("Login") {
+        //     steps {
+        //         script {
+        //             sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+        //         }
+        //     }
+        // }
+        // stage("Tag and Push") {
+        //     steps {
+        //         script {
+        //             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+        //                 sh "docker push ${DOCKERHUB_REGISTRY}"
+        //             }
+        //         }
+        //     }
+        // }
         // stage('Prune old images') {
         //     steps {
         //         script {
@@ -70,30 +70,30 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Pull') {
-            steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
-                        sh "docker pull ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
+        // stage('Pull') {
+        //     steps {
+        //         script {
+        //             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+        //                 sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
+        //                 sh "docker pull ${DOCKERHUB_REGISTRY}"
+        //             }
+        //         }
+        //     }
+        // }
         stage('Up') {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
-                        try {
-                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
-                        } catch(Exception e) {
-                            sh "docker restart back || true"
-                        }
+                    // withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                    try {
+                        sh "docker run -d --name back -p 9002:8080 BackEnd"
+                    } catch(Exception e) {
+                        sh "docker restart back || true"
                     }
                 }
             }
         }
     }
+}
     
     // post {
     //     success {
@@ -119,5 +119,3 @@ pipeline {
     //         }
     //     }
     // }
-
-}
