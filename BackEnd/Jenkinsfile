@@ -8,19 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/develop']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'PruneStaleBranch'], [$class: 'CleanBeforeCheckout']],
-                        submoduleCfg: [],
-                        userRemoteConfigs: [[
-                            url: 'https://lab.ssafy.com/s10-final/S10P31C103.git',
-                            credentialsId: 'KJH_2'
-                        ]]
-                    ])
-                }
+                checkout scm
             }
         }
         stage('Setup Environment') {
@@ -44,6 +32,8 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
+                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
+                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true" 
                     sh "docker images ${DOCKERHUB_REGISTRY} -q | xargs -r docker rmi || true"
                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"               
                 }
@@ -66,20 +56,36 @@ pipeline {
         stage("Tag and Push") {
             steps {
                 script {
-                    sh "docker tag ${DOCKERHUB_REGISTRY}:latest ${DOCKERHUB_REGISTRY}:${env.BUILD_NUMBER}"
-                    sh "docker push ${DOCKERHUB_REGISTRY}:${env.BUILD_NUMBER}"
-                    sh "docker push ${DOCKERHUB_REGISTRY}:latest"
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                        sh "docker push ${DOCKERHUB_REGISTRY}"
+                    }
                 }
             }
         }
-        stage('Pull and Deploy') {
+        // stage('Prune old images') {
+        //     steps {
+        //         script {
+        //             // 사용하지 않는 모든 도커 리소스 정리
+        //             sh "docker image prune -af"
+        //         }
+        //     }
+        // }
+        stage('Pull') {
             steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
-                        sh "docker pull ${DOCKERHUB_REGISTRY}:latest"
+                        sh "docker pull ${DOCKERHUB_REGISTRY}"
+                    }
+                }
+            }
+        }
+        stage('Up') {
+            steps {
+                script {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         try {
-                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}:latest"
+                            sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
                         } catch(Exception e) {
                             sh "docker restart back || true"
                         }
@@ -88,9 +94,10 @@ pipeline {
             }
         }
     }
+    
     post {
         success {
-            script {
+        	script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'good', 
@@ -101,7 +108,7 @@ pipeline {
             }
         }
         failure {
-            script {
+        	script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
                 def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
                 mattermostSend (color: 'danger', 
@@ -112,4 +119,5 @@ pipeline {
             }
         }
     }
+
 }
