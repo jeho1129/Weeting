@@ -9,14 +9,20 @@ pipeline {
         stage('Cleanup Git Remote') {
             steps {
                 script {
-                    sh 'git remote prune origin'
-                    sh 'git branch -r -d origin/jh/redis || true'
+                    // Git 작업 디렉토리 확인
+                    dir("${env.WORKSPACE}") {
+                        sh 'git remote prune origin'
+                        sh 'git branch -r -d origin/jh/redis || true'
+                    }
                 }
             }
         }
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    // 체크아웃 단계
+                    checkout scm
+                }
             }
         }
         stage('Setup Environment') {
