@@ -59,7 +59,7 @@ const GameChattingForm = ({
         webSocketScore.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
       }
       // 그외
-      onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
+      onSendMessage(message);
       setMessage('');
     }
   };
