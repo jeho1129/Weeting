@@ -25,16 +25,19 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     };
     ws.onmessage = (event) => {
       const roomList = JSON.parse(event.data);
+      console.log(roomList);
       setServerResponseData(roomList);
     };
     ws.onerror = (error) => {
       console.error('웹소켓 에러 발생:', error);
     };
     return () => {
-      ws.close();
-      console.log('웹소켓 연결종료');
+      if (ws) {
+        ws.close();
+        console.log('웹소켓 연결종료');
+      }
     };
-  }, []);
+  }, [serverResponseData]);
 
   useEffect(() => {
     // console.log('serverResponseData :', serverResponseData);
