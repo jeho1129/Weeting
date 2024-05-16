@@ -5,11 +5,31 @@ pipeline {
         DOCKERHUB_REGISTRY = "superjaehun/front"
         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
     }
-
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    retry(3) {
+                        // Remove conflicting branches
+                        sh "git remote prune origin || true"
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/develop']],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [[$class: 'PruneStaleBranch'], [$class: 'CleanBeforeCheckout']],
+                            submoduleCfg: [],
+                            userRemoteConfigs: [[
+                                url: 'https://lab.ssafy.com/s10-final/S10P31C103.git',
+                                credentialsId: 'KJH_2'
+                            ]]
+                        ])
+                    }
+                }
             }
         }
         stage('Stop and Remove Container') {
@@ -81,6 +101,30 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (color: 'good', 
+                message: "FE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                channel: 'C103-Jenkins'
+                )
+            }
+        }
+        failure {
+            script {
+                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+                mattermostSend (color: 'danger', 
+                message: "FE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+                channel: 'C103-Jenkins'
+                )
             }
         }
     }
