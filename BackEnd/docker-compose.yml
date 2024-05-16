@@ -7,7 +7,7 @@ services:
       - weeting-network
     image: ${DOCKERHUB_REGISTRY}
     depends_on:
-      - redis
+#      - redis
       - mysql
     ports:
       - "9002:8080"
@@ -15,9 +15,9 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: c103103
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
+#      SPRING_REDIS_PASSWORD: c103103
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
 
@@ -34,17 +34,17 @@ services:
     depends_on:
       - back
 
-  redis:
-    container_name: redis
-    hostname: redis
-    volumes:
-      - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf
-    networks:
-      - weeting-network
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    command: ["sh", "-c", "redis-server /usr/local/etc/redis/redis.conf"]
+#  redis:
+#    container_name: redis
+#    hostname: redis
+#    volumes:
+#      - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf
+#    networks:
+#      - weeting-network
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#    command: ["sh", "-c", "redis-server /usr/local/etc/redis/redis.conf"]
 
 
   mysql:

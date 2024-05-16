@@ -37,7 +37,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
         console.log('웹소켓 연결종료');
       }
     };
-  }, [serverResponseData]);
+  }, []);
 
   useEffect(() => {
     // console.log('serverResponseData :', serverResponseData);
@@ -118,40 +118,49 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
               else return false;
             })
             .map((room, index) => (
-              <li
-                key={index}
-                className={styles.OneRoom}
-                onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)}
-              >
-                <div className={`${styles.FirstRow}`}>
-                  <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
-                  <div className={`${styles.RoomUsers} FontM20`}>
-                    {room.roomUsers.length}/{room.roomMaxCnt}
+              <>
+                {room.roomUsers.length !== 0 ? (
+                  <li
+                    key={index}
+                    className={styles.OneRoom}
+                    onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)}
+                  >
+                    <div className={`${styles.FirstRow}`}>
+                      <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+                      <div className={`${styles.RoomUsers} FontM20`}>
+                        {room.roomUsers.length}/{room.roomMaxCnt}
+                      </div>
+                      {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
+                    </div>
+                    <div className={styles.SecondRow}>
+                      <div></div>
+                      {room.roomMode === 'rank' ? (
+                        <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
+                      ) : (
+                        <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
+                      )}
+                    </div>
+                    <div className={styles.Avatar}>
+                      <Avatar
+                        {...{
+                          userId: room.roomUsers[0].id,
+                          size: 0.6 * 300,
+                          location: 'Room',
+                          options: {
+                            nickname: room.roomUsers[0].nickname,
+                            isNest: true,
+                          },
+                        }}
+                      />
+                    </div>
+                  </li>
+                ) : (
+                  <div className={styles.NoRoom}>
+                    <img src={roomSign} alt="roomSign" />
+                    <div className="FontM32">방이 없어요 . .</div>
                   </div>
-                  {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
-                </div>
-                <div className={styles.SecondRow}>
-                  <div></div>
-                  {room.roomMode === 'rank' ? (
-                    <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
-                  ) : (
-                    <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
-                  )}
-                </div>
-                <div className={styles.Avatar}>
-                  <Avatar
-                    {...{
-                      userId: room.roomUsers[0].id,
-                      size: 0.6 * 300,
-                      location: 'Room',
-                      options: {
-                        nickname: room.roomUsers[0].nickname,
-                        isNest: true,
-                      },
-                    }}
-                  />
-                </div>
-              </li>
+                )}
+              </>
             ))
         )}
 
