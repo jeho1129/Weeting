@@ -2,8 +2,7 @@ pipeline {
     agent any
     environment {
         REPO = "s10-final/S10P31C103"
-        DOCKERHUB_REGISTRY_BACK = "superjaehun/back"
-        DOCKERHUB_REGISTRY_FRONT = "superjaehun/front"
+        DOCKERHUB_REGISTRY = "superjaehun/back"
         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
     }
     stages {
@@ -29,17 +28,10 @@ pipeline {
                 }
             }
         }
-        stage('Create .env file for Frontend') {
-            steps {
-                dir("${env.WORKSPACE}/FrontEnd") {
-                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
-                }
-            }
-        }
         stage('Stop and Remove Existing Containers') {
             steps {
                 script {
-                    sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml down || true"
+                    sh "docker-compose -f ${env.WORKSPACE}/../docker-compose.yml down || true"
                 }
             }
         }
@@ -53,7 +45,7 @@ pipeline {
         stage("Build with Docker Compose") {
             steps {
                 script {
-                    sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml build"
+                    sh "docker-compose -f ${env.WORKSPACE}/../docker-compose.yml build"
                 }
             }
         }
@@ -66,7 +58,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml push"
+                        sh "docker-compose -f ${env.WORKSPACE}/../docker-compose.yml push"
                     }
                 }
             }
@@ -74,7 +66,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml up -d"
+                    sh "docker-compose -f ${env.WORKSPACE}/../docker-compose.yml up -d"
                 }
             }
         }
