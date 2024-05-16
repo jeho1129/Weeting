@@ -1,5 +1,6 @@
 import styles from '@/styles/game/GameWaiting.module.css';
 import { RoomInfo } from '@/types/game';
+
 import waiting from '@/assets/images/ingamewaiting.png';
 import ready from '@/assets/images/ingameready.png';
 import crown from '@/assets/images/crown.png';
