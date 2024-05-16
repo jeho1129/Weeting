@@ -6,7 +6,13 @@ import com.ssafy.backend.domain.chatroom.dto.ChatRoomUserInfo;
 import com.ssafy.backend.domain.user.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -15,9 +21,7 @@ import java.util.*;
 public class ChatRoomServiceImpl implements ChatRoomService {
 
     private final RedisTemplate<String, Object> redisTemplate;
-
-
-
+//    private final RestTemplate restTemplate;
 
     @Override
     public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto,
@@ -59,6 +63,30 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         return chatRoomDto;
     }
 
+//    @Override
+//    public ChatRoomDto createRoom(ChatRoomCreateRequestDto chatRoomCreateRequestDto, User user) {
+//        try {
+//            ChatRoomUserInfo userInfo = new ChatRoomUserInfo(
+//                user.getId(),
+//                user.getNickname(),
+//                false,
+//                "",
+//                0.00F,
+//                ""
+//                );
+//            ResponseEntity<ChatRoomDto> response = restTemplate.postForEntity("http://3.39.208.35:8000/chatrooms/", new HttpEntity<>(chatRoomCreateRequestDto, createHeaders(userInfo)), ChatRoomDto.class);
+//            return response.getBody();
+//        } catch (HttpClientErrorException e) {
+//            throw new IllegalStateException("Failed to create room: " + e.getMessage());
+//        }
+//    }
+//
+//    private HttpHeaders createHeaders(ChatRoomUserInfo userInfo) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.set("User-Info", userInfo.toJson());
+//        return headers;
+//    }
 
     @Override
     public ChatRoomDto EnterChatRoom(String chatRoomId,
@@ -145,11 +173,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         if (roomInfo != null) {
             roomInfo.getRoomUsers().removeIf(userInfo -> userInfo.getId().equals(user.getId()));
             if (roomInfo.getRoomUsers().isEmpty()) {
-                redisTemplate.delete(chatRoomId);
+                redisTemplate.delete(key);
             } else {
                 redisTemplate.opsForValue().set(key, roomInfo);
             }
         }
+
     }
 
 

@@ -1,25 +1,17 @@
 version: '3.8'
 services:
   back:
-    container_name: back
-    hostname: back
     networks:
       - weeting-network
-    image: ${DOCKERHUB_REGISTRY}
-    depends_on:
-      - redis
-      - mysql
+    container_name: back
+    hostname: back
+    build:
+      context: ../BackEnd
+      dockerfile: Dockerfile
     ports:
       - "9002:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: c103103
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      SPRING_REDIS_PASSWORD: c103103
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
+    depends_on:
+      - mysql
 
   front:
     networks:
@@ -33,19 +25,6 @@ services:
       - "9003:3000"
     depends_on:
       - back
-
-  redis:
-    container_name: redis
-    hostname: redis
-    volumes:
-      - /home/ubuntu/redis.conf:/usr/local/etc/redis/redis.conf
-    networks:
-      - weeting-network
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    command: ["sh", "-c", "redis-server /usr/local/etc/redis/redis.conf"]
-
 
   mysql:
     networks:
@@ -66,9 +45,9 @@ services:
     networks:
       - weeting-network
     ports:
-      - "5672:5672"      # AMQP 프로토콜 포트
-      - "15672:15672"    # 관리 대시보드 포트
-      - "61613:61613"    # STOMP 플러그인 포트
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest

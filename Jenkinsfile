@@ -26,13 +26,9 @@ pipeline {
                         echo "docker-compose is already installed."
                     fi
                     '''
-                }
-            }
-        }
-        stage('Create .env file for Frontend') {
-            steps {
-                dir("${env.WORKSPACE}/FrontEnd") {
-                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
+                    dir("${env.WORKSPACE}/FrontEnd") {
+                        sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
+                    }
                 }
             }
         }
@@ -65,8 +61,9 @@ pipeline {
         stage("Push to Docker Hub") {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml push"
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                        sh "docker push ${DOCKERHUB_REGISTRY_BACK}"
+                        sh "docker push ${DOCKERHUB_REGISTRY_FRONT}"
                     }
                 }
             }
@@ -74,7 +71,9 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml up -d"
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                        sh "docker-compose -f ${env.WORKSPACE}/docker-compose.yml up -d"
+                    }
                 }
             }
         }
