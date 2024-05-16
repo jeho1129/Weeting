@@ -6,6 +6,13 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
     }
     stages {
+        stage('Cleanup Git Remote') {
+            steps {
+                script {
+                    sh 'git remote prune origin'
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
