@@ -5,31 +5,11 @@ pipeline {
         DOCKERHUB_REGISTRY = "superjaehun/front"
         DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
     }
+
     stages {
-        stage('Clean Workspace') {
-            steps {
-                deleteDir()
-            }
-        }
         stage('Checkout') {
             steps {
-                script {
-                    retry(3) {
-                        // Remove conflicting branches
-                        sh "git remote prune origin || true"
-                        checkout([
-                            $class: 'GitSCM',
-                            branches: [[name: '*/develop']],
-                            doGenerateSubmoduleConfigurations: false,
-                            extensions: [[$class: 'PruneStaleBranch'], [$class: 'CleanBeforeCheckout']],
-                            submoduleCfg: [],
-                            userRemoteConfigs: [[
-                                url: 'https://lab.ssafy.com/s10-final/S10P31C103.git',
-                                credentialsId: 'KJH_2'
-                            ]]
-                        ])
-                    }
-                }
+                checkout scm
             }
         }
         stage('Stop and Remove Container') {
@@ -104,7 +84,7 @@ pipeline {
             }
         }
     }
-    post {
+	   post {
         success {
             script {
                 def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
