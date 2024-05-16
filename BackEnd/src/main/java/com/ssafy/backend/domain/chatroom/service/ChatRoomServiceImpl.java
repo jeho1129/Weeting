@@ -144,15 +144,13 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         if (roomInfo != null) {
             roomInfo.getRoomUsers().removeIf(userInfo -> userInfo.getId().equals(user.getId()));
-            redisTemplate.opsForValue().set(key, roomInfo);
-            ChatRoomDto roomInfoNew = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-
-            if (roomInfoNew.getRoomUsers().isEmpty()) {
-                redisTemplate.delete(chatRoomId);
+            if (roomInfo.getRoomUsers().isEmpty()) {
+                redisTemplate.delete(key);
             } else {
                 redisTemplate.opsForValue().set(key, roomInfo);
             }
         }
+
     }
 
 

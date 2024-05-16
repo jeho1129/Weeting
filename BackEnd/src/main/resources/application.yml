@@ -36,12 +36,12 @@ spring:
 
   data:
     redis:
-#      host: redis
+      host: redis
 #      host: k10c103.p.ssafy.io
 #      host: localhost
-      host: 172.18.0.4
+#      host: 172.18.0.4
       port: 6379
-      password: c103103
+#      password: c103103
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
