@@ -8,7 +8,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/develop']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'PruneStaleBranch'], [$class: 'CleanBeforeCheckout']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[
+                            url: 'https://lab.ssafy.com/s10-final/S10P31C103.git',
+                            credentialsId: 'KJH_2'
+                        ]]
+                    ])
+                }
             }
         }
         stage('Setup Environment') {
