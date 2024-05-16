@@ -57,7 +57,7 @@ const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; message
             ? forbiddenTimeLeft
             : roomInfo.roomStatus === 'start'
               ? endTimeLeft
-              : ''}
+              : '0'}
           초
         </p>
       </div>
