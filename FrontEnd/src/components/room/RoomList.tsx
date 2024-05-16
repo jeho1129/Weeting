@@ -21,20 +21,20 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     // 배포
     // const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
     ws.onopen = () => {
-      console.log('방리스트 받아오기 성공');
+      // console.log('방리스트 받아오기 성공');
     };
     ws.onmessage = (event) => {
       const roomList = JSON.parse(event.data);
-      console.log(roomList);
+      // console.log(roomList);
       setServerResponseData(roomList);
     };
     ws.onerror = (error) => {
-      console.error('웹소켓 에러 발생:', error);
+      // console.error('웹소켓 에러 발생:', error);
     };
     return () => {
       if (ws) {
         ws.close();
-        console.log('웹소켓 연결종료');
+        // console.log('웹소켓 연결종료');
       }
     };
   }, []);
@@ -178,7 +178,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
         }).length === 0 ? (
           <div className={styles.NoRoom}>
             <img src={roomSign} alt="roomSign" />
-            <div className="FontM32">방이 없어용~!</div>
+            <div className="FontM32">방이 없어요 . .</div>
           </div>
         ) : (
           searchValue !== '' &&
