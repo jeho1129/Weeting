@@ -1,29 +1,30 @@
-import { useState } from 'react';
 import styles from '@/styles/game/GameWaiting.module.css';
-import { RoomInfo, MessageScore } from '@/types/game';
+import { useState, useEffect } from 'react';
+import { RoomInfo } from '@/types/game';
 import { ChatMessage } from '@/types/chat';
-import GameChattingList from './GameWaitingChattingList';
-import GameChattingForm from './GameWaitingChattingForm';
+import { IngameUser } from '@/types/user';
+
+import GameChattingList from '@/components/game/GameWaitingChattingList';
+import GameChattingForm from '@/components/game/GameWaitingChattingForm';
 import GameWaitingPole from '@/components/game/GameWaitingPole';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/recoil/atom';
+
 import { Client } from '@stomp/stompjs';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import { getCookie } from '@/utils/axios';
 
 const GameWaitingRightSide = ({
   roomInfo,
   webSocketScore,
+  ingameUserInfo,
 }: {
   roomInfo: RoomInfo;
   webSocketScore: WebSocket | null;
+  ingameUserInfo: IngameUser;
 }) => {
-  ///////// 변수 선언 //////////////////////////////////////////////////////
-  const roomId = useParams().id;
   const userInfo = useRecoilValue(userState);
   const [stompClient, setStompClient] = useState<Client | null>(null);
-  // 채팅 메세지 리스트
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   // 채팅방 stomp client 연결
@@ -37,8 +38,8 @@ const GameWaitingRightSide = ({
       },
 
       onConnect: () => {
-        console.log('-------웹소캣재훈이랑 연결완료-------');
-        client.subscribe(`/topic/room.${roomId}`, (message) => {
+        // console.log('-------웹소캣재훈이랑 연결완료-------');
+        client.subscribe(`/topic/room.${roomInfo.roomId}`, (message) => {
           const newMessage: { userId: number; content: string; nickname: string; sendTime: string } = JSON.parse(
             message.body,
           );
@@ -72,7 +73,7 @@ const GameWaitingRightSide = ({
     };
 
     stompClient?.publish({
-      destination: `/pub/api/v1/chat/${roomId}`,
+      destination: `/pub/api/v1/chat/${roomInfo.roomId}`,
       body: JSON.stringify(newMessage),
     });
   };
@@ -80,20 +81,16 @@ const GameWaitingRightSide = ({
 
   return (
     <>
-      {/* <div className={styles.RightSide}> */}
       <div className={styles.AlignRight}>
-        <GameWaitingPole
-          roomName={roomInfo.roomName}
-          roomStatus={roomInfo.roomStatus}
-          roomUsers={roomInfo.roomUsers}
-          roomMaxCnt={roomInfo.roomMaxCnt}
-          chatMessage={chatMessages}
-        />
+        <GameWaitingPole roomInfo={roomInfo} chatMessage={chatMessages} />
         <div className={styles.ChatBoxBorder}></div>
         <div className={styles.ChatBox}>
           <GameChattingList roomUsers={roomInfo.roomUsers} chatMessages={chatMessages} />
         </div>
-        <GameChattingForm {...{ roomInfo, webSocketScore, onSendMessage }} onSendMessage={onSendMessage} />
+        <GameChattingForm
+          {...{ roomInfo, ingameUserInfo, webSocketScore, onSendMessage }}
+          onSendMessage={onSendMessage}
+        />
         <div className={styles.ChatBuilding}></div>
       </div>
     </>
