@@ -36,8 +36,8 @@ spring:
 
   data:
     redis:
-      host: redis
-#      host: k10c103.p.ssafy.io
+#      host: redis
+      host: k10c103.p.ssafy.io
 #      host: localhost
 #      host: 172.18.0.4
       port: 6379
@@ -47,8 +47,8 @@ spring:
 
 
   rabbitmq:
-#    host: localhost
-    host: rabbitmq
+    host: localhost
+#    host: rabbitmq
     port: 5672
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
