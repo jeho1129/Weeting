@@ -28,6 +28,19 @@ export async function gameReadyApi(roomId: string) {
   }
 }
 
+export async function gameDeadApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/dead/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function gameStatusUpdateApi(roomId: string) {
   try {
     const response = await Axios.patch(`api/v1/chatroom/game/status/${roomId}`, {

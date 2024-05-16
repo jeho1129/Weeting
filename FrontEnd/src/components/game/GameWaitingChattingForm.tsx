@@ -32,7 +32,6 @@ const GameChattingForm = ({
 
   // 내 정보 웹소캣으로 전달
   useEffect(() => {
-    // roomInfo.roomStatus가 'start'인 경우에만 로직을 실행합니다.
     if (roomInfo.roomStatus === 'start') {
       const timer = setTimeout(() => {
         if (lastMessageTime && new Date().getTime() - lastMessageTime.getTime() >= 15000) {
@@ -51,7 +50,7 @@ const GameChattingForm = ({
           //   );
           // }
         }
-      }, 15000); // 15초 후에 실행됩니다. 주석이 잘못되어 있었습니다. 1분이 아니라 15초 후에 실행됩니다.
+      }, 15000);
 
       // 컴포넌트가 언마운트되거나 lastMessageTime이 업데이트될 때 타이머를 클리어합니다.
       return () => clearTimeout(timer);
@@ -90,31 +89,6 @@ const GameChattingForm = ({
         //       : user,
         //   ),
         //  }));
-        /////////////////////////////////////////////////////////
-        /////////////////////이쪽은 지워야함//////////////////////
-        // setRoomInfo({
-        //   roomMode: roomInfo.roomMode,
-        //   roomId: roomInfo.roomId,
-        //   roomName: roomInfo.roomName,
-        //   roomStatus: roomInfo.roomStatus,
-        //   roomForbiddentime: roomInfo.roomForbiddentime,
-        //   roomEndtime: roomInfo.roomEndtime,
-        //   roomSubject: roomInfo.roomSubject,
-        //   roomMaxCnt: roomInfo.roomMaxCnt,
-        //   roomUsers: roomInfo.roomUsers.map((user) =>
-        //     user.userId === userInfo.userId
-        //       ? {
-        //           userId: ingameUserInfo.userId,
-        //           nickname: ingameUserInfo.nickname,
-        //           ready: ingameUserInfo.ready,
-        //           word: ingameUserInfo.word,
-        //           score: ingameUserInfo.score,
-        //           isAlive: new Date().toTimeString(), // 년, 월, 일 필요없어서 Time만 씀 -> 재훈이랑 한번 더 말해봐서 값 뭘로 할지 통일해야함
-        //         }
-        //       : user,
-        //   ),
-        // });
-        //////////////////////////////////////////////////////
       }
     }
 
@@ -124,7 +98,7 @@ const GameChattingForm = ({
         webSocketScore.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
       }
       // 그외
-      onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
+      onSendMessage(message);
       setMessage('');
     }
   };
