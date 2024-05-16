@@ -3,7 +3,7 @@ pipeline {
     environment {
         REPO = "s10-final/S10P31C103"
         DOCKERHUB_REGISTRY = "superjaehun/back"
-        DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
+        DOCKERHUB_CREDENTIALS = credentials('c103')
     }
     stages {
         stage('Checkout') {
@@ -56,7 +56,7 @@ pipeline {
         stage("Tag and Push") {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         sh "docker push ${DOCKERHUB_REGISTRY}"
                     }
                 }
@@ -73,7 +73,7 @@ pipeline {
         stage('Pull') {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         sh "docker rmi ${DOCKERHUB_REGISTRY} || true"
                         sh "docker pull ${DOCKERHUB_REGISTRY}"
                     }
@@ -83,7 +83,7 @@ pipeline {
         stage('Up') {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD']]) {
                         try {
                             sh "docker run -d --name back -p 9002:8080 ${DOCKERHUB_REGISTRY}"
                         } catch(Exception e) {
