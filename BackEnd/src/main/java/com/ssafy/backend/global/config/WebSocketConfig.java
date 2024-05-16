@@ -4,6 +4,7 @@ package com.ssafy.backend.global.config;
 import com.ssafy.backend.global.component.RabbitMqProps;
 import com.ssafy.backend.global.component.WebSocketChatRoomGetHandler;
 import com.ssafy.backend.global.component.WebSocketChatRoomListHandler;
+import com.ssafy.backend.global.component.WebSocketChatRoomStatusHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
     private final RabbitMqProps rabbitMqProps;
     private final WebSocketChatRoomListHandler webSocketChatRoomListHandler;
     private final WebSocketChatRoomGetHandler webSocketChatRoomGetHandler;
+    private final WebSocketChatRoomStatusHandler webSocketChatRoomStatusHandler;
 
 
     /*
@@ -34,6 +36,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
                 .setAllowedOrigins("*");
         // 방 상태 조회
         registry.addHandler(webSocketChatRoomGetHandler, "/ws/chatroom/get")
+                .setAllowedOrigins("*");
+        // 방 상태 변경
+        registry.addHandler(webSocketChatRoomStatusHandler, "/ws/chatroom/status")
                 .setAllowedOrigins("*");
     }
 

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { ChatMessage } from '@/types/chat';
-import { RoomInfo, MessageScore } from '@/types/game';
+import { RoomInfo } from '@/types/game';
+
 import styles from '@/styles/game/GameWaitingChatting.module.css';
+
 import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
 
@@ -30,7 +32,6 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ roomUsers, chatMess
 
   return (
     <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}>
-      {' '}
       {chatMessages.map((message, index) => {
         // 메시지를 보낸 사용자의 생존 상태
         const messageUserAlive = roomUsers.find((user) => user.nickname === message.nickname)?.isAlive === '';

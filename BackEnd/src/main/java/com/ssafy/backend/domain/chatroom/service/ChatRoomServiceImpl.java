@@ -45,9 +45,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomPassword(chatRoomCreateRequestDto.getRoomPassword())
                 .roomMaxCnt(chatRoomCreateRequestDto.getRoomMaxCnt())
                 .roomUsers(new ArrayList<>(Collections.singletonList(userInfo))) // 초기 멤버 리스트에 방 생성자 유저 정보 포함
-                .roomTheme("")
+                .roomTheme(null)
                 .roomStatus(ChatRoomDto.RoomStatus.waiting)
                 .roomMode(chatRoomCreateRequestDto.getRoomMode())
+                .roomForbiddenTime(null)
+                .roomEndTime(null)
+                .roomStatusFlag(false)
                 .build();
 
         String key = "chatRoom:" + chatRoomDto.getRoomId();
@@ -107,6 +110,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .roomTheme(roomInfo.getRoomTheme())
                 .roomStatus(roomInfo.getRoomStatus())
                 .roomMode(roomInfo.getRoomMode())
+                .roomForbiddenTime(roomInfo.getRoomForbiddenTime())
+                .roomEndTime(roomInfo.getRoomEndTime())
+                .roomStatusFlag(roomInfo.getRoomStatusFlag())
                 .build();
 
 //        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + key, chatRoomDto);
@@ -157,7 +163,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         for (String chatRoomId : chatRoomIds) {
             ChatRoomDto chatRoom = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
 
-            if (chatRoom != null) {
+            if (chatRoom != null && (chatRoom.getRoomPassword() == null || chatRoom.getRoomPassword().isEmpty())) {
                 int spotsLeft = chatRoom.getRoomMaxCnt() - chatRoom.getRoomUsers().size();
                 if (spotsLeft < minLeftUsers && spotsLeft > 0) {
                     minLeftUsers = spotsLeft;

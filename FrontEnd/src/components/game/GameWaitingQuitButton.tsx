@@ -1,24 +1,13 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { gameOutApi } from '@/services/gameApi';
 import styles from '@/styles/game/GameWaitingReadyButton.module.css';
 
-interface GameWaitingQuitButtonProps {
-  roomId: string;
-  onQuitSuccess?: () => void;
-}
-
-const GameWaitingQuitButton: React.FC<GameWaitingQuitButtonProps> = ({ roomId, onQuitSuccess }) => {
+const GameWaitingQuitButton = ({ roomId }: { roomId: string }) => {
   const navigate = useNavigate();
-  // const params = useParams().id;
 
   const handleQuitRoom = async () => {
     try {
       await gameOutApi(roomId);
-      if (onQuitSuccess) {
-        onQuitSuccess();
-      }
-
       navigate('/room');
     } catch (error) {
       console.error('방 나가기에 실패했습니다.', error);
