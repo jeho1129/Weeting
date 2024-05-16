@@ -17,7 +17,7 @@ FROM azul/zulu-openjdk:17
 WORKDIR /back
 
 # 빌드된 JAR 파일 복사
-COPY --from=builder /back/build/libs/*.jar app.jar
+COPY --from=build /back/build/libs/*.jar app.jar
 
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "app.jar"]

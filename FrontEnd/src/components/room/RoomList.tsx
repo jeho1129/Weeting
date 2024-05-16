@@ -1,13 +1,13 @@
-import Avatar from '@/components/avatar/Avatar';
 import roomSign from '@/assets/images/roomSign.png';
+import Avatar from '@/components/avatar/Avatar';
+import { roomEnterApi } from '@/services/roomApi';
 import styles from '@/styles/room/RoomList.module.css';
 import { RoomWaitInfo } from '@/types/room';
+import { buttonError } from '@/utils/buttonClick';
 import { Lock } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { roomEnterApi } from '@/services/roomApi';
-import { buttonError } from '@/utils/buttonClick';
 
 const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number; searchValue: string }) => {
   const [serverResponseData, setServerResponseData] = useState<RoomWaitInfo[]>([]);
@@ -56,8 +56,12 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
       return;
     }
     if (roomPassword === null) {
-      const response = await roomEnterApi(roomId);
-      console.log(response);
+      try {
+        const response = await roomEnterApi(roomId);
+        console.log(response);
+      } catch(err) {
+        console.log("err :", err)
+      }
       navigate(`/room/${roomId}`);
     } else {
       const { value: password } = await Swal.fire({
@@ -115,42 +119,51 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                 return room.roomMode === 'rank'; // 랭크 모드의 방만 보기
               else return false;
             })
-            .map((room, index) => (
-              <li
-                key={index}
-                className={styles.OneRoom}
-                onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)}
-              >
-                <div className={`${styles.FirstRow}`}>
-                  <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
-                  <div className={`${styles.RoomUsers} FontM20`}>
-                    {room.roomUsers.length}/{room.roomMaxCnt}
+            .map((room, index) =>
+              room.roomUsers.length !== 0 ? (
+                <li
+                  key={index}
+                  className={styles.OneRoom}
+                  onClick={() =>
+                    roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)
+                  }
+                >
+                  <div className={`${styles.FirstRow}`}>
+                    <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
+                    <div className={`${styles.RoomUsers} FontM20`}>
+                      {room.roomUsers.length}/{room.roomMaxCnt}
+                    </div>
+                    {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
                   </div>
-                  {room.roomPassword !== null ? <Lock className={styles.Lock} size={25} /> : <></>}
+                  <div className={styles.SecondRow}>
+                    <div></div>
+                    {room.roomMode === 'rank' ? (
+                      <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
+                    ) : (
+                      <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
+                    )}
+                  </div>
+                  <div className={styles.Avatar}>
+                    <Avatar
+                      {...{
+                        userId: room.roomUsers[0].id,
+                        size: 0.6 * 300,
+                        location: 'Room',
+                        options: {
+                          nickname: room.roomUsers[0].nickname,
+                          isNest: true,
+                        },
+                      }}
+                    />
+                  </div>
+                </li>
+              ) : (
+                <div className={styles.NoRoom}>
+                  <img src={roomSign} alt="roomSign" />
+                  <div className="FontM32">방이 없어요 . .</div>
                 </div>
-                <div className={styles.SecondRow}>
-                  <div></div>
-                  {room.roomMode === 'rank' ? (
-                    <div className={`${styles.Mode} ${styles.Rank} FontM20`}>랭크</div>
-                  ) : (
-                    <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
-                  )}
-                </div>
-                <div className={styles.Avatar}>
-                  <Avatar
-                    {...{
-                      userId: room.roomUsers[0].id,
-                      size: 0.6 * 300,
-                      location: 'Room',
-                      options: {
-                        nickname: room.roomUsers[0].nickname,
-                        isNest: true,
-                      },
-                    }}
-                  />
-                </div>
-              </li>
-            ))
+              ),
+            )
         )}
 
         {/* 검색어가 있는 경우 */}
@@ -167,7 +180,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
         }).length === 0 ? (
           <div className={styles.NoRoom}>
             <img src={roomSign} alt="roomSign" />
-            <div className="FontM32">방이 없어용~!</div>
+            <div className="FontM32">방이 없어요 . .</div>
           </div>
         ) : (
           searchValue !== '' &&

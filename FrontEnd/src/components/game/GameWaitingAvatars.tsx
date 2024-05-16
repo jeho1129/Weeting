@@ -25,6 +25,8 @@ const GameMessage = ({
 }) => {
   const [isOut, setIsOut] = useState(false);
 
+
+  //1분간 타자 안치면 죽이는거 구현해야함
   useEffect(() => {
     setIsOut(false);
     setTimeout(() => {

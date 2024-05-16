@@ -1,14 +1,13 @@
 import { roomCreateApi } from '@/services/roomApi';
 import styles from '@/styles/room/RoomModalCreateBtn.module.css';
+import { buttonError } from '@/utils/buttonClick';
 import { XCircle } from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
-import Modal from 'react-modal';
+import { useState } from 'react';
+import { default as Modal, default as ReactModal } from 'react-modal';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import RoomCount from './RoomCount';
 import RoomRadioBtn from './RoomRadioBtn';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import ReactModal from 'react-modal';
-import { buttonError } from '@/utils/buttonClick';
 
 const RoomModalCreateBtn = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -55,23 +54,6 @@ const RoomModalCreateBtn = () => {
   // 모드 선택을 안했으면(selectedMode === -2이면) 실패처리
   // 모드0 = 노말   모드1 = 랭크  모드null = 선택안함
   const createtHandler = () => {
-    // console.log('hi');
-    // if (selectedMode === 0) {
-    //   setRoomMode('normal');
-    // } else if (selectedMode === 1) {
-    //   setRoomMode('rank');
-    // }
-
-    // if (password === '') {
-    //   setPassword(null);
-    // }
-    // console.log({
-    //   roomName: roomName,
-    //   roomMode: selectedMode === 0 ? 'normal' : 'rank',
-    //   roomPassword: password,
-    //   roomMaxCnt: selectedMaxCount,
-    // });
-
     roomCreateApi({
       roomName: roomName,
       roomMode: selectedMode === 0 ? 'normal' : 'rank',
@@ -79,14 +61,13 @@ const RoomModalCreateBtn = () => {
       roomMaxCnt: selectedMaxCount,
     })
       .then((res) => {
-        // console.log('res :', res.dataBody.roomId);
         navigate(`/room/${res.dataBody.roomId}`);
         setModalIsOpen(false);
       })
       .catch((err) => {
         buttonError();
         Swal.fire({
-          title: '방 이름 또는 방 비밀번호를 다시 확인해주세요',
+          title: '방 비밀번호를 다시 확인해주세요',
           icon: 'error',
         });
         // console.log(err);
@@ -104,12 +85,18 @@ const RoomModalCreateBtn = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    // console.log(isNaN(Number(input)));
 
     if (input === '' || (!isNaN(Number(input)) && input.length <= 4)) {
       setPassword(input);
-      // console.log('input :', input);
     }
+  };
+
+  const roomNameAlertHandler = () => {
+    buttonError();
+    Swal.fire({
+      title: '방 이름을 입력해주세요',
+      icon: 'error',
+    });
   };
 
   const modeAlertHandler = () => {
@@ -120,18 +107,13 @@ const RoomModalCreateBtn = () => {
     });
   };
 
-  // // 디버깅코드
-  // useEffect(() => {
-  //   console.log('selectedMode :', selectedMode);
-  // }, [selectedMode]);
-
-  // useEffect(() => {
-  //   console.log('selectedMaxCount :', selectedMaxCount);
-  // }, [selectedMaxCount]);
-
-  // useEffect(() => {
-  //   console.log('password :', password);
-  // }, [password]);
+  const passwordAlertHandler = () => {
+    buttonError();
+    Swal.fire({
+      title: '비밀번호는 4자리 숫자만 가능합니다',
+      icon: 'error',
+    });
+  };
 
   return (
     <div>
@@ -156,7 +138,6 @@ const RoomModalCreateBtn = () => {
             <RoomRadioBtn selectedMode={selectedMode} onChangeMode={onChangeMode} />
           </div>
           <div className={styles.Row}>
-            {/* <span className={`${styles.RoomNameLabel} FontM20`}>&#9679; 방 인원</span> */}
             <RoomCount selectedMaxCount={selectedMaxCount} setSelectedMaxCount={setSelectedMaxCount} />
           </div>
           <div className={styles.Row}>
@@ -179,11 +160,22 @@ const RoomModalCreateBtn = () => {
           </div>
         </div>
         <div className={styles.BtnContainer}>
-          {selectedMode === -2 ? (
+          {roomName === '' && (
+            <button onClick={roomNameAlertHandler} className={`${styles.Btn} FontM20`}>
+              만들기
+            </button>
+          )}
+          {roomName !== '' && selectedMode === -2 && (
             <button onClick={modeAlertHandler} className={`${styles.Btn} FontM20`}>
               만들기
             </button>
-          ) : (
+          )}
+          {roomName !== '' && selectedMode !== -2 && password !== '' && password.length !== 4 && (
+            <button onClick={passwordAlertHandler} className={`${styles.Btn} FontM20`}>
+              만들기
+            </button>
+          )}
+          {roomName !== '' && selectedMode !== -2 && (password === '' || password.length === 4) && (
             <button onClick={createtHandler} className={`${styles.Btn} FontM20`}>
               만들기
             </button>

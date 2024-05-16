@@ -40,6 +40,7 @@
   left: calc(50% - 567.5px - 768px);
   /* left: -567.5px; */
   top: -279px;
+  top: -235px;
   transition: all 3000ms;
 }
 .FrameCustom {
