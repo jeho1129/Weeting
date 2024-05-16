@@ -41,14 +41,14 @@ spring:
 #      host: localhost
 #      host: 172.18.0.4
       port: 6379
-#      password: c103103
+      password: c103103
     mongodb:
       uri: mongodb+srv://S10P31C103:fCTcbjQoe0@ssafy.ngivl.mongodb.net/S10P31C103?authSource=admin
 
 
   rabbitmq:
-    host: localhost
-#    host: rabbitmq
+    # host: localhost
+    host: rabbitmq
     port: 5672
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
