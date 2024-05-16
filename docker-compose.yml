@@ -1,25 +1,28 @@
 version: '3.8'
 services:
   back:
-    container_name: back
-    hostname: back
     networks:
       - weeting-network
-    image: ${DOCKERHUB_REGISTRY}
-    depends_on:
-#      - redis
-      - mysql
+    container_name: back
+    hostname: back
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    # image: ${DOCKERHUB_REGISTRY}
     ports:
       - "9002:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: c103103
-#      SPRING_REDIS_HOST: redis
-#      SPRING_REDIS_PORT: 6379
-#      SPRING_REDIS_PASSWORD: c103103
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
+    depends_on:
+      # - redis
+      - mysql
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/weeting?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: c103103
+    #   SPRING_REDIS_HOST: redis
+    #   SPRING_REDIS_PORT: 6379
+    #   SPRING_REDIS_PASSWORD: c103103
+    #   SPRING_RABBITMQ_HOST: rabbitmq
+    #   SPRING_RABBITMQ_PORT: 5672
 
   front:
     networks:
@@ -27,7 +30,7 @@ services:
     container_name: front
     hostname: front
     build:
-      context: ../FrontEnd
+      context: ./FrontEnd
       dockerfile: Dockerfile
     ports:
       - "9003:3000"
