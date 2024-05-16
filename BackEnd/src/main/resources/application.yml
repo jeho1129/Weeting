@@ -48,7 +48,8 @@ spring:
 
   rabbitmq:
     # host: localhost
-    host: rabbitmq
+    # host: rabbitmq
+    host: k10c103.p.ssafy.io
     port: 5672
     username: guest # RabbitMQ 사용자 이름, 기본값은 guest
     password: guest # RabbitMQ 비밀번호, 기본값은 guest
