@@ -17,9 +17,9 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
   useEffect(() => {
     // 채팅방 stomp client 연결
     // 로컬
-    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
+    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
     // 배포
-    // const ws = new WebSocket('wss://54.180.158.223:9002/ws/chatroom/list');
+    const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/list');
     ws.onopen = () => {
       console.log('방리스트 받아오기 성공');
     };
@@ -59,8 +59,8 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
       try {
         const response = await roomEnterApi(roomId);
         console.log(response);
-      } catch(err) {
-        console.log("err :", err)
+      } catch (err) {
+        console.log('err :', err);
       }
       navigate(`/room/${roomId}`);
     } else {
