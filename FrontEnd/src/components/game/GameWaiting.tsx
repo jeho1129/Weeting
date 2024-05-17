@@ -65,7 +65,7 @@ const GameWaiting = () => {
     // local 개발용
     // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
     // 배포용
-    const ws = new WebSocket('wss://3.36.58.63:9002/ws');
+    const ws = new WebSocket('wss://3.36.58.63/ws');
 
     ws.onopen = () => {
       // console.log('웹소크ㅔ세에엣연결성고오오옹');
@@ -144,7 +144,7 @@ const GameWaiting = () => {
       // local용
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      const ws = new WebSocket('wss://3.36.58.63:9002/ws');
+      const ws = new WebSocket('wss://3.36.58.63/ws');
 
       ws.onopen = () => {
         // console.log('-----지호지호웹소캣가즈아--------');

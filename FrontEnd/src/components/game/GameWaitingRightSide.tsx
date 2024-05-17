@@ -31,7 +31,7 @@ const GameWaitingRightSide = ({
   useEffect(() => {
     const client = new Client({
       // brokerURL: `ws://localhost:8080/ws`,
-      brokerURL: `wss://3.36.58.63:9002/ws`,
+      brokerURL: `wss://3.36.58.63/ws`,
       reconnectDelay: 5000, // 연결 끊겼을 때, 재연결시도까지 지연시간(ms)
       connectHeaders: {
         Authorization: `Bearer ${getCookie('accessToken')}`,
