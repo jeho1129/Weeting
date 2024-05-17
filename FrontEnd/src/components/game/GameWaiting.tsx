@@ -8,12 +8,7 @@ import { gameState, userState } from '@/recoil/atom';
 import { IngameUser } from '@/types/user';
 import { RoomInfo, MessageScore } from '@/types/game';
 
-import {
-  forbiddenWordSettingApi,
-  gameStatusUpdateApi,
-  forbiddenWordSettingDataApi,
-  gameOverApi,
-} from '@/services/gameApi';
+import { forbiddenWordSettingApi, forbiddenWordSettingDataApi, gameOverApi } from '@/services/gameApi';
 import { randomForbbidenWord } from '@/utils/randomForbiddenWord';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
@@ -74,15 +69,10 @@ const GameWaiting = () => {
 
     ws.onmessage = (event) => {
       const roominfo = JSON.parse(event.data);
-      console.log('roomInfo:', roomInfo);
-      console.log('roominfo:', roominfo);
-      console.log(JSON.stringify(roomInfo) !== JSON.stringify(roominfo));
-      if (JSON.stringify(roomInfo) !== JSON.stringify(roominfo)) {
-        console.log('받은 방 정보:', roominfo);
-        setRoomInfo(roominfo);
-        setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
-        setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
-      }
+      // console.log('받은 방 정보:', roominfo);
+      setRoomInfo(roominfo);
+      setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
+      setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
     };
     setWebSocketRoom(ws);
     return () => {
@@ -155,7 +145,11 @@ const GameWaiting = () => {
       // local용
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+      const ws = new WebSocket('ws://3.39.208.35:8000/ws');
+
+      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
 
       ws.onopen = () => {
         // console.log('-----지호지호웹소캣가즈아--------');
