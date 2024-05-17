@@ -22,7 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
     private final RabbitMqProps rabbitMqProps;
     private final WebSocketChatRoomListHandler webSocketChatRoomListHandler;
     private final WebSocketChatRoomGetHandler webSocketChatRoomGetHandler;
-    private final WebSocketChatRoomStatusHandler webSocketChatRoomStatusHandler;
+//    private final WebSocketChatRoomStatusHandler webSocketChatRoomStatusHandler;
 
 
     /*
