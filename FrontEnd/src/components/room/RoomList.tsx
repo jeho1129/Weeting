@@ -149,7 +149,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                     ) : (
                       <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
                     )}
-                    {room.roomStatus === 'waiting' ? (
+                    {room.roomStatus === 'waiting' || room.roomStatus === 'allready' ? (
                         <div className={`${styles.Status} ${styles.Waiting} FontM20`}>대기중</div>
                       ) : (
                         <div className={`${styles.Status} ${styles.Gaming} FontM20`}>게임중</div>
@@ -210,7 +210,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
               <li
                 key={index}
                 className={styles.OneRoom}
-                onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt)}
+                onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt, room.roomStatus)}
               >
                 <div className={`${styles.FirstRow}`}>
                   <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
