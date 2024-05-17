@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,14 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserRepository userRepository;
     private final TaskScheduler taskScheduler;
+
+    @Scheduled(fixedRate = 300)
+    public void scheduleRoomStatusModify() {
+        Set<String> chatRoomIds = redisTemplate.keys("chatRoom:*");
+        for (String chatRoomId : chatRoomIds) {
+            roomStatusModify(chatRoomId);
+        }
+    }
 
 
     @Override
@@ -160,7 +169,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void gameStart(String chatRoomId) {
