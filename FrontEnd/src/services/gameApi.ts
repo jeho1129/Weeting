@@ -76,7 +76,8 @@ export async function forbiddenWordSettingDataApi({
 }) {
   try {
     const response = axios.post(
-      'localhost:8000/api/v1/forbidden',
+      'http://3.39.208.35:8000/api/v1/forbidden',
+      // 'localhost:8000/api/v1/forbidden',
       { userId: nickname, forbiddenWord: forbiddenWord },
       {
         headers: {
