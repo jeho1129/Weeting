@@ -8,13 +8,13 @@ public interface ChatRoomStatusService {
 
     void gameEnd(String chatRoomId);
 
-    void waittingToAllready();
+    void waittingToAllready(String key);
 
-    void wordsettingToWordfinish();
+    void wordsettingToWordfinish(String key);
 
-    void wordfinishToStart();
+    void wordfinishToStart(String key);
 
-    void startToEnd();
+    void startToEnd(String key);
 
-    void EndToWaitting();
+    void EndToWaitting(String key);
 }
