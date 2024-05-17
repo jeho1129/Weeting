@@ -23,7 +23,9 @@ const MainSignupForm = () => {
   const setUser = useSetRecoilState(userState);
 
   const onIdHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value);
+    // 한글 필터링
+    const filteredValue = e.target.value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
+    setId(filteredValue);
   };
 
   const onNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

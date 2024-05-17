@@ -147,7 +147,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                     <Avatar
                       {...{
                         userId: room.roomUsers[0].id,
-                        size: 0.6 * 300,
+                        size: 0.5 * 300,
                         location: 'Room',
                         options: {
                           nickname: room.roomUsers[0].nickname,

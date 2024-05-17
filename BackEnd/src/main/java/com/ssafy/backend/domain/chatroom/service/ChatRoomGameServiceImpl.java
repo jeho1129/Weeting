@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,10 +28,19 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     private final UserRepository userRepository;
     private final TaskScheduler taskScheduler;
 
+    @Scheduled(fixedRate = 300)
+    public void scheduleRoomStatusModify() {
+        Set<String> chatRoomIds = redisTemplate.keys("chatRoom:*");
+        System.out.println(chatRoomIds);
+        for (String chatRoomId : chatRoomIds) {
+            roomStatusModify(chatRoomId);
+        }
+    }
+
 
     @Override
     public void roomStatusModify(String chatRoomId) {
-        String key = "chatRoom:" + chatRoomId;
+        String key = chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
@@ -45,13 +55,16 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             case waiting:
                 ChatRoomDto currentRoomInfo1 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
-                boolean allReady = currentRoomInfo1.getRoomUsers().stream()
-                        .skip(1)
-                        .allMatch(ChatRoomUserInfo::getReady);
+                if (currentRoomInfo1.getRoomUsers().size() >= 4) {
 
-                if (allReady) {
-                    currentRoomInfo1.setRoomStatus(ChatRoomDto.RoomStatus.allready);
-                    redisTemplate.opsForValue().set(key, currentRoomInfo1);
+                    boolean allReady = currentRoomInfo1.getRoomUsers().stream()
+                            .skip(1)
+                            .allMatch(ChatRoomUserInfo::getReady);
+
+                    if (allReady) {
+                        currentRoomInfo1.setRoomStatus(ChatRoomDto.RoomStatus.allready);
+                        redisTemplate.opsForValue().set(key, currentRoomInfo1);
+                    }
                 }
 
                 break;
@@ -158,9 +171,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             default:
                 throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
         }
-
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void gameStart(String chatRoomId) {

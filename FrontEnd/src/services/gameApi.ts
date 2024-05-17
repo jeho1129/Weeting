@@ -28,6 +28,15 @@ export async function gameDeadApi(roomId: string) {
   }
 }
 
+export async function gameStartApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/start/${roomId}`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function gameStatusUpdateApi(roomId: string) {
   try {
     const response = await Axios.patch(`api/v1/chatroom/game/status/${roomId}`, {

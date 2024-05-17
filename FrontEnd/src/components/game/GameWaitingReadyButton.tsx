@@ -5,12 +5,15 @@ import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Swal from 'sweetalert2';
 import { gameReadyApi } from '@/services/gameApi';
+import { gameStartApi } from '@/services/gameApi';
 
 const GameWaitingReadyButton = ({
+  roomStatus,
   roomId,
   roomUsers,
   blink,
 }: {
+  roomStatus: RoomInfo['roomStatus'];
   roomId: RoomInfo['roomId'];
   roomUsers: RoomInfo['roomUsers'];
   blink?: boolean;
@@ -33,6 +36,7 @@ const GameWaitingReadyButton = ({
     } else if (isFirstMember) {
     } else {
       try {
+        gameStartApi(roomId);
         gameReadyApi(roomId).then((data) => {
           // console.log(data);
           setIsReady(!isReady);
@@ -47,7 +51,7 @@ const GameWaitingReadyButton = ({
 
   useEffect(() => {
     let baseStyle = `FontM32 ${styles.Btn}`;
-    if (isFirstMember && blink) {
+    if (isFirstMember && blink && roomStatus === 'allready') {
       baseStyle += ` ${styles.Blink}`;
     }
     if (!isReady) {
