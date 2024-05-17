@@ -55,7 +55,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             case waiting:
                 ChatRoomDto currentRoomInfo1 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
-                if (currentRoomInfo1.getRoomUsers().size() >= 2) {
+                if (currentRoomInfo1.getRoomUsers().size() >= 4) {
 
                     boolean allReady = currentRoomInfo1.getRoomUsers().stream()
                             .skip(1)
