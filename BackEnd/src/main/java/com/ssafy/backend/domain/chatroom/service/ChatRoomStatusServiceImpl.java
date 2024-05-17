@@ -202,31 +202,130 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
 
 
     @Override
-    public void waittingToAllready() {
+    public void waittingToAllready(String key) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+
+        if (currentStatus == ChatRoomDto.RoomStatus.waiting && roomInfo.getRoomUsers().size() >= 4) {
+
+            boolean allReady = roomInfo.getRoomUsers().stream()
+                    .skip(1)
+                    .allMatch(ChatRoomUserInfo::getReady);
+
+            if (allReady) {
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.allready);
+                redisTemplate.opsForValue().set(key, roomInfo);
+            }
+        }
 
     }
 
 
     @Override
-    public void wordsettingToWordfinish() {
+    public void wordsettingToWordfinish(String key) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+
+        if (roomInfo.getRoomStatusFlag() == false) {
+            roomInfo.setRoomStatusFlag(true);
+            redisTemplate.opsForValue().set(key, roomInfo);
+
+            // 15초 후에 아래 로직 실행
+            taskScheduler.schedule(() -> {
+
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
+                roomInfo.setRoomStatusFlag(false);
+                redisTemplate.opsForValue().set(key, roomInfo);
+
+            }, new Date(System.currentTimeMillis() + 15000));  // [ms]
+        }
+    }
+
+
+    @Override
+    public void wordfinishToStart(String key) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+
+        if (roomInfo.getRoomStatusFlag() == false) {
+            roomInfo.setRoomStatusFlag(true);
+            redisTemplate.opsForValue().set(key, roomInfo);
+
+            // 10초 후에 아래 로직 실행
+            taskScheduler.schedule(() -> {
+
+                Theme[] themes = Theme.values();
+                Theme randomTheme = themes[new Random().nextInt(themes.length)];
+                roomInfo.setRoomTheme(randomTheme);
+
+                roomInfo.setRoomEndTime(LocalDateTime.now().plusSeconds(240).toString());
+
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
+                roomInfo.setRoomStatusFlag(false);
+                redisTemplate.opsForValue().set(key, roomInfo);
+
+            }, new Date(System.currentTimeMillis() + 10000));  // [ms]
+        }
 
     }
 
 
     @Override
-    public void wordfinishToStart() {
+    public void startToEnd(String key) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+        List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
+
+        long aliveCount = users.stream()
+                .filter(user -> "true".equalsIgnoreCase(user.getIsAlive()))
+                .count();
+
+
+
+        // 1명을 제외하고 모두 사망했는지 확인
+        if (aliveCount <= 1) {
+            // 즉시 상태 변경
+            roomInfo.setRoomEndTime(LocalDateTime.now().toString());
+
+            roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
+            redisTemplate.opsForValue().set(key, roomInfo);
+        } else {
+            if (roomInfo.getRoomStatusFlag() == false) {
+                roomInfo.setRoomStatusFlag(true);
+                redisTemplate.opsForValue().set(key, roomInfo);
+
+                // 120초 후에 상태 변경
+                taskScheduler.schedule(() -> {
+
+                    roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
+                    roomInfo.setRoomStatusFlag(false);
+                    redisTemplate.opsForValue().set(key, roomInfo);
+
+                }, new Date(System.currentTimeMillis() + 120000));  // [ms]
+            }
+        }
 
     }
 
 
     @Override
-    public void startToEnd() {
+    public void EndToWaitting(String key) {
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+        if (roomInfo.getRoomStatusFlag() == false) {
+            roomInfo.setRoomStatusFlag(true);
+            redisTemplate.opsForValue().set(key, roomInfo);
+            // 10초 후에 아래 로직 실행
+            taskScheduler.schedule(() -> {
 
-    }
+                chatRoomGameService.gameInitialize(key);
 
+                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
+                roomInfo.setRoomStatusFlag(false);
+                redisTemplate.opsForValue().set(key, roomInfo);
+            }, new Date(System.currentTimeMillis() + 10000));  // [ms]
 
-    @Override
-    public void EndToWaitting() {
+        }
 
     }
 

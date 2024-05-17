@@ -45,23 +45,23 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         switch (currentStatus) {
             case waiting:
-                chatRoomStatusService.waittingToAllready();
+                chatRoomStatusService.waittingToAllready(key);
                 break;
 
             case wordsetting:
-                chatRoomStatusService.wordsettingToWordfinish();
+                chatRoomStatusService.wordsettingToWordfinish(key);
                 break;
 
             case wordfinish:
-                chatRoomStatusService.wordfinishToStart();
+                chatRoomStatusService.wordfinishToStart(key);
                 break;
 
             case start:
-                chatRoomStatusService.startToEnd();
+                chatRoomStatusService.startToEnd(key);
                 break;
 
             case end:
-                chatRoomStatusService.EndToWaitting();
+                chatRoomStatusService.EndToWaitting(key);
                 break;
 
             default:
