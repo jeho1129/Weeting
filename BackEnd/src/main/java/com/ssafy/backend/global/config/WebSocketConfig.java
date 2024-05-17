@@ -38,8 +38,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
         registry.addHandler(webSocketChatRoomGetHandler, "/ws/chatroom/get")
                 .setAllowedOrigins("*");
         // 방 상태 변경
-        registry.addHandler(webSocketChatRoomStatusHandler, "/ws/chatroom/status")
-                .setAllowedOrigins("*");
+//        registry.addHandler(webSocketChatRoomStatusHandler, "/ws/chatroom/status")
+//                .setAllowedOrigins("*");
     }
 
 
