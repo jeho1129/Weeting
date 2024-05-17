@@ -2,6 +2,7 @@ package com.ssafy.backend.domain.chatroom.controller;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomGameService;
+import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +20,21 @@ import java.util.List;
 public class ChatRoomGameController {
 
     private final ChatRoomGameService chatRoomGameService;
+    private final ChatRoomStatusService chatRoomStatusService;
 
 
 
     // 게임 시작
     @PatchMapping("/start/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameStart(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomGameService.gameStart(chatRoomId);
+        chatRoomStatusService.gameStart(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
     // 게임 종료 (확인창 클릭)
     @PatchMapping("/end/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameEnd(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomGameService.gameEnd(chatRoomId);
+        chatRoomStatusService.gameEnd(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
