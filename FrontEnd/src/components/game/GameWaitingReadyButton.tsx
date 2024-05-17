@@ -33,11 +33,16 @@ const GameWaitingReadyButton = ({
         icon: 'error',
       });
       return;
-    } else if (isFirstMember) {
-    } else {
+    } else if (isFirstMember && roomStatus === 'allready') {
       try {
-        gameStartApi(roomId);
-        gameReadyApi(roomId).then((data) => {
+        // 게임 시작 API 호출
+        await gameStartApi(roomId);
+      } catch (error) {
+        console.error('게임 시작 실패:', error);
+      }
+    } else if (!isFirstMember) {
+      try {
+        await gameReadyApi(roomId).then((data) => {
           // console.log(data);
           setIsReady(!isReady);
         });
@@ -46,6 +51,19 @@ const GameWaitingReadyButton = ({
       }
     }
   };
+  //   } else if (isFirstMember && roomStatus === 'allready') {
+  //   } else {
+  //     try {
+  //       gameStartApi(roomId);
+  //       gameReadyApi(roomId).then((data) => {
+  //         // console.log(data);
+  //         setIsReady(!isReady);
+  //       });
+  //     } catch (error) {
+  //       console.error('Ready 상태 업데이트 실패:', error);
+  //     }
+  //   }
+  // };
 
   const myReady = roomUsers.find((user) => user.id === userInfo.userId)?.ready;
 
