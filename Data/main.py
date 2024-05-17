@@ -4,22 +4,24 @@ from contextlib import asynccontextmanager
 from KoreanProcessing.model import router as fasttext_router
 from KoreanProcessing.morpheme import router as konlpy_router
 from KoreanProcessing.morpheme import process_message
-import asyncio, model_manager, websockets
+import asyncio, model_manager, aiohttp
 
 async def receive_message():
     # 배포 서버 URI
     uri = "wss://k10c103.p.ssafy.io/ws"
     # 로컬 서버 URI
     # uri = "ws://localhost:8000/ws"
-    async with websockets.connect(uri) as websocket:
-        while True:
-            try:
-                message = await websocket.recv()
-                if message:
-                    await process_message(message)
-            except websockets.exceptions.ConnectionClosedError:
-                print("Connection closed.")
-                break
+    async with aiohttp.ClientSession() as session:
+        async with session.ws_connect(uri) as ws:
+            async for msg in ws:
+                if msg.type == aiohttp.WSMsgType.TEXT:
+                    await process_message(msg.data)
+                elif msg.type == aiohttp.WSMsgType.CLOSED:
+                    print("Connection closed.")
+                    break
+                elif msg.type == aiohttp.WSMsgType.ERROR:
+                    print("Connection error.")
+                    break
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
