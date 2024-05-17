@@ -4,9 +4,7 @@ package com.ssafy.backend.global.config;
 import com.ssafy.backend.global.component.RabbitMqProps;
 import com.ssafy.backend.global.component.WebSocketChatRoomGetHandler;
 import com.ssafy.backend.global.component.WebSocketChatRoomListHandler;
-import com.ssafy.backend.global.component.WebSocketChatRoomStatusHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -22,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
     private final RabbitMqProps rabbitMqProps;
     private final WebSocketChatRoomListHandler webSocketChatRoomListHandler;
     private final WebSocketChatRoomGetHandler webSocketChatRoomGetHandler;
-    private final WebSocketChatRoomStatusHandler webSocketChatRoomStatusHandler;
+//    private final WebSocketChatRoomStatusHandler webSocketChatRoomStatusHandler;
 
 
     /*
@@ -38,8 +36,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
         registry.addHandler(webSocketChatRoomGetHandler, "/ws/chatroom/get")
                 .setAllowedOrigins("*");
         // 방 상태 변경
-        registry.addHandler(webSocketChatRoomStatusHandler, "/ws/chatroom/status")
-                .setAllowedOrigins("*");
+//        registry.addHandler(webSocketChatRoomStatusHandler, "/ws/chatroom/status")
+//                .setAllowedOrigins("*");
     }
 
 
@@ -50,7 +48,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
     * */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
+        registry.addEndpoint("/ws/chat")
                 .setAllowedOrigins("*");
     }
 

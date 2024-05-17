@@ -29,7 +29,7 @@ const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; m
         <GameWaitingMemberList roomInfo={roomInfo} />
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
-            <GameWaitingReadyButton roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} blink={blink} />
+            <GameWaitingReadyButton roomStatus={roomInfo.roomStatus} roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} blink={blink} />
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
