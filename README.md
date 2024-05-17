@@ -183,9 +183,9 @@
 
 | 이름   | 역할               | 업무                                                                       |
 | ------ | ------------------ | -------------------------------------------------------------------------- |
-| 전승혜 | 팀장, FE            |  |
-| 강지수 | FE 리더             |  |
-| 김재훈 | BE, INFRA          |  CI/CD, WebSocket, 게임 진행 로직, 실시간 채팅|
-| 안준선 | FE                 | 유저 서비스, FE Websocket 연결, 채팅방 조회/생성/검색/모드선택, FE 전반적인 구조 설계 |
+| 전승혜 | 팀장, FE            | 서비스 기획, UI 제작, 전체 In-Game 구현, FE 구조 설계, 전체 WebSocket 연결, FE QA, 발표 |
+| 강지수 | FE 리더             | 서비스 기획, UI 제작, Custom 아이템 제작, 게임 사운드, 전체 레이아웃 수정, home / ranking / custom 페이지 구현, Game Refactoring, FE Debugging / Testing / QA |
+| 김재훈 | BE, INFRA          | CI/CD, WebSocket, 게임 진행 로직, 실시간 채팅, UCC 제작 |
+| 안준선 | FE                 | 유저 서비스, FE Websocket 연결, 채팅방 조회 / 생성 / 검색 / 모드 선택, FE 구조 설계 |
 | 이지호 | BE 리더, Data       | CI/CD(Data Server), 채팅 데이터 전처리, 한국어 형태소 분석, 단어 의미 유사도 계산 |
-| 황인범 | BE                 |  |
+| 황인범 | BE                 | 회원 정보 서비스 로직, 커스터마이징, 랭킹 시스템 로직, JWT / Spring Security 보안 설정, BackEnd QA |
