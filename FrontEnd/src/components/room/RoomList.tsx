@@ -19,7 +19,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     // 로컬
     // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
     // 배포
-    const ws = new WebSocket('wss://3.36.58.63/ws/chatroom/list');
+    const ws = new WebSocket('wss://3.36.58.63/wss/chatroom/list');
     ws.onopen = () => {
       console.log('방리스트 받아오기 성공');
     };
