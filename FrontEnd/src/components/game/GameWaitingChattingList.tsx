@@ -40,9 +40,11 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ roomUsers, chatMess
         // 내가 살았으면 살아있는 사람의 메세지만 보이도록.
         if (!currentUserAlive || (currentUserAlive && messageUserAlive)) {
           return (
-            <div key={index}>
-              <strong style={{ color: messageColor }}>{message.nickname}　　</strong>
-              {message.content}
+            <div key={index} style={{ display: 'flex' }}>
+              <div style={{ width: '100px' }}>
+                <strong style={{ color: messageColor }}>{message.nickname}　　</strong>
+              </div>
+              <div>{message.content}</div>
             </div>
           );
         }
