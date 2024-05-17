@@ -140,7 +140,7 @@ const RoomModalCreateBtn = () => {
           <div className={styles.Row}>
             <RoomCount selectedMaxCount={selectedMaxCount} setSelectedMaxCount={setSelectedMaxCount} />
           </div>
-          <div className={styles.Row}>
+          {/* <div className={styles.Row}>
             <span className={`${styles.RoomNameLabel} FontM20`}>
               <div className={styles.RoomPrivate}>
                 &#9679; 비공개방
@@ -157,7 +157,7 @@ const RoomModalCreateBtn = () => {
               />
             )}
             {isPrivate === false && <input type="text" className={styles.Input} disabled />}
-          </div>
+          </div> */}
         </div>
         <div className={styles.BtnContainer}>
           {roomName === '' && (
