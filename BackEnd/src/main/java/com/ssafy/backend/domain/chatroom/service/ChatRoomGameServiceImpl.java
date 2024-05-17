@@ -63,14 +63,14 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                     currentRoomInfo2.setRoomStatusFlag(true);
                     redisTemplate.opsForValue().set(key, currentRoomInfo2);
 
-                    // 30초 후에 아래 로직 실행
+                    // 15초 후에 아래 로직 실행
                     taskScheduler.schedule(() -> {
 
                         currentRoomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
                         currentRoomInfo2.setRoomStatusFlag(false);
                         redisTemplate.opsForValue().set(key, currentRoomInfo2);
 
-                    }, new Date(System.currentTimeMillis() + 30000));  // [ms]
+                    }, new Date(System.currentTimeMillis() + 15000));  // [ms]
                 }
 
                 break;
@@ -122,14 +122,14 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                         currentRoomInfo4.setRoomStatusFlag(true);
                         redisTemplate.opsForValue().set(key, currentRoomInfo4);
 
-                        // 240초 후에 상태 변경
+                        // 120초 후에 상태 변경
                         taskScheduler.schedule(() -> {
 
                                 currentRoomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.end);
                                 currentRoomInfo4.setRoomStatusFlag(false);
                                 redisTemplate.opsForValue().set(key, currentRoomInfo4);
 
-                        }, new Date(System.currentTimeMillis() + 240000));  // [ms]
+                        }, new Date(System.currentTimeMillis() + 120000));  // [ms]
                     }
                 }
 

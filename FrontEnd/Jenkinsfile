@@ -3,7 +3,7 @@ pipeline {
     environment {
         REPO = "s10-final/S10P31C103"
         DOCKERHUB_REGISTRY = "superjaehun/front"
-        DOCKERHUB_CREDENTIALS = credentials('Docker-hub')
+        DOCKERHUB_CREDENTIALS = credentials('c103')
     }
 
     stages {
@@ -23,8 +23,10 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
-                    sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
+                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
+                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
+                    sh "docker images frontend -q | xargs -r docker rmi || true"
+                    sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"  
                 }
             }
         }
@@ -32,80 +34,72 @@ pipeline {
             steps {
                 script {
                     sh "ls -al"
-                    sh "docker build -t ${DOCKERHUB_REGISTRY} FrontEnd"
-                    // sh "touch ./FrontEnd/.env"
-                    // sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > ./FrontEnd/.env"
+                    sh "docker build -t frontend ./FrontEnd"
+                    sh "touch .env"
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
                 }
             }
         }
-        stage("Login") {
-            steps {
-                sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-            }
-        }
-        stage("Tag and Push") {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker push ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
-        // stage('Prune old images') {
+        // stage("Login") {
+        //     steps {
+        //         sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+        //     }
+        // }
+        // stage("Tag and Push") {
         //     steps {
         //         script {
-        //             // 사용하지 않는 모든 도커 리소스 정리
-        //             sh "docker image prune -af"
+        //             withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
+        //                 sh "docker push ${DOCKERHUB_REGISTRY}"
+        //             }
         //         }
         //     }
         // }
-        stage('Pull') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"
-                        sh "docker pull ${DOCKERHUB_REGISTRY}"
-                    }
-                }
-            }
-        }
+        // stage('Pull') {
+        //     steps {
+        //         script {
+        //             withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
+        //                 sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"
+        //                 sh "docker pull ${DOCKERHUB_REGISTRY}"
+        //             }
+        //         }
+        //     }
+        // }
         stage('Up') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-                        try {
-                            sh "docker run -d --name front -p 9003:3000 ${DOCKERHUB_REGISTRY}"
-                        } catch (Exception e) {
-                            sh "docker restart front || true"
-                        }
+                    // withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
+                    try {
+                        sh "docker run -d --name front -p 9003:3000 frontend"
+                    } catch (Exception e) {
+                        sh "docker restart front || true"
                     }
                 }
-            }
-        }
-    }
-	   post {
-        success {
-            script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'good', 
-                message: "FE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
-                channel: 'C103-Jenkins'
-                )
-            }
-        }
-        failure {
-            script {
-                def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-                def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
-                mattermostSend (color: 'danger', 
-                message: "FE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
-                endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
-                channel: 'C103-Jenkins'
-                )
             }
         }
     }
 }
+	//    post {
+    //     success {
+    //         script {
+    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+    //             mattermostSend (color: 'good', 
+    //             message: "FE 빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+    //             endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+    //             channel: 'C103-Jenkins'
+    //             )
+    //         }
+    //     }
+    //     failure {
+    //         script {
+    //             def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+    //             def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+    //             mattermostSend (color: 'danger', 
+    //             message: "FE 빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)", 
+    //             endpoint: 'https://meeting.ssafy.com/hooks/78w7rgew5bryuby44g9izun9xe', 
+    //             channel: 'C103-Jenkins'
+    //             )
+    //         }
+    //     }
+    // }
+
