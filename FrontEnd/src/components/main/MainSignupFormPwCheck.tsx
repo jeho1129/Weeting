@@ -23,6 +23,7 @@ const MainSignupFormPwCheck = ({
           placeholder="비밀번호 재확인"
           value={passwordCheck}
           onChange={onPasswordCheckHandler}
+          autoComplete='off'
         />
       </div>
       {!isPasswordMatch() ? (

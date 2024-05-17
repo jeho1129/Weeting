@@ -15,6 +15,7 @@ const MainSignupFormPw = ({ password, onPasswordHandler }: MainSignupFormPasswor
           placeholder="비밀번호를 입력하세요"
           value={password}
           onChange={onPasswordHandler}
+          autoComplete='off'
         />
       </div>
     </>
