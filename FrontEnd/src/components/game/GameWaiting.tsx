@@ -63,10 +63,10 @@ const GameWaiting = () => {
   // roomInfo 웹소켓 연결
   useEffect(() => {
     // local 개발용
-    const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
+    // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/get');
     // 배포용
     // const ws = new WebSocket('wss://3.36.58.63/ws');
-    // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/get');
+    const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/get');
     ws.onopen = () => {
       // console.log('웹소크ㅔ세에엣연결성고오오옹');
       ws.send(JSON.stringify({ roomId: roomInfo.roomId }));
@@ -153,9 +153,9 @@ const GameWaiting = () => {
     // 가장 높은 점수일 때 roomInfo Users에 score 업데이트
     else if (roomInfo.roomStatus === 'start') {
       // local용
-      const ws = new WebSocket('ws://localhost:8000/ws');
+      // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+      const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
 
       ws.onopen = () => {
         // console.log('-----지호지호웹소캣가즈아--------');
