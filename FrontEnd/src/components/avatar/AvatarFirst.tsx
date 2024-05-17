@@ -6,6 +6,7 @@ import styles from '@/styles/avatar/Avatar.module.css';
 import AvatarFirstOutfit from './AvatarFirstOutfit';
 import { AvatarFirstProps } from '@/types/avatar';
 import { useEffect, useState } from 'react';
+import { gameOver } from '@/utils/buttonClick';
 
 const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
   const nickname = options?.nickname !== null && options?.nickname !== undefined ? options.nickname : '';
@@ -16,6 +17,7 @@ const Avatar = ({ size, outfit, location, options }: AvatarFirstProps) => {
 
   useEffect(() => {
     if (!isAlive) {
+      gameOver();
       setElectricEffect(true);
       setTimeout(() => {
         setElectricEffect(false);
