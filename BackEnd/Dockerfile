@@ -9,7 +9,8 @@ COPY settings.gradle .
 COPY src src
 # gradlew 실행 권한 부여
 RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
+# clean 빌드 및 캐시 사용 안 함
+RUN ./gradlew clean bootJar --no-build-cache
 
 # 실행 스테이지
 FROM azul/zulu-openjdk:17
