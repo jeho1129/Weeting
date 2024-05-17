@@ -55,13 +55,16 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             case waiting:
                 ChatRoomDto currentRoomInfo1 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
-                boolean allReady = currentRoomInfo1.getRoomUsers().stream()
-                        .skip(1)
-                        .allMatch(ChatRoomUserInfo::getReady);
+                if (currentRoomInfo1.getRoomUsers().size() >= 2) {
 
-                if (allReady) {
-                    currentRoomInfo1.setRoomStatus(ChatRoomDto.RoomStatus.allready);
-                    redisTemplate.opsForValue().set(key, currentRoomInfo1);
+                    boolean allReady = currentRoomInfo1.getRoomUsers().stream()
+                            .skip(1)
+                            .allMatch(ChatRoomUserInfo::getReady);
+
+                    if (allReady) {
+                        currentRoomInfo1.setRoomStatus(ChatRoomDto.RoomStatus.allready);
+                        redisTemplate.opsForValue().set(key, currentRoomInfo1);
+                    }
                 }
 
                 break;
