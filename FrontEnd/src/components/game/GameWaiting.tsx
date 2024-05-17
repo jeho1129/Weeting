@@ -74,7 +74,7 @@ const GameWaiting = () => {
 
     ws.onmessage = (event) => {
       const roominfo = JSON.parse(event.data);
-      console.log('받은 방 정보:', roominfo);
+      // console.log('받은 방 정보:', roominfo);
       setRoomInfo(roominfo);
       setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
       setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
@@ -145,6 +145,7 @@ const GameWaiting = () => {
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
       const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
 
       ws.onopen = () => {
         // console.log('-----지호지호웹소캣가즈아--------');

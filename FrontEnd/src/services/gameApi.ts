@@ -76,6 +76,7 @@ export async function shuffleMemberApi(num: number) {
   }
 }
 
+// api 문제있는듯
 export async function forbiddenWordSettingDataApi({
   nickname,
   forbiddenWord,
