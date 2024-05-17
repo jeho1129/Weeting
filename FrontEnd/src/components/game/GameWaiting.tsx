@@ -28,7 +28,7 @@ const GameWaiting = () => {
     highest_similarity: 0,
   });
   const [webSocketScore, setWebSocketScore] = useState<WebSocket | null>(null);
-
+  const [webSocketRoom, setWebSocketRoom] = useState<WebSocket | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isRankOpen, setRankOpen] = useState<boolean>(false);
   const [forbiddenWord, setForbiddenWord] = useState<string>('');
@@ -74,13 +74,19 @@ const GameWaiting = () => {
       setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
       setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
     };
-
+    setWebSocketRoom(ws);
     return () => {
       if (ws) {
         ws.close();
       }
     };
-  }, [roomInfo]);
+  }, []);
+
+  useEffect(() => {
+    if (webSocketRoom && webSocketRoom.readyState === WebSocket.OPEN) {
+      webSocketRoom.send(JSON.stringify({ roomId: roomInfo.roomId }));
+    }
+  }, [roomInfo, webSocketRoom]);
 
   // roomInfo가 변경되면 recoil에 반영
   useEffect(() => {
