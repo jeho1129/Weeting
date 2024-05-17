@@ -4,6 +4,7 @@ import { RoomInfo } from '@/types/game';
 import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
 import Swal from 'sweetalert2';
+import { gameReadyApi } from '@/services/gameApi';
 import { gameStartApi } from '@/services/gameApi';
 
 const GameWaitingReadyButton = ({
@@ -17,6 +18,7 @@ const GameWaitingReadyButton = ({
   roomUsers: RoomInfo['roomUsers'];
   blink?: boolean;
 }) => {
+  const [isReady, setIsReady] = useState(false);
   const [buttonStyle, setButtonStyle] = useState('');
   const userInfo = useRecoilValue(userState);
 
@@ -35,6 +37,10 @@ const GameWaitingReadyButton = ({
     } else {
       try {
         gameStartApi(roomId);
+        gameReadyApi(roomId).then((data) => {
+          // console.log(data);
+          setIsReady(!isReady);
+        });
       } catch (error) {
         console.error('Ready 상태 업데이트 실패:', error);
       }
@@ -48,13 +54,13 @@ const GameWaitingReadyButton = ({
     if (isFirstMember && blink && roomStatus === 'allready') {
       baseStyle += ` ${styles.Blink}`;
     }
-    if (!myReady) {
+    if (!isReady) {
       baseStyle += ` ${styles.Ready}`;
     } else {
       baseStyle += ` ${styles.Readycancle}`;
     }
     setButtonStyle(baseStyle);
-  }, [myReady, isFirstMember, blink]);
+  }, [isReady, isFirstMember, blink]);
 
   const buttonContent = isFirstMember ? '게임시작' : myReady ? '준비 취소' : '준비';
 
