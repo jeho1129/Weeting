@@ -8,12 +8,7 @@ import { gameState, userState } from '@/recoil/atom';
 import { IngameUser } from '@/types/user';
 import { RoomInfo, MessageScore } from '@/types/game';
 
-import {
-  forbiddenWordSettingApi,
-  gameStatusUpdateApi,
-  forbiddenWordSettingDataApi,
-  gameOverApi,
-} from '@/services/gameApi';
+import { forbiddenWordSettingApi, forbiddenWordSettingDataApi, gameOverApi } from '@/services/gameApi';
 import { randomForbbidenWord } from '@/utils/randomForbiddenWord';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
