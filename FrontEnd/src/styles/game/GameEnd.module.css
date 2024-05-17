@@ -17,7 +17,7 @@
 }
 
 .Container::before {
-  content: '🎉 게 임 종 료 🎉';
+  content: '🎉게 임 종 료🎉';
   font-size: 60px;
   font-weight: bold;
   position: absolute;
@@ -31,7 +31,7 @@
 }
 
 .modal ul {
-  width: 350px;
+  width: 3650px;
   list-style-type: none;
   padding: 0;
   margin-top: 35px;
