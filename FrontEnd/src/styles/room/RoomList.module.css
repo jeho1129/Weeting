@@ -30,6 +30,7 @@
 
 .SecondRow {
   margin-top: 5vh;
+  display: flex;
 }
 
 .RoomName {
@@ -50,8 +51,8 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  right: 50px;
-  bottom: 50px;
+  right: 60px;
+  bottom: 60px;
 }
 
 .Lock {
@@ -68,6 +69,17 @@
   border-radius: 15px;
 }
 
+.Status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-left: 10px;
+}
+
 .Rank {
   background-color: #7ebce6;
   border: none;
@@ -75,6 +87,16 @@
 
 .Normal {
   background-color: #fcb671;
+  border: none;
+}
+
+.Waiting {
+  background-color: #c0b8fb;
+  border: none;
+}
+
+.Gaming {
+  background-color: #fa8c6b;
   border: none;
 }
 
