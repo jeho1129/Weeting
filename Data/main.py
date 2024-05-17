@@ -8,7 +8,7 @@ import asyncio, model_manager, aiohttp
 
 async def receive_message():
     # 배포 서버 URI
-    uri = "wss://k10c103.p.ssafy.io/ws"
+    uri = "ws://3.39.208.35:8000/ws"
     # 로컬 서버 URI
     # uri = "ws://localhost:8000/ws"
     async with aiohttp.ClientSession() as session:
