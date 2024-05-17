@@ -32,7 +32,7 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         clearInterval(timerId);
         setForbiddenTimeLeft('0');
         // status 변경 websocket?? publish? send?
-      }, 30000);
+      }, 15000);
     } else if (roomInfo.roomStatus === 'start') {
       const timerId = setInterval(() => {
         setEndTimeLeft((new Date(endTime!).getTime() - new Date().getTime()).toFixed(0).toString());
@@ -42,7 +42,7 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         clearInterval(timerId);
         setEndTimeLeft('0');
         // status 변경 websocket?? publish? send?
-      }, 240000);
+      }, 120000);
     } else {
     }
   }, [roomInfo]);

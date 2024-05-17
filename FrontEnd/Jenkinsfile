@@ -23,8 +23,6 @@ pipeline {
         stage('Remove Old Images') {
             steps {
                 script {
-                    // sh "docker rmi \$(docker images ${DOCKERHUB_REGISTRY} -q) || true"
-                    // sh "docker rmi \$(docker images -f \"dangling=true\" -q) || true"
                     sh "docker images frontend -q | xargs -r docker rmi || true"
                     sh "docker images -f 'dangling=true' -q | xargs -r docker rmi || true"  
                 }
@@ -35,39 +33,15 @@ pipeline {
                 script {
                     sh "ls -al"
                     sh "docker build -t frontend ./FrontEnd"
-                    sh "touch .env"
-                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1/' > .env"
+                    sh "touch FrontEnd/.env"
+                    sh "echo 'VITE_API_URL=https://k10c103.p.ssafy.io/api/v1' > FrontEnd/.env"
                 }
             }
         }
-        // stage("Login") {
-        //     steps {
-        //         sh "echo \${DOCKERHUB_CREDENTIALS_PSW} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-        //     }
-        // }
-        // stage("Tag and Push") {
-        //     steps {
-        //         script {
-        //             withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-        //                 sh "docker push ${DOCKERHUB_REGISTRY}"
-        //             }
-        //         }
-        //     }
-        // }
-        // stage('Pull') {
-        //     steps {
-        //         script {
-        //             withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
-        //                 sh "docker rmi ${DOCKERHUB_REGISTRY}|| true"
-        //                 sh "docker pull ${DOCKERHUB_REGISTRY}"
-        //             }
-        //         }
-        //     }
-        // }
+    
         stage('Up') {
             steps {
                 script {
-                    // withCredentials([usernamePassword(credentialsId: 'c103', usernameVariable: 'DOCKER_USER_ID', passwordVariable: 'DOCKER_USER_PASSWORD')]) {
                     try {
                         sh "docker run -d --name front -p 9003:3000 frontend"
                     } catch (Exception e) {

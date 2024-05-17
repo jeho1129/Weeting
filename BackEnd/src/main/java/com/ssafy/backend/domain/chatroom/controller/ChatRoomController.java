@@ -37,14 +37,6 @@ public class ChatRoomController {
         return ResponseEntity.ok().body(Message.success(result));
     }
 
-//    @PostMapping("/create")
-//    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<Message<ChatRoomDto>> createRoom(@RequestBody ChatRoomCreateRequestDto chatRoomCreateRequestDto, @AuthenticationPrincipal User user) {
-//        ChatRoomDto result = chatRoomService.createRoom(chatRoomCreateRequestDto, user);
-//        return ResponseEntity.ok().body(Message.success(result));
-//    }
-
-
     // 채팅방 전체 목록 조회 - HTTP(GET)
 //    @GetMapping("/all")
 //    @PreAuthorize("isAuthenticated()")
