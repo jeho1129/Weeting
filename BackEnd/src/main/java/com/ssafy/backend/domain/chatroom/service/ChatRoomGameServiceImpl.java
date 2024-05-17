@@ -167,7 +167,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             default:
                 throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
         }
-
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
