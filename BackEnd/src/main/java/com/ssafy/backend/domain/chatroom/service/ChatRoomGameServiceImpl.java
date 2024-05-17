@@ -31,6 +31,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     @Scheduled(fixedRate = 300)
     public void scheduleRoomStatusModify() {
         Set<String> chatRoomIds = redisTemplate.keys("chatRoom:*");
+        System.out.println(chatRoomIds);
         for (String chatRoomId : chatRoomIds) {
             roomStatusModify(chatRoomId);
         }
@@ -39,7 +40,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public void roomStatusModify(String chatRoomId) {
-        String key = "chatRoom:" + chatRoomId;
+        String key = chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
