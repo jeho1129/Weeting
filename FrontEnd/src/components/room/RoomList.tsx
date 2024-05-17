@@ -19,7 +19,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     // 로컬
     // const ws = new WebSocket('ws://localhost:8080/ws/chatroom/list');
     // 배포
-    const ws = new WebSocket('wss://3.36.58.63:9002/ws/chatroom/list');
+    const ws = new WebSocket('wss://3.36.58.63/ws/chatroom/list');
     ws.onopen = () => {
       console.log('방리스트 받아오기 성공');
     };
@@ -61,8 +61,8 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
       try {
         const response = await roomEnterApi(roomId);
         console.log(response);
-      } catch(err) {
-        console.log("err :", err)
+      } catch (err) {
+        console.log('err :', err);
       }
       navigate(`/room/${roomId}`);
     } else {
