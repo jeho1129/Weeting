@@ -52,7 +52,7 @@ public class RabbitMqConfig {
         return rabbitTemplate;
     }
 
-    @Bean
+    @Bean(name = "rabbitMqContainer")
     public SimpleMessageListenerContainer container() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory());

@@ -66,7 +66,7 @@ public class RedisConfig {
 
 
 
-    @Bean
+    @Bean(name = "redisContainer")
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
