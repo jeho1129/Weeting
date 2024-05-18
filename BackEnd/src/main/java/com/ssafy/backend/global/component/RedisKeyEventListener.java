@@ -2,28 +2,42 @@ package com.ssafy.backend.global.component;
 
 import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Service
 @RequiredArgsConstructor
 public class RedisKeyEventListener implements MessageListener {
 
     private final ChatRoomStatusService chatRoomStatusService;
-    private final StringRedisSerializer serializer = new StringRedisSerializer();
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        String key = serializer.deserialize(message.getBody());
+        String key = redisTemplate.getStringSerializer().deserialize(message.getBody());
+        String channel = redisTemplate.getStringSerializer().deserialize(message.getChannel());
 
-        // 변환된 문자열이 "chatRoom:"으로 시작하는지 확인합니다.
-        if (key != null && key.startsWith("chatRoom:")) {
+        // "__keyevent@0__:set"이 포함된 경우에만 처리합니다.
+        if (channel != null && channel.contains("__keyevent@0__:set") && key != null && key.startsWith("chatRoom:")) {
             System.out.println("입력된 key : " + key);
             handleKeyChange(key);
         }
     }
+//    private final StringRedisSerializer serializer = new StringRedisSerializer();
+//
+//
+//    public void onMessage(Message message, String pattern){
+//        String key = serializer.deserialize(message.getBody());
+//        // 변환된 문자열이 "chatRoom:"으로 시작하는지 확인합니다.
+//        if (key != null && key.startsWith("chatRoom:")) {
+//            System.out.println("입력된 key : " + key);
+//            handleKeyChange(key);
+//        }
+//    }
 
     private void handleKeyChange(String key) {
         System.out.println("Key '" + key + "' has been changed.");
