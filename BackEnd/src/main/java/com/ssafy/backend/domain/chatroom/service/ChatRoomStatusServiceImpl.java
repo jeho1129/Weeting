@@ -34,6 +34,7 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
 
         switch (currentStatus) {
             case waiting:
+                System.out.println("waiting일 때 실행");
                 waittingToAllready(key);
                 break;
 
