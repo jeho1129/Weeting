@@ -2,6 +2,8 @@ package com.ssafy.backend.global.component;
 
 import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,12 +11,15 @@ import org.springframework.stereotype.Service;
 public class RedisKeyEventListener {
 
     private final ChatRoomStatusService chatRoomStatusService;
+    private final StringRedisSerializer serializer = new StringRedisSerializer();
 
-    public void onMessage(String message, String pattern) {
-        // 패턴이 "__keyevent@0__:set"일 때, 변경된 키가 "chatRoom:"으로 시작하는지 확인합니다.
-        if (message.startsWith("chatRoom:")) {
-            System.out.println("입력된 key : " + message);
-            handleKeyChange(message);
+    public void onMessage(Message message, String pattern) {
+        String key = serializer.deserialize(message.getBody());
+
+        // 변환된 문자열이 "chatRoom:"으로 시작하는지 확인합니다.
+        if (key != null && key.startsWith("chatRoom:")) {
+            System.out.println("입력된 key : " + key);
+            handleKeyChange(key);
         }
     }
 
