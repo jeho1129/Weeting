@@ -34,6 +34,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     @Override
     public Boolean readyStatusTrans(String chatRoomId,
                                  User user) {
+        System.out.println("ready !");
         String key = "chatRoom:" + chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
