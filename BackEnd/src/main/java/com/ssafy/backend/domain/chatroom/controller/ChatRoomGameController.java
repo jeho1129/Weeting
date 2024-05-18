@@ -51,7 +51,6 @@ public class ChatRoomGameController {
     public ResponseEntity<Message<Boolean>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
         Boolean result = chatRoomGameService.readyStatusTrans(chatRoomId, user);
-        chatRoomStatusService.waittingToAllready(chatRoomId);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
