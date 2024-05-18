@@ -63,13 +63,13 @@ const GameWaiting = () => {
     // const ws = new WebSocket('wss://3.36.58.63/ws');
     const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/get');
     ws.onopen = () => {
-      // console.log('웹소크ㅔ세에엣연결성고오오옹');
+      console.log('웹소크ㅔ세에엣연결성고오오옹');
       ws.send(JSON.stringify({ roomId: roomInfo.roomId }));
     };
 
     ws.onmessage = (event) => {
       const roominfo = JSON.parse(event.data);
-      // console.log('받은 방 정보:', roominfo);
+      console.log('받은 방 정보:', roominfo);
       setRoomInfo(roominfo);
       setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
       setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
@@ -155,7 +155,7 @@ const GameWaiting = () => {
         // console.log('-----지호지호웹소캣가즈아--------');
       };
       ws.onmessage = (response) => {
-        // console.log(response.data);
+        console.log(response.data);
         const score: { nickname: string; highest_similarity: number } = JSON.parse(response.data);
         setMessageScore({
           nickname: score.nickname,
