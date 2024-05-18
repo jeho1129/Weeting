@@ -27,46 +27,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserRepository userRepository;
-    private final ChatRoomStatusService chatRoomStatusService;
 
 
-
-    @Override
-    public void roomStatusModify(String key) {
-
-        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-
-        if (roomInfo == null) {
-            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
-        }
-
-        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
-
-        switch (currentStatus) {
-            case waiting:
-                chatRoomStatusService.waittingToAllready(key);
-                break;
-
-            case wordsetting:
-                chatRoomStatusService.wordsettingToWordfinish(key);
-                break;
-
-            case wordfinish:
-                chatRoomStatusService.wordfinishToStart(key);
-                break;
-
-            case start:
-                chatRoomStatusService.startToEnd(key);
-                break;
-
-            case end:
-                chatRoomStatusService.EndToWaitting(key);
-                break;
-
-            default:
-                throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
-        }
-    }
 
 
     @Override
