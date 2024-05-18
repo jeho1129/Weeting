@@ -176,6 +176,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         roomInfo.setRoomTheme(null);
         roomInfo.setRoomForbiddenTime(null);
         roomInfo.setRoomEndTime(null);
+        roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
 
         redisTemplate.opsForValue().set(key, roomInfo);
     }

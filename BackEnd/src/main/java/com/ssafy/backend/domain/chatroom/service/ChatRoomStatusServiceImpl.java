@@ -159,8 +159,8 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
             // 10초 후에 아래 로직 실행
             taskScheduler.schedule(() -> {
                 chatRoomGameService.gameInitialize(key);
-                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
-                redisTemplate.opsForValue().set(key, roomInfo);
+//                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
+//                redisTemplate.opsForValue().set(key, roomInfo);
             }, new Date(System.currentTimeMillis() + 10000));  // [ms]
 
         }
