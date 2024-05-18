@@ -2,12 +2,10 @@ package com.ssafy.backend.global.component;
 
 import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.stereotype.Service;
 import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
