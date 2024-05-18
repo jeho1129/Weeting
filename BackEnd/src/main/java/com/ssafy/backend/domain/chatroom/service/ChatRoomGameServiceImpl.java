@@ -55,6 +55,18 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                 break;
             }
         }
+        ChatRoomDto roomInfo2 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        ChatRoomDto.RoomStatus currentStatus = roomInfo2.getRoomStatus();
+        if (currentStatus == ChatRoomDto.RoomStatus.waiting && roomInfo2.getRoomUsers().size() >= 4) {
+
+            boolean allReady = roomInfo2.getRoomUsers().stream()
+                    .skip(1)
+                    .allMatch(ChatRoomUserInfo::getReady);
+            if (allReady) {
+                roomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.allready);
+                redisTemplate.opsForValue().set(key, roomInfo2);
+            }
+        }
 
         return !userReadyStatus;
     }
