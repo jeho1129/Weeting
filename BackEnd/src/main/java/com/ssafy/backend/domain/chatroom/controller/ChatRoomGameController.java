@@ -38,13 +38,20 @@ public class ChatRoomGameController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    // 게임 상태 변경
+    @PatchMapping("/status/{chatRoomId}")
+    public ResponseEntity<Message<Void>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
+        chatRoomStatusService.roomStatusModify(chatRoomId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
     // ready 상태 변경
     @PatchMapping("/ready/{chatRoomId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Message<Boolean>> readyStatusTrans(@PathVariable("chatRoomId") String chatRoomId,
                                                               @AuthenticationPrincipal User user) {
         Boolean result = chatRoomGameService.readyStatusTrans(chatRoomId, user);
-
+        chatRoomStatusService.waittingToAllready(chatRoomId);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
