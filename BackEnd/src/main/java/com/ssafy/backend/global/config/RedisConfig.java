@@ -66,8 +66,8 @@ public class RedisConfig {
 
 
 
-    @Bean(name = "redisContainer")
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+    @Bean
+    RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         // "__keyspace@0__:Chatroom:*" 패턴을 사용하여 특정 키의 변경 이벤트를 구독합니다.
@@ -79,6 +79,19 @@ public class RedisConfig {
     MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
         return new MessageListenerAdapter(listener, "onMessage");
     }
+
+//    @Bean
+//    RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@0__:set"));
+//        return container;
+//    }
+//
+//    @Bean
+//    MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
+//        return new MessageListenerAdapter(listener, "handleMessage");
+//    }
 
 
 }
