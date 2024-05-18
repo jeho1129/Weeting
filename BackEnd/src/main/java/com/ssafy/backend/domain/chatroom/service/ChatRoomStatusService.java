@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ChatRoomStatusService {
+
+    void roomStatusModify(String key);
+
     void gameStart(String chatRoomId);
 
     void gameEnd(String chatRoomId);
