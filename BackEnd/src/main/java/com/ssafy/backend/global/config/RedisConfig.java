@@ -1,5 +1,6 @@
 package com.ssafy.backend.global.config;
 
+import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import com.ssafy.backend.global.component.RedisKeyEventListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -65,19 +66,23 @@ public class RedisConfig {
 
 
 
-
     @Bean
-    RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        // "__keyspace@0__:Chatroom:*" 패턴을 사용하여 특정 키의 변경 이벤트를 구독합니다.
+        // "__keyevent@0__:set" 패턴을 사용하여 특정 키의 변경 이벤트를 구독합니다.
         container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@0__:set"));
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
+    public MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
         return new MessageListenerAdapter(listener, "onMessage");
+    }
+
+    @Bean
+    public RedisKeyEventListener listener(ChatRoomStatusService chatRoomStatusService) {
+        return new RedisKeyEventListener(chatRoomStatusService);
     }
 
 //    @Bean
