@@ -1,17 +1,36 @@
 import { useEffect, useState } from 'react';
+import { RoomInfo } from '@/types/game';
 
+// ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
 // loading 틀만 만들어둠
-const GameLoading = () => {
-  const [countDown, setCountDown] = useState<string>('10');
+const GameLoading = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+  const forbiddenTime: string | null = roomInfo.roomForbiddenTime;
+  const [loadingTimeLeft, setloadingTimeLeft] = useState('');
+
   useEffect(() => {
-    if (+countDown > 0) {
-      setTimeout(() => {
-        setCountDown(`${+countDown - 1}`);
-      }, 1000);
-    } else {
-      setCountDown('게임 스타트!');
+    if (forbiddenTime != null) {
+      setloadingTimeLeft(
+        ((new Date(forbiddenTime).getTime() + 10 * 1000 - new Date().getTime()) / 1000).toFixed(0).toString(),
+      );
     }
-  }, [countDown]);
+  }, [roomInfo]);
+
+  useEffect(() => {
+    if (roomInfo.roomStatus === 'wordfinish') {
+      const timerId = setInterval(() => {
+        setloadingTimeLeft(
+          ((new Date(forbiddenTime!).getTime() + 10 * 1000 - new Date().getTime()) / 1000).toFixed(0).toString(),
+        );
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(timerId);
+        setloadingTimeLeft('0');
+      }, 15000);
+    } else {
+    }
+  }, [roomInfo]);
+
   return (
     <>
       <div
@@ -26,7 +45,7 @@ const GameLoading = () => {
         }}
       >
         <div className={`FontM60`} style={{}}>
-          {countDown}
+          {loadingTimeLeft}
         </div>
       </div>
       <div style={{ position: 'fixed', backgroundColor: 'transparent', width: '5000px', height: '5000px' }}></div>
