@@ -75,6 +75,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             throw new IllegalArgumentException("방 인원이 다 찼어요 ㅠ");
         }
 
+        if (chatRoomDto.getRoomStatus() != ChatRoomDto.RoomStatus.waiting) {
+            throw new IllegalArgumentException("방이 대기 상태가 아닙니다.");
+        }
+
         ChatRoomUserInfo userInfo = ChatRoomUserInfo.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())

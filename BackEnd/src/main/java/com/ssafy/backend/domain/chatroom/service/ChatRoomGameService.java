@@ -13,12 +13,6 @@ public interface ChatRoomGameService {
     // 방 상태 변경 로직
     void roomStatusModify(String chatRoomId);
 
-    // 게임 시작
-    void gameStart(String chatRoomId);
-
-    // 게임 종료 (결과창 확인Btn)
-    void gameEnd(String chatRoomId);
-
     // ready 상태 변경
     Boolean readyStatusTrans(String roomId,
                                       User user);
@@ -37,6 +31,8 @@ public interface ChatRoomGameService {
     String forbiddenWordSetting(String chatRoomId,
                               User user,
                               String word);
+
+    void themeSetting(String chatRoomId);
 
     // 사용자 점수 변경
     void updatePlayerScore(Long userId,
