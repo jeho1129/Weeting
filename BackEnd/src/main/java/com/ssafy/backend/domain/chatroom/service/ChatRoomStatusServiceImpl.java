@@ -22,6 +22,7 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
 
     @Override
     public void roomStatusModify(String key) {
+        System.out.println("상태변경메서드 실행");
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
@@ -106,16 +107,19 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
     public void waittingToAllready(String key) {
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
         ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
-
+        System.out.println("메서드실행");
         if (currentStatus == ChatRoomDto.RoomStatus.waiting && roomInfo.getRoomUsers().size() >= 4) {
 
             boolean allReady = roomInfo.getRoomUsers().stream()
                     .skip(1)
                     .allMatch(ChatRoomUserInfo::getReady);
-
+            System.out.println("모두 ㄹㄷ 완료");
             if (allReady) {
+                System.out.println("allready 상태인가?");
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.allready);
+                System.out.println("allready 변경 완료");
                 redisTemplate.opsForValue().set(key, roomInfo);
+                System.out.println("allready 저장 완료");
             }
         }
 
