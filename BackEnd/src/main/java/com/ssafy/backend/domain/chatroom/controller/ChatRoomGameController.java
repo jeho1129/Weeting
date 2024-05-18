@@ -28,6 +28,7 @@ public class ChatRoomGameController {
     @PatchMapping("/start/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameStart(@PathVariable("chatRoomId") String chatRoomId) {
         chatRoomStatusService.gameStart(chatRoomId);
+        chatRoomGameService.themeSetting(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 

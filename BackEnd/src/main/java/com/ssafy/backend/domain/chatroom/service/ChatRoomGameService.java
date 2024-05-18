@@ -32,6 +32,8 @@ public interface ChatRoomGameService {
                               User user,
                               String word);
 
+    void themeSetting(String chatRoomId);
+
     // 사용자 점수 변경
     void updatePlayerScore(Long userId,
                            int scoreAdjustment);

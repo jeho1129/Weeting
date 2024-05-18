@@ -11,12 +11,13 @@ import com.ssafy.backend.domain.user.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
 import static com.ssafy.backend.domain.chatroom.entity.Word.getRandomForbiddenWord;
 
@@ -30,10 +31,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
 
-    // redis에서 value 변경 이벤트를 수신할 때마다 실행
     @Override
-    public void roomStatusModify(String chatRoomId) {
-        String key = chatRoomId;
+    public void roomStatusModify(String key) {
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
@@ -220,14 +219,34 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             word = getRandomForbiddenWord();
         }
 
-        users.get(nextIndex).setWord(word);
-
 
         redisTemplate.opsForValue().set(key, roomInfo);
 
         return "[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word;
 
     }
+
+
+    @Override
+    public void themeSetting(String chatRoomId) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        Theme[] themes = Theme.values();
+        Random random = new Random();
+
+        Theme randomTheme = themes[random.nextInt(themes.length)];
+
+        roomInfo.setRoomTheme(randomTheme);
+
+        redisTemplate.opsForValue().set(key, roomInfo);
+
+        System.out.println("랜덤으로 선택된 Theme : " + randomTheme);
+
+    }
+
+
+
 
 
 
