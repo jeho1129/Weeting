@@ -20,4 +20,6 @@ public interface ChatRoomStatusService {
     void startToEnd(String key);
 
     void EndToWaitting(String key);
+
+
 }

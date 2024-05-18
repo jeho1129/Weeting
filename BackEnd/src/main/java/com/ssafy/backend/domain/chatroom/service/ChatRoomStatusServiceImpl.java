@@ -22,8 +22,7 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
 
     @Override
     public void roomStatusModify(String key) {
-        System.out.println("상태변경메서드 실행");
-
+        key = "chatRoom:" + key;
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
         if (roomInfo == null) {
@@ -34,7 +33,6 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
 
         switch (currentStatus) {
             case waiting:
-                System.out.println("waiting일 때 실행");
                 waittingToAllready(key);
                 break;
 
@@ -108,22 +106,16 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
     public void waittingToAllready(String key) {
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
         ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
-        System.out.println("메서드실행");
         if (currentStatus == ChatRoomDto.RoomStatus.waiting && roomInfo.getRoomUsers().size() >= 4) {
 
             boolean allReady = roomInfo.getRoomUsers().stream()
                     .skip(1)
                     .allMatch(ChatRoomUserInfo::getReady);
-            System.out.println("모두 ㄹㄷ 완료");
             if (allReady) {
-                System.out.println("allready 상태인가?");
                 roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.allready);
-                System.out.println("allready 변경 완료");
                 redisTemplate.opsForValue().set(key, roomInfo);
-                System.out.println("allready 저장 완료");
             }
         }
-
     }
 
 
@@ -136,8 +128,8 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
             // 15초 후에 아래 로직 실행
             taskScheduler.schedule(() -> {
 
-                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
-                redisTemplate.opsForValue().set(key, roomInfo);
+            roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordfinish);
+            redisTemplate.opsForValue().set(key, roomInfo);
 
             }, new Date(System.currentTimeMillis() + 15000));  // [ms]
         }
@@ -152,9 +144,9 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
         if (currentStatus == ChatRoomDto.RoomStatus.wordfinish) {
             // 10초 후에 아래 로직 실행
             taskScheduler.schedule(() -> {
-                roomInfo.setRoomEndTime(LocalDateTime.now().plusSeconds(240).toString());
-                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
-                redisTemplate.opsForValue().set(key, roomInfo);
+            roomInfo.setRoomEndTime(LocalDateTime.now().plusSeconds(240).toString());
+            roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.start);
+            redisTemplate.opsForValue().set(key, roomInfo);
             }, new Date(System.currentTimeMillis() + 10000));  // [ms]
         }
 
@@ -200,8 +192,6 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
             // 10초 후에 아래 로직 실행
             taskScheduler.schedule(() -> {
                 chatRoomGameService.gameInitialize(key);
-//                roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
-//                redisTemplate.opsForValue().set(key, roomInfo);
             }, new Date(System.currentTimeMillis() + 10000));  // [ms]
 
         }
@@ -209,14 +199,7 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
     }
 
 
-
-
-
-
-
-
-
-
+///////////////////////////////////////////////////////////////////////////////////////////
 
 
 
