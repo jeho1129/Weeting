@@ -1,6 +1,5 @@
 package com.ssafy.backend.global.config;
 
-import com.ssafy.backend.global.component.RedisKeyEventListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +8,6 @@ import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.PatternTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -76,20 +72,20 @@ public class RedisConfig {
 //        return container;
 //    }
 
-    @Bean
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
-
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        // "__keyspace@0__:Chatroom:*" 패턴을 사용하여 특정 키의 변경 이벤트를 구독합니다.
-        container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@0__:set"));
-        return container;
-    }
-
-    @Bean
-    MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
-        return new MessageListenerAdapter(listener, "onMessage");
-    }
+//    @Bean
+//    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+//
+//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        // "__keyspace@0__:Chatroom:*" 패턴을 사용하여 특정 키의 변경 이벤트를 구독합니다.
+//        container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@0__:set"));
+//        return container;
+//    }
+//
+//    @Bean
+//    MessageListenerAdapter listenerAdapter(RedisKeyEventListener listener) {
+//        return new MessageListenerAdapter(listener, "onMessage");
+//    }
 
 //    @Bean
 //    RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
