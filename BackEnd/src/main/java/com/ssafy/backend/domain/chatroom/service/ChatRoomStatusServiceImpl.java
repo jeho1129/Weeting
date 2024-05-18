@@ -2,7 +2,6 @@ package com.ssafy.backend.domain.chatroom.service;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomDto;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomUserInfo;
-import com.ssafy.backend.domain.chatroom.entity.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.TaskScheduler;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +18,44 @@ public class ChatRoomStatusServiceImpl implements ChatRoomStatusService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final TaskScheduler taskScheduler;
     private final ChatRoomGameService chatRoomGameService;
+
+
+    @Override
+    public void roomStatusModify(String key) {
+
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
+        }
+
+        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
+
+        switch (currentStatus) {
+            case waiting:
+                waittingToAllready(key);
+                break;
+
+            case wordsetting:
+                wordsettingToWordfinish(key);
+                break;
+
+            case wordfinish:
+                wordfinishToStart(key);
+                break;
+
+            case start:
+                startToEnd(key);
+                break;
+
+            case end:
+                EndToWaitting(key);
+                break;
+
+            default:
+                throw new IllegalStateException("방 상태 변경 중 에러 발생 !");
+        }
+    }
 
 
     @Override
