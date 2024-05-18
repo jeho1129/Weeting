@@ -1,10 +1,15 @@
 package com.ssafy.backend.domain.chatroom.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+@Getter
+@Setter
 public class Word {
 
     private static final Random RANDOM = new Random();
