@@ -39,7 +39,7 @@ public class ChatRoomGameController {
     }
 
     // 게임 상태 변경
-    @PatchMapping("status/{chatRoomId}")
+    @PatchMapping("/status/{chatRoomId}")
     public ResponseEntity<Message<Void>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
         chatRoomStatusService.roomStatusModify(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
