@@ -24,6 +24,7 @@ public enum OutfitType {
     SEDGE_HAT("삿갓", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/SEDGE_HAT.svg?alt=media", null, "호랑이 담배피던 시절, 한 나그네가 쓰고 다녔다는 삿갓. 비를 피하고 얼굴을 가리기에 좋습니다. 하지만 그것이 전부는 아닙니다..."),
     GAT("갓", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/GAT.svg?alt=media", null, "조선 시대 사대부들이 애용했던 갓으로 전해집니다.\n 지혜와 기개가 깃든 이 갓은 세월의 풍파에도 그 위엄을 잃지 않았습니다.\n 오직 뜻을 품은 자만이 이 갓과 하나 될 수 있으리라."),
     FLORAL_SWIM_CAP("꽃무늬수영모", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/FLORAL_SWIM_CAP.svg?alt=media", null, "준비 단단히 하셨죠?"),
+    MINS_CLOTHES("미니진", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/MINS_CLOTHES.svg?alt=media", null, "맞다이로 들어와."),
     FIRST_CROWN("1등왕관", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/FIRST_CROWN.svg?alt=media", 1, "1등의 영광을 상징하는 왕관, 오직 진정한 챔피언만이 걸칠 수 있는 특권. 정상에 오른 자의 증표이자, 최고의 영예로 빛날 금빛 면류관."),
     SECOND_CROWN("2등왕관", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/SECOND_CROWN.svg?alt=media", 2, "아쉽게 1위를 놓친 자, 하지만 결코 잊히지 않을 2등의 왕관. 1위의 그림자에 가려졌을지 모르나, 그 또한 치열한 경쟁을 뚫고 얻은 값진 성과."),
     THIRD_CROWN("3등왕관", "head", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/THIRD_CROWN.svg?alt=media", 3, "투혼의 자부심이 깃든 청동 왕관, 포기하지 않은 도전자의 노력과 실력의 징표."),
@@ -33,7 +34,7 @@ public enum OutfitType {
     SPECIAL_PRIZE("특선", "nametag", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/SPECIAL_PRIZE.svg?alt=media", 10, "조금만 더 힘내요!"),
     HONORABLE_MENTION("입선", "nametag", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/HONORABLE_MENTION.svg?alt=media", 50, "참 잘했어요~*"),
     ONLY_VISIBLE_TO_GOOD_PEOPLE("착한사람눈에만보여요", "nametag", "https://firebasestorage.googleapis.com/v0/b/test-b699d.appspot.com/o/ONLY_VISIBLE_TO_GOOD_PEOPLE.svg?alt=media", null, "더 노력하세요!");
-
+    
     private final String name;
     private final String part;
     private final String image;
