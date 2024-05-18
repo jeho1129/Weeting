@@ -37,7 +37,19 @@ export async function gameStartApi(roomId: string) {
   }
 }
 
-
+export async function chatroomHistory(roomId: string) {
+  try {
+    const response = await Axios.get(`/chat/history/${roomId}`);
+    // , {
+    //   headers: {
+    //     Authorization: `Bearer ${getCookie('accessToken')}`,
+    //   },
+    // });
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 
 export async function gameOutApi(roomId: string) {
   try {

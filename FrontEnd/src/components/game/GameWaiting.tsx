@@ -216,7 +216,7 @@ const GameWaiting = () => {
         <GameWaitingRightSide {...{ roomInfo, ingameUserInfo, webSocketScore }} />
       </div>
 
-      {gameStartLoading && <GameLoading />}
+      {gameStartLoading && <GameLoading roomInfo={roomInfo} />}
 
       {isModalOpen && (
         <GameForbiddenWord
