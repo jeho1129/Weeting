@@ -10,9 +10,6 @@ import java.util.List;
 @Service
 public interface ChatRoomGameService {
 
-    // 방 상태 변경 로직
-    void roomStatusModify(String chatRoomId);
-
     // ready 상태 변경
     Boolean readyStatusTrans(String roomId,
                                       User user);
