@@ -177,7 +177,15 @@ export async function gameFinishApi(roomId: string) {
 export async function gameFinalRankApi(roomId: string) {
   try {
     const response = await Axios.get(`/chatroom/game/result/${roomId}`);
-    return response.data.dataBody;
+    console.log(response);
+    console.log('dddddddddddddddddddddddddddddddddddddddd');
+
+    console.log(response.data);
+    console.log('gggggggggggggggggggggggggggggggggggggggg');
+
+    console.log(response.data.dataBody);
+
+    return response.data;
   } catch (error) {
     return Promise.reject(error);
   }

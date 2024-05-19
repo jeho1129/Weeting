@@ -53,14 +53,17 @@ interface GameRankModalProps {
 const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps) => {
   const [members, setMembers] = useState<FinalMember[]>([]);
   useEffect(() => {
+    console.log(roomInfo);
+
     const finalModal = async () => {
       if (roomInfo.roomStatus === 'end') {
         const finalData = await gameFinalRankApi(roomInfo.roomId);
+        console.log(finalData);
         setMembers(finalData);
       }
     };
     finalModal();
-  }, [roomInfo]);
+  }, [roomInfo.roomStatus]);
 
   if (!isRankOpen) {
     return <></>;
