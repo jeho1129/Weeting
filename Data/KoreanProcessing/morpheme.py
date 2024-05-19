@@ -98,7 +98,7 @@ class ChatContent(BaseModel):
     nickname: str
     content: str
 
-@router.post("api/v1/process_message")
+@router.post("/api/v1/process_message")
 async def process_message_api(data: ChatContent):
     user_nickname = data.nickname
     chat_content = data.content
