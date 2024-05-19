@@ -51,6 +51,7 @@ async def check_text_against_forbidden_words(words, user_id):
     if highest_similarity > existing_score:
         # await redis.set(f"highest_word:{user_id}", most_similar_word)
         await redis.set(f"hightest_score:{user_id}", highest_similarity)
+        existing_score = highest_similarity
     # else:
     #     most_similar_word = existing_word
     #     highest_similarity = existing_score
