@@ -4,7 +4,6 @@ import timerRank from '@/assets/images/timerRank.png';
 import { RoomInfo, MessageScore } from '@/types/game';
 
 const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; messageScore: MessageScore }) => {
-  // roomStatus가 start일 때 타이머를 240초로 설정
   const endTime: string | null = roomInfo.roomEndTime;
   const forbiddenTime: string | null = roomInfo.roomForbiddenTime;
   const [endTimeLeft, setEndTimeLeft] = useState('');
