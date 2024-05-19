@@ -42,7 +42,7 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ roomUsers, chatMess
           return (
             <div key={index} style={{ display: 'flex', height: '25px' }}>
               <div style={{ width: '100px' }}>
-                <strong style={{ color: messageColor }}>{message.nickname} </strong>
+                <strong style={{ color: messageColor }}>{message.nickname}　　</strong>
               </div>
               <div>{message.content}</div>
             </div>
