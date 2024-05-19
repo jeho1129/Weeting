@@ -112,19 +112,30 @@ const GameWaitingAvatars = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; cha
   // const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomInfo.roomUsers);
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
+  // 각 멤버의 메시지를 체크하고 게임 오버 API를 호출하는 로직 추가
   useEffect(() => {
-    roomInfo.roomUsers.map((member) => {
+    roomInfo.roomUsers.forEach((member) => {
       const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
       const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-      if (latestMessage && latestMessage.includes(member.word!) && roomInfo.roomStatus === 'start') {
+      if (latestMessage && member.word && latestMessage.includes(member.word) && roomInfo.roomStatus === 'start') {
         gameOverApi(roomInfo.roomId);
-        // return { ...member, isAlive: new Date().toLocaleTimeString() };
       }
     });
+  }, [chatMessage, roomInfo.roomUsers, roomInfo.roomStatus]);
+  // useEffect(() => {
+  //   roomInfo.roomUsers.map((member) => {
+  //     const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
+  //     const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-    // websocket 가져와서 여기 바꾸기
-  }, [chatMessage, roomInfo.roomUsers]);
+  //     if (latestMessage && userMessages.includes(member.word!) && roomInfo.roomStatus === 'start') {
+  //       gameOverApi(roomInfo.roomId);
+  //       // return { ...member, isAlive: new Date().toLocaleTimeString() };
+  //     }
+  //   });
+
+  //   // websocket 가져와서 여기 바꾸기
+  // }, [chatMessage, roomInfo.roomUsers]);
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
 
