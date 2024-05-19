@@ -57,7 +57,7 @@ const RoomModalCreateBtn = () => {
     roomCreateApi({
       roomName: roomName,
       roomMode: selectedMode === 0 ? 'normal' : 'rank',
-      roomPassword: password === '' ? null : password,
+      roomPassword: password === '' ? null : null,
       roomMaxCnt: selectedMaxCount,
     })
       .then((res) => {
@@ -70,7 +70,7 @@ const RoomModalCreateBtn = () => {
           title: '방 비밀번호를 다시 확인해주세요',
           icon: 'error',
         });
-        // console.log(err);
+        console.log(err);
       });
   };
 
