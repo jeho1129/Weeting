@@ -2,7 +2,6 @@ package com.ssafy.backend.domain.chatroom.controller;
 
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomGameService;
-import com.ssafy.backend.domain.chatroom.service.ChatRoomStatusService;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -20,30 +18,29 @@ import java.util.List;
 public class ChatRoomGameController {
 
     private final ChatRoomGameService chatRoomGameService;
-    private final ChatRoomStatusService chatRoomStatusService;
 
 
 
     // 게임 시작
     @PatchMapping("/start/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameStart(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomStatusService.gameStart(chatRoomId);
+        chatRoomGameService.gameStart(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
     // 게임 종료 (확인창 클릭)
     @PatchMapping("/end/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameEnd(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomStatusService.gameEnd(chatRoomId);
+        chatRoomGameService.gameEnd(chatRoomId);
         return ResponseEntity.ok().body(Message.success());
     }
 
     // 게임 상태 변경
-    @PatchMapping("/status/{chatRoomId}")
-    public ResponseEntity<Message<Void>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
-        chatRoomStatusService.roomStatusModify(chatRoomId);
-        return ResponseEntity.ok().body(Message.success());
-    }
+//    @PatchMapping("/status/{chatRoomId}")
+//    public ResponseEntity<Message<Void>> roomStatusModify(@PathVariable("chatRoomId") String chatRoomId) {
+//        chatRoomGameService.roomStatusModify(chatRoomId);
+//        return ResponseEntity.ok().body(Message.success());
+//    }
 
     // ready 상태 변경
     @PatchMapping("/ready/{chatRoomId}")
