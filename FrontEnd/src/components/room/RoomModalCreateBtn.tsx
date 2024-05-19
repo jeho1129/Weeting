@@ -67,7 +67,7 @@ const RoomModalCreateBtn = () => {
       .catch((err) => {
         buttonError();
         Swal.fire({
-          title: '방 비밀번호를 다시 확인해주세요',
+          title: '방 정보를 다시 확인해주세요',
           icon: 'error',
         });
         console.log(err);
