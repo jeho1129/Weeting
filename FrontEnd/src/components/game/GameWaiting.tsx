@@ -118,9 +118,6 @@ const GameWaiting = () => {
         // 생성된 객체를 인자로 API 함수 호출
         await forbiddenWordDataApi(payload);
       }
-      // forbiddenWordDataApi(roomInfo.roomId, chatMessages.nickname, chatMessages.content)
-      // console.log('Chat messages updated:', chatMessages);
-      // setGameInfoRecoil(updatedGameInfo); // API 호출 결과로 게임 정보를 업데이트
     };
 
     updateGameInfo();
