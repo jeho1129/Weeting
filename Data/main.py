@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 # from database import engine, Base
 from contextlib import asynccontextmanager
 from KoreanProcessing.model import router as fasttext_router
@@ -38,5 +39,12 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(fasttext_router)
 app.include_router(konlpy_router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Base.metadata.create_all(bind=engine)
