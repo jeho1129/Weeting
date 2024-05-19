@@ -125,7 +125,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             results.add(resultDto);
         }
 
-        results.sort(Comparator.comparing(ChatRoomGameResultDto::getIsAlive).reversed()
+        results.sort(Comparator.comparing((ChatRoomGameResultDto result) -> !result.getIsAlive().isEmpty())
                 .thenComparing(Comparator.comparing(ChatRoomGameResultDto::getScore).reversed()));
 
         int[] scoreAdjustments = getScoreAdjustments(results.size());
@@ -406,7 +406,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                             }
                         }, new Date(System.currentTimeMillis() + 10000));  // [ms]
                     }
-                }, new Date(System.currentTimeMillis() + 17000));  // [ms]
+                }, new Date(System.currentTimeMillis() + 15000));  // [ms]
             }
         }
     }
