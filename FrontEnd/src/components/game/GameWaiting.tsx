@@ -69,7 +69,7 @@ const GameWaiting = () => {
 
     ws.onmessage = (event) => {
       const roominfo = JSON.parse(event.data);
-      console.log('받은 방 정보:', roominfo);
+      // console.log('받은 방 정보:', roominfo);
       setRoomInfo(roominfo);
       setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
     };
@@ -116,7 +116,7 @@ const GameWaiting = () => {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: randomWord });
         forbiddenWordSettingDataApi({
           nickname:
-          roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
+            roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
               ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
               : roomInfo.roomUsers[0].nickname,
           // myIndex !== roomInfo.roomUsers.length - 1
@@ -128,7 +128,7 @@ const GameWaiting = () => {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: forbiddenWord });
         forbiddenWordSettingDataApi({
           nickname:
-          roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
+            roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
               ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
               : roomInfo.roomUsers[0].nickname,
           forbiddenWord: forbiddenWord,
