@@ -74,15 +74,15 @@ public class ChatRoomGameController {
 
     // 금지어 설정
     @PatchMapping("/wordsetting/{chatRoomId}")
-    public ResponseEntity<Message<String>> forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
+    public ResponseEntity<Message<Void>> forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
                                      @AuthenticationPrincipal User user,
-                                     @RequestBody String word) throws JsonProcessingException {
+                                     @RequestBody String word) throws JsonProcessingException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(word);
         String wordValue = jsonNode.get("word").asText();
 
-        String result = chatRoomGameService.forbiddenWordSetting(chatRoomId, user, wordValue);
-        return ResponseEntity.ok().body(Message.success(result));
+        chatRoomGameService.forbiddenWordSetting(chatRoomId, user, wordValue);
+        return ResponseEntity.ok().body(Message.success());
     }
 
 
