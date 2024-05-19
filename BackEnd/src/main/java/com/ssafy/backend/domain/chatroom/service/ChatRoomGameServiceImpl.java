@@ -319,9 +319,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다 ㅠㅠ");
         }
 
-        ChatRoomDto.RoomStatus currentStatus = roomInfo.getRoomStatus();
 
-        if (currentStatus == ChatRoomDto.RoomStatus.allready) {
+        if (roomInfo.getRoomStatus() == ChatRoomDto.RoomStatus.allready) {
             roomInfo.setRoomForbiddenTime(LocalDateTime.now().plusSeconds(15).toString());
             roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordsetting);
             redisTemplate.opsForValue().set(key, roomInfo);
@@ -353,7 +352,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                     if (roomInfo4.getRoomStatus() == ChatRoomDto.RoomStatus.start) {
                         taskScheduler.schedule(() -> {
 
-                            roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
+                            roomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.end);
                             redisTemplate.opsForValue().set(key, roomInfo4);
 
                         }, new Date(System.currentTimeMillis() + 120000));  // [ms]
