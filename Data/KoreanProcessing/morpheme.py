@@ -32,8 +32,8 @@ async def check_text_against_forbidden_words(words, user_id):
     forbidden_similar_words = await redis.hgetall(f"similar:{user_id}")
     forbidden_word = await redis.get(f"forbidden:{user_id}")
     # existing_word = await redis.get(f"highest_word:{user_id}")
-    # existing_score = await redis.get(f"hightest_score:{user_id}")
-    # existing_score = float(existing_score) if existing_score else 0.0
+    existing_score = await redis.get(f"hightest_score:{user_id}")
+    existing_score = float(existing_score) if existing_score else 0.0
 
     most_similar_word, highest_similarity = None, 0.0
 
@@ -48,14 +48,14 @@ async def check_text_against_forbidden_words(words, user_id):
                 highest_similarity = score
                 most_similar_word = word
 
-    # if highest_similarity > existing_score:
-    #     await redis.set(f"highest_word:{user_id}", most_similar_word)
-    #     await redis.set(f"hightest_score:{user_id}", highest_similarity)
+    if highest_similarity > existing_score:
+        # await redis.set(f"highest_word:{user_id}", most_similar_word)
+        await redis.set(f"hightest_score:{user_id}", highest_similarity)
     # else:
     #     most_similar_word = existing_word
     #     highest_similarity = existing_score
     
-    return most_similar_word, highest_similarity
+    return most_similar_word, highest_similarity, existing_score
 
 class ForbiddenWordData(BaseModel):
     nickname: str
@@ -86,12 +86,13 @@ async def process_message(data):
     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
     morphs = okt.pos(filtered_data, norm=True, join=False)
     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
-    most_similar_word, highest_similarity = await check_text_against_forbidden_words(processed_words, user_nickname)
+    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname)
 
     return {
         "nickname": user_nickname,
         "most_similar_word": most_similar_word,
-        "highest_similarity": highest_similarity
+        "highest_similarity": highest_similarity,
+        "existing_score": existing_score
     }
 
 class ChatContent(BaseModel):
@@ -107,10 +108,11 @@ async def process_message_api(data: ChatContent):
     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
     morphs = okt.pos(filtered_data, norm=True, join=False)
     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
-    most_similar_word, highest_similarity = await check_text_against_forbidden_words(processed_words, user_nickname)
+    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname)
 
     return {
         "nickname": user_nickname,
         "most_similar_word": most_similar_word,
-        "highest_similarity": highest_similarity
+        "highest_similarity": highest_similarity,
+        "existing_score": existing_score
     }
