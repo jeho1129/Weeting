@@ -113,7 +113,7 @@ const GameWaitingAvatars = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; cha
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    const updatedUsers = roomInfo.roomUsers.map((member) => {
+    roomInfo.roomUsers.map((member) => {
       const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
       const latestMessage = userMessages[userMessages.length - 1]?.content;
 
