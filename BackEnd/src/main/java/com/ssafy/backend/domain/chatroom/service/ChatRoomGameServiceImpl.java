@@ -202,8 +202,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         nextUser.setWord(word);
 
         redisTemplate.opsForValue().set(key, roomInfo);
-        log.info("[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word);
-        return "[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word;
+        log.info("[" + user.getNickname() + "]가 [" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word);
+        return "[" + user.getNickname() + "]가 [" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word;
 
     }
 
@@ -384,6 +384,13 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
     }
 
 
+    @Override
+    public void startToEnd(String chatRoomId) {
+        String key = "chatRoom:" + chatRoomId;
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.end);
+        redisTemplate.opsForValue().set(key, roomInfo);
+    }
 
     @Override
     public void gameEnd(String chatRoomId) {
