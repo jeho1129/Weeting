@@ -191,11 +191,10 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         // 타유저에게 금칙어 할당
         int nextIndex = (index + 1) % users.size();
-
         if (word.isEmpty()) {
             word = getRandomForbiddenWord();
         }
-
+        users.get(nextIndex).setWord(word);
 
         redisTemplate.opsForValue().set(key, roomInfo);
 
