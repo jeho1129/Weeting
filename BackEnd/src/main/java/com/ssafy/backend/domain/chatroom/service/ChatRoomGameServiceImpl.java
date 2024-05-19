@@ -65,6 +65,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             } else {
                 roomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
             }
+            themeSetting(chatRoomId);
             redisTemplate.opsForValue().set(key, roomInfo2);
         }
 
@@ -323,7 +324,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         if (currentStatus == ChatRoomDto.RoomStatus.allready) {
             roomInfo.setRoomForbiddenTime(LocalDateTime.now().plusSeconds(15).toString());
-            themeSetting(chatRoomId);
             roomInfo.setRoomStatus(ChatRoomDto.RoomStatus.wordsetting);
             redisTemplate.opsForValue().set(key, roomInfo);
 
