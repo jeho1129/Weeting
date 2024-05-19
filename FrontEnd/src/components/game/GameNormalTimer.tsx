@@ -31,11 +31,11 @@ const GameWordTimer = ({ roomInfo }: { roomInfo: RoomInfo }) => {
       setTimeout(() => {
         clearInterval(timerId);
         setForbiddenTimeLeft('0');
-        // status 변경 websocket?? publish? send?
+        // status가 변경 될... 거지? 백에서?
       }, 15000);
     } else if (roomInfo.roomStatus === 'start') {
       const timerId = setInterval(() => {
-        setEndTimeLeft((new Date(endTime!).getTime() - new Date().getTime() / 1000).toFixed(0).toString());
+        setEndTimeLeft(((new Date(endTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
       }, 1000);
 
       setTimeout(() => {

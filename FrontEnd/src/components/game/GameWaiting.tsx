@@ -53,7 +53,7 @@ const GameWaiting = () => {
     score: 0,
     isAlive: '',
   });
-  const [myIndex, setMyIndex] = useState<number>(0);
+  // setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
 
   // roomInfo 웹소켓 연결
   useEffect(() => {
@@ -72,7 +72,6 @@ const GameWaiting = () => {
       console.log('받은 방 정보:', roominfo);
       setRoomInfo(roominfo);
       setIngameUserInfo(roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0]);
-      setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
     };
     setWebSocketRoom(ws);
     return () => {
@@ -117,8 +116,8 @@ const GameWaiting = () => {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: randomWord });
         forbiddenWordSettingDataApi({
           nickname:
-            myIndex + 1 < roomInfo.roomUsers.length
-              ? roomInfo.roomUsers[myIndex + 1].nickname
+          roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
+              ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
               : roomInfo.roomUsers[0].nickname,
           // myIndex !== roomInfo.roomUsers.length - 1
           //   ? roomInfo.roomUsers[myIndex + 1].nickname
@@ -129,8 +128,8 @@ const GameWaiting = () => {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: forbiddenWord });
         forbiddenWordSettingDataApi({
           nickname:
-            myIndex + 1 < roomInfo.roomUsers.length
-              ? roomInfo.roomUsers[myIndex + 1].nickname
+          roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
+              ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
               : roomInfo.roomUsers[0].nickname,
           forbiddenWord: forbiddenWord,
         });
@@ -225,7 +224,6 @@ const GameWaiting = () => {
       {isModalOpen && (
         <GameForbiddenWord
           roomInfo={roomInfo}
-          myIndex={myIndex}
           isModalOpen={isModalOpen}
           setModalOpen={setModalOpen}
           forbiddenWord={forbiddenWord}
