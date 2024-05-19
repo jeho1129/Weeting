@@ -50,16 +50,24 @@ const GameChattingForm = ({
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 인게임 중 && 내가 쓴 단어가 금지어일 때
+    if (roomInfo.roomStatus === 'start') {
+      if (message.indexOf(ingameUserInfo.word!) !== -1) {
+        gameOverApi(roomInfo.roomId);
+      }
+    }
+
     if (message.trim()) {
       // 인게임 상태라면
-      if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN && roomInfo.roomStatus === 'start') {
-        if (message.indexOf(ingameUserInfo.word!) !== -1) {
-          gameOverApi(roomInfo.roomId);
-        }
+      if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN) {
+        // if (webSocketScore && webSocketScore.readyState === WebSocket.OPEN && roomInfo.roomStatus === 'start') {
+        //   if (message.indexOf(ingameUserInfo.word!) !== -1) {
+        //     gameOverApi(roomInfo.roomId);
+        //   }
         webSocketScore.send(JSON.stringify({ nickname: userInfo.nickname, content: message }));
       }
       // 그외
-      onSendMessage(message);
+      onSendMessage(message); // 부모 컴포넌트의 메시지 전송 함수 호출
       setMessage('');
     }
   };
