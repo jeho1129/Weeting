@@ -106,7 +106,7 @@ const GameWaiting = () => {
     // 금지어 보내기
     // 만약 금지어가 없다면 죽이기
     // 10초간 loading창 보여주기
-    else if (roomInfo.roomStatus === 'wordsetting') {
+    else if (roomInfo.roomStatus === 'wordfinish') {
       if (isModalOpen === true) {
         setModalOpen(false);
       }
