@@ -42,4 +42,25 @@ public interface ChatRoomGameService {
     void updateRankings();
 
 
+
+
+
+
+//    void roomStatusModify(String key);
+
+    void gameStart(String chatRoomId);
+
+    void gameEnd(String chatRoomId);
+
+//    void waitingToAllready(String key);
+
+//    void wordsettingToWordfinish(String key);
+//
+//    void wordfinishToStart(String key);
+//
+//    void startToEnd(String key);
+//
+//    void EndToWaitting(String key);
+
+
 }
