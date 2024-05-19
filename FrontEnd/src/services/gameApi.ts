@@ -15,18 +15,18 @@ export async function gameReadyApi(roomId: string) {
   }
 }
 
-export async function gameDeadApi(roomId: string) {
-  try {
-    const response = await Axios.patch(`/chatroom/game/dead/${roomId}`, {
-      headers: {
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
+// export async function gameDeadApi(roomId: string) {
+//   try {
+//     const response = await Axios.patch(`/chatroom/game/dead/${roomId}`, {
+//       headers: {
+//         Authorization: `Bearer ${getCookie('accessToken')}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
+// }
 
 // export async function gameAllReadyApi(roomId: string) {
 //   try {
