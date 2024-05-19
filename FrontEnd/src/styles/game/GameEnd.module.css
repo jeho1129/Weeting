@@ -18,7 +18,7 @@
 
 .Container::before {
   content: '🎉게 임 종 료🎉';
-  font-size: 60px;
+  font-size: 50px;
   font-weight: bold;
   position: absolute;
   top: -20px;

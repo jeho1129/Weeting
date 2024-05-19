@@ -146,7 +146,7 @@ const GameWaiting = () => {
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
       // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
-      const ws = new WebSocket('ws://3.39.208.35:8000/ws');
+      const ws = new WebSocket('wss://3.39.208.35:8000/ws');
 
       // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
       // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
