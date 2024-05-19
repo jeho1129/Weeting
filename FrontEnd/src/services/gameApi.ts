@@ -46,14 +46,14 @@ export async function gameStartApi(roomId: string) {
   }
 }
 
-export async function chatroomHistoryApi(roomId: string) {
-  try {
-    const response = await Axios.get(`/chat/history/${roomId}`);
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
+// export async function chatroomHistoryApi(roomId: string) {
+//   try {
+//     const response = await Axios.get(`/chat/history/${roomId}`);
+//     return response.data;
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
+// }
 
 export async function gameOutApi(roomId: string) {
   try {
