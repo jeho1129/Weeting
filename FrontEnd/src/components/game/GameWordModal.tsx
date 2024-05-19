@@ -2,6 +2,7 @@ import styles from '@/styles/game/GameWordSetting.module.css';
 import { RoomInfo } from '@/types/game';
 import { userState } from '@/recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { gameOverApi } from '@/services/gameApi';
 
 interface GameForbiddenWordProps {
   roomInfo: RoomInfo;
@@ -61,6 +62,8 @@ const GameForbiddenWord = ({
           onClick={() => {
             if (isValidInput() && forbiddenWord !== '') {
               setModalOpen(false);
+            } else {
+              gameOverApi(roomInfo.roomId);
             }
           }}
         >
