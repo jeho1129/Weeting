@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import styles from '@/styles/game/GameWordSetting.module.css';
 import timerRank from '@/assets/images/timerRank.png';
 import { RoomInfo, MessageScore } from '@/types/game';
+import { userState } from '@/recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; messageScore: MessageScore }) => {
   const endTime: string | null = roomInfo.roomEndTime;
   const forbiddenTime: string | null = roomInfo.roomForbiddenTime;
   const [endTimeLeft, setEndTimeLeft] = useState('');
   const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
+  const userInfo = useRecoilValue(userState);
 
   useEffect(() => {
     if (endTime != null) {
@@ -48,9 +51,11 @@ const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; message
   return (
     <div className={styles.RanktimerContainer}>
       <div className={styles.Ranktimers}>
-        <div className={styles.PersonalScore}>
-          <p>현재 점수 : {messageScore.highest_similarity}</p>
-        </div>
+        {userInfo.nickname === messageScore.nickname && (
+          <div className={styles.PersonalScore}>
+            <p>현재 점수 : {messageScore.highest_similarity}</p>
+          </div>
+        )}
         <p className={styles.RanktimerText}>
           {roomInfo.roomStatus === 'wordsetting'
             ? forbiddenTimeLeft
