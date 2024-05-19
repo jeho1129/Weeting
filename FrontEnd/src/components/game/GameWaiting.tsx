@@ -17,6 +17,7 @@ import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
 import GameLoading from '@/components/game/GameLoading';
 import { useParams } from 'react-router-dom';
+import { gameFinishApi } from '@/services/gameApi';
 
 const GameWaiting = () => {
   const userInfo = useRecoilValue(userState);
@@ -92,7 +93,13 @@ const GameWaiting = () => {
     setGameInfoRecoil(roomInfo);
     localStorage.setItem('roomInfo', JSON.stringify(roomInfo));
   }, [roomInfo]);
-
+  // roomUsers의 isAlive 상태를 체크하여 게임 종료 API 호출
+  useEffect(() => {
+    const aliveUsers = roomInfo.roomUsers.filter((user) => user.isAlive !== '').length;
+    if (aliveUsers < 2) {
+      gameFinishApi(roomInfo.roomId);
+    }
+  }, [roomInfo.roomUsers]);
   // roomStatus
   useEffect(() => {
     // wordsetting에서 해야하는 일
@@ -147,10 +154,9 @@ const GameWaiting = () => {
       // local용
       // const ws = new WebSocket('ws://localhost:8000/ws');
       // 배포용
-      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
       // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
-      const ws = new WebSocket('wss://3.39.208.35:8000/ws');
-
+      // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
+      const ws = new WebSocket('wss://weeting.shop/ws');
       // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
       // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
 
