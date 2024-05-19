@@ -170,68 +170,68 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
     @Override
-    public void forbiddenWordSetting(String chatRoomId,
+    public synchronized void forbiddenWordSetting(String chatRoomId,
                                        User user,
-                                       String word) throws InterruptedException {
+                                       String word) {
         String key = "chatRoom:" + chatRoomId;
 
-//        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-//
-//        if (roomInfo == null) {
-//            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
-//        }
-//
-//        List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
-//
-//        // 유저 ID를 찾아 인덱스를 가져온다.
-//        int index = -1;
-//        for (int i = 0; i < users.size(); i++) {
-//            if (users.get(i).getId().equals(user.getId())) {
-//                index = i;
-//                break;
-//            }
-//        }
-//
-//        if (index == -1) {
-//            throw new IllegalStateException("유저가 채팅방에 존재하지 않습니다.");
-//        }
-//
-//        // 타유저에게 금칙어 할당
-//        int nextIndex = (index + 1) % users.size();
-//
-//        ChatRoomUserInfo nextUser = users.get(nextIndex);
-//        nextUser.setWord(word);
-//
-//        redisTemplate.opsForValue().set(key, roomInfo);
+        ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
-        while (true) {
-            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
-            List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
+        if (roomInfo == null) {
+            throw new IllegalStateException("채팅방 정보를 불러올 수 없습니다.");
+        }
 
-            // 유저 본인의 ID를 찾아 인덱스를 가져온다.
-            int index = -1;
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getId().equals(user.getId())) {
-                    index = i;
-                    break;
-                }
-            }
+        List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
 
-            ChatRoomUserInfo myUser = users.get(index);
-            if (myUser.getWord() != "") {
-                // 타유저에게 금칙어 할당
-                int nextIndex = (index + 1) % users.size();
-
-                ChatRoomUserInfo nextUser = users.get(nextIndex);
-                nextUser.setWord(word);
-
-                redisTemplate.opsForValue().set(key, roomInfo);
-                log.info("[" + user.getNickname() + "]가 [" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word);
+        // 유저 ID를 찾아 인덱스를 가져온다.
+        int index = -1;
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId().equals(user.getId())) {
+                index = i;
                 break;
-            } else {
-                Thread.sleep(300);
             }
         }
+
+        if (index == -1) {
+            throw new IllegalStateException("유저가 채팅방에 존재하지 않습니다.");
+        }
+
+        // 타유저에게 금칙어 할당
+        int nextIndex = (index + 1) % users.size();
+
+        ChatRoomUserInfo nextUser = users.get(nextIndex);
+        nextUser.setWord(word);
+
+        redisTemplate.opsForValue().set(key, roomInfo);
+
+//        while (true) {
+//            ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+//            List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
+//
+//            // 유저 본인의 ID를 찾아 인덱스를 가져온다.
+//            int index = -1;
+//            for (int i = 0; i < users.size(); i++) {
+//                if (users.get(i).getId().equals(user.getId())) {
+//                    index = i;
+//                    break;
+//                }
+//            }
+//
+//            ChatRoomUserInfo myUser = users.get(index);
+//
+//            if (myUser.getWord() != "") {
+//                int nextIndex = (index + 1) % users.size();
+//
+//                ChatRoomUserInfo nextUser = users.get(nextIndex);
+//                nextUser.setWord(word);
+//
+//                redisTemplate.opsForValue().set(key, roomInfo);
+//                log.info("[" + user.getNickname() + "]가 [" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word);
+//                break;
+//            } else {
+//                Thread.sleep(100);
+//            }
+//        }
 
     }
 
