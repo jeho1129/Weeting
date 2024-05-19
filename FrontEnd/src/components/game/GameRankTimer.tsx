@@ -53,7 +53,9 @@ const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; message
       <div className={styles.Ranktimers}>
         {userInfo.nickname === messageScore.nickname && (
           <div className={styles.PersonalScore}>
-            <p>현재 점수 : {messageScore.highest_similarity}</p>
+            <p>현재 점수 : ??</p>
+
+            {/* <p>현재 점수 : {messageScore.highest_similarity}</p> */}
           </div>
         )}
         <p className={styles.RanktimerText}>
