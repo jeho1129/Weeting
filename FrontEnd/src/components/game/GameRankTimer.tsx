@@ -21,6 +21,7 @@ const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; message
   useEffect(() => {
     if (roomInfo.roomStatus === 'wordsetting') {
       const timerId = setInterval(() => {
+        
         setForbiddenTimeLeft(
           ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
         );
@@ -33,7 +34,7 @@ const GameRankTimer = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; message
       }, 15000);
     } else if (roomInfo.roomStatus === 'start') {
       const timerId = setInterval(() => {
-        setEndTimeLeft((new Date(endTime!).getTime() - new Date().getTime()/ 1000).toFixed(0).toString());
+        setEndTimeLeft(((new Date(endTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString());
       }, 1000);
 
       setTimeout(() => {

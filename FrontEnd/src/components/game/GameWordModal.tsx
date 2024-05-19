@@ -1,9 +1,10 @@
 import styles from '@/styles/game/GameWordSetting.module.css';
 import { RoomInfo } from '@/types/game';
+import { userState } from '@/recoil/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 interface GameForbiddenWordProps {
   roomInfo: RoomInfo;
-  myIndex: number;
   isModalOpen: boolean;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   forbiddenWord: string;
@@ -12,12 +13,12 @@ interface GameForbiddenWordProps {
 
 const GameForbiddenWord = ({
   roomInfo,
-  myIndex,
   isModalOpen,
   setModalOpen,
   forbiddenWord,
   setForbiddenWord,
 }: GameForbiddenWordProps) => {
+  const userInfo = useRecoilValue(userState);
   const warningMsg =
     roomInfo.roomMode === 'normal'
       ? '* 한 글자 이상 6글자 이하의 단어를 입력해주세요.'
@@ -35,8 +36,8 @@ const GameForbiddenWord = ({
 
   if (isModalOpen) {
     const nextUserNickname =
-      myIndex + 1 < roomInfo.roomUsers.length
-        ? roomInfo.roomUsers[myIndex + 1].nickname
+      roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
+        ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
         : roomInfo.roomUsers[0].nickname;
     return (
       <div className={styles.Container}>
