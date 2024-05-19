@@ -1,36 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { ChatMessages } from '@/types/chat';
+import { useEffect, useRef } from 'react';
+import { ChatMessage } from '@/types/chat';
 import { RoomInfo } from '@/types/game';
 
 import styles from '@/styles/game/GameWaitingChatting.module.css';
-import { chatroomHistoryApi } from '@/services/gameApi';
+
 import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
 
 interface GameChattingListProps {
-  roomId: RoomInfo['roomId'];
   roomUsers: RoomInfo['roomUsers'];
-  // chatMessages: ChatMessage[];
+  chatMessages: ChatMessage[];
 }
 
-const GameChattingList: React.FC<GameChattingListProps> = ({ roomId, roomUsers }) => {
+const GameChattingList: React.FC<GameChattingListProps> = ({ roomUsers, chatMessages }) => {
   const chatListRef = useRef<HTMLDivElement>(null); // .ChatList에 대한 참조 추가
   const userInfo = useRecoilValue(userState);
-  const [chatMessages, setChatMessages] = useState<ChatMessages[]>([]);
-
-  useEffect(() => {
-    // chatroomHistoryApi를 호출하여 채팅방 메시지 내역을 가져옵니다.
-    const fetchChatHistory = async () => {
-      try {
-        const response = await chatroomHistoryApi(roomId);
-        setChatMessages(response.dataBody); // API 응답에서 메시지 데이터를 상태에 저장
-      } catch (error) {
-        console.error('Failed to fetch chat history:', error);
-      }
-    };
-
-    fetchChatHistory();
-  }, [roomId]);
 
   const scrollToBottom = () => {
     const scrollHeight = chatListRef.current?.scrollHeight; // 총 스크롤 높이
@@ -49,8 +33,11 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ roomId, roomUsers }
   return (
     <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}>
       {chatMessages.map((message, index) => {
-        const messageUserAlive = roomUsers.find((user) => user.nickname === message.nickname)?.isAlive;
+        // 메시지를 보낸 사용자의 생존 상태
+        const messageUserAlive = roomUsers.find((user) => user.nickname === message.nickname)?.isAlive === '';
         const messageColor = messageUserAlive ? '#0093f3' : '#d0d0d0';
+        // 내가 죽었으면 return에 모든 메세지 보이도록.
+        // 내가 살았으면 살아있는 사람의 메세지만 보이도록.
         if (!currentUserAlive || (currentUserAlive && messageUserAlive)) {
           return (
             <div key={index} style={{ display: 'flex', height: '25px' }}>
@@ -61,33 +48,10 @@ const GameChattingList: React.FC<GameChattingListProps> = ({ roomId, roomUsers }
             </div>
           );
         }
-        return null;
+        return null; // 해당하지 않는 경우 메시지를 렌더링하지 않음
       })}
     </div>
   );
 };
-//   return (
-//     <div ref={chatListRef} className={`FontD16 ${styles.ChatList}`}>
-//       {chatMessages.map((message, index) => {
-//         // 메시지를 보낸 사용자의 생존 상태
-//         const messageUserAlive = roomUsers.find((user) => user.nickname === message.nickname)?.isAlive === '';
-//         const messageColor = messageUserAlive ? '#0093f3' : '#d0d0d0';
-//         // 내가 죽었으면 return에 모든 메세지 보이도록.
-//         // 내가 살았으면 살아있는 사람의 메세지만 보이도록.
-//         if (!currentUserAlive || (currentUserAlive && messageUserAlive)) {
-//           return (
-//             <div key={index} style={{ display: 'flex', height: '25px' }}>
-//               <div style={{ width: '100px' }}>
-//                 <strong style={{ color: messageColor }}>{message.nickname}　　</strong>
-//               </div>
-//               <div>{message.content}</div>
-//             </div>
-//           );
-//         }
-//         return null; // 해당하지 않는 경우 메시지를 렌더링하지 않음
-//       })}
-//     </div>
-//   );
-// };
 
 export default GameChattingList;

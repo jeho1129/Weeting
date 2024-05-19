@@ -85,7 +85,7 @@ const GameWaitingRightSide = ({
         <GameWaitingPole roomInfo={roomInfo} chatMessage={chatMessages} />
         <div className={styles.ChatBoxBorder}></div>
         <div className={styles.ChatBox}>
-          <GameChattingList roomId={roomInfo.roomId} roomUsers={roomInfo.roomUsers} />
+          <GameChattingList roomUsers={roomInfo.roomUsers} chatMessages={chatMessages} />
         </div>
         <GameChattingForm
           {...{ roomInfo, ingameUserInfo, webSocketScore, onSendMessage }}
