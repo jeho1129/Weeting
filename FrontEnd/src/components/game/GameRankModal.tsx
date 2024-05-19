@@ -53,12 +53,13 @@ interface GameRankModalProps {
 const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps) => {
   const [members, setMembers] = useState<FinalMember[]>([]);
   useEffect(() => {
-    if (roomInfo.roomStatus === 'end') {
-      gameFinalRankApi(roomInfo.roomId).then((data: FinalMember[]) => {
-        // API 응답 타입도 명시
-        setMembers(data); // API 응답을 그대로 상태에 저장
-      });
-    }
+    const finalModal = async () => {
+      if (roomInfo.roomStatus === 'end') {
+        const finalData = await gameFinalRankApi(roomInfo.roomId);
+        setMembers(finalData);
+      }
+    };
+    finalModal();
   }, [roomInfo]);
 
   if (!isRankOpen) {
