@@ -71,15 +71,15 @@ export async function gameOutApi(roomId: string) {
 // api 문제있는듯
 export async function forbiddenWordSettingDataApi({
   nickname,
-  forbiddenWord,
+  forbidden_word,
 }: {
   nickname: string;
-  forbiddenWord: string;
+  forbidden_word: string;
 }) {
   try {
     const response = axios.post('https://weeting.shop/api/v1/forbidden', {
       nickname: nickname,
-      forbiddenWord: forbiddenWord,
+      forbidden_word: forbidden_word,
     });
     /////////////////////////////////////////^api주소 바꿈///////^이거 nickname으로 바꿔야함//////////////////////////
     return response;
