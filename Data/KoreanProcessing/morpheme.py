@@ -28,12 +28,25 @@ async def websocket_endpoint(websocket: WebSocket):
 # 3. 단어 리스트에서 금지어와 유사도 점수가 가장 높은 단어, 점수 Redis에 저장하기
 # 4. 게임이 끝나면 Redis에 저장되어 있는 금지어 관련 데이터 지우기
 
-async def check_text_against_forbidden_words(words, user_id):
-    forbidden_similar_words = await redis.hgetall(f"similar:{user_id}")
-    forbidden_word = await redis.get(f"forbidden:{user_id}")
-    # existing_word = await redis.get(f"highest_word:{user_id}")
-    existing_score = await redis.get(f"hightest_score:{user_id}")
-    existing_score = float(existing_score) if existing_score else 0.0
+async def check_text_against_forbidden_words(words, user_nickname, roomId):
+    forbidden_similar_words = await redis.hgetall(f"similar:{user_nickname}")
+    forbidden_word = await redis.get(f"forbidden:{user_nickname}")
+
+    chat_room_data = await redis.get(f"chatRoom:{roomId}")
+    if not chat_room_data:
+        raise HTTPException(status_code=404, detail="Chat room not found")
+    chat_room_info = json.loads(chat_room_data)
+
+    existing_score = 0.0
+    user_index = None
+    for index, user_info in enumerate(chat_room_info.get("roomUsers", [])):
+        if user_info.get("nickname") == user_nickname:
+            existing_score = user_info.get("score", 0.0)
+            user_index = index
+            break
+    
+    if user_index is None:
+        raise HTTPException(status_code=404, detail=f"User {user_nickname} not found in room {roomId}")
 
     most_similar_word, highest_similarity = None, 0.0
 
@@ -49,12 +62,9 @@ async def check_text_against_forbidden_words(words, user_id):
                 most_similar_word = word
 
     if highest_similarity > existing_score:
-        # await redis.set(f"highest_word:{user_id}", most_similar_word)
-        await redis.set(f"hightest_score:{user_id}", highest_similarity)
+        chat_room_info["roomUsers"][user_index]["score"] = highest_similarity
+        await redis.set(f"chatRoom:{roomId}", json.dumps(chat_room_info))
         existing_score = highest_similarity
-    # else:
-    #     most_similar_word = existing_word
-    #     highest_similarity = existing_score
     
     return most_similar_word, highest_similarity, existing_score
 
@@ -82,12 +92,13 @@ async def process_message(data):
     message_data = json.loads(data)
     user_nickname = message_data.get("nickname")
     chat_content = message_data.get("content")
+    room_id = message_data.get("roomId")
 
     filtered_data = spacing(chat_content)
     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
     morphs = okt.pos(filtered_data, norm=True, join=False)
     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
-    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname)
+    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname, room_id)
 
     return {
         "nickname": user_nickname,
@@ -97,6 +108,7 @@ async def process_message(data):
     }
 
 class ChatContent(BaseModel):
+    roomId: str
     nickname: str
     content: str
 
@@ -109,7 +121,7 @@ async def process_message_api(data: ChatContent):
     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
     morphs = okt.pos(filtered_data, norm=True, join=False)
     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
-    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname)
+    most_similar_word, highest_similarity, existing_score = await check_text_against_forbidden_words(processed_words, user_nickname, data.roomId)
 
     return {
         "nickname": user_nickname,
