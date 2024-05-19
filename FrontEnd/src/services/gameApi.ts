@@ -173,3 +173,12 @@ export async function gameFinishApi(roomId: string) {
     return Promise.reject(error);
   }
 }
+
+export async function gameFinalRankApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/result/${roomId}`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

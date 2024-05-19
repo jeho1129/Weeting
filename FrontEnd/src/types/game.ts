@@ -45,3 +45,10 @@ export const dummy2: RoomInfo = {
     { id: 12, nickname: '....', ready: true, word: '안녕', score: 5, isAlive: '' },
   ],
 };
+
+export interface FinalMember {
+  id: number;
+  nickname: string;
+  score: number;
+  isAlive: string;
+}
