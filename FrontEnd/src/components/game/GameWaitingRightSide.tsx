@@ -13,19 +13,33 @@ import { userState } from '@/recoil/atom';
 
 import { Client } from '@stomp/stompjs';
 import { getCookie } from '@/utils/axios';
-
 const GameWaitingRightSide = ({
   roomInfo,
   webSocketScore,
   ingameUserInfo,
+  chatMessages,
+  setChatMessages,
 }: {
   roomInfo: RoomInfo;
   webSocketScore: WebSocket | null;
   ingameUserInfo: IngameUser;
+  chatMessages: ChatMessage[];
+  setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
 }) => {
   const userInfo = useRecoilValue(userState);
   const [stompClient, setStompClient] = useState<Client | null>(null);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  // const GameWaitingRightSide = ({
+  //   roomInfo,
+  //   webSocketScore,
+  //   ingameUserInfo,
+  // }: {
+  //   roomInfo: RoomInfo;
+  //   webSocketScore: WebSocket | null;
+  //   ingameUserInfo: IngameUser;
+  // }) => {
+  //   const userInfo = useRecoilValue(userState);
+  //   const [stompClient, setStompClient] = useState<Client | null>(null);
+  //   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   // 채팅방 stomp client 연결
   useEffect(() => {

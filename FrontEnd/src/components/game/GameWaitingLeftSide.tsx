@@ -26,7 +26,7 @@ const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; m
     <>
       <div className={styles.AlignLeft}>
         <img className={styles.GameWaitingLogo} src={logo} alt="GameTemplate" />
-        <GameWaitingMemberList roomInfo={roomInfo} />
+        <GameWaitingMemberList roomInfo={roomInfo}/>
         {(roomInfo.roomStatus === 'waiting' || roomInfo.roomStatus === 'allready' || roomInfo.roomStatus === 'end') && (
           <div className={styles.ButtonAlign}>
             <GameWaitingReadyButton

@@ -1,5 +1,5 @@
 import styles from '@/styles/game/GameWaiting.module.css';
-import { RoomInfo } from '@/types/game';
+import { RoomInfo, MessageScore } from '@/types/game';
 
 import waiting from '@/assets/images/ingamewaiting.png';
 import ready from '@/assets/images/ingameready.png';
@@ -10,7 +10,7 @@ import firstIcon from '@/assets/images/ingamefirstscore.png';
 import scoreIcon from '@/assets/images/ingamescore.png';
 import leader from '@/assets/images/leader.png';
 
-const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+const GameWaitingMemberList = ({ roomInfo }: { roomInfo: RoomInfo; }) => {
   const sortedMembers =
     roomInfo.roomStatus === 'start' ? [...roomInfo.roomUsers].sort((a, b) => b.score - a.score) : roomInfo.roomUsers;
 
