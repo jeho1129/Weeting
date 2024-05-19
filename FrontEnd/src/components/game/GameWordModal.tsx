@@ -34,12 +34,17 @@ const GameForbiddenWord = ({
   };
 
   if (isModalOpen) {
+    const nextUserNickname =
+      myIndex + 1 < roomInfo.roomUsers.length
+        ? roomInfo.roomUsers[myIndex + 1].nickname
+        : roomInfo.roomUsers[0].nickname;
     return (
       <div className={styles.Container}>
         <div className="FontM32">
-          {myIndex !== roomInfo.roomUsers.length - 1
+          {nextUserNickname}
+          {/* {myIndex !== roomInfo.roomUsers.length - 1
             ? roomInfo.roomUsers[myIndex + 1].nickname
-            : roomInfo.roomUsers[0].nickname}
+            : roomInfo.roomUsers[0].nickname} */}
           님의 금칙어를 정해주세요
         </div>
         <div className="FontM60">주제 : {roomInfo.roomTheme}</div>
