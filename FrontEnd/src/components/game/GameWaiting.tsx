@@ -8,7 +8,12 @@ import { gameState, userState } from '@/recoil/atom';
 import { IngameUser } from '@/types/user';
 import { RoomInfo, MessageScore } from '@/types/game';
 
-import { forbiddenWordSettingApi, forbiddenWordSettingDataApi, gameOverApi } from '@/services/gameApi';
+import {
+  forbiddenWordDataApi,
+  forbiddenWordSettingApi,
+  forbiddenWordSettingDataApi,
+  gameOverApi,
+} from '@/services/gameApi';
 import { randomForbbidenWord } from '@/utils/randomForbiddenWord';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
@@ -17,12 +22,17 @@ import GameWaitingLeftSide from '@/components/game/GameWaitingLeftSide';
 import GameWaitingRightSide from '@/components/game/GameWaitingRightSide';
 import GameLoading from '@/components/game/GameLoading';
 import { useParams } from 'react-router-dom';
+import { ChatMessage } from '@/types/chat';
 import { gameFinishApi } from '@/services/gameApi';
+import { Client } from '@stomp/stompjs';
 
 const GameWaiting = () => {
   const userInfo = useRecoilValue(userState);
   const gameInfo = useRecoilValue(gameState);
   const setGameInfoRecoil = useSetRecoilState(gameState);
+  const [stompClient, setStompClient] = useState<Client | null>(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
   const [gameStartLoading, setGameStartLoading] = useState(false);
   const [messageScore, setMessageScore] = useState<MessageScore>({
     nickname: userInfo.nickname,
@@ -93,6 +103,29 @@ const GameWaiting = () => {
     setGameInfoRecoil(roomInfo);
     localStorage.setItem('roomInfo', JSON.stringify(roomInfo));
   }, [roomInfo]);
+
+  // chatMessages가 변경될 때마다 GameWaitingLeftSide의 정보를 업데이트하는 API 호출
+  useEffect(() => {
+    const updateGameInfo = async () => {
+      // API 호출 로직 추가
+      for (const message of chatMessages) {
+        const payload = {
+          roomId: roomInfo.roomId,
+          nickname: message.nickname,
+          content: message.content,
+        };
+
+        // 생성된 객체를 인자로 API 함수 호출
+        await forbiddenWordDataApi(payload);
+      }
+      // forbiddenWordDataApi(roomInfo.roomId, chatMessages.nickname, chatMessages.content)
+      // console.log('Chat messages updated:', chatMessages);
+      // setGameInfoRecoil(updatedGameInfo); // API 호출 결과로 게임 정보를 업데이트
+    };
+
+    updateGameInfo();
+  }, [chatMessages]);
+
   // roomUsers의 isAlive 상태를 체크하여 게임 종료 API 호출
   useEffect(() => {
     const aliveUsers = roomInfo.roomUsers.filter((user) => user.isAlive === '').length;
@@ -147,7 +180,6 @@ const GameWaiting = () => {
         setGameStartLoading(false);
       }, 10000);
     }
-    // wordfinish에서 해야하는 일
     // 점수 확인 웹소켓 연결
     // 가장 높은 점수일 때 roomInfo Users에 score 업데이트
     else if (roomInfo.roomStatus === 'start') {
@@ -165,7 +197,7 @@ const GameWaiting = () => {
       };
       ws.onmessage = (response) => {
         console.log(response.data);
-        const score: { nickname: string; highest_similarity: number } = JSON.parse(response.data);
+        const score: { nickname: string; highest_similarity: number; similarity: number } = JSON.parse(response.data);
         setMessageScore({
           nickname: score.nickname,
           highest_similarity: score.highest_similarity,
@@ -222,7 +254,7 @@ const GameWaiting = () => {
 
       <div className={`FontM20 ${styles.SpaceEvenly}`}>
         <GameWaitingLeftSide roomInfo={roomInfo} messageScore={messageScore} />
-        <GameWaitingRightSide {...{ roomInfo, ingameUserInfo, webSocketScore }} />
+        <GameWaitingRightSide {...{ roomInfo, ingameUserInfo, webSocketScore, chatMessages, setChatMessages }} />{' '}
       </div>
 
       {gameStartLoading && <GameLoading roomInfo={roomInfo} />}
