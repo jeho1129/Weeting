@@ -165,7 +165,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         for (String chatRoomId : chatRoomIds) {
             ChatRoomDto chatRoom = (ChatRoomDto) redisTemplate.opsForValue().get(chatRoomId);
 
-            if (chatRoom != null && (chatRoom.getRoomPassword() == null || chatRoom.getRoomPassword().isEmpty())) {
+            if (chatRoom.getRoomStatus() == ChatRoomDto.RoomStatus.waiting) {
                 int spotsLeft = chatRoom.getRoomMaxCnt() - chatRoom.getRoomUsers().size();
                 if (spotsLeft < minLeftUsers && spotsLeft > 0) {
                     minLeftUsers = spotsLeft;
