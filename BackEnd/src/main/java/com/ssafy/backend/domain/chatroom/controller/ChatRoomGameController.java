@@ -31,6 +31,13 @@ public class ChatRoomGameController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    // 게임 상태 start -> end
+    @PatchMapping("/startToEnd/{chatRoomId}")
+    public ResponseEntity<Message<Void>> startToEnd(@PathVariable("chatRoomId") String chatRoomId) {
+        chatRoomGameService.startToEnd(chatRoomId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
     // 게임 종료 (확인창 클릭)
     @PatchMapping("/end/{chatRoomId}")
     public ResponseEntity<Message<Void>> gameEnd(@PathVariable("chatRoomId") String chatRoomId) {
