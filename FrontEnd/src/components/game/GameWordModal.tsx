@@ -1,4 +1,5 @@
 import styles from '@/styles/game/GameWordSetting.module.css';
+import { useState, useEffect } from 'react';
 import { RoomInfo } from '@/types/game';
 import { userState } from '@/recoil/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -26,6 +27,24 @@ const GameForbiddenWord = ({
       : '* 두 글자 이상 6글자 이하의 단어를 입력해주세요.<br />* 입력하지 않을 경우 랜덤으로 금칙어가 설정됩니다. <br />* 사전에 등록된 단어일수록 정확한 유사도를 측정할 수 있습니다.';
 
   // 입력 조건 검증 함수
+  const forbiddenTime: string | null = roomInfo.roomForbiddenTime;
+  const [forbiddenTimeLeft, setForbiddenTimeLeft] = useState('');
+
+  useEffect(() => {
+    if (roomInfo.roomStatus === 'wordsetting') {
+      const timerId = setInterval(() => {
+        setForbiddenTimeLeft(
+          ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
+        );
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(timerId);
+        setForbiddenTimeLeft('0');
+      }, 15000);
+      return () => clearInterval(timerId);
+    }
+  }, [roomInfo]);
   const isValidInput = () => {
     if (roomInfo.roomMode === 'rank') {
       return forbiddenWord.length >= 2 && forbiddenWord.length <= 6;
