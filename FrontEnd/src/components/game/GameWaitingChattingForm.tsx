@@ -51,11 +51,11 @@ const GameChattingForm = ({
     e.preventDefault();
 
     // 인게임 중 && 내가 쓴 단어가 금지어일 때
-    if (roomInfo.roomStatus === 'start') {
-      if (message.indexOf(ingameUserInfo.word!) !== -1) {
-        gameOverApi(roomInfo.roomId);
-      }
-    }
+    // if (roomInfo.roomStatus === 'start') {
+    //   if (message.indexOf(ingameUserInfo.word!) !== -1) {
+    //     gameOverApi(roomInfo.roomId);
+    //   }
+    // }
 
     if (message.trim()) {
       // 인게임 상태라면
