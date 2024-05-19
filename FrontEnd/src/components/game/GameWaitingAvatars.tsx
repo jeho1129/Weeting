@@ -108,21 +108,32 @@ const GameWaitingAvatars = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; cha
   };
 
   const userInfo = useRecoilValue(userState);
+  useEffect(() => {
+    roomInfo.roomUsers.forEach((member) => {
+      if (member.id === userInfo.userId) {
+        const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
+        const latestMessage = userMessages[userMessages.length - 1]?.content;
 
+        if (latestMessage && member.word && latestMessage.includes(member.word)) {
+          gameOverApi(roomInfo.roomId);
+        }
+      }
+    });
+  }, [chatMessage, roomInfo.roomUsers, userInfo.userId]);
   // const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomInfo.roomUsers);
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
   // 각 멤버의 메시지를 체크하고 게임 오버 API를 호출하는 로직 추가
-  useEffect(() => {
-    roomInfo.roomUsers.forEach((member) => {
-      const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
-      const latestMessage = userMessages[userMessages.length - 1]?.content;
+  // useEffect(() => {
+  //   roomInfo.roomUsers.map((member) => {
+  //     const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
+  //     const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-      if (latestMessage && member.word && latestMessage.includes(member.word) && roomInfo.roomStatus === 'start') {
-        gameOverApi(roomInfo.roomId);
-      }
-    });
-  }, [chatMessage, roomInfo.roomUsers, roomInfo.roomStatus]);
+  //     if (latestMessage && member.word && latestMessage.includes(member.word) && roomInfo.roomStatus === 'start') {
+  //       gameOverApi(roomInfo.roomId);
+  //     }
+  //   });
+  // }, [chatMessage, roomInfo.roomUsers, roomInfo.roomStatus]);
   // useEffect(() => {
   //   roomInfo.roomUsers.map((member) => {
   //     const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
