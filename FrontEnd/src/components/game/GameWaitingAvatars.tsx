@@ -8,6 +8,7 @@ import forbiddenFlag from '@/assets/images/forbiddenFlag.png';
 import { useEffect, useState } from 'react';
 import { userState } from '@/recoil/atom';
 import { useRecoilValue } from 'recoil';
+import { gameOverApi } from '@/services/gameApi';
 
 // 말풍선
 const GameMessage = ({
@@ -24,7 +25,6 @@ const GameMessage = ({
   sendTime: string;
 }) => {
   const [isOut, setIsOut] = useState(false);
-
 
   //1분간 타자 안치면 죽이는거 구현해야함
   useEffect(() => {
@@ -108,26 +108,23 @@ const GameWaitingAvatars = ({ roomInfo, chatMessage }: { roomInfo: RoomInfo; cha
   };
 
   const userInfo = useRecoilValue(userState);
-  
+
   // const [updatedRoomUsers, setUpdatedRoomUsers] = useState(roomInfo.roomUsers);
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
-  // useEffect(() => {
-  //   const updatedUsers = roomInfo.roomUsers.map((member) => {
-  //     const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
-  //     const latestMessage = userMessages[userMessages.length - 1]?.content;
+  useEffect(() => {
+    const updatedUsers = roomInfo.roomUsers.map((member) => {
+      const userMessages = chatMessage.filter((msg) => msg.userId === member.id);
+      const latestMessage = userMessages[userMessages.length - 1]?.content;
 
-  //     if (latestMessage && latestMessage.includes(member.word!) && roomInfo.roomStatus === 'start') {
-  //       return { ...member, isAlive: new Date().toLocaleTimeString() };
-  //     } else {
-  //       return member;
-  //     }
-  //   });
+      if (latestMessage && latestMessage.includes(member.word!) && roomInfo.roomStatus === 'start') {
+        gameOverApi(roomInfo.roomId);
+        // return { ...member, isAlive: new Date().toLocaleTimeString() };
+      }
+    });
 
-  //   // websocket 가져와서 여기 바꾸기
-
-  //   setUpdatedRoomUsers(updatedUsers);
-  // }, [chatMessage, roomInfo.roomUsers]);
+    // websocket 가져와서 여기 바꾸기
+  }, [chatMessage, roomInfo.roomUsers]);
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
 
