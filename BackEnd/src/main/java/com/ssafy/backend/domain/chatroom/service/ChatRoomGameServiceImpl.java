@@ -65,7 +65,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             } else {
                 roomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
             }
-            themeSetting(chatRoomId);
+            themeSetting(key);
             redisTemplate.opsForValue().set(key, roomInfo2);
         }
 
