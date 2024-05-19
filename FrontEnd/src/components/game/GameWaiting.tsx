@@ -95,7 +95,7 @@ const GameWaiting = () => {
   }, [roomInfo]);
   // roomUsers의 isAlive 상태를 체크하여 게임 종료 API 호출
   useEffect(() => {
-    const aliveUsers = roomInfo.roomUsers.filter((user) => user.isAlive !== '').length;
+    const aliveUsers = roomInfo.roomUsers.filter((user) => user.isAlive === '').length;
     if (roomInfo.roomStatus === 'start' && aliveUsers < 2) {
       gameFinishApi(roomInfo.roomId);
     }
