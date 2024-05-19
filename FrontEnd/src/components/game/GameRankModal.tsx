@@ -12,7 +12,7 @@ const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps
     return <></>;
   }
   const sortedMembers =
-    roomInfo.roomStatus === 'start' ? [...roomInfo.roomUsers].sort((a, b) => b.score - a.score) : roomInfo.roomUsers;
+    roomInfo.roomStatus === 'end' ? [...roomInfo.roomUsers].sort((a, b) => b.score - a.score) : roomInfo.roomUsers;
   console.log(roomInfo);
   console.log(sortedMembers);
 
