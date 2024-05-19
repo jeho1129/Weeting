@@ -159,7 +159,7 @@ const GameWaiting = () => {
           // myIndex !== roomInfo.roomUsers.length - 1
           //   ? roomInfo.roomUsers[myIndex + 1].nickname
           //   : roomInfo.roomUsers[0].nickname,
-          forbiddenWord: randomWord,
+          forbidden_word: randomWord,
         });
       } else {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: forbiddenWord });
@@ -168,7 +168,7 @@ const GameWaiting = () => {
             roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1 < roomInfo.roomUsers.length
               ? roomInfo.roomUsers[roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId) + 1].nickname
               : roomInfo.roomUsers[0].nickname,
-          forbiddenWord: forbiddenWord,
+          forbidden_word: forbiddenWord,
         });
       }
 
