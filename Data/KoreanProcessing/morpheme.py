@@ -11,17 +11,17 @@ okt = Okt()
 
 redis = aioredis.from_url("redis://3.36.58.63:6379", password="c103103", encoding="utf8", decode_responses=True)
 
-@router.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        while True:
-            data = await websocket.receive_text()
-            response = await process_message(data)
-            if response:
-                await websocket.send_json(response)
-    except WebSocketDisconnect:
-        print("Client disconnected")
+# @router.websocket("/ws")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     try:
+#         while True:
+#             data = await websocket.receive_text()
+#             response = await process_message(data)
+#             if response:
+#                 await websocket.send_json(response)
+#     except WebSocketDisconnect:
+#         print("Client disconnected")
 
 # 1. 사용자 금지어 입력 시 금지어와 유사 단어 + 점수 리스트 Redis에 저장하기
 # 2. 사용자가 채팅 내용 입력하면 형태소 분석하여 단어 리스트로 넘기기
@@ -77,10 +77,31 @@ async def store_forbidden_word(data: ForbiddenWordData):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
-async def process_message(data):
-    message_data = json.loads(data)
-    user_nickname = message_data.get("nickname")
-    chat_content = message_data.get("content")
+# async def process_message(data):
+#     message_data = json.loads(data)
+#     user_nickname = message_data.get("nickname")
+#     chat_content = message_data.get("content")
+
+#     filtered_data = spacing(chat_content)
+#     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
+#     morphs = okt.pos(filtered_data, norm=True, join=False)
+#     processed_words = [morph for morph, tag in morphs if tag not in ['Josa', 'Suffix']]
+#     most_similar_word, highest_similarity = await check_text_against_forbidden_words(processed_words, user_nickname)
+
+#     return {
+#         "nickname": user_nickname,
+#         "most_similar_word": most_similar_word,
+#         "highest_similarity": highest_similarity
+#     }
+
+class ChatContent(BaseModel):
+    nickname: str
+    content: str
+
+@router.post("api/v1/process_message")
+async def process_message_api(data: ChatContent):
+    user_nickname = data.nickname
+    chat_content = data.content
 
     filtered_data = spacing(chat_content)
     filtered_data = re.sub(r'(이와|이의|이가)\b', '', filtered_data)
