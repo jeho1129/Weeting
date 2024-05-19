@@ -123,3 +123,16 @@ export async function gameOverApi(roomId: string) {
     return Promise.reject(error);
   }
 }
+
+export async function gameFinishApi(roomId: string) {
+  try {
+    const response = await Axios.patch(`/chatroom/game/startToEnd/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
