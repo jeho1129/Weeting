@@ -116,7 +116,8 @@ const GameWaiting = () => {
         };
 
         // 생성된 객체를 인자로 API 함수 호출
-        await forbiddenWordDataApi(payload);
+        const myData = await forbiddenWordDataApi(payload);
+        setMessageScore(myData);
       }
     };
 
@@ -229,7 +230,7 @@ const GameWaiting = () => {
       if (isRankOpen) {
         setRankOpen(false);
       }
-      setMessageScore({ nickname: userInfo.nickname, highest_similarity: 0 });
+      // setMessageScore({ nickname: userInfo.nickname, highest_similarity: 0 });
       setWebSocketScore(null);
       setForbiddenWord('');
     }
