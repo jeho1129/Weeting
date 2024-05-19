@@ -65,7 +65,13 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             } else {
                 roomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
             }
-            themeSetting(chatRoomId);
+
+            // theme 할당
+            Theme[] themes = Theme.values();
+            Random random = new Random();
+            Theme randomTheme = themes[random.nextInt(themes.length)];
+            roomInfo2.setRoomTheme(randomTheme);
+
             redisTemplate.opsForValue().set(key, roomInfo2);
         }
 
@@ -339,9 +345,10 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                     ChatRoomDto roomInfo3 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
                     if (roomInfo3.getRoomStatus() == ChatRoomDto.RoomStatus.wordfinish) {
                         taskScheduler.schedule(() -> {
-                            roomInfo3.setRoomEndTime(LocalDateTime.now().plusSeconds(120).toString());
-                            roomInfo3.setRoomStatus(ChatRoomDto.RoomStatus.start);
-                            redisTemplate.opsForValue().set(key, roomInfo3);
+                            ChatRoomDto roomInfo3Plus = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+                            roomInfo3Plus.setRoomEndTime(LocalDateTime.now().plusSeconds(120).toString());
+                            roomInfo3Plus.setRoomStatus(ChatRoomDto.RoomStatus.start);
+                            redisTemplate.opsForValue().set(key, roomInfo3Plus);
 
                             // start -> end
                             ChatRoomDto roomInfo4 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
