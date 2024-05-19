@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from KoreanProcessing.model import router as fasttext_router
 from KoreanProcessing.morpheme import router as konlpy_router
-from KoreanProcessing.morpheme import process_message
+# from KoreanProcessing.morpheme import process_message
 import asyncio, model_manager, aiohttp
 
 # async def receive_message():
