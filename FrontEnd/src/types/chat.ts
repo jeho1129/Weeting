@@ -10,11 +10,11 @@ export interface ScoreUpdate {
   score: number;
 }
 
-export interface ChatMessages {
-  id: string;
-  roomId: string;
-  userId: number;
-  nickname: string;
-  content: string;
-  sendTime: string | null;
-}
+// export interface ChatMessages {
+//   id: string;
+//   roomId: string;
+//   userId: number;
+//   nickname: string;
+//   content: string;
+//   sendTime: string | null;
+// }
