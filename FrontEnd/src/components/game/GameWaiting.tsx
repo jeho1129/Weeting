@@ -8,7 +8,7 @@ import { gameState, userState } from '@/recoil/atom';
 import { IngameUser } from '@/types/user';
 import { RoomInfo, MessageScore } from '@/types/game';
 
-import { forbiddenWordSettingApi, forbiddenWordSettingDataApi, gameAllReadyApi, gameOverApi } from '@/services/gameApi';
+import { forbiddenWordSettingApi, forbiddenWordSettingDataApi, gameOverApi } from '@/services/gameApi';
 import { randomForbbidenWord } from '@/utils/randomForbiddenWord';
 
 import GameForbiddenWord from '@/components/game/GameWordModal';
@@ -196,17 +196,6 @@ const GameWaiting = () => {
       setForbiddenWord('');
     }
   }, [roomInfo.roomStatus]);
-
-  // 모든 사용자가 ready인지 확인하고 API 호출
-  useEffect(() => {
-    if (roomInfo.roomUsers.length > 3) {
-      const allReadyExceptFirst = roomInfo.roomUsers.slice(1).every(user => user.ready);
-      if (allReadyExceptFirst) {
-        // 모든 사용자가 준비되었을 때 호출할 API
-        gameAllReadyApi(roomInfo.roomId);
-      }
-    }
-  }, [roomInfo.roomUsers]);
 
   return (
     <>

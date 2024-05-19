@@ -28,14 +28,14 @@ export async function gameDeadApi(roomId: string) {
   }
 }
 
-export async function gameAllReadyApi(roomId: string) {
-  try {
-    const response = await Axios.patch(`/chatroom/game/status/${roomId}`, {roomId});
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
+// export async function gameAllReadyApi(roomId: string) {
+//   try {
+//     const response = await Axios.patch(`/chatroom/game/status/${roomId}`, {roomId});
+//     return response.data;
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
+// }
 
 export async function gameStartApi(roomId: string) {
   try {
