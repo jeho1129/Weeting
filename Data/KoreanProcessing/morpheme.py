@@ -37,9 +37,11 @@ async def check_text_against_forbidden_words(words, user_nickname, roomId):
         raise HTTPException(status_code=404, detail="Chat room not found")
     chat_room_info = json.loads(chat_room_data)
 
+    user_infos = chat_room_info.get("roomUsers", [[]])[1]
+
     existing_score = 0.0
     user_index = None
-    for index, user_info in enumerate(chat_room_info.get("roomUsers", [])):
+    for index, user_info in enumerate(user_infos):
         if user_info.get("nickname") == user_nickname:
             existing_score = user_info.get("score", 0.0)
             user_index = index
@@ -62,7 +64,7 @@ async def check_text_against_forbidden_words(words, user_nickname, roomId):
                 most_similar_word = word
 
     if highest_similarity > existing_score:
-        chat_room_info["roomUsers"][user_index]["score"] = highest_similarity
+        user_infos[user_index]["score"] = highest_similarity
         await redis.set(f"chatRoom:{roomId}", json.dumps(chat_room_info))
         existing_score = highest_similarity
     
