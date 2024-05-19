@@ -38,10 +38,7 @@ const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; m
             <GameWaitingQuitButton roomId={roomInfo.roomId} />
           </div>
         )}
-        {(roomInfo.roomStatus === 'wordsetting' ||
-          roomInfo.roomStatus === 'wordfinish' ||
-          roomInfo.roomStatus === 'start' ||
-          roomInfo.roomStatus === 'end') &&
+        {roomInfo.roomStatus !== 'waiting' &&
           (roomInfo.roomMode === 'rank' ? (
             <GameRankTimer roomInfo={roomInfo} messageScore={messageScore} />
           ) : (
