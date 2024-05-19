@@ -50,6 +50,8 @@ public interface ChatRoomGameService {
 
     void gameStart(String chatRoomId);
 
+    void startToEnd(String chatRoomId);
+
     void gameEnd(String chatRoomId);
 
 //    void waitingToAllready(String key);
