@@ -230,7 +230,7 @@ const GameWaiting = () => {
       if (isRankOpen) {
         setRankOpen(false);
       }
-      // setMessageScore({ nickname: userInfo.nickname, highest_similarity: 0 });
+      setMessageScore({ nickname: userInfo.nickname, highest_similarity: 0 });
       setWebSocketScore(null);
       setForbiddenWord('');
     }
