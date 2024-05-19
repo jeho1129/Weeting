@@ -78,7 +78,8 @@ export async function forbiddenWordSettingDataApi({
 }) {
   try {
     const response = axios.post(
-      'http://3.39.208.35:8000/api/v1/forbidden',
+      'https://weeting.shop/api/v1/forbidden',
+      // 'http://3.39.208.35:8000/api/v1/forbidden',
       // 'localhost:8000/api/v1/forbidden',
       { userId: nickname, forbiddenWord: forbiddenWord },
       {
@@ -88,6 +89,27 @@ export async function forbiddenWordSettingDataApi({
       },
     );
     /////////////////////////////////////////^api주소 바꿈///////^이거 nickname으로 바꿔야함//////////////////////////
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function forbiddenWordDataApi({
+  roomId,
+  nickname,
+  content,
+}: {
+  roomId: string;
+  nickname: string;
+  content: string;
+}) {
+  try {
+    const response = axios.post('https://weeting.shop/api/v1/process_message', {
+      roomId: roomId,
+      nickname: nickname,
+      content: content,
+    });
     return response;
   } catch (error) {
     return Promise.reject(error);
