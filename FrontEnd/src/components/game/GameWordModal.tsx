@@ -33,9 +33,19 @@ const GameForbiddenWord = ({
   useEffect(() => {
     if (roomInfo.roomStatus === 'wordsetting') {
       const timerId = setInterval(() => {
-        setForbiddenTimeLeft(
-          ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
-        );
+        const timeLeft = ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString();
+        setForbiddenTimeLeft(timeLeft);
+
+        // 여기에 gameOverApi 호출 조건 추가
+        if (timeLeft === '0') {
+          gameOverApi(roomInfo.roomId);
+        }
+        // useEffect(() => {
+        //   if (roomInfo.roomStatus === 'wordsetting') {
+        //     const timerId = setInterval(() => {
+        //       setForbiddenTimeLeft(
+        //         ((new Date(forbiddenTime!).getTime() - new Date().getTime()) / 1000).toFixed(0).toString(),
+        //       );
       }, 1000);
 
       setTimeout(() => {
@@ -44,7 +54,7 @@ const GameForbiddenWord = ({
       }, 15000);
       return () => clearInterval(timerId);
     }
-  }, [roomInfo]);
+  }, [roomInfo, forbiddenTime]);
   const isValidInput = () => {
     if (roomInfo.roomMode === 'rank') {
       return forbiddenWord.length >= 2 && forbiddenWord.length <= 6;
