@@ -9,6 +9,7 @@ import com.ssafy.backend.domain.user.exception.UserException;
 import com.ssafy.backend.domain.user.model.entity.User;
 import com.ssafy.backend.domain.user.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.TaskScheduler;
@@ -17,10 +18,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.ssafy.backend.domain.chatroom.entity.Word.getRandomForbiddenWord;
-
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -181,9 +181,9 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         }
 
         List<ChatRoomUserInfo> users = roomInfo.getRoomUsers();
-        int index = -1;
 
         // 유저 ID를 찾아 인덱스를 가져온다.
+        int index = -1;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getId().equals(user.getId())) {
                 index = i;
@@ -197,15 +197,12 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
         // 타유저에게 금칙어 할당
         int nextIndex = (index + 1) % users.size();
-//        if (word.isEmpty()) {
-//            word = getRandomForbiddenWord();
-//        }
 
         ChatRoomUserInfo nextUser = users.get(nextIndex);
         nextUser.setWord(word);
 
         redisTemplate.opsForValue().set(key, roomInfo);
-
+        log.info("[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word);
         return "[" + users.get(nextIndex).getNickname() + "]에게 금지어 할당 : " + word;
 
     }
