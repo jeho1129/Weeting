@@ -77,17 +77,10 @@ export async function forbiddenWordSettingDataApi({
   forbiddenWord: string;
 }) {
   try {
-    const response = axios.post(
-      'https://weeting.shop/api/v1/forbidden',
-      // 'http://3.39.208.35:8000/api/v1/forbidden',
-      // 'localhost:8000/api/v1/forbidden',
-      { userId: nickname, forbiddenWord: forbiddenWord },
-      {
-        headers: {
-          Authorization: `Bearer ${getCookie('accessToken')}`,
-        },
-      },
-    );
+    const response = axios.post('https://weeting.shop/api/v1/forbidden', {
+      nickname: nickname,
+      forbiddenWord: forbiddenWord,
+    });
     /////////////////////////////////////////^api주소 바꿈///////^이거 nickname으로 바꿔야함//////////////////////////
     return response;
   } catch (error) {
@@ -105,16 +98,38 @@ export async function forbiddenWordDataApi({
   content: string;
 }) {
   try {
-    const response = axios.post('https://weeting.shop/api/v1/process_message', {
+    // await 키워드를 추가하여 응답을 기다립니다.
+    const response = await axios.post('https://weeting.shop/api/v1/process_message', {
       roomId: roomId,
       nickname: nickname,
       content: content,
     });
-    return response;
+    // response.data를 반환합니다.
+    return response.data;
   } catch (error) {
     return Promise.reject(error);
   }
 }
+
+// export async function forbiddenWordDataApi({
+//   roomId,
+//   nickname,
+//   content,
+// }: {
+//   roomId: string;
+//   nickname: string;
+//   content: string;
+// })   try {
+//   const response = axios.post('https://weeting.shop/api/v1/process_message', {
+//           roomId: roomId,
+//           nickname: nickname,
+//           content: content,
+//         });
+//     return response.data;
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
+// }
 
 export async function forbiddenWordSettingApi({ roomId, forbiddenWord }: { roomId: string; forbiddenWord: string }) {
   try {
