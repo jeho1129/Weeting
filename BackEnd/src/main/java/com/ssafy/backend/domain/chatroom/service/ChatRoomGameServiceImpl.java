@@ -32,7 +32,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public Boolean readyStatusTrans(String chatRoomId,
-                                 User user) {
+                                    User user) {
         String key = "chatRoom:" + chatRoomId;
 
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
@@ -75,7 +75,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public String grilledChicken(String chatRoomId,
-                               User user) {
+                                 User user) {
         String key = "chatRoom:" + chatRoomId;
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
@@ -165,8 +165,8 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
     @Override
     public String forbiddenWordSetting(String chatRoomId,
-                                     User user,
-                                     String word) {
+                                       User user,
+                                       String word) {
         String key = "chatRoom:" + chatRoomId;
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
 
