@@ -18,7 +18,7 @@ const GameWaitingLeftSide = ({ roomInfo, messageScore }: { roomInfo: RoomInfo; m
       setBlink(true);
       setTimeout(() => {
         setBlink(false);
-      }, 5000); // 5초 후에 반짝이는 효과를 종료
+      }, 10000); // 5초 후에 반짝이는 효과를 종료
     }
   }, [roomInfo.roomStatus]);
 
