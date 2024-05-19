@@ -1,5 +1,8 @@
 package com.ssafy.backend.domain.chatroom.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.domain.chatroom.dto.ChatRoomGameResultDto;
 import com.ssafy.backend.domain.chatroom.service.ChatRoomGameService;
 import com.ssafy.backend.domain.user.model.entity.User;
@@ -66,8 +69,12 @@ public class ChatRoomGameController {
     @PatchMapping("/wordsetting/{chatRoomId}")
     public ResponseEntity<Message<String>> forbiddenWordSetting(@PathVariable("chatRoomId") String chatRoomId,
                                      @AuthenticationPrincipal User user,
-                                     @RequestBody String word) {
-        String result = chatRoomGameService.forbiddenWordSetting(chatRoomId, user, word);
+                                     @RequestBody String word) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(word);
+        String wordValue = jsonNode.get("word").asText();
+
+        String result = chatRoomGameService.forbiddenWordSetting(chatRoomId, user, wordValue);
         return ResponseEntity.ok().body(Message.success(result));
     }
 
