@@ -106,7 +106,7 @@ const GameWaiting = () => {
     // 금지어 보내기
     // 만약 금지어가 없다면 죽이기
     // 10초간 loading창 보여주기
-    else if (roomInfo.roomStatus === 'wordfinish') {
+    else if (roomInfo.roomStatus === 'wordsetting') {
       if (isModalOpen === true) {
         setModalOpen(false);
       }
@@ -117,16 +117,19 @@ const GameWaiting = () => {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: randomWord });
         forbiddenWordSettingDataApi({
           nickname:
-            myIndex !== roomInfo.roomUsers.length - 1
+            myIndex + 1 < roomInfo.roomUsers.length
               ? roomInfo.roomUsers[myIndex + 1].nickname
               : roomInfo.roomUsers[0].nickname,
+          // myIndex !== roomInfo.roomUsers.length - 1
+          //   ? roomInfo.roomUsers[myIndex + 1].nickname
+          //   : roomInfo.roomUsers[0].nickname,
           forbiddenWord: randomWord,
         });
       } else {
         forbiddenWordSettingApi({ roomId: roomInfo.roomId, forbiddenWord: forbiddenWord });
         forbiddenWordSettingDataApi({
           nickname:
-            myIndex !== roomInfo.roomUsers.length - 1
+            myIndex + 1 < roomInfo.roomUsers.length
               ? roomInfo.roomUsers[myIndex + 1].nickname
               : roomInfo.roomUsers[0].nickname,
           forbiddenWord: forbiddenWord,
