@@ -1,31 +1,26 @@
 import styles from '@/styles/game/GameEnd.module.css';
 import { RoomInfo } from '@/types/game';
+import { IngameUser } from '@/types/user';
 
 interface GameRankModalProps {
   roomInfo: RoomInfo;
+  roomUsersNew: IngameUser;
   isRankOpen: boolean;
   setRankOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps) => {
+const GameRankModal = ({ roomInfo, roomUsersNew, isRankOpen, setRankOpen }: GameRankModalProps) => {
   if (!isRankOpen) {
     return <></>;
   }
+  console.log(roomUsersNew);
 
-  const normalMembers = roomInfo.roomUsers;
-  console.log(roomInfo);
-  console.log('1111111111111111111111111111111111111');
-  console.log(roomInfo.roomUsers);
-
-  const sortedMembers = [...roomInfo.roomUsers].sort((a, b) => b.score - a.score);
-  console.log(sortedMembers);
-  
   return (
     <div className={`FontM20 ${styles.Container}`}>
-      <div className={styles.modal}>
+      {/* <div className={styles.modal}>
         <ul>
           {roomInfo.roomMode === 'rank'
-            ? sortedMembers.map((member, index) => (
+            ? roomUsersNew.map((member, index) => (
                 <li key={member.id} className={index === 0 ? 'FontM32' : ''}>
                   <div className={styles.Center}>
                     {index === 0 ? ' 1등 ' : `${index + 1}등`} {member.nickname}
@@ -44,7 +39,7 @@ const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps
                 ))
               : null}
         </ul>
-      </div>
+      </div> */}
       <button className={`FontM20 ${styles.Btn}`} onClick={() => setRankOpen(false)}>
         확인
       </button>
