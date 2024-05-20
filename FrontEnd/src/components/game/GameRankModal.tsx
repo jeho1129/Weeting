@@ -4,12 +4,12 @@ import { IngameUser } from '@/types/user';
 import Avatar from '@/components/avatar/Avatar';
 
 interface GameRankModalProps {
-  roomInfo: RoomInfo;
+  roomStartInfo: RoomInfo;
   isRankOpen: boolean;
   setRankOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps) => {
+const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModalProps) => {
   if (!isRankOpen) {
     return <></>;
   }
@@ -17,20 +17,20 @@ const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps
     <div className={`FontM20 ${styles.Container}`}>
       <div className={styles.modal}>
         <ul>
-          {roomInfo.roomMode === 'rank' ? (
+          {roomStartInfo.roomMode === 'rank' ? (
             <Avatar
               {...{
-                userId: roomInfo.roomUsers[0].id,
+                userId: roomStartInfo.roomUsers[0].id,
                 size: 0.6 * 300,
                 location: 'Room',
                 options: {
-                  nickname: roomInfo.roomUsers[0].nickname,
+                  nickname: roomStartInfo.roomUsers[0].nickname,
                   isNest: true,
                 },
               }}
             />
-          ) : roomInfo.roomMode === 'normal' ? (
-            roomInfo.roomUsers.map((member) => (
+          ) : roomStartInfo.roomMode === 'normal' ? (
+            roomStartInfo.roomUsers.map((member) => (
               <li key={member.id} className={'FontM32'}>
                 <div className={styles.FlexContainer}>
                   <div>{member.nickname}</div>
