@@ -288,7 +288,7 @@ const GameWaiting = () => {
         />
       )}
 
-      {isRankOpen && <GameRankModal roomInfo={roomInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
+      {isRankOpen && <GameRankModal roomStartInfo={roomStartInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
     </>
   );
 };
