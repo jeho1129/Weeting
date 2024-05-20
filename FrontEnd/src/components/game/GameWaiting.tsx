@@ -141,6 +141,7 @@ const GameWaiting = () => {
       gameFinishApi(roomInfo.roomId);
     }
   }, [roomInfo.roomUsers]);
+  const [roomUsersNew, setRoomUsersNew] = useState<IngameUser[] | undefined>(undefined);
 
   // roomStatus가 'start'일 때 roomUsers의 변경사항을 roomStartInfo에 저장
   useEffect(() => {
@@ -150,6 +151,9 @@ const GameWaiting = () => {
       console.log(roomStartInfo);
 
       setRoomStartInfo(roomInfo);
+      const sortedRoomUsers = [...roomInfo.roomUsers].sort((a, b) => b.score - a.score);
+      console.log(sortedRoomUsers);
+      setRoomUsersNew(sortedRoomUsers);
     }
   }, [roomInfo]);
   // roomStatus
@@ -288,7 +292,7 @@ const GameWaiting = () => {
         />
       )}
 
-      {isRankOpen && <GameRankModal roomInfo={roomStartInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
+      {isRankOpen && <GameRankModal roomUsersNew={roomUsersNew} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
     </>
   );
 };
