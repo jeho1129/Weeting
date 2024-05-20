@@ -18,7 +18,8 @@ const GameRankModal = ({ roomInfo, isRankOpen, setRankOpen }: GameRankModalProps
   console.log(roomInfo.roomUsers);
 
   const sortedMembers = [...roomInfo.roomUsers].sort((a, b) => b.score - a.score);
-
+  console.log(sortedMembers);
+  
   return (
     <div className={`FontM20 ${styles.Container}`}>
       <div className={styles.modal}>
