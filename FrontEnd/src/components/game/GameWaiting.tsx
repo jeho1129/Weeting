@@ -145,9 +145,13 @@ const GameWaiting = () => {
   // roomStatus가 'start'일 때 roomUsers의 변경사항을 roomStartInfo에 저장
   useEffect(() => {
     if (roomInfo.roomStatus === 'start') {
+      console.log(roomInfo);
+      console.log('2222222222222222222');
+      console.log(roomStartInfo);
+
       setRoomStartInfo(roomInfo);
     }
-  }, [roomInfo.roomUsers]);
+  }, [roomInfo]);
   // roomStatus
   useEffect(() => {
     // wordsetting에서 해야하는 일
