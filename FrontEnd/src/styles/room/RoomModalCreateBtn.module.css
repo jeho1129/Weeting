@@ -1,0 +1,89 @@
+.Container {
+  margin-top: 20px;
+}
+
+.Row {
+  display: flex;
+  height: 60px;
+}
+
+.RoomNameLabel {
+  display: inline-block;
+  width: 200px;
+}
+
+.CheckBox {
+  margin-left: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.RoomPrivate {
+  display: flex;
+  align-items: center;
+}
+
+.Input {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 200px;
+  height: 25px;
+  font-family: 'MapleStoryLight', sans-serif;
+  text-align: center;
+}
+
+.XCircle {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+}
+.XCircle:hover {
+  color: red;
+}
+
+.BtnContainer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.Btn {
+  width: 100px;
+  height: 40px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.Btn:hover {
+  background-color: #039cf3;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+.Btn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.RoomMode {
+  display: flex;
+  height: 60px;
+}
+
+.MakeBtn {
+  width: 150px;
+  height: 70px;
+  background-color: #c1dfea;
+  color: white;
+  border: none;
+  border-radius: 15px;
+}
+.MakeBtn:hover {
+  cursor: pointer;
+  background-color: #86dfff;
+}
+
+input[type='text']:disabled {
+  background: #f0f0f0;
+}

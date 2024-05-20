@@ -1,0 +1,178 @@
+.CustomTitle {
+  position: fixed;
+  top: 68%;
+  width: 500px;
+  left: 0%;
+}
+
+.AvatarContainer {
+  position: relative;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  /* background-color: aqua; */
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  /* background-color: blue; */
+}
+
+.CustomContainer {
+  position: absolute;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  left: 0%;
+  /* background-color: bisque; */
+  z-index: 1;
+}
+
+.OutfitFilter {
+  display: flex;
+  gap: 10px;
+}
+
+.FilterButton {
+  width: 180px;
+  height: 80px;
+  border-radius: 20px 20px 0px 0px;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+}
+
+.FilterButtonAcitve {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.OutfitContainer {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 0 20px 20px 20px;
+  width: 800px;
+  height: 600px;
+  padding-top: 5vh;
+  padding-left: 1vw;
+  padding-bottom: 5vh;
+  backdrop-filter: blur(5px);
+}
+
+.OutfitListContainer {
+  display: flex;
+  gap: 10px;
+  width: 780px;
+  min-height: 300px;
+  max-height: 600px;
+  overflow: auto;
+  flex-wrap: wrap;
+  padding-left: 5px;
+}
+
+.ToolTipContainer {
+  background-color: rgba(49, 90, 102, 0.8);
+  backdrop-filter: blur(2px);
+  position: absolute;
+  z-index: 10;
+  width: 140px;
+  height: 160px;
+  bottom: 0px;
+  right: 0px;
+  padding: 20px;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.ToolTipFlex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 160px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+}
+
+.ToolTipFlex::-webkit-scrollbar {
+  display: none;
+}
+
+.ToolTipContainer img {
+  width: 100px;
+  height: 100px;
+}
+
+.ItemContainer {
+  position: relative;
+  width: 180px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0px 0px 5px #666;
+}
+
+.ItemUnLock {
+  position: absolute;
+  opacity: 0;
+}
+
+.ItemLock {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ItemContainer > img {
+  width: 180px;
+  height: 200px;
+}
+.CustomButtonContainer {
+  position: absolute;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.CustomButton {
+  background-color: #0093f3;
+  color: white;
+  width: 120px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.CustomButton:hover {
+  background-color: white;
+  color: #0093f3;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+
+.CustomButton:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}

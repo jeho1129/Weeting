@@ -1,0 +1,31 @@
+.RadioInput {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.RadioMode {
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  margin-right: 20px;
+  text-align: center;
+  padding: 6px 20px;
+  cursor: pointer;
+}
+
+.SelectedRadioColor {
+  border: none;
+  background-color: #0093f3;
+  color: white;
+}
+
+.UnselectedRadioColor {
+  border: none;
+  background-color: white;
+}
