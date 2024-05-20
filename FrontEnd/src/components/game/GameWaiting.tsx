@@ -75,6 +75,7 @@ const GameWaiting = () => {
     isAlive: '',
   });
   // setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
+  const [roomUsersNew, setRoomUsersNew] = useState<IngameUser[]>([]);
 
   // roomInfo 웹소켓 연결
   useEffect(() => {
@@ -141,21 +142,16 @@ const GameWaiting = () => {
       gameFinishApi(roomInfo.roomId);
     }
   }, [roomInfo.roomUsers]);
-  const [roomUsersNew, setRoomUsersNew] = useState<IngameUser[] | undefined>(undefined);
 
   // roomStatus가 'start'일 때 roomUsers의 변경사항을 roomStartInfo에 저장
   useEffect(() => {
     if (roomInfo.roomStatus === 'start') {
-      console.log(roomInfo);
-      console.log('2222222222222222222');
-      console.log(roomStartInfo);
-
       setRoomStartInfo(roomInfo);
-      const sortedRoomUsers = [...roomInfo.roomUsers].sort((a, b) => b.score - a.score);
-      console.log(sortedRoomUsers);
+      const sortedRoomUsers = [...roomInfo.roomUsers].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
       setRoomUsersNew(sortedRoomUsers);
     }
-  }, [roomInfo]);
+  }, [roomInfo.roomUsers]);
+  
   // roomStatus
   useEffect(() => {
     // wordsetting에서 해야하는 일
@@ -292,7 +288,7 @@ const GameWaiting = () => {
         />
       )}
 
-      {isRankOpen && <GameRankModal roomUsersNew={roomUsersNew} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
+      {isRankOpen && <GameRankModal roomInfo={roomInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
     </>
   );
 };
