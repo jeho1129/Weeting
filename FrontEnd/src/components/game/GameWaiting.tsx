@@ -43,7 +43,17 @@ const GameWaiting = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isRankOpen, setRankOpen] = useState<boolean>(false);
   const [forbiddenWord, setForbiddenWord] = useState<string>('');
-
+  const [roomStartInfo, setRoomStartInfo] = useState<RoomInfo>({
+    roomMode: gameInfo.roomMode,
+    roomId: useParams().id!,
+    roomName: gameInfo.roomName,
+    roomStatus: gameInfo.roomStatus,
+    roomForbiddenTime: gameInfo.roomForbiddenTime,
+    roomEndTime: gameInfo.roomEndTime,
+    roomTheme: gameInfo.roomTheme,
+    roomMaxCnt: gameInfo.roomMaxCnt,
+    roomUsers: gameInfo.roomUsers,
+  });
   const [roomInfo, setRoomInfo] = useState<RoomInfo>({
     roomMode: gameInfo.roomMode,
     roomId: useParams().id!,
@@ -129,6 +139,13 @@ const GameWaiting = () => {
     const aliveUsers = roomInfo.roomUsers.filter((user) => user.isAlive === '').length;
     if (roomInfo.roomStatus === 'start' && aliveUsers < 2) {
       gameFinishApi(roomInfo.roomId);
+    }
+  }, [roomInfo.roomUsers]);
+
+  // roomStatus가 'start'일 때 roomUsers의 변경사항을 roomStartInfo에 저장
+  useEffect(() => {
+    if (roomInfo.roomStatus === 'start') {
+      setRoomStartInfo(roomInfo);
     }
   }, [roomInfo.roomUsers]);
   // roomStatus
@@ -267,7 +284,7 @@ const GameWaiting = () => {
         />
       )}
 
-      {isRankOpen && <GameRankModal roomInfo={roomInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
+      {isRankOpen && <GameRankModal roomInfo={roomStartInfo} isRankOpen={isRankOpen} setRankOpen={setRankOpen} />}
     </>
   );
 };
