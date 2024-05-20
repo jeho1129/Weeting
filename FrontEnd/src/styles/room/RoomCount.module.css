@@ -1,0 +1,35 @@
+.Input {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 200px;
+  height: 25px;
+}
+
+.DirContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 1.5;
+  height: 30px;
+}
+
+.RoomCountContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 450px;
+}
+
+.RoomCountLabel {
+  margin-right: 50px;
+  width: 200px;
+}
+
+.MaxCount {
+  margin: 30px;
+  font-family: 'MapleStoryLight', sans-serif;
+}
+
+.Dir {
+  cursor: pointer;
+}

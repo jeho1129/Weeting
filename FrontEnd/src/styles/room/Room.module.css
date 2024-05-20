@@ -1,0 +1,38 @@
+.Container {
+  margin-left: 35vh;
+  padding-top: 5vh;
+}
+
+.ButtonContainer {
+  display: flex;
+  justify-content: end;
+  margin-right: 1vw;
+}
+
+.OneButton {
+  margin-right: 2vw;
+}
+
+.Background {
+  position: absolute;
+  z-index: -9;
+  width: 72vw;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  margin-top: 1vh;
+  border-radius: 20px;
+}
+
+.BackContainer {
+  padding: 5vh 2.5vw;
+}
+
+.FirstRow {
+  display: flex;
+  height: 6vh;
+}
+
+.RightSpace {
+  width: 32.5vw;
+}

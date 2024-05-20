@@ -1,0 +1,176 @@
+.Avatar {
+  position: relative;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.Nest {
+  position: absolute;
+  height: auto;
+  bottom: 0px;
+}
+.OutfitContainer {
+  position: relative;
+}
+.AvatarOutfit {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.NameTag {
+  position: absolute;
+  z-index: 99;
+  top: 66%;
+  font-family: 'MapleStoryLight', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.NameTagEditStart {
+  caret-color: #0093f3;
+  color: #0093f3;
+}
+
+.NameTagEdit {
+  position: absolute;
+  z-index: 100;
+  top: 66%;
+  font-family: 'MapleStoryLight', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+  background-color: rgb(234, 234, 234);
+  border-radius: 15%;
+  outline: none;
+}
+
+.AvatarEyes {
+  position: absolute;
+  bottom: 47%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.AvatarBody {
+  position: absolute;
+  bottom: 6.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.AvatarEyesMove {
+  animation: EyeMove 1s linear infinite;
+}
+
+.AvatarBodyMove {
+  animation: BodyMove 1s linear infinite;
+}
+
+.AvatarOutfitBodyMove {
+  animation: OutfitBodyMove 1s linear infinite;
+}
+.AvatarOutfitEyesMove {
+  animation: OutfitEyesMove 1s linear infinite;
+}
+
+@keyframes EyeMove {
+  0% {
+    transform: translateY(-30%);
+  }
+  30% {
+    transform: translateY(+30%);
+  }
+  100% {
+    transform: translateY(-30%);
+  }
+}
+
+@keyframes BodyMove {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 100% 100%;
+  }
+  20% {
+    transform: scaleY(0.95);
+    transform-origin: 100% 100%;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: 100% 100%;
+  }
+}
+
+@keyframes OutfitBodyMove {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 100% 100%;
+  }
+
+  20% {
+    transform: scaleY(0.955);
+    transform-origin: 100% 100%;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: 100% 100%;
+  }
+}
+@keyframes OutfitEyesMove {
+  0% {
+    transform: translateY(-3%);
+    transform-origin: 100% 100%;
+  }
+
+  30% {
+    transform: translateY(1%);
+    transform-origin: 100% 100%;
+  }
+  100% {
+    transform: translateY(-3%);
+    transform-origin: 100% 100%;
+  }
+}
+
+.Effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.EffectBlink {
+  -webkit-animation: blink 0.1s linear infinite alternate;
+  -moz-animation: blink 0.1s infinite alternate;
+  animation: blink 0.2s linear infinite alternate;
+}
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

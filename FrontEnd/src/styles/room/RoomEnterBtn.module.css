@@ -1,0 +1,12 @@
+.QuickEnterBtn {
+  width: 150px;
+  height: 70px;
+  border: none;
+  border-radius: 15px;
+  background-color: #c1dfea;
+  color: white;
+}
+.QuickEnterBtn:hover {
+  background-color: #86dfff;
+  cursor: pointer;
+}

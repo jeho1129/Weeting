@@ -1,0 +1,126 @@
+.Mgt {
+  margin-top: 150px;
+}
+
+.MgtSignin {
+  padding-top: 80px;
+}
+
+.Label {
+  display: inline-block;
+  width: 100px;
+}
+
+.LoginLabel {
+  display: inline-block;
+  width: 60px;
+}
+
+.InputBox {
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 3px solid #d0d0d0;
+  background-color: #f0f0f0;
+  margin-right: 30px;
+  padding-left: 10px;
+}
+.InputBox::placeholder {
+  text-align: center;
+}
+
+.Mgb {
+  margin-bottom: 10px;
+}
+
+.Mgb2 {
+  margin-bottom: 20px;
+}
+
+.Btn {
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: white;
+  cursor: pointer;
+}
+
+.Btn:hover {
+  color: white;
+  background-color: #039cf3;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+.Btn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.BtnTop {
+  margin-top: 20px;
+}
+
+.BtnAlign {
+  display: flex;
+  justify-content: center;
+}
+
+.checkBtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #0093f3;
+  color: white;
+  border: 1px solid #d9d9d9;
+  cursor: pointer;
+}
+
+.checkBtn:hover {
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+.checkBtn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.checkBtnActive {
+  background-color: #d9d9d9;
+  color: black;
+}
+
+.Container {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.BeforeContainer {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.SignupAlertText {
+  margin-left: 50px;
+  color: red;
+}
+
+.SignupSuccessText {
+  margin-left: 50px;
+  color: green;
+}
+
+.SignupBtn {
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: white;
+  margin-left: -50px;
+  cursor: pointer;
+}
+
+.SignupBtn:hover {
+  background-color: #039cf3;
+  color: white;
+  box-shadow: inset 0px -5px rgba(0, 0, 0, 0.1);
+}
+.SignupBtn:active {
+  box-shadow: inset 0px 5px rgba(0, 0, 0, 0.1);
+}
