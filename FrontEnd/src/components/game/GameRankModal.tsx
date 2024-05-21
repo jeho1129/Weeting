@@ -13,6 +13,10 @@ const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModal
   if (!isRankOpen) {
     return <></>;
   }
+  console.log(roomStartInfo);
+  console.log(roomStartInfo.roomUsers);
+  console.log(roomStartInfo.roomUsers);
+
   return (
     <div className={`FontM20 ${styles.Container}`}>
       <div className={styles.modal}>
