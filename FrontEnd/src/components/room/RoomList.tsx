@@ -21,11 +21,10 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     // 배포
     const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/list');
     ws.onopen = () => {
-      console.log('방리스트 받아오기 성공');
+      // console.log('방리스트 받아오기 성공');
     };
     ws.onmessage = (event) => {
       const roomList = JSON.parse(event.data);
-      console.log(roomList);
       setServerResponseData(roomList);
     };
     ws.onerror = (error) => {
@@ -33,7 +32,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     };
     return () => {
       ws.close();
-      console.log('웹소켓 연결종료');
+      // console.log('웹소켓 연결종료');
     };
   }, [serverResponseData]);
 
@@ -56,7 +55,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
       });
       return;
     }
-    if(roomStatus !== 'waiting' && roomStatus !== 'allready') {
+    if (roomStatus !== 'waiting' && roomStatus !== 'allready') {
       Swal.fire({
         title: '대기중인 방이 아닙니다',
         icon: 'error',
@@ -66,7 +65,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
     if (roomPassword === null) {
       try {
         const response = await roomEnterApi(roomId);
-        console.log(response);
+        // console.log(response);
       } catch (err) {
         console.log('err :', err);
       }
@@ -133,7 +132,13 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                   key={index}
                   className={styles.OneRoom}
                   onClick={() =>
-                    roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt, room.roomStatus)
+                    roomEnterHandler(
+                      room.roomId,
+                      room.roomPassword,
+                      room.roomUsers.length,
+                      room.roomMaxCnt,
+                      room.roomStatus,
+                    )
                   }
                 >
                   <div className={`${styles.FirstRow}`}>
@@ -150,10 +155,10 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                       <div className={`${styles.Mode} ${styles.Normal} FontM20`}>노말</div>
                     )}
                     {room.roomStatus === 'waiting' || room.roomStatus === 'allready' ? (
-                        <div className={`${styles.Status} ${styles.Waiting} FontM20`}>대기중</div>
-                      ) : (
-                        <div className={`${styles.Status} ${styles.Gaming} FontM20`}>게임중</div>
-                      )}
+                      <div className={`${styles.Status} ${styles.Waiting} FontM20`}>대기중</div>
+                    ) : (
+                      <div className={`${styles.Status} ${styles.Gaming} FontM20`}>게임중</div>
+                    )}
                     <div className={styles.Avatar}>
                       <Avatar
                         {...{
@@ -166,7 +171,7 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
                           },
                         }}
                       />
-                  </div>
+                    </div>
                   </div>
                 </li>
               ) : (
@@ -210,7 +215,15 @@ const RoomList = ({ roomSelectedMode, searchValue }: { roomSelectedMode: number;
               <li
                 key={index}
                 className={styles.OneRoom}
-                onClick={() => roomEnterHandler(room.roomId, room.roomPassword, room.roomUsers.length, room.roomMaxCnt, room.roomStatus)}
+                onClick={() =>
+                  roomEnterHandler(
+                    room.roomId,
+                    room.roomPassword,
+                    room.roomUsers.length,
+                    room.roomMaxCnt,
+                    room.roomStatus,
+                  )
+                }
               >
                 <div className={`${styles.FirstRow}`}>
                   <div className={`${styles.RoomName} FontM32`}>{room.roomName}</div>
