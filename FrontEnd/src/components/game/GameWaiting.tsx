@@ -83,7 +83,7 @@ const GameWaiting = () => {
     // const ws = new WebSocket('wss://3.36.58.63/ws');
     const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws/chatroom/get');
     ws.onopen = () => {
-      console.log('웹소크ㅔ세에엣연결성고오오옹');
+      // console.log('웹소크ㅔ세에엣연결성고오오옹');
       ws.send(JSON.stringify({ roomId: roomInfo.roomId }));
     };
 
