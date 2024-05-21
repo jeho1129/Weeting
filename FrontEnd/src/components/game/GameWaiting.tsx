@@ -74,8 +74,6 @@ const GameWaiting = () => {
     score: 0,
     isAlive: '',
   });
-  // setMyIndex(roomInfo.roomUsers.findIndex((user) => user.id === userInfo.userId));
-  const [roomUsersNew, setRoomUsersNew] = useState<IngameUser[]>([]);
 
   // roomInfo 웹소켓 연결
   useEffect(() => {
@@ -147,11 +145,9 @@ const GameWaiting = () => {
   useEffect(() => {
     if (roomInfo.roomStatus === 'start') {
       setRoomStartInfo(roomInfo);
-      const sortedRoomUsers = [...roomInfo.roomUsers].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-      setRoomUsersNew(sortedRoomUsers);
     }
   }, [roomInfo.roomUsers]);
-  
+
   // roomStatus
   useEffect(() => {
     // wordsetting에서 해야하는 일

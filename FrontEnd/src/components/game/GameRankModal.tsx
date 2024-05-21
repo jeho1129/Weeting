@@ -17,28 +17,28 @@ const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModal
     <div className={`FontM20 ${styles.Container}`}>
       <div className={styles.modal}>
         <ul>
-          {roomStartInfo.roomMode === 'rank' ? (
-            <Avatar
-              {...{
-                userId: roomStartInfo.roomUsers[0].id,
-                size: 0.6 * 300,
-                location: 'Room',
-                options: {
-                  nickname: roomStartInfo.roomUsers[0].nickname,
-                  isNest: true,
-                },
-              }}
-            />
-          ) : roomStartInfo.roomMode === 'normal' ? (
-            roomStartInfo.roomUsers.map((member) => (
-              <li key={member.id} className={'FontM32'}>
-                <div className={styles.FlexContainer}>
-                  <div>{member.nickname}</div>
-                  <div>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</div>
-                </div>
-              </li>
-            ))
-          ) : null}
+          {roomStartInfo.roomMode === 'rank'
+            ? // roomUsers 배열을 score 기준으로 내림차순 정렬
+              [...roomStartInfo.roomUsers]
+                .sort((a, b) => b.score - a.score)
+                .map((member) => (
+                  <li key={member.id} className={'FontM32'}>
+                    <div className={styles.FlexContainer}>
+                      <div>{member.nickname}</div>
+                      <div>{member.score} 점</div>
+                    </div>
+                  </li>
+                ))
+            : roomStartInfo.roomMode === 'normal'
+              ? roomStartInfo.roomUsers.map((member) => (
+                  <li key={member.id} className={'FontM32'}>
+                    <div className={styles.FlexContainer}>
+                      <div>{member.nickname}</div>
+                      <div>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</div>
+                    </div>
+                  </li>
+                ))
+              : null}
         </ul>
       </div>
       <button className={`FontM20 ${styles.Btn}`} onClick={() => setRankOpen(false)}>
