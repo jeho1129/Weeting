@@ -197,44 +197,44 @@ const GameWaiting = () => {
     }
     // 점수 확인 웹소켓 연결
     // 가장 높은 점수일 때 roomInfo Users에 score 업데이트
-    else if (roomInfo.roomStatus === 'start') {
-      // local용
-      // const ws = new WebSocket('ws://localhost:8000/ws');
-      // 배포용
-      // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
-      // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
-      const ws = new WebSocket('wss://weeting.shop/ws');
-      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
-      // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+    // else if (roomInfo.roomStatus === 'start') {
+    //   // local용
+    //   // const ws = new WebSocket('ws://localhost:8000/ws');
+    //   // 배포용
+    //   // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
+    //   // const ws = new WebSocket('wss://3.39.208.35:8000/ws');
+    //   const ws = new WebSocket('wss://weeting.shop/ws');
+    //   // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
+    //   // const ws = new WebSocket('wss://k10c103.p.ssafy.io/ws');
 
-      ws.onopen = () => {
-        // console.log('-----지호지호웹소캣가즈아--------');
-      };
-      ws.onmessage = (response) => {
-        console.log(response.data);
-        const score: { nickname: string; highest_similarity: number; similarity: number } = JSON.parse(response.data);
-        setMessageScore({
-          nickname: score.nickname,
-          highest_similarity: score.highest_similarity,
-        });
-        // 만약 가장 높은 점수라면
-        if (roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0].score < score.highest_similarity) {
-          //게임 정보변경 (내 score값 변경)
-          //.send 뭐... 어쩌구저쩌구....
-        }
-      };
-      ws.onerror = (error) => {
-        console.error('웹소켓 에러 발생:', error);
-      };
+    //   ws.onopen = () => {
+    //     // console.log('-----지호지호웹소캣가즈아--------');
+    //   };
+    //   ws.onmessage = (response) => {
+    //     console.log(response.data);
+    //     const score: { nickname: string; highest_similarity: number; similarity: number } = JSON.parse(response.data);
+    //     setMessageScore({
+    //       nickname: score.nickname,
+    //       highest_similarity: score.highest_similarity,
+    //     });
+    //     // 만약 가장 높은 점수라면
+    //     if (roomInfo.roomUsers.filter((user) => user.id === userInfo.userId)[0].score < score.highest_similarity) {
+    //       //게임 정보변경 (내 score값 변경)
+    //       //.send 뭐... 어쩌구저쩌구....
+    //     }
+    //   };
+    //   ws.onerror = (error) => {
+    //     console.error('웹소켓 에러 발생:', error);
+    //   };
 
-      setWebSocketScore(ws);
+    //   setWebSocketScore(ws);
 
-      return () => {
-        if (ws) {
-          ws.close();
-        }
-      };
-    }
+    //   return () => {
+    //     if (ws) {
+    //       ws.close();
+    //     }
+    //   };
+    // }
     // end 일 때 할 일
     // 게임 종료 모달 오픈
     else if (roomInfo.roomStatus === 'end') {
