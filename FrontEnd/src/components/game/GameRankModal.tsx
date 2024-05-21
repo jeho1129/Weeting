@@ -1,7 +1,6 @@
 import styles from '@/styles/game/GameEnd.module.css';
 import { RoomInfo } from '@/types/game';
 import { IngameUser } from '@/types/user';
-import Avatar from '@/components/avatar/Avatar';
 
 interface GameRankModalProps {
   roomStartInfo: RoomInfo;
@@ -15,11 +14,20 @@ const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModal
   }
   console.log(roomStartInfo);
   console.log(roomStartInfo.roomUsers);
-  console.log(roomStartInfo.roomUsers);
+  const sortedUsers = [...roomStartInfo.roomUsers].sort((a, b) => b.score - a.score);
+  console.log(sortedUsers);
 
   return (
     <div className={`FontM20 ${styles.Container}`}>
-      <div className={styles.modal}>
+      <div>
+        {sortedUsers.map((user) => (
+          <div key={user.id} className={styles.user}>
+            <span className={styles.nickname}>{user.nickname}</span>
+            <span className={styles.score}>{user.score.toFixed(2)}</span>
+          </div>
+        ))}
+      </div>
+      {/* <div className={styles.modal}>
         <ul>
           {roomStartInfo.roomMode === 'rank'
             ? // roomUsers 배열을 score 기준으로 내림차순 정렬
@@ -44,7 +52,7 @@ const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModal
                 ))
               : null}
         </ul>
-      </div>
+      </div> */}
       <button className={`FontM20 ${styles.Btn}`} onClick={() => setRankOpen(false)}>
         확인
       </button>
