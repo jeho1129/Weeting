@@ -12,47 +12,31 @@ const GameRankModal = ({ roomStartInfo, isRankOpen, setRankOpen }: GameRankModal
   if (!isRankOpen) {
     return <></>;
   }
-  console.log(roomStartInfo);
-  console.log(roomStartInfo.roomUsers);
   const sortedUsers = [...roomStartInfo.roomUsers].sort((a, b) => b.score - a.score);
-  console.log(sortedUsers);
-
   return (
     <div className={`FontM20 ${styles.Container}`}>
-      <div>
-        {sortedUsers.map((user) => (
-          <div key={user.id} className={styles.user}>
-            <span className={styles.nickname}>{user.nickname}</span>
-            <span className={styles.score}>{user.score.toFixed(2)}</span>
-          </div>
-        ))}
+      <div className={styles.modal}>
+        {roomStartInfo.roomMode === 'rank'
+          ? sortedUsers.map((user) => (
+              <div key={user.id} className={'FontM32'}>
+                <div className={styles.FlexContainer}>
+                  <span>{user.nickname}</span>
+                  <span>{user.score} 점</span>
+                </div>
+              </div>
+            ))
+          : roomStartInfo.roomMode === 'normal'
+            ? roomStartInfo.roomUsers.map((user) => (
+                <div key={user.id} className={'FontM32'}>
+                  <div className={styles.FlexContainer}>
+                    <span>{user.nickname}</span>
+                    <span>{user.isAlive === '' ? '생존 😊' : '탈락 🍗'}</span>
+                  </div>
+                </div>
+              ))
+            : null}
       </div>
-      {/* <div className={styles.modal}>
-        <ul>
-          {roomStartInfo.roomMode === 'rank'
-            ? // roomUsers 배열을 score 기준으로 내림차순 정렬
-              [...roomStartInfo.roomUsers]
-                .sort((a, b) => b.score - a.score)
-                .map((member) => (
-                  <li key={member.id} className={'FontM32'}>
-                    <div className={styles.FlexContainer}>
-                      <div>{member.nickname}</div>
-                      <div>{member.score} 점</div>
-                    </div>
-                  </li>
-                ))
-            : roomStartInfo.roomMode === 'normal'
-              ? roomStartInfo.roomUsers.map((member) => (
-                  <li key={member.id} className={'FontM32'}>
-                    <div className={styles.FlexContainer}>
-                      <div>{member.nickname}</div>
-                      <div>{member.isAlive === '' ? '생존 😊' : '탈락 🍗'}</div>
-                    </div>
-                  </li>
-                ))
-              : null}
-        </ul>
-      </div> */}
+
       <button className={`FontM20 ${styles.Btn}`} onClick={() => setRankOpen(false)}>
         확인
       </button>
