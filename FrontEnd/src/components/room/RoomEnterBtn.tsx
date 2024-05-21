@@ -16,7 +16,7 @@ const RoomEnterBtn = () => {
           title: '현재 입장할 수 있는 방이 없습니다.',
           icon: 'error',
         });
-        console.log('방 입장 실패:');
+        // console.log('방 입장 실패:');
       }
     } catch (error) {
       console.error('방 입장 중 에러 발생:', error);
