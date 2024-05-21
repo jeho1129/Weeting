@@ -379,6 +379,17 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                             ChatRoomDto roomInfo4 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
                             if (roomInfo4.getRoomStatus() == ChatRoomDto.RoomStatus.start) {
                                 taskScheduler.schedule(() -> {
+                                    for (ChatRoomUserInfo userInfo : roomInfo4.getRoomUsers()) {
+                                        userInfo.setReady(false);
+                                        userInfo.setWord("");
+                                        userInfo.setScore(0.0F);
+                                        userInfo.setIsAlive("");
+                                    }
+
+                                    roomInfo4.setRoomTheme(null);
+                                    roomInfo4.setRoomForbiddenTime(null);
+                                    roomInfo4.setRoomEndTime(null);
+                                    roomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
 
                                     roomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.end);
                                     redisTemplate.opsForValue().set(key, roomInfo4);
@@ -387,17 +398,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                                     ChatRoomDto roomInfo5 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
                                     if (roomInfo5.getRoomStatus() == ChatRoomDto.RoomStatus.end) {
                                         taskScheduler.schedule(() -> {
-                                            for (ChatRoomUserInfo userInfo : roomInfo5.getRoomUsers()) {
-                                                userInfo.setReady(false);
-                                                userInfo.setWord("");
-                                                userInfo.setScore(0.0F);
-                                                userInfo.setIsAlive("");
-                                            }
-
-                                            roomInfo5.setRoomTheme(null);
-                                            roomInfo5.setRoomForbiddenTime(null);
-                                            roomInfo5.setRoomEndTime(null);
-                                            roomInfo5.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
 
                                             redisTemplate.opsForValue().set(key, roomInfo5);
                                         }, new Date(System.currentTimeMillis() + 10000));  // [ms]
