@@ -80,7 +80,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
 
 
     @Override
-    public String grilledChicken(String chatRoomId,
+    public synchronized String grilledChicken(String chatRoomId,
                                  User user) {
         String key = "chatRoom:" + chatRoomId;
         ChatRoomDto roomInfo = (ChatRoomDto) redisTemplate.opsForValue().get(key);
