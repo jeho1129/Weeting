@@ -97,6 +97,32 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
             }
         }
 
+        ChatRoomDto roomInfo2 = (ChatRoomDto) redisTemplate.opsForValue().get(key);
+        int isAliveCnt = roomInfo2.getRoomUsers().size();
+        for (ChatRoomUserInfo userInfo : roomInfo2.getRoomUsers()) {
+            if (userInfo.getIsAlive().isEmpty()) {
+                isAliveCnt -= 1;
+            }
+            if (isAliveCnt > 1) {
+                isAliveCnt = roomInfo2.getRoomUsers().size();
+            }
+        }
+
+        if (isAliveCnt <= 1) {
+            for (ChatRoomUserInfo userInfo : roomInfo2.getRoomUsers()) {
+                userInfo.setReady(false);
+                userInfo.setWord("");
+                userInfo.setScore(0.0F);
+                userInfo.setIsAlive("");
+            }
+
+            roomInfo2.setRoomTheme(null);
+            roomInfo2.setRoomForbiddenTime(null);
+            roomInfo2.setRoomEndTime(null);
+            roomInfo2.setRoomStatus(ChatRoomDto.RoomStatus.end);
+            redisTemplate.opsForValue().set(key, roomInfo2);
+        }
+
         return "";
     }
 
@@ -389,8 +415,6 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                                     roomInfo4.setRoomTheme(null);
                                     roomInfo4.setRoomForbiddenTime(null);
                                     roomInfo4.setRoomEndTime(null);
-                                    roomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
-
                                     roomInfo4.setRoomStatus(ChatRoomDto.RoomStatus.end);
                                     redisTemplate.opsForValue().set(key, roomInfo4);
 
