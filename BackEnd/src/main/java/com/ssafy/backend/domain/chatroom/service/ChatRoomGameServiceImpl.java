@@ -92,6 +92,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
         for (ChatRoomUserInfo userInfo : roomInfo.getRoomUsers()) {
             if (userInfo.getId().equals(user.getId())) {
                 userInfo.setIsAlive(LocalDateTime.now().toString());
+                userInfo.setScore(0.0f);
                 redisTemplate.opsForValue().set(key, roomInfo);
                 return userInfo.getIsAlive();
             }
