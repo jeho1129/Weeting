@@ -55,7 +55,7 @@ async def check_text_against_forbidden_words(words, user_nickname, roomId):
     for word in words:
         if word == forbidden_word:
             most_similar_word = word
-            highest_similarity = 100
+            highest_similarity = 0
             break
         if word in forbidden_similar_words:
             score = float(forbidden_similar_words[word])
