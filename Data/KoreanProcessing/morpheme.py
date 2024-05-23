@@ -56,6 +56,8 @@ async def check_text_against_forbidden_words(words, user_nickname, roomId):
         if word == forbidden_word:
             most_similar_word = word
             highest_similarity = 0
+            user_infos[user_index]["score"] = 0
+            await redis.set(f"chatRoom:{roomId}", json.dumps(chat_room_info))
             break
         if word in forbidden_similar_words:
             score = float(forbidden_similar_words[word])
