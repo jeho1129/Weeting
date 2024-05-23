@@ -399,6 +399,7 @@ public class ChatRoomGameServiceImpl implements ChatRoomGameService {
                                     if (roomInfo5.getRoomStatus() == ChatRoomDto.RoomStatus.end) {
                                         taskScheduler.schedule(() -> {
 
+                                            roomInfo5.setRoomStatus(ChatRoomDto.RoomStatus.waiting);
                                             redisTemplate.opsForValue().set(key, roomInfo5);
                                         }, new Date(System.currentTimeMillis() + 10000));  // [ms]
                                     }
